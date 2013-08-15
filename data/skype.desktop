@@ -1,0 +1,21 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Skype
+Name[en_GB]=Skype
+Name[nb]=Skype
+GenericName=Skype
+GenericName[en_GB]=Skype
+GenericName[nb]=Skype
+X-GNOME-Fullname=Skype
+X-GNOME-Fullname[en_GB]=Skype
+Comment=Talk to friends
+Comment[en_GB]=Talk to friends
+Comment[nb]=Snakk med venner
+Categories=GTK;Network;
+Exec=/usr/local/bin/skype-4.2.0.11/skype
+Icon=/usr/local/bin/skype-4.2.0.11/icons/SkypeBlue_256x256.png
+Terminal=false
+StartupNotify=true
+X-Osso-Type=application/x-executable
+
