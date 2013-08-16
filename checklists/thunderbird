@@ -1,0 +1,17 @@
+
+Install SoGo connector. Can be downloaded from here:
+http://www.sogo.nu/fr/downloads/frontends.html
+or here:
+http://www.sogo.nu/files/downloads/extensions/
+
+Install via addons menu in Thunderbird. The "=" button near the menu should open a sub-menu which
+contains a menu item "Install from file".
+
+Add a remote address book based on WebDAV link in Owncloud. You must right click and press
+synchronize to fetch contacts.
+
+Install calendar support as mentioned in this link:
+http://www.techiecorner.com/176/how-to-add-calendar-in-thunderbird-lightning-calendar-add-ons/
+
+In calendar, add new calender, choose remote/internet calendar. Rest is straight forward.
+
