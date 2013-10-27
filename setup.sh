@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-# general setup
-
 # script-folder, without trailing /
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 source $SCRIPT_DIR/include.sh
@@ -10,7 +8,7 @@ function run-all()
 {
     # neatly excludes ourselves by using setup- wildcard.
     TMP=/tmp/setup$$.tmp
-    find . -type f -name 'setup-*.sh' -printf '%p $*\n' | sort >$TMP
+    find $SCRIPT_DIR/profiles -type f -name '*.conf' -printf '%p $*\n' | sort >$TMP
     source $TMP
     rm $TMP
 }
@@ -22,6 +20,9 @@ case "$1" in
         ;;
     user)
         $VALIDATE/non-root.sh
+        run-all
+        ;;
+    report)
         run-all
         ;;
     *)
