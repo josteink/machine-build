@@ -56,6 +56,3 @@ if [ -f ~/.zsh_nocorrect ]; then
     done < ~/.zsh_nocorrect
 fi
 
-# ssh^K ssh admin@qnap ^K ssh raspberry etc
-bindkey "^K" history-beginning-search-backward
-bindkey "^J" history-beginning-search-forward
