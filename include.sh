@@ -5,6 +5,8 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 VALIDATE="$SCRIPT_DIR/validate"
 
+INSTALL="apt-get install -y"
+
 function validate_root()
 {
     # TODO: check for root.
