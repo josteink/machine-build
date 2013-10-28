@@ -1,9 +1,7 @@
 #!/usr/bin/env bash
 
 # script-folder, without trailing /
-SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-
-VALIDATE="$SCRIPT_DIR/validate"
+ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 INSTALL="apt-get install -y"
 
