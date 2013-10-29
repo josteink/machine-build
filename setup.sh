@@ -14,13 +14,7 @@ function run-all()
 }
 
 case "$1" in
-    machine)
-        run-all
-        ;;
-    user)
-        run-all
-        ;;
-    report)
+    machine|user|report)
         run-all
         ;;
     *)
