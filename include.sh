@@ -7,34 +7,43 @@ INSTALL="apt-get install -y"
 
 function validate_root()
 {
-    # TODO: check for root.
+    if [ "`whoami`" != "root" ] ; then
+        echo "User is NOT root. Please elevate."
+        exit 1 ;
+    fi
 }
 
 function validate_user()
 {
-    # user = no-root
-    # TODO: check for user.
+    if [ "`whoami`" == "root" ] ; then
+        echo "User IS root. Please run command unelevated."
+        exit 1 ;
+    fi
 }
 
 function do_machine()
 {
-    # TODO: add support for pre-requisites in one pre-run step?
-
     # remember to check for correct profile.
-    # TODO: call machine-function
+
+    validate_root
+    machine
 }
 
 function do_user()
 {
     # remember to check for correct profile.
 
-    # TODO: call machine-function (but tidy up profiles first)
-    # also: create a "base-template" to copy up for new apps.
+    validate_user
+    user
 }
 
 function do_report()
 {
-    # remember to check for profile.
+    if [ "$PROFILE" == "" ] ; then
+        echo "$NAME"
+    else
+        echo "$NAME [$PROFILE]"
+    fi
 }
 
 function process()
