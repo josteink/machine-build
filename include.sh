@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 
-# script-folder, without trailing /
-ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-
 INSTALL="apt-get install -y"
 
 function validate_root()
@@ -23,18 +20,18 @@ function validate_user()
 
 function do_machine()
 {
-    # remember to check for correct profile.
+    # TODO: remember to check for correct profile.
 
     validate_root
-    machine
+    machine $*
 }
 
 function do_user()
 {
-    # remember to check for correct profile.
+    # TODO: remember to check for correct profile.
 
     validate_user
-    user
+    user $*
 }
 
 function do_report()
@@ -51,14 +48,19 @@ function process()
     case "$1" in
         machine)
             validate_root
-            do_machine
+            do_machine $*
             ;;
         user)
             validate_user
-            do_user
+            do_user $*
             ;;
         report)
-            do_report
+            do_report $*
+            ;;
+        *)
+            echo "Unknown request \"$1\"."
+            exit 1
             ;;
     esac
 }
+
