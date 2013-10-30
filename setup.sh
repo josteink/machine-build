@@ -9,7 +9,6 @@ function run-all()
     # neatly excludes ourselves by using setup- wildcard.
     TMP=/tmp/setup$$.tmp
     find $ROOT/profiles -type f -name '*.conf' -printf "%p $*\n" | sort >$TMP
-    cat $TMP
     source $TMP
     rm $TMP
 }
