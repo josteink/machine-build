@@ -284,12 +284,10 @@
   (imenu-add-menubar-index)
 
   ;; projectile mode: on!
+  ;; C-c p f - search for any file in your lein/git/etc project
   (projectile-mode))
 
 (add-hook 'prog-mode-hook 'my-prog-mode-hook)
-
-;; writing shell-scripts are programming too
-(add-hook 'sh-mode-hook 'my-prog-mode-hook)
 
 ;;;; =============================================================
 ;;;; WINDOWS ONLY CUSTOMIZATIONS
@@ -311,7 +309,7 @@
   (global-hl-line-mode +1))
 
 ;;;; =============================================================
-;;;;; UNIX ONLY CUSTOMIZATIONS
+;;;; UNIX ONLY CUSTOMIZATIONS
 ;;;; =============================================================
 
 (defun my-unix-mode-hook ()
