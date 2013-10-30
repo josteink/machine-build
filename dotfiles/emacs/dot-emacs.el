@@ -85,6 +85,8 @@
  ;; If there is more than one, they won't work right.
  )
 
+;; ido mode just makes everything better.
+(ido-mode)
 
 ;;;; =============================================================
 ;;;; FUNCTIONS
@@ -285,6 +287,7 @@
 
   ;; projectile mode: on!
   ;; C-c p f - search for any file in your lein/git/etc project
+  ;; more docs and bindings here: https://github.com/bbatsov/projectile
   (projectile-mode))
 
 (add-hook 'prog-mode-hook 'my-prog-mode-hook)
