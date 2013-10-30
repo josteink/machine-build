@@ -16,6 +16,7 @@
 (setq package-list
       '(clojure-mode markdown-mode paredit batch-mode
                      nrepl multiple-cursors
+                     projectile
                      ))
 
 (dolist (package package-list)
@@ -280,9 +281,15 @@
   (which-function-mode 1)
 
   ;; enable imenu
-  (imenu-add-menubar-index))
+  (imenu-add-menubar-index)
+
+  ;; projectile mode: on!
+  (projectile-mode))
+
 (add-hook 'prog-mode-hook 'my-prog-mode-hook)
 
+;; writing shell-scripts are programming too
+(add-hook 'sh-mode-hook 'my-prog-mode-hook)
 
 ;;;; =============================================================
 ;;;; WINDOWS ONLY CUSTOMIZATIONS

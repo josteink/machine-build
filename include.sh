@@ -22,6 +22,17 @@ function do_machine()
 {
     # TODO: remember to check for correct profile.
 
+    # validate_not_root
+    # validate_can_elevate # `sudo whoami` = root
+    # interactive and not-interactive?
+    # still need machine and not user?
+    # config "level"? machine level. user level?
+    # ./setup.sh -all | -machine | -user
+    # -all = machine interactive > machine > user interactive > user
+    # two distinct interactive phases, but user interactive can reasonably depend on "machine".
+    # make it more conventiony than frameworky. avoid second rewrite.
+    # machine "things" run as user, but CAN elevate as needed.
+
     validate_root
     machine $*
 }
@@ -63,4 +74,3 @@ function process()
             ;;
     esac
 }
-
