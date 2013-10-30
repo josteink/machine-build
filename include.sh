@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
-INSTALL="apt-get install -y"
+INSTALL="sudo apt-get install -y"
 
-function validate_root()
+function validate_can_elevate()
 {
-    if [ "`whoami`" != "root" ] ; then
+    if [ "`sudo whoami`" != "root" ] ; then
         echo "User is NOT root. Please elevate."
         exit 1 ;
     fi
@@ -20,10 +20,6 @@ function validate_user()
 
 function do_machine()
 {
-    # TODO: remember to check for correct profile.
-
-    # validate_not_root
-    # validate_can_elevate # `sudo whoami` = root
     # interactive and not-interactive?
     # still need machine and not user?
     # config "level"? machine level. user level?
@@ -33,8 +29,17 @@ function do_machine()
     # make it more conventiony than frameworky. avoid second rewrite.
     # machine "things" run as user, but CAN elevate as needed.
 
-    validate_root
-    machine $*
+    validate_user
+    validate_can_elevate
+
+    if [ "$2" == "" ] ; then
+        machine $*
+    else
+        if [ "$2" == "$PROFILE" ] ; then
+            machine $*
+        fi
+    fi
+
 }
 
 function do_user()
@@ -42,7 +47,14 @@ function do_user()
     # TODO: remember to check for correct profile.
 
     validate_user
-    user $*
+
+    if [ "$2" == "" ] ; then
+        user $*
+    else
+        if [ "$2" == "$PROFILE" ] ; then
+            user $*
+        fi
+    fi
 }
 
 function do_report()
@@ -64,11 +76,9 @@ function process()
 {
     case "$1" in
         machine)
-            validate_root
             do_machine $*
             ;;
         user)
-            validate_user
             do_user $*
             ;;
         report)

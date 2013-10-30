@@ -18,6 +18,6 @@ case "$1" in
         run-all $*
         ;;
     *)
-        echo "Specify setup-type: machine or user? Specify optional profile (desktop/server/development)"
+        echo "Specify setup-type: machine or user? Specify optional profile (desktop/server/development/etc)"
         exit 1
 esac
