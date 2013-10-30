@@ -47,10 +47,16 @@ function do_user()
 
 function do_report()
 {
-    if [ "$PROFILE" == "" ] ; then
-        echo "$NAME"
+    if [ "$2" == "" ] ; then
+        if [ "$PROFILE" == "" ] ; then
+            echo "$NAME"
+        else
+            echo "$NAME [$PROFILE]"
+        fi
     else
-        echo "$NAME [$PROFILE]"
+        if [ "$PROFILE" == "$2" ] ; then
+            echo "$NAME"
+        fi
     fi
 }
 
