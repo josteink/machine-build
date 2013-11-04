@@ -274,7 +274,7 @@
   ;; keybindings
 
   ;; not C-k C-c & C-k C-t because C-k is kill-line in emacs
-  (lsk 'comment-region      "C-c C-c")
+  (lsk 'comment-or-uncomment-region      "C-c C-c")
   (lsk 'uncomment-region    "C-c C-u")
 
   ;; formatting matters in programming files
