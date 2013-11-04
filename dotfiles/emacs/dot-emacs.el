@@ -133,6 +133,20 @@
                   (indent-region (region-beginning)
                                  (region-end) nil))))))
 
+;; taken from
+;; emacsredux.com/blog/2013/06/21/eval-and-replace/
+(defun eval-and-replace ()
+  "Replace the preceding sexp with its value."
+  (interactive)
+  (backward-kill-sexp)
+  (condition-case nil
+      (prin1 (eval (read (current-kill 0)))
+             (current-buffer))
+    (error (message "Invalid expression")
+           (insert (current-kill 0)))))
+
+(global-set-key (kbd "C-c e") 'eval-and-replace)
+
 ;; hide ^M from files with a mixture of dos and unix mode line-endings.
 (defun remove-dos-eol ()
   "Do not show ^M in files containing mixed UNIX and DOS line endings."
