@@ -176,6 +176,21 @@ point reaches the beginning or end of the buffer, stop there."
 (global-set-key [remap move-beginning-of-line]
                 'smarter-move-beginning-of-line)
 
+;; Fix page-up/page-down behaviour when at beginning and end
+;; of buffers.
+;; From http://snarfed.org/emacs_page_up_page_down
+(defun move-page-down-or-to-bottom ()
+  (interactive)
+  (condition-case nil (scroll-up)
+    (end-of-buffer (goto-char (point-max)))))
+
+(defun move-page-up-or-to-top ()
+  (interactive)
+  (condition-case nil (scroll-down)
+    (beginning-of-buffer (goto-char (point-min)))))
+
+(global-set-key [next] 'move-page-down-or-to-bottom)
+(global-set-key [prior] 'move-page-up-or-to-top)
 
 ;; hide ^M from files with a mixture of dos and unix mode line-endings.
 (defun remove-dos-eol ()
