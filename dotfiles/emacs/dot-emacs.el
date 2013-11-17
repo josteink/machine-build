@@ -17,6 +17,8 @@
       '(clojure-mode markdown-mode paredit batch-mode
                      nrepl multiple-cursors
                      projectile
+                     expand-region
+                     ace-jump-mode
                      ))
 
 (dolist (package package-list)
@@ -261,6 +263,13 @@ point reaches the beginning or end of the buffer, stop there."
 ;; default bindings (in isearch mode)
 ;; M-s h r   => highlight isearch results
 ;; M-s o      => open occur buffer with results
+
+;; expand-region
+(global-set-key (kbd "C-+") 'er/expand-region)
+
+;; ace jump - remember C-u C-c SPC etc
+(define-key global-map (kbd "C-c SPC") 'ace-jump-mode)
+
 
 ;;;; =============================================================
 ;;;; MODE CUSTOMIZATIONS
