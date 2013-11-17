@@ -1,4 +1,7 @@
+
+
 ;;;; PACKAGES AND REPOSITORIES
+
 
 ;; off mouse interface early in startup to avoid momentary display
 ;; probe first to not crash on emacs-nox
@@ -26,13 +29,12 @@
   (when (not (package-installed-p package))
     (package-install package)))
 
-
 ;; tramp lets us open /sudo::/etc/files
 (require 'tramp)
 
-;;;; =============================================================
+
 ;;;; DAEMONIZE
-;;;; =============================================================
+
 
 ;; so we can use emacsclient from other terminals
 ;; but dont start server if it already exists
@@ -45,18 +47,16 @@
 (remove-hook 'kill-buffer-query-functions 'server-kill-buffer-query-function)
 
 
-;;;; =============================================================
 ;;;; NON-DEFAULT FILE MAPPINGS
-;;;; =============================================================
+
 
 (add-to-list 'auto-mode-alist '("\.cljs$" . clojure-mode))
 (add-to-list 'auto-mode-alist '("\.bat$" . batch-mode))
 (add-to-list 'auto-mode-alist '("\.md$" . markdown-mode))
 
 
-;;;; =============================================================
 ;;;; GLOBAL DEFAULT OVERRIDES
-;;;; =============================================================
+
 
 ;; do not require files to end in \n
 (setq require-final-newline nil)
@@ -94,9 +94,9 @@
 ;; always follow symlinks to files under source-control. dont ask.
 (setq vc-follow-symlinks t)
 
-;;;; =============================================================
+
 ;;;; FUNCTIONS
-;;;; =============================================================
+
 
 (defun my-join-line-with-next ()
   "join current line with next, without need for end + del"
@@ -233,9 +233,8 @@ point reaches the beginning or end of the buffer, stop there."
   (fkt 'global-set-key target keys))
 
 
-;;;; =============================================================
 ;;;; GLOBAL KEYBOARD DEFINITIONS
-;;;; =============================================================
+
 
 ;; dont freeze emacs on ctrl-z
 (global-unset-key (kbd "C-z"))
@@ -276,13 +275,12 @@ point reaches the beginning or end of the buffer, stop there."
 
 ;; undo-tree - enable globally
 (global-undo-tree-mode 1)
-(gsk 'undo-tree-redo "C-Z") ;; quick access to redo.
+(gsk 'undo-tree-redo "C-M-z") ;; quick access to redo.
 ;; use default-binding C-x U for visualize.
 
 
-;;;; =============================================================
 ;;;; MODE CUSTOMIZATIONS
-;;;; =============================================================
+
 
 ;; elisp
 (defun my-emacs-lisp-mode-hook ()
@@ -369,9 +367,8 @@ point reaches the beginning or end of the buffer, stop there."
 
 (add-hook 'prog-mode-hook 'my-prog-mode-hook)
 
-;;;; =============================================================
 ;;;; WINDOWS ONLY CUSTOMIZATIONS
-;;;; =============================================================
+
 
 (defun my-windows-mode-hook ()
   (add-to-list 'load-path "~/.emacs.d/vendor/emacs-powerline")
@@ -388,9 +385,8 @@ point reaches the beginning or end of the buffer, stop there."
   ;; enable the current line to be hightlighted.
   (global-hl-line-mode +1))
 
-;;;; =============================================================
 ;;;; UNIX ONLY CUSTOMIZATIONS
-;;;; =============================================================
+
 
 (defun my-unix-mode-hook ()
   ;; allow us to (automatically) open files as root when needed via tramp and /sudo::
@@ -405,9 +401,8 @@ point reaches the beginning or end of the buffer, stop there."
     (my-windows-mode-hook)
   (my-unix-mode-hook))
 
-;;;; =============================================================
 ;;;; FREEBSD ONLY CUSTOMIZATIONS
-;;;; =============================================================
+
 
 (defun my-freebsd-mode-hook ()
   ;; fix backsapce acting like delete, by making delete act like backspace.
