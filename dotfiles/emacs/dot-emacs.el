@@ -278,6 +278,14 @@ point reaches the beginning or end of the buffer, stop there."
 (gsk 'undo-tree-redo "C-M-z") ;; quick access to redo.
 ;; use default-binding C-x U for visualize.
 
+;; keyboard macros
+;; default bindings, but documenting them makes them easier to remember.
+;; f3         - start new macro
+;; f4         - complete macro
+;; f4         - use recorded macro
+;; C-u <x> f4 - use recorded macro <x> times
+;; C-u 0 f4   - use recorded macro until end of buffer is reached.
+
 
 ;;;; MODE CUSTOMIZATIONS
 
