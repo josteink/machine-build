@@ -285,6 +285,8 @@ point reaches the beginning or end of the buffer, stop there."
 ;; f4         - use recorded macro
 ;; C-u <x> f4 - use recorded macro <x> times
 ;; C-u 0 f4   - use recorded macro until end of buffer is reached.
+;; C-<0-9> f4 - use recorded macro 1-9 times or until end of buffer is reached.
+;; M-x insert-kbd-macro
 
 
 ;;;; MODE CUSTOMIZATIONS
