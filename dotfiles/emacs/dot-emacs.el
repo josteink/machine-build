@@ -19,6 +19,7 @@
                      projectile
                      expand-region
                      ace-jump-mode
+                     undo-tree
                      ))
 
 (dolist (package package-list)
@@ -269,6 +270,11 @@ point reaches the beginning or end of the buffer, stop there."
 
 ;; ace jump - remember C-u C-c SPC etc
 (define-key global-map (kbd "C-c SPC") 'ace-jump-mode)
+
+;; undo-tree - enable globally
+(global-undo-tree-mode 1)
+(gsk 'undo-tree-redo "C-Z") ;; quick access to redo.
+;; use default-binding C-x U for visualize.
 
 
 ;;;; =============================================================
