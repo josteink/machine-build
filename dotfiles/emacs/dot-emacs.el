@@ -246,6 +246,7 @@ point reaches the beginning or end of the buffer, stop there."
 
 ;; ido-imenu
 ;; taken from https://gist.github.com/magnars/2360578
+(require 'imenu)
 (defun ido-imenu ()
   "Update the imenu index and then use ido to select a symbol to navigate to.
   Symbols matching the text at point are put first in the completion list."
@@ -418,7 +419,8 @@ point reaches the beginning or end of the buffer, stop there."
 
   ;; code - navigate to definition
   (lsk 'ido-imenu "<f12>")
-  ;; nvaigate back again
+  ;; navigate back again.
+  ;; (could also use set-mark with prefix argument C-u C-spc.)
   (lsk key 'pop-global-mark "C--")
 
   ;; code-completion
@@ -447,6 +449,7 @@ point reaches the beginning or end of the buffer, stop there."
 
 (add-hook 'prog-mode-hook 'my-prog-mode-hook)
 
+
 ;;;; WINDOWS ONLY CUSTOMIZATIONS
 
 
@@ -465,6 +468,7 @@ point reaches the beginning or end of the buffer, stop there."
   ;; enable the current line to be hightlighted.
   (global-hl-line-mode +1))
 
+
 ;;;; UNIX ONLY CUSTOMIZATIONS
 
 
@@ -480,6 +484,7 @@ point reaches the beginning or end of the buffer, stop there."
 (if (eq system-type 'windows-nt)
     (my-windows-mode-hook)
   (my-unix-mode-hook))
+
 
 ;;;; FREEBSD ONLY CUSTOMIZATIONS
 
