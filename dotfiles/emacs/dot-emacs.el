@@ -23,6 +23,7 @@
                      expand-region
                      ace-jump-mode
                      undo-tree
+                     yasnippet
                      ))
 
 (dolist (package package-list)
@@ -93,6 +94,9 @@
 
 ;; always follow symlinks to files under source-control. dont ask.
 (setq vc-follow-symlinks t)
+
+;; load all YASnippets, but dont enable global mode.
+(yas-reload-all)
 
 
 ;;;; FUNCTIONS
@@ -373,7 +377,10 @@ point reaches the beginning or end of the buffer, stop there."
   ;; projectile mode: on!
   ;; C-c p f - search for any file in your lein/git/etc project
   ;; more docs and bindings here: https://github.com/bbatsov/projectile
-  (projectile-mode))
+  (projectile-mode)
+
+  ;; yasnippet
+  (yas-minor-mode))
 
 (add-hook 'prog-mode-hook 'my-prog-mode-hook)
 
