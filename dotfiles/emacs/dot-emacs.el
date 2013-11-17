@@ -96,6 +96,7 @@
 (setq vc-follow-symlinks t)
 
 ;; load all YASnippets, but dont enable global mode.
+(require 'yasnippet)
 (yas-reload-all)
 
 
