@@ -264,9 +264,14 @@ point reaches the beginning or end of the buffer, stop there."
 ;; rgrep is grep for emacs
 (gsk 'rgrep "C-c C-g")
 
-;; enable multiple cursors. enter or C-g to edit
-(gsk 'mc/edit-lines                   "C-S-m C-S-m")
-(gsk 'mc/mark-more-like-this-extended "C-S-m C-S-g")
+;; multiple-cursors setup. doesn't come with any bindings by default
+;; puts a cursor on everyline of a selected region.
+(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
+
+;; Other MC-keybindings
+(global-set-key (kbd "C->") 'mc/mark-next-like-this)
+(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+(global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
 
 ;; default bindings (in isearch mode)
 ;; M-s h r   => highlight isearch results
