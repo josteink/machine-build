@@ -91,6 +91,9 @@
 ;; ido mode just makes everything better.
 (ido-mode)
 
+;; always follow symlinks to files under source-control. dont ask.
+(setq vc-follow-symlinks t)
+
 ;;;; =============================================================
 ;;;; FUNCTIONS
 ;;;; =============================================================
