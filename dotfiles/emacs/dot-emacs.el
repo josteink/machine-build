@@ -99,6 +99,10 @@
 (require 'yasnippet)
 (yas-reload-all)
 
+;; pending-delete-mode means that when a region is selected and you
+;; type, the contents of that region will be overwritten.
+(pending-delete-mode 1)
+
 
 ;;;; FUNCTIONS
 
