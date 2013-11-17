@@ -24,6 +24,7 @@
                      ace-jump-mode
                      undo-tree
                      yasnippet
+                     ido-yes-or-no
                      ))
 
 (dolist (package package-list)
@@ -67,6 +68,10 @@
 ;; enable windows-y selection-behaviour
 (delete-selection-mode 1)
 
+;; pending-delete-mode means that when a region is selected and you
+;; type, the contents of that region will be overwritten.
+(pending-delete-mode 1)
+
 ;; makes scripts executable automatically
 (add-hook 'after-save-hook
           'executable-make-buffer-file-executable-if-script-p)
@@ -91,6 +96,7 @@
 
 ;; ido mode just makes everything better.
 (ido-mode)
+(ido-yes-or-no-mode)
 
 ;; always follow symlinks to files under source-control. dont ask.
 (setq vc-follow-symlinks t)
@@ -99,9 +105,6 @@
 (require 'yasnippet)
 (yas-reload-all)
 
-;; pending-delete-mode means that when a region is selected and you
-;; type, the contents of that region will be overwritten.
-(pending-delete-mode 1)
 
 
 ;;;; FUNCTIONS
@@ -285,6 +288,10 @@ point reaches the beginning or end of the buffer, stop there."
            (position (cdr (assoc selected-symbol name-and-pos))))
       (goto-char position))))
 
+;; lets us pop mark and get back to where we were.
+(defadvice ido-imenu (before push-mark activate)
+  (push-mark))
+
 
 ;;;; GLOBAL KEYBOARD DEFINITIONS
 
@@ -411,6 +418,8 @@ point reaches the beginning or end of the buffer, stop there."
 
   ;; code - navigate to definition
   (lsk 'ido-imenu "<f12>")
+  ;; nvaigate back again
+  (lsk key 'pop-global-mark "C--")
 
   ;; code-completion
   ;; improve it with this setup here:
