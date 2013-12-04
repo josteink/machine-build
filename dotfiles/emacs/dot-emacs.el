@@ -505,6 +505,11 @@ point reaches the beginning or end of the buffer, stop there."
 
 
 (defun my-unix-mode-hook ()
+  ;; only activate highlight line when in x
+  (if (string= "x" (window-system))
+      (global-hl-line-mode +1)
+    (global-hl-line-mode 0))
+
   ;; allow us to (automatically) open files as root when needed via tramp and /sudo::
   (require 'tramp)
   (defadvice find-file (after find-file-sudo activate)
