@@ -1,5 +1,4 @@
 
-
 ;;;; PACKAGES AND REPOSITORIES
 
 
@@ -100,11 +99,6 @@
 
 ;; always follow symlinks to files under source-control. dont ask.
 (setq vc-follow-symlinks t)
-
-;; only activate global-line mode when on X11/windows/non-terminal environment.
-(if (display-graphic-p)
-    (global-hl-line-mode +1)
-  (global-hl-line-mode 0))
 
 ;; load all YASnippets, but dont enable global mode.
 (require 'yasnippet)
@@ -529,3 +523,21 @@ point reaches the beginning or end of the buffer, stop there."
   )
 (if (eq system-type 'berkeley-unix)
     (my-freebsd-mode-hook))
+
+
+(defun my-gui-mode-hook ()
+  ;; only activate global-line mode when on X11/windows/non-terminal environment.
+  (global-hl-line-mode +1)
+
+  ;; substitute lambdas with fancy symbols
+  ;; (font-lock-add-keywords
+  ;;  nil `(("(\\(lambda\\>\\)"
+  ;;         (0 (progn (compose-region (match-beginning 1) (match-end 1)
+  ;;                                   ,(make-char 'greek-iso8859-7 107))
+  ;;                   nil)))))
+  ;; (setq font-lock t)
+  )
+
+(if (display-graphic-p)
+    (my-gui-mode-hook)
+  'nothing)
