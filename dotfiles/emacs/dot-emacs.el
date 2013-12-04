@@ -101,6 +101,11 @@
 ;; always follow symlinks to files under source-control. dont ask.
 (setq vc-follow-symlinks t)
 
+;; only activate global-line mode when on X11/windows/non-terminal environment.
+(if (display-graphic-p)
+    (global-hl-line-mode +1)
+  (global-hl-line-mode 0))
+
 ;; load all YASnippets, but dont enable global mode.
 (require 'yasnippet)
 (yas-reload-all)
@@ -495,21 +500,13 @@ point reaches the beginning or end of the buffer, stop there."
 
   ;; minimize/maximize windows as normally
   (gsk 'w32-minimize-frame "M-SPC n" "M-SPC M-n")
-  (gsk 'w32-maximize-frame "M-SPC x" "M-SPC M-x")
-
-  ;; enable the current line to be hightlighted.
-  (global-hl-line-mode +1))
+  (gsk 'w32-maximize-frame "M-SPC x" "M-SPC M-x"))
 
 
 ;;;; UNIX ONLY CUSTOMIZATIONS
 
 
 (defun my-unix-mode-hook ()
-  ;; only activate highlight line when in x
-  (if (string= "x" (window-system))
-      (global-hl-line-mode +1)
-    (global-hl-line-mode 0))
-
   ;; allow us to (automatically) open files as root when needed via tramp and /sudo::
   (require 'tramp)
   (defadvice find-file (after find-file-sudo activate)
