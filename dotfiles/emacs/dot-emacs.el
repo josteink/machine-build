@@ -33,7 +33,7 @@
 
 ;; tramp lets us open /sudo::/etc/files
 (require 'tramp)
-
+;; (require 'yasnippet)
 
 ;;;; DAEMONIZE
 
@@ -230,6 +230,23 @@ point reaches the beginning or end of the buffer, stop there."
           (rename-file filename new-name t)
           (set-visited-file-name new-name t t)))))))
 
+;; Windows-only window-control functions.
+
+(defun w32-maximize-frame ()
+  "Maximize the current frame"
+  (interactive)
+  (w32-send-sys-command 61488))
+
+(defun w32-restore-frame ()
+  "Restore a minimized/maximized frame"
+  (interactive)
+  (w32-send-sys-command 61728))
+
+(defun w32-minimize-frame ()
+  "Minimizes the current frame"
+  (interactive)
+  (w32-send-sys-command 61472))
+
 ;; utility functions for key-definitions
 (defun fkt (func target keys)
   "Sets up multiple keybindings for one function."
@@ -421,7 +438,7 @@ point reaches the beginning or end of the buffer, stop there."
   (lsk 'ido-imenu "<f12>")
   ;; navigate back again.
   ;; (could also use set-mark with prefix argument C-u C-spc.)
-  (lsk key 'pop-global-mark "C--")
+  (lsk 'pop-global-mark "C--")
 
   ;; code-completion
   ;; improve it with this setup here:
@@ -449,21 +466,36 @@ point reaches the beginning or end of the buffer, stop there."
 
 (add-hook 'prog-mode-hook 'my-prog-mode-hook)
 
+;; xml
+(defun my-xml-mode-hook()
+  ;; not C-k C-c & C-k C-t because C-k is kill-line in emacs
+  (lsk 'comment-or-uncomment-region      "C-c C-c")
+  (lsk 'uncomment-region    "C-c C-u"))
+
+(add-hook 'nxml-mode-hook 'my-xml-mode-hook)
+
 
 ;;;; WINDOWS ONLY CUSTOMIZATIONS
 
 
 (defun my-windows-mode-hook ()
-  (add-to-list 'load-path "~/.emacs.d/vendor/emacs-powerline")
-  (require 'powerline)
+  ;;(add-to-list 'load-path "~/.emacs.d/vendor/emacs-powerline")
+  ;;(require 'powerline)
 
   ;; get some themes man! (black on white is tiresome)
-  (add-to-list 'load-path "~/.emacs.d/vendor/color-theme-6.6.0")
-  (require 'color-theme)
-  (eval-after-load "color-theme"
-    '(progn
-       (color-theme-initialize)
-       (color-theme-arjen)))
+  ;;(add-to-list 'load-path "~/.emacs.d/vendor/color-theme-6.6.0")
+  ;; (require 'color-theme)
+  ;; (eval-after-load "color-theme"
+  ;;   '(progn
+  ;;      (color-theme-initialize)
+  ;;      (color-theme-arjen)))
+
+  ;; free up M-SPC to allow prefixed commands.
+  (global-unset-key (kbd "M-SPC"))
+
+  ;; minimize/maximize windows as normally
+  (gsk 'w32-minimize-frame "M-SPC n" "M-SPC M-n")
+  (gsk 'w32-maximize-frame "M-SPC x" "M-SPC M-x")
 
   ;; enable the current line to be hightlighted.
   (global-hl-line-mode +1))
