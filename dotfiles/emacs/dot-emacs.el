@@ -336,6 +336,11 @@ point reaches the beginning or end of the buffer, stop there."
 ;; rgrep is grep for emacs
 (gsk 'rgrep "C-c C-g")
 
+;; general text-completion. enable everywhere.
+;; improve it with this setup here:
+;; http://ianeslick.com/2013/05/17/clojure-debugging-13-emacs-nrepl-and-ritz/
+(gsk 'dabbrev-expand "C-.")
+
 ;; multiple-cursors setup. doesn't come with any bindings by default
 ;; puts a cursor on everyline of a selected region.
 (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
@@ -438,11 +443,6 @@ point reaches the beginning or end of the buffer, stop there."
   ;; navigate back again.
   ;; (could also use set-mark with prefix argument C-u C-spc.)
   (lsk 'pop-global-mark "C--")
-
-  ;; code-completion
-  ;; improve it with this setup here:
-  ;; http://ianeslick.com/2013/05/17/clojure-debugging-13-emacs-nrepl-and-ritz/
-  (lsk 'dabbrev-expand "C-.")
 
   ;; settings
   ;; ensure we have line-numbers in all code-files
