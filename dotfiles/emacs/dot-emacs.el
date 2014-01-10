@@ -104,6 +104,8 @@
 (require 'yasnippet)
 (yas-reload-all)
 
+;; UTF-8 as default encoding. this is required for unix->windows safe dropbox transfers.
+(set-language-environment "UTF-8")
 
 
 ;;;; FUNCTIONS
