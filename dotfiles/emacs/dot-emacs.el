@@ -531,6 +531,9 @@ point reaches the beginning or end of the buffer, stop there."
   ;; only activate global-line mode when on X11/windows/non-terminal environment.
   (global-hl-line-mode +1)
 
+  ;; same with column-numbers.
+  (column-number-mode +1)
+
   ;; substitute lambdas with fancy symbols
   ;; (font-lock-add-keywords
   ;;  nil `(("(\\(lambda\\>\\)"
