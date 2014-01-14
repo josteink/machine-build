@@ -24,6 +24,7 @@
                      undo-tree
                      yasnippet
                      ido-yes-or-no
+                     haskell-mode
                      ))
 
 (dolist (package package-list)
@@ -419,6 +420,12 @@ point reaches the beginning or end of the buffer, stop there."
   ;; for clojure comments - override annoying elisp mode single-; comment-indentation.
   (setq comment-column 0))
 (add-hook 'clojure-mode-hook 'my-clojure-mode-hook)
+
+;; haskell
+(defun my-haskell-mode-hook ()
+  ;; we want proper indentation
+  (haskell-indent-mode +1))
+(add-hook 'haskell-mode-hook 'my-haskell-mode-hook)
 
 ;; org-mode
 (defun my-org-mode-hook ()
