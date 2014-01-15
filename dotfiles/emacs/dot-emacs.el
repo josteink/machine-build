@@ -610,6 +610,6 @@ point reaches the beginning or end of the buffer, stop there."
 
 ;; special workaround for dead keys needed only when running emacs in Linux & X.
 (if (and (display-graphic-p)
-         (eq system-type 'gnu/linux)
-         (my-x-mode-hook))
-    'nothing)
+         (eq system-type 'gnu/linux))
+    (my-x-mode-hook)
+  'nothing)
