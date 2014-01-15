@@ -272,6 +272,26 @@ point reaches the beginning or end of the buffer, stop there."
 
 ;; END active-region mode
 
+;; custom indentation funcitons
+(defun do-and-maintain-region (START END func &optional arg)
+  "Call the provided interactive function with the provided region-delimiters, and optional argument."
+  (funcall func START END arg)
+  ;; re-set region
+  ;; based on http://stackoverflow.com/questions/11689948/
+  (set-mark START)
+  (posn-set-point END)
+  )
+
+(defun increase-left-margin-and-maintain-region (START END)
+  "Increases the current margin without deactivating the selected region."
+  (interactive "r")
+  (do-and-maintain-region START END 'increase-left-margin 2))
+
+(defun decrease-left-margin-and-maintain-region (START END)
+  "Decreases the current margin without deactivating the selected region."
+  (interactive "r")
+  (do-and-maintain-region START END 'decrease-left-margin 2))
+
 ;; utility functions for key-definitions
 (defun fkt (func target keys)
   "Sets up multiple keybindings for one function."
@@ -390,6 +410,11 @@ point reaches the beginning or end of the buffer, stop there."
 (global-undo-tree-mode 1)
 (gsk 'undo-tree-redo "C-M-z") ;; quick access to redo.
 ;; use default-binding C-x U for visualize.
+
+;; special global keybindings for active regions minor-mode
+
+(define-key active-region-mode-map (kbd "<tab>") 'increase-left-margin-and-maintain-region)
+(define-key active-region-mode-map (kbd "<S-tab>") 'decrease-left-margin-and-maintain-region)
 
 ;; keyboard macros
 ;; default bindings, but documenting them makes them easier to remember.
