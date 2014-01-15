@@ -249,6 +249,29 @@ point reaches the beginning or end of the buffer, stop there."
   (interactive)
   (w32-send-sys-command 61472))
 
+;; START active region-mode
+
+(defvar active-region-mode-map
+  (let ((map (make-sparse-keymap)))
+    map))
+
+(define-minor-mode active-region-mode
+  "Active Region minor mode."
+  :init-value nil
+  :lighter " Region"
+  :keymap active-region-mode-map
+  :group 'active-region
+  )
+
+(defun active-region-on ()
+  (active-region-mode 1))
+(defun active-region-off ()
+  (active-region-mode -1))
+(add-hook 'activate-mark-hook 'active-region-on)
+(add-hook 'deactivate-mark-hook 'active-region-off)
+
+;; END active-region mode
+
 ;; utility functions for key-definitions
 (defun fkt (func target keys)
   "Sets up multiple keybindings for one function."
