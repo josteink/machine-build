@@ -281,9 +281,7 @@ point reaches the beginning or end of the buffer, stop there."
   (interactive "r")
 
   ;; if end is before start, things doesnt work and region wont get set/activated.
-  (let ((ordered (sort (list START END)) '<)
-        (start (car ordered))
-        (end (cdr ordered)))
+  (destructuring-bind (start end) (sort (list START END) '<)
     (set-mark start)
     (posn-set-point end)))
 
