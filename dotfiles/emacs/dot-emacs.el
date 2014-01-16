@@ -17,16 +17,19 @@
 
 ;; ensure all packages we needa are installed.
 (setq package-list
-      '(clojure-mode markdown-mode paredit batch-mode
-                     nrepl multiple-cursors
-                     projectile
-                     expand-region
-                     ace-jump-mode
-                     undo-tree
-                     yasnippet
-                     ido-yes-or-no
-                     haskell-mode
-                     ))
+      '(clojure-mode
+        markdown-mode
+        paredit
+        batch-mode
+        nrepl multiple-cursors
+        projectile
+        expand-region
+        ace-jump-mode
+        undo-tree
+        yasnippet
+        ido-yes-or-no
+        haskell-mode
+        ))
 
 (dolist (package package-list)
   (when (not (package-installed-p package))
@@ -34,7 +37,7 @@
 
 ;; tramp lets us open /sudo::/etc/files
 (require 'tramp)
-;; (require 'yasnippet)
+
 
 ;;;; DAEMONIZE
 
@@ -45,9 +48,6 @@
 (if (and (fboundp 'server-running-p)
          (not (server-running-p)))
     (server-start))
-
-;; its annoying always having to say "yes" to close client-opened files
-(remove-hook 'kill-buffer-query-functions 'server-kill-buffer-query-function)
 
 
 ;;;; NON-DEFAULT FILE MAPPINGS
@@ -60,6 +60,9 @@
 
 ;;;; GLOBAL DEFAULT OVERRIDES
 
+
+;; its annoying always having to say "yes" to close client-opened files
+(remove-hook 'kill-buffer-query-functions 'server-kill-buffer-query-function)
 
 ;; do not require files to end in \n
 (setq require-final-newline nil)
@@ -77,16 +80,13 @@
 (add-hook 'after-save-hook
           'executable-make-buffer-file-executable-if-script-p)
 
-;; enable the current line to be hightlighted.
-;;(global-hl-line-mode +1) ;or not - kills syntax high-lighting in SSH.
-
 ;; provides automatic loading after changing branches etc in git
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(global-auto-revert-mode t)
+ 'auto-revert-mode t
  '(inhibit-startup-screen t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -589,6 +589,7 @@ point reaches the beginning or end of the buffer, stop there."
 
 (defun my-gui-mode-hook ()
   ;; only activate global-line mode when on X11/windows/non-terminal environment.
+  ;; will deactivate syntax highlighting and more in SSH.
   (global-hl-line-mode +1)
 
   ;; same with column-numbers.
