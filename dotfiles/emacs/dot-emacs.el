@@ -438,8 +438,9 @@ point reaches the beginning or end of the buffer, stop there."
 
 ;; active-region minor mode
 (defun my-active-region-mode-hook ()
-  (local-set-key (kbd "<tab>") 'increase-left-margin-and-maintain-region)
-  (local-set-key (kbd "<S-tab>") 'decrease-left-margin-and-maintain-region))
+  ;; dont override whatever mode emacs thinks we're in with stuff. adress the mode-map specificly.
+  (define-key active-region-mode-map (kbd "<tab>") 'increase-left-margin-and-maintain-region)
+  (define-key active-region-mode-map (kbd "<S-tab>") 'decrease-left-margin-and-maintain-region))
 (add-hook 'active-region-mode-hook 'my-active-region-mode-hook)
 
 ;; elisp
