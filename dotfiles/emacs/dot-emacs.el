@@ -491,7 +491,10 @@ point reaches the beginning or end of the buffer, stop there."
   (lsk 'org-agenda     "C-c a")
   (lsk 'org-iswitchb   "C-c b")
   ;; override C-c ¨ as that doesnt work on norwegian keyboards
-  (lsk 'org-table-sort-lines "C-c s"))
+  (lsk 'org-table-sort-lines "C-c s")
+
+  ;; enable imenu
+  (imenu-add-menubar-index))
 (add-hook 'org-mode-hook 'my-org-mode-hook)
 
 (defun my-prog-mode-hook ()
@@ -538,17 +541,6 @@ point reaches the beginning or end of the buffer, stop there."
   (lsk 'uncomment-region    "C-c C-u"))
 
 (add-hook 'nxml-mode-hook 'my-xml-mode-hook)
-
-(defun my-org-mode-hook ()
-  ;; enable imenu
-  (imenu-add-menubar-index)
-
-  ;; code - navigate to definition
-  (lsk 'ido-imenu "<f12>")
-  ;; navigate back again.
-  ;; (could also use set-mark with prefix argument C-u C-spc.)
-  (lsk 'pop-global-mark "C--"))
-(add-hook 'org-mode-hook 'my-org-mode-hook)
 
 
 ;;;; WINDOWS ONLY CUSTOMIZATIONS
