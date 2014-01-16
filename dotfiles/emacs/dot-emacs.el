@@ -279,8 +279,15 @@ point reaches the beginning or end of the buffer, stop there."
   ;; re-set region
   ;; based on http://stackoverflow.com/questions/11689948/
   (interactive "r")
-  (set-mark START)
-  (posn-set-point END))
+
+  ;; if end is before start, things doesnt work and region wont get set/activated.
+  (if (< START END)
+      (do
+          (set-mark START)
+          (posn-set-point END))
+    (do
+        (set-mark END)
+        (posn-set-point START))))
 
 (defun increase-left-margin-and-maintain-region (START END)
   "Increases the current margin without deactivating the selected region."
