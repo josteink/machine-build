@@ -415,9 +415,6 @@ point reaches the beginning or end of the buffer, stop there."
 
 ;; special global keybindings for active regions minor-mode
 
-(define-key active-region-mode-map (kbd "<tab>") 'increase-left-margin-and-maintain-region)
-(define-key active-region-mode-map (kbd "<S-tab>") 'decrease-left-margin-and-maintain-region)
-
 ;; keyboard macros
 ;; default bindings, but documenting them makes them easier to remember.
 ;; f3         - start new macro
@@ -431,6 +428,12 @@ point reaches the beginning or end of the buffer, stop there."
 
 ;;;; MODE CUSTOMIZATIONS
 
+
+;; active-region minor mode
+(defun my-active-region-mode-hook ()
+  (local-set-key (kbd "<tab>") 'increase-left-margin-and-maintain-region)
+  (local-set-key (kbd "<S-tab>") 'decrease-left-margin-and-maintain-region))
+(add-hook 'active-region-mode-hook 'my-active-region-mode-hook)
 
 ;; elisp
 (defun my-emacs-lisp-mode-hook ()
