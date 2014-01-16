@@ -274,24 +274,25 @@ point reaches the beginning or end of the buffer, stop there."
 ;; END active-region mode
 
 ;; custom indentation funcitons
-(defun do-and-maintain-region (START END func &optional arg)
-  "Call the provided interactive function with the provided region-delimiters, and optional argument."
-  (funcall func START END arg)
+(defun set-region (START END)
+  "Sets the currently active region."
   ;; re-set region
   ;; based on http://stackoverflow.com/questions/11689948/
+  (interactive "r")
   (set-mark START)
-  (posn-set-point END)
-  )
+  (posn-set-point END))
 
 (defun increase-left-margin-and-maintain-region (START END)
   "Increases the current margin without deactivating the selected region."
   (interactive "r")
-  (do-and-maintain-region START END 'increase-left-margin 2))
+  (increase-left-margin START END 2)
+  (set-region START END))
 
 (defun decrease-left-margin-and-maintain-region (START END)
   "Decreases the current margin without deactivating the selected region."
   (interactive "r")
-  (do-and-maintain-region START END 'decrease-left-margin 2))
+  (decrease-left-margin START END 2)
+  (set-region START END))
 
 ;; utility functions for key-definitions
 (defun fkt (func target keys)
