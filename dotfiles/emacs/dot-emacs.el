@@ -436,7 +436,9 @@ point reaches the beginning or end of the buffer, stop there."
 (defun my-active-region-mode-hook ()
   ;; dont override whatever mode emacs thinks we're in with stuff. adress the mode-map specificly.
   (define-key active-region-mode-map (kbd "<tab>") 'increase-left-margin-and-maintain-region)
-  (define-key active-region-mode-map (kbd "<S-tab>") 'decrease-left-margin-and-maintain-region))
+  (define-key active-region-mode-map (kbd "<S-tab>") 'decrease-left-margin-and-maintain-region)
+  ;; required for X11
+  (define-key active-region-mode-map (kbd "<backtab>") 'decrease-left-margin-and-maintain-region))
 (add-hook 'active-region-mode-hook 'my-active-region-mode-hook)
 
 ;; elisp
