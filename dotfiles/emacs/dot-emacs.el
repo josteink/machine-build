@@ -297,6 +297,13 @@ point reaches the beginning or end of the buffer, stop there."
   (decrease-left-margin START END 2)
   (set-region START END))
 
+;; handle indentation properly
+(defun org-return-and-indent ()
+  (interactive)
+
+  (org-return)
+  (indent-according-to-mode))
+
 ;; utility functions for key-definitions
 (defun fkt (func target keys)
   "Sets up multiple keybindings for one function."
@@ -428,6 +435,9 @@ point reaches the beginning or end of the buffer, stop there."
 ;; C-<0-9> f4 - use recorded macro 1-9 times or until end of buffer is reached.
 ;; M-x insert-kbd-macro
 
+;; indent properly, always
+(gsk 'newline-and-indent "RET")
+
 
 ;;;; MODE CUSTOMIZATIONS
 
@@ -494,6 +504,9 @@ point reaches the beginning or end of the buffer, stop there."
   (lsk 'org-iswitchb   "C-c b")
   ;; override C-c ¨ as that doesnt work on norwegian keyboards
   (lsk 'org-table-sort-lines "C-c s")
+
+  ;; we want proper new-line indentation
+  (lsk 'org-return-and-indent "RET")
 
   ;; enable imenu
   (imenu-add-menubar-index))
