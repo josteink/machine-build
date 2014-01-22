@@ -273,29 +273,19 @@ point reaches the beginning or end of the buffer, stop there."
 
 ;; END active-region mode
 
-;; custom indentation funcitons
-(defun set-region (START END)
-  "Sets the currently active region."
-  ;; re-set region
-  ;; based on http://stackoverflow.com/questions/11689948/
-  (interactive "r")
+;; fix default indentation to not deactivate selected region.
 
-  ;; if end is before start, things doesnt work and region wont get set/activated.
-  (destructuring-bind (start end) (sort (list START END) '<)
-    (set-mark start)
-    (posn-set-point end)))
+(setq standard-indent 2)
 
-(defun increase-left-margin-and-maintain-region (START END)
-  "Increases the current margin without deactivating the selected region."
-  (interactive "r")
-  (increase-left-margin START END 2)
-  (set-region START END))
+(defadvice increase-left-margin (after keep-transient-mark-active ())
+  "Override the deactivation of the mark."
+  (setq deactivate-mark nil))
+(ad-activate 'increase-left-margin)
 
-(defun decrease-left-margin-and-maintain-region (START END)
-  "Decreases the current margin without deactivating the selected region."
-  (interactive "r")
-  (decrease-left-margin START END 2)
-  (set-region START END))
+(defadvice decrease-left-margin (after keep-transient-mark-active ())
+  "Override the deactivation of the mark."
+  (setq deactivate-mark nil))
+(ad-activate 'decrease-left-margin)
 
 ;; handle indentation properly
 (defun org-return-and-indent ()
@@ -445,10 +435,10 @@ point reaches the beginning or end of the buffer, stop there."
 ;; active-region minor mode
 (defun my-active-region-mode-hook ()
   ;; dont override whatever mode emacs thinks we're in with stuff. adress the mode-map specificly.
-  (define-key active-region-mode-map (kbd "<tab>") 'increase-left-margin-and-maintain-region)
-  (define-key active-region-mode-map (kbd "<S-tab>") 'decrease-left-margin-and-maintain-region)
+  (define-key active-region-mode-map (kbd "<tab>") 'increase-left-margin)
+  (define-key active-region-mode-map (kbd "<S-tab>") 'decrease-left-margin)
   ;; required for X11
-  (define-key active-region-mode-map (kbd "<backtab>") 'decrease-left-margin-and-maintain-region))
+  (define-key active-region-mode-map (kbd "<backtab>") 'decrease-left-margin))
 (add-hook 'active-region-mode-hook 'my-active-region-mode-hook)
 
 ;; elisp
