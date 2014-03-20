@@ -29,6 +29,7 @@
         yasnippet
         ido-yes-or-no
         haskell-mode
+        powershell-mode
         ))
 
 (dolist (package package-list)
@@ -56,6 +57,7 @@
 (add-to-list 'auto-mode-alist '("\.cljs$" . clojure-mode))
 (add-to-list 'auto-mode-alist '("\.bat$" . batch-mode))
 (add-to-list 'auto-mode-alist '("\.md$" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\.ps$" . powershell-mode))
 
 
 ;;;; GLOBAL DEFAULT OVERRIDES
