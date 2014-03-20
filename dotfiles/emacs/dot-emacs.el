@@ -550,6 +550,13 @@ point reaches the beginning or end of the buffer, stop there."
 (add-hook 'nxml-mode-hook 'my-xml-mode-hook)
 
 
+;; html/web
+(defun my-web-mode-hook ()
+  (lsk 'web-mode-comment-or-uncomment      "C-c C-c")
+  (lsk 'web-mode-uncomment    "C-c C-u"))
+
+(add-hook 'web-mode-hook 'my-web-mode-hook)
+
 ;;;; WINDOWS ONLY CUSTOMIZATIONS
 
 
