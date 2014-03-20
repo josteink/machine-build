@@ -38,6 +38,8 @@
 ;; tramp lets us open /sudo::/etc/files
 (require 'tramp)
 
+;; powershell-mode needs to be explicitly loaded
+(require 'powershell-mode)
 
 ;;;; DAEMONIZE
 
@@ -56,6 +58,8 @@
 (add-to-list 'auto-mode-alist '("\.cljs$" . clojure-mode))
 (add-to-list 'auto-mode-alist '("\.bat$" . batch-mode))
 (add-to-list 'auto-mode-alist '("\.md$" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\.config$" . xml-mode))
+(add-to-list 'auto-mode-alist '("\.ps$" . powershell-mode))
 
 
 ;;;; GLOBAL DEFAULT OVERRIDES
@@ -387,7 +391,7 @@ point reaches the beginning or end of the buffer, stop there."
 ;; general text-completion. enable everywhere.
 ;; improve it with this setup here:
 ;; http://ianeslick.com/2013/05/17/clojure-debugging-13-emacs-nrepl-and-ritz/
-(gsk 'dabbrev-expand "C-.")
+(gsk 'hippie-expand "C-.") ;;(gsk 'dabbrev-expand "C-.")
 
 ;; multiple-cursors setup. doesn't come with any bindings by default
 ;; puts a cursor on everyline of a selected region.
@@ -406,7 +410,7 @@ point reaches the beginning or end of the buffer, stop there."
 (global-set-key (kbd "C-+") 'er/expand-region)
 
 ;; ace jump - remember C-u C-c SPC etc
-(define-key global-map (kbd "C-c SPC") 'ace-jump-mode)
+;;(global-set-key (kbd "C-c SPC") 'ace-jump-mode)
 
 ;; undo-tree - enable globally
 (global-undo-tree-mode 1)
@@ -496,7 +500,7 @@ point reaches the beginning or end of the buffer, stop there."
   (lsk 'org-table-sort-lines "C-c s")
 
   ;; we want proper new-line indentation
-  (lsk 'org-return-and-indent "RET")
+  ;;(lsk 'org-return-and-indent "RET")
 
   ;; enable imenu
   (imenu-add-menubar-index))
@@ -538,6 +542,7 @@ point reaches the beginning or end of the buffer, stop there."
   (yas-minor-mode))
 
 (add-hook 'prog-mode-hook 'my-prog-mode-hook)
+(add-hook 'powershell-mode-hook 'my-prog-mode-hook)
 
 ;; xml
 (defun my-xml-mode-hook()
