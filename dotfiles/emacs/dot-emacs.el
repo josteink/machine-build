@@ -535,8 +535,10 @@ point reaches the beginning or end of the buffer, stop there."
   ;; highlight current function?
   (which-function-mode 1)
 
-  ;; enable imenu
-  (imenu-add-menubar-index)
+  ;; enable imenu - only for true prog-mode major-modes
+  (if (derived-mode-p 'prog-mode)
+      (imenu-add-menubar-index)
+    'nil)
 
   ;; projectile mode: on!
   ;; C-c p f - search for any file in your lein/git/etc project
@@ -564,6 +566,9 @@ point reaches the beginning or end of the buffer, stop there."
   (lsk 'web-mode-uncomment    "C-c C-u"))
 
 (add-hook 'web-mode-hook 'my-web-mode-hook)
+
+;; css should be prog-mode but isn't
+(add-hook 'css-mode-hook 'my-prog-mode-hook)
 
 ;;;; WINDOWS ONLY CUSTOMIZATIONS
 
