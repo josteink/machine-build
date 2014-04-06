@@ -15,13 +15,14 @@
 (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
 (package-initialize)
 
-;; ensure all packages we needa are installed.
+;; ensure all packages we need are installed.
 (setq package-list
       '(clojure-mode
         markdown-mode
         paredit
         batch-mode
-        nrepl multiple-cursors
+        nrepl
+        multiple-cursors
         projectile
         expand-region
         ace-jump-mode
@@ -30,6 +31,7 @@
         ido-yes-or-no
         haskell-mode
         powershell-mode
+        web-mode
         ))
 
 (dolist (package package-list)
@@ -61,6 +63,10 @@
 (add-to-list 'auto-mode-alist '("\.md$" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\.config$" . xml-mode))
 (add-to-list 'auto-mode-alist '("\.ps$" . powershell-mode))
+
+(add-to-list 'auto-mode-alist '("\.css$" . web-mode))
+(add-to-list 'auto-mode-alist '("\.html$" . web-mode))
+(add-to-list 'auto-mode-alist '("\.php$" . web-mode))
 
 
 ;;;; GLOBAL DEFAULT OVERRIDES
