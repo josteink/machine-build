@@ -129,6 +129,9 @@
   (interactive)
   (join-line -1))
 
+(defun is-not-whitespace-language-p ()
+  (not (derived-mode-p 'python-mode)))
+
 (defun indent-whole-buffer ()
   "indent whole buffer and untabify it"
   (interactive)
@@ -136,14 +139,16 @@
   (indent-region (point-min) (point-max) nil)
   (untabify (point-min) (point-max)))
 
+(defun indent-and-save ()
+  (if (and (buffer-file-name) (is-not-whitespace-language-p))
+      (indent-whole-buffer))
+  (save-buffer))
+
 (defun indent-file-when-save ()
   "indent file when save."
   (make-local-variable 'after-save-hook)
   (add-hook 'after-save-hook
-            (lambda ()
-              (if (buffer-file-name)
-                  (indent-whole-buffer))
-              (save-buffer))))
+	    'indent-and-save))
 
 ;; automatically indents yanked (inserted/pasted) content
 (dolist (command '(yank yank-pop))
@@ -524,9 +529,6 @@ point reaches the beginning or end of the buffer, stop there."
   (lsk 'comment-or-uncomment-region      "C-c C-c")
   (lsk 'uncomment-region    "C-c C-u")
 
-  ;; formatting matters in programming files
-  (lsk 'indent-whole-buffer "C-i")
-
   ;; code - navigate to definition
   (lsk 'ido-imenu "<f12>")
   ;; navigate back again.
@@ -552,7 +554,12 @@ point reaches the beginning or end of the buffer, stop there."
   (projectile-mode)
 
   ;; yasnippet
-  (yas-minor-mode))
+  (yas-minor-mode)
+
+  ;; formatting matters in programming files, but python is a silly
+  ;; language which cares about white-space.
+  (when (is-not-whitespace-language-p)
+    (lsk 'indent-whole-buffer "C-i")))
 
 (add-hook 'prog-mode-hook 'my-prog-mode-hook)
 (add-hook 'powershell-mode-hook 'my-prog-mode-hook)
