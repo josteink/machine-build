@@ -87,9 +87,14 @@
 ;; type, the contents of that region will be overwritten.
 (pending-delete-mode 1)
 
+(defun make-scripts-executable ()
+  "Makes scripts selectively executable"
+  (if (not (derived-mode-p 'python-mode))
+      (executable-make-buffer-file-executable-if-script-p)))
+
 ;; makes scripts executable automatically
 (add-hook 'after-save-hook
-          'executable-make-buffer-file-executable-if-script-p)
+          'make-scripts-executable)
 
 ;; provides automatic loading after changing branches etc in git
 (custom-set-variables
