@@ -32,6 +32,7 @@
         haskell-mode
         powershell-mode
         web-mode
+        auto-complete
         ))
 
 (dolist (package package-list)
@@ -153,7 +154,7 @@
   "indent file when save."
   (make-local-variable 'after-save-hook)
   (add-hook 'after-save-hook
-	    'indent-and-save))
+            'indent-and-save))
 
 ;; automatically indents yanked (inserted/pasted) content
 (dolist (command '(yank yank-pop))
@@ -539,6 +540,9 @@ point reaches the beginning or end of the buffer, stop there."
   ;; navigate back again.
   ;; (could also use set-mark with prefix argument C-u C-spc.)
   (lsk 'pop-global-mark "C--")
+
+  ;; auto-complete is a must
+  (auto-complete-mode 1)
 
   ;; settings
   ;; ensure we have line-numbers in all code-files
