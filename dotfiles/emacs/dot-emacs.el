@@ -512,6 +512,13 @@ point reaches the beginning or end of the buffer, stop there."
   (haskell-indent-mode +1))
 (add-hook 'haskell-mode-hook 'my-haskell-mode-hook)
 
+;; c/c++
+(defun my-c-mode-hook ()
+  ;; required for auto-completion
+  (semantic-mode 1))
+(add-hook 'c-mode-hook 'my-c-mode-hook)
+(add-hook 'c++-mode-hook 'my-c-mode-hook)
+
 ;; org-mode
 (defun my-org-mode-hook ()
   ;; keybindings
