@@ -156,6 +156,23 @@
   (add-hook 'after-save-hook
             'indent-and-save))
 
+;; utility-function for other functions
+(defun region-str-or-symbol ()
+  "Return the contents of region or current symbol."
+  (if (region-active-p)
+      (buffer-substring-no-properties
+       (region-beginning)
+       (region-end))
+    (thing-at-point 'symbol)))
+
+;; occur which has currently selected text as default value.
+(defun occur-dwim ()
+  "Call `occur' with a sane default."
+  (interactive)
+  (push (region-str-or-symbol) regexp-history)
+  (call-interactively 'occur))
+
+
 ;; automatically indents yanked (inserted/pasted) content
 (dolist (command '(yank yank-pop))
   (eval `(defadvice ,command (after indent-region activate)
@@ -405,7 +422,7 @@ point reaches the beginning or end of the buffer, stop there."
 (gsk 'align-regexp "M-&")
 
 ;; search for all matches of a given regex, list results
-(gsk 'occur "C-c C-o")
+(gsk 'occur-dwim "C-c C-o")
 
 ;; rgrep is grep for emacs
 (gsk 'rgrep "C-c C-g")
