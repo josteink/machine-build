@@ -33,6 +33,8 @@
         powershell-mode
         web-mode
         auto-complete
+        git-commit-mode
+        git-rebase-mode
         ))
 
 (dolist (package package-list)
