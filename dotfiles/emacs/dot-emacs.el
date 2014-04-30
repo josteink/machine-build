@@ -35,6 +35,7 @@
         auto-complete
         git-commit-mode
         git-rebase-mode
+        magit ;; this DOES require the above two git-modse
         ))
 
 (dolist (package package-list)
@@ -140,6 +141,9 @@
 (defun is-not-whitespace-language-p ()
   (not (derived-mode-p 'python-mode)))
 
+(defun is-lisp-p ()
+  (derived-mode-p 'emacs-lisp-mode 'clojure-mode 'scheme-mode))
+
 (defun indent-whole-buffer ()
   "indent whole buffer and untabify it"
   (interactive)
@@ -147,16 +151,16 @@
   (indent-region (point-min) (point-max) nil)
   (untabify (point-min) (point-max)))
 
-(defun indent-and-save ()
-  (if (and (buffer-file-name) (is-not-whitespace-language-p))
-      (indent-whole-buffer))
-  (save-buffer))
+;; (defun indent-and-save ()
+;;   (if (and (buffer-file-name) (is-not-whitespace-language-p))
+;;       (indent-whole-buffer))
+;;   (save-buffer))
 
-(defun indent-file-when-save ()
-  "indent file when save."
-  (make-local-variable 'after-save-hook)
-  (add-hook 'after-save-hook
-            'indent-and-save))
+;; (defun indent-file-when-save ()
+;;   "indent file when save."
+;;   (make-local-variable 'after-save-hook)
+;;   (add-hook 'after-save-hook
+;;             'indent-and-save))
 
 ;; utility-function for other functions
 (defun region-str-or-symbol ()
@@ -429,6 +433,8 @@ point reaches the beginning or end of the buffer, stop there."
 ;; rgrep is grep for emacs
 (gsk 'rgrep "C-c C-g")
 
+(gsk 'magit-status "C-x v g")
+
 ;; general text-completion. enable everywhere.
 ;; improve it with this setup here:
 ;; http://ianeslick.com/2013/05/17/clojure-debugging-13-emacs-nrepl-and-ritz/
@@ -593,7 +599,7 @@ point reaches the beginning or end of the buffer, stop there."
 
   ;; formatting matters in programming files, but python is a silly
   ;; language which cares about white-space.
-  (when (is-not-whitespace-language-p)
+  (when (is-lisp-p)
     (lsk 'indent-whole-buffer "C-i")))
 
 (add-hook 'prog-mode-hook 'my-prog-mode-hook)
