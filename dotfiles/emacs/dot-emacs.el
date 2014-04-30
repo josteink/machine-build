@@ -494,7 +494,6 @@ point reaches the beginning or end of the buffer, stop there."
 
 ;; elisp
 (defun my-emacs-lisp-mode-hook ()
-  (indent-file-when-save)
   (paredit-mode)
 
   ;; enable imenu sections by ;;;;
