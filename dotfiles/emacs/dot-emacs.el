@@ -148,8 +148,8 @@
   (untabify (point-min) (point-max)))
 
 (defun indent-and-save ()
-  (if (and (buffer-file-name) (is-not-whitespace-language-p))
-      (indent-whole-buffer))
+  ;; (if (and (buffer-file-name) (is-not-whitespace-language-p))
+  ;;     (indent-whole-buffer))
   (save-buffer))
 
 (defun indent-file-when-save ()
