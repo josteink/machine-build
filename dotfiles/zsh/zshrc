@@ -76,3 +76,8 @@ bindkey '^[[B' history-substring-search-down
 
 # useful aliases
 alias rgrep "grep -R '$*' \*"
+
+# provides useful completions, like for LXC
+fpath=($fpath $HOME/.zsh.comp.d)
+autoload -U compinit
+compinit
