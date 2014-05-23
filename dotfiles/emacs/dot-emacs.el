@@ -10,7 +10,9 @@
 (when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 
 ;; setup repositories
+(add-to-list 'load-path "~/.emacs.d/local/") ;; emacs23 + package.el on debian
 (require 'package)
+
 (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
 (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
 (package-initialize)
@@ -336,7 +338,9 @@ point reaches the beginning or end of the buffer, stop there."
 (defun fkt (func target keys)
   "Sets up multiple keybindings for one function."
   (dolist (key keys)
-    (funcall func (kbd key) target)))
+    ;; dont call KBD directly. that's going to fail, at least in emacs23
+    ;; ref http://stackoverflow.com/questions/7549628/whats-wrong-with-the-following-unbind-script
+    (funcall func (read-kbd-macro key) target)))
 
 (defun lsk (target &rest keys)
   "Sets up a keymap local keybinding for target with all keys provided."
