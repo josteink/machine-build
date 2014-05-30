@@ -77,7 +77,8 @@
 
 
 ;; its annoying always having to say "yes" to close client-opened files
-(remove-hook 'kill-buffer-query-functions 'server-kill-buffer-query-function)
+(eval-after-load "server"
+  '(remove-hook 'kill-buffer-query-functions 'server-kill-buffer-query-function))
 
 ;; do not require files to end in \n
 (setq require-final-newline nil)
