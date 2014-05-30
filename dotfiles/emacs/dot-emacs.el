@@ -69,6 +69,7 @@
 (add-to-list 'auto-mode-alist '("\.md$" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\.config$" . xml-mode))
 (add-to-list 'auto-mode-alist '("\.ps$" . powershell-mode))
+(add-to-list 'auto-mode-alist '("\.ps1$" . powershell-mode))
 
 (add-to-list 'auto-mode-alist '("\.css$" . web-mode))
 (add-to-list 'auto-mode-alist '("\.html$" . web-mode))
