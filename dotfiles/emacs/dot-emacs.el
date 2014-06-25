@@ -637,8 +637,14 @@ point reaches the beginning or end of the buffer, stop there."
 
   ;; minimize/maximize windows as normally
   (gsk 'w32-minimize-frame "M-SPC n" "M-SPC M-n")
-  (gsk 'w32-maximize-frame "M-SPC x" "M-SPC M-x"))
+  (gsk 'w32-maximize-frame "M-SPC x" "M-SPC M-x")
 
+  ;; set alternate path for diff-tool because windows does not come
+  ;; with diff.exe preshipped.
+  ;; required for ediff.
+  ;; see more: http://stackoverflow.com/questions/7423921/how-can-i-use-ediff-under-windows-ntemacs
+  (setq ediff-diff-program "C:\\cygwin64\\bin\\diff.exe")
+  (setq ediff-diff3-program "C:\\cygwin64\\bin\\diff3.exe"))
 
 ;;;; UNIX ONLY CUSTOMIZATIONS
 
