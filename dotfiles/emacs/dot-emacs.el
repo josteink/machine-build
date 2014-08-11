@@ -210,6 +210,7 @@
 
 (global-set-key (kbd "C-c e") 'eval-and-replace)
 
+
 ;; make home/ctrl-a move to beginning of indentation level.
 ;; from http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginning-of-a-line/
 (defun smarter-move-beginning-of-line (arg)
@@ -405,8 +406,12 @@ point reaches the beginning or end of the buffer, stop there."
 ;;;; GLOBAL KEYBOARD DEFINITIONS
 
 
+
 ;; dont freeze emacs on ctrl-z
 (global-unset-key (kbd "C-z"))
+
+;; to be able to select text in stumpwm
+(gsk 'set-mark-command "C-|")
 
 ;; we know these ones from everywhere else
 (gsk 'undo         "C-z")
@@ -495,6 +500,11 @@ point reaches the beginning or end of the buffer, stop there."
   (setq imenu-prev-index-position-function nil)
   (add-to-list 'imenu-generic-expression '("Sections" "^;;;; \\(.+\\)$" 1) t))
 (add-hook 'emacs-lisp-mode-hook 'my-emacs-lisp-mode-hook)
+
+;; common lisp
+(defun my-lisp-mode-hook ()
+  (paredit-mode))
+(add-hook 'lisp-mode-hook 'my-lisp-mode-hook)
 
 ;; paredit
 (defun my-paredit-mode-hook ()
