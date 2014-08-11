@@ -56,9 +56,16 @@
 ;; so we can use emacsclient from other terminals
 ;; but dont start server if it already exists
 (require 'server)
-(if (and (fboundp 'server-running-p)
-         (not (server-running-p)))
-    (server-start))
+
+(defun server-load-hook ()
+  (if (and (fboundp 'server-running-p)
+	   (not (server-running-p)))
+      (server-start))
+  ;; its annoying always having to say "yes" to close client-opened files
+  (remove-hook 'kill-buffer-query-functions 'server-kill-buffer-query-function))
+
+(eval-after-load "server"
+  '(server-load-hook))
 
 
 ;;;; NON-DEFAULT FILE MAPPINGS
@@ -77,11 +84,6 @@
 
 
 ;;;; GLOBAL DEFAULT OVERRIDES
-
-
-;; its annoying always having to say "yes" to close client-opened files
-(eval-after-load "server"
-  '(remove-hook 'kill-buffer-query-functions 'server-kill-buffer-query-function))
 
 ;; do not require files to end in \n
 (setq require-final-newline nil)
@@ -647,8 +649,14 @@ point reaches the beginning or end of the buffer, stop there."
 
   ;; minimize/maximize windows as normally
   (gsk 'w32-minimize-frame "M-SPC n" "M-SPC M-n")
-  (gsk 'w32-maximize-frame "M-SPC x" "M-SPC M-x"))
+  (gsk 'w32-maximize-frame "M-SPC x" "M-SPC M-x")
 
+  ;; set alternate path for diff-tool because windows does not come
+  ;; with diff.exe preshipped.
+  ;; required for ediff.
+  ;; see more: http://stackoverflow.com/questions/7423921/how-can-i-use-ediff-under-windows-ntemacs
+  (setq ediff-diff-program "C:\\cygwin64\\bin\\diff.exe")
+  (setq ediff-diff3-program "C:\\cygwin64\\bin\\diff3.exe"))
 
 ;;;; UNIX ONLY CUSTOMIZATIONS
 
