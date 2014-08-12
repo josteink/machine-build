@@ -10,6 +10,7 @@
         (run-shell-command "stalonetray")
         ;;(run-shell-command "nm-applet --sm-disable")
         (run-shell-command "xscreensaver &")
+	(run-shell-command "dropbox start")
         (setq *x-setup-initialized* t))))
 
 
@@ -57,8 +58,6 @@
 ;;(define-key *top-map* (kbd "XF86AudioRaiseVolume") "raise-volume")
 ;;(define-key *top-map* (kbd "XF86AudioLowerVolume") "lower-volume")
 ;;(define-key *top-map* (kbd "XF86AudioMute") "toggle-mute-volume")
-
-;;keybindings
 (define-key *top-map* (kbd "M-Tab") "pull-hidden-next")
 (define-key *top-map* (kbd "s-Tab") "fnext")
 
@@ -70,3 +69,19 @@
 ;; (run-shell-command "setxkbmap -option ctrl:swapcaps")
 
 (setq *window-format* "%n%s%80t [%20c]")
+
+
+;; TODO: add things for
+;; -- Command: gnext
+;; Cycle to the next group in the group list.
+
+;; -- Command: gprev
+;; Cycle to the previous group in the group list.
+
+;; -- Command: gnext-with-window
+;; Cycle to the next group in the group list, taking the current
+;; window along.
+
+;; -- Command: gprev-with-window
+;; Cycle to the previous group in the group list, taking the current
+;; window along.
