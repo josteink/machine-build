@@ -1,0 +1,7 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=StumpWM
+Comment=This session logs you into StumpWM (a minimalistic window manager)
+Exec=/usr/bin/stumpwm
+Icon=
+Type=Application
