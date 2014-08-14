@@ -569,8 +569,8 @@ point reaches the beginning or end of the buffer, stop there."
   ;; keybindings
 
   ;; not C-k C-c & C-k C-t because C-k is kill-line in emacs
-  (lsk 'comment-or-uncomment-region      "C-c C-c")
-  (lsk 'uncomment-region    "C-c C-u")
+  (lsk 'comment-or-uncomment-region  "C-;")
+  (lsk 'uncomment-region             "C-:")
 
   ;; code - navigate to definition
   (lsk 'ido-imenu "<f12>")
@@ -724,3 +724,7 @@ point reaches the beginning or end of the buffer, stop there."
          (eq system-type 'gnu/linux))
     (my-x-mode-hook)
   'nothing)
+
+;; StumpWM/Common-lisp related stuff
+(load (expand-file-name "~/quicklisp/slime-helper.el"))
+(setq inferior-lisp-program "sbcl")
