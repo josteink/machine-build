@@ -72,8 +72,10 @@
 (x-setup-once)
 
 ;; my hotkeys  (more info on http://stumpwm.svkt.org/cgi-bin/wiki.pl)
+
+(set-prefix-key (kbd "C-y")) ;; whatever which ISNT C-t.
+
 (define-key *root-map* (kbd "DEL") "quit")
-(define-key *root-map* (kbd "L") "screen-saver")
 (define-key *top-map* (kbd "C-M-l") "screen-saver") ;; like unity/ubuntu
 (define-key *root-map* (kbd "M-s") "spotify")
 (define-key *root-map* (kbd "d") "firefox")
