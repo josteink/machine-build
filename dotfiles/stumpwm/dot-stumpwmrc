@@ -39,6 +39,15 @@
 
 	  (sb-posix:setenv (car env-var) (cadr env-var) 1))))))
 
+(defun setup-groups ()
+  ;; setup groups properly
+  (with-generator (i 1 12)
+    (run-commands
+     (append-int "gnewbg Workspace" i)))
+  (run-commands
+   "gkill default"
+   "gselect Workspace1"))
+
 ;; basic stuff
 (defun x-setup-once ()
   (defvar *x-setup-initialized*)
@@ -55,7 +64,7 @@
         ;;(run-shell-command (concatenate 'string "xsetbg -border black -center " home "/Pictures/stumpwm_wallpaper.jpg"))
         (run-shell-command "emacs")
 	(setup-gnome-keyring)
-        )))
+	(setup-groups))))
 
 ;; custom stumpwm-commands
 
@@ -115,10 +124,10 @@
       (define-key *top-map* (kbd key) cmd))))
 
 ;; s-F1 -> gselect 1
-(i3-combinator "s-F" "gselect ")
+(i3-combinator "s-F" "gselect Workspace")
 
 ;; S-s-F1 -> gmove 1
-(i3-combinator "S-s-F" "gmove ")
+(i3-combinator "S-s-F" "gmove Workspace")
 
 (define-key *top-map* (kbd "s-Right") "move-focus right")
 (define-key *top-map* (kbd "s-Left")  "move-focus left")
