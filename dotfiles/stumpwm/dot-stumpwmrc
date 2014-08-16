@@ -73,7 +73,7 @@
 
 ;; my hotkeys  (more info on http://stumpwm.svkt.org/cgi-bin/wiki.pl)
 
-(set-prefix-key (kbd "C-y")) ;; whatever which ISNT C-t.
+(set-prefix-key (kbd "s-t")) ;; whatever which ISNT C-t.
 
 (define-key *root-map* (kbd "DEL") "quit")
 (define-key *top-map* (kbd "C-M-l") "screen-saver") ;; like unity/ubuntu
@@ -87,7 +87,7 @@
 ;;(define-key *top-map* (kbd "XF86AudioMute") "toggle-mute-volume")
 
 ;; goodies for tweakers
-(define-key *root-map* (kbd "C-r") "loadrc")
+(define-key *root-map* (kbd "s-r") "loadrc")
 
 ;; i3-like workspace navigation
 
@@ -115,6 +115,9 @@
 (define-key *top-map* (kbd "C-s-S-Left") "gprev-with-window")
 
 (define-key *top-map* (kbd "s-r") "iresize")
+(define-key *top-map* (kbd "s-S") "vsplit")
+(define-key *top-map* (kbd "s-s") "hsplit")
+(define-key *top-map* (kbd "s-q") "only")
 
 ;; TODO: autocreate work-spaces
 
