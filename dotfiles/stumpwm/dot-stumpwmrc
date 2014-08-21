@@ -61,6 +61,9 @@
         (run-shell-command "dropbox start")
         (setq *x-setup-initialized* t)
 
+	;; activate mode-line
+	(run-commands "mode-line")
+
         ;; startup stuff - safe to do this multiple times
         ;;(run-shell-command (concatenate 'string "xsetbg -border black -center " home "/Pictures/stumpwm_wallpaper.jpg"))
         (run-shell-command "emacs")
