@@ -130,6 +130,10 @@
 ;; S-s-F1 -> gmove 1
 (i3-combinator "S-s-F" "gmove Workspace")
 
+(i3-combinator "s-" "select-window-by-number ")
+;; manully patch 0 which isnt 10.
+(define-key *top-map* (kbd "s-0") "select-window-by-number 0")
+
 (define-key *top-map* (kbd "s-Right") "move-focus right")
 (define-key *top-map* (kbd "s-Left")  "move-focus left")
 (define-key *top-map* (kbd "s-Up")    "move-focus up")
