@@ -80,7 +80,7 @@
 (defmacro deflauncher (name)
   (list 'defcommand (intern name) '() '()
 	(concatenate 'string "Start " name " unless it is already running, in which case focus it.")
-	(list 'run-or-raise name (list ':class name))))
+	(list 'run-or-raise name (list 'list :class name))))
 
 ;; for debugging/fooling around - doesnt work yet.
 (ql:quickload :swank)
@@ -110,7 +110,7 @@
 (deflauncher "firefox")
 (define-key *top-map* (kbd "s-d") "firefox")
 (deflauncher "nautilus")
-(define-key *top-map* (kbd "s-d") "nautilus")
+(define-key *top-map* (kbd "s-n") "nautilus")
 (deflauncher "spotify")
 (define-key *top-map* (kbd "s-s") "spotify")
 
