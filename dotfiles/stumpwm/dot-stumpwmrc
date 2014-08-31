@@ -153,9 +153,6 @@
 (define-key *top-map* (kbd "s-s") "hsplit")
 (define-key *top-map* (kbd "s-q") "only")
 
-;; TODO: autocreate work-spaces
-
-
 ;; swap CAPS and CTRL
 ;; (run-shell-command "setxkbmap -option ctrl:swapcaps")
 
@@ -171,3 +168,4 @@
 ;;             '(:eval (run-shell-command "date" t))))
 
 ;; (setf *mode-line-position* :bottom)
+
