@@ -38,6 +38,7 @@
         git-commit-mode
         git-rebase-mode
         magit ;; this DOES require the above two git-modse
+	elisp-slime-nav-mode
         ))
 
 (dolist (package package-list)
@@ -500,8 +501,13 @@ point reaches the beginning or end of the buffer, stop there."
 
   ;; enable imenu sections by ;;;;
   (setq imenu-prev-index-position-function nil)
-  (add-to-list 'imenu-generic-expression '("Sections" "^;;;; \\(.+\\)$" 1) t))
+  (add-to-list 'imenu-generic-expression '("Sections" "^;;;; \\(.+\\)$" 1) t)
+
+  ;; enable intelligent navifation with M-, and M-.
+  (elisp-slime-nav-mode))
+
 (add-hook 'emacs-lisp-mode-hook 'my-emacs-lisp-mode-hook)
+(add-hook 'ielm-lisp-mode-hook 'my-emacs-lisp-mode-hook)
 
 ;; common lisp
 (defun my-lisp-mode-hook ()
