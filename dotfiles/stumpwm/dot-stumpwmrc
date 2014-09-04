@@ -107,6 +107,8 @@
 (define-key *top-map* (kbd "s-Tab") "fnext")
 (define-key *root-map* (kbd "s-r") "loadrc")
 
+(deflauncher "emacs")
+(define-key *top-map* (kbd "s-e") "emacs")
 (deflauncher "firefox")
 (define-key *top-map* (kbd "s-d") "firefox")
 (deflauncher "nautilus")
