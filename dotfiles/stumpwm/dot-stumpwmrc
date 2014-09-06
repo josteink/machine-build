@@ -142,7 +142,7 @@
 
 ;; C-s-1-0 -> pull 1-0
 (i3-combinator "C-s-" "pull ")
-(define-key *top-map* (kbd "S-s-0") "pull 0")
+(define-key *top-map* (kbd "C-s-0") "pull 0")
 
 (define-key *top-map* (kbd "s-Right") "move-focus right")
 (define-key *top-map* (kbd "s-Left")  "move-focus left")
@@ -158,6 +158,7 @@
 (define-key *top-map* (kbd "s-r") "iresize")
 (define-key *top-map* (kbd "s-S") "vsplit")
 (define-key *top-map* (kbd "s-s") "hsplit")
+(define-key *top-map* (kbd "C-s-s") "remove")
 (define-key *top-map* (kbd "s-q") "only")
 
 ;; swap CAPS and CTRL
