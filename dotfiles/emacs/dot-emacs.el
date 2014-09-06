@@ -38,7 +38,7 @@
         git-commit-mode
         git-rebase-mode
         magit ;; this DOES require the above two git-modse
-	elisp-slime-nav-mode
+	elisp-slime-nav
         ))
 
 (dolist (package package-list)
