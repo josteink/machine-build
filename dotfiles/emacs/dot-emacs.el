@@ -38,7 +38,7 @@
         git-commit-mode
         git-rebase-mode
         magit ;; this DOES require the above two git-modse
-	elisp-slime-nav-mode
+	elisp-slime-nav
         ))
 
 (dolist (package package-list)
@@ -54,10 +54,6 @@
 ;;;; DAEMONIZE
 
 
-;; so we can use emacsclient from other terminals
-;; but dont start server if it already exists
-(require 'server)
-
 (defun server-load-hook ()
   (if (and (fboundp 'server-running-p)
 	   (not (server-running-p)))
@@ -67,6 +63,11 @@
 
 (eval-after-load "server"
   '(server-load-hook))
+
+;; so we can use emacsclient from other terminals
+;; but dont start server if it already exists
+(require 'server)
+
 
 
 ;;;; NON-DEFAULT FILE MAPPINGS
@@ -674,7 +675,11 @@ point reaches the beginning or end of the buffer, stop there."
     "Find file as root if necessary."
     (unless (and buffer-file-name
                  (file-writable-p buffer-file-name))
-      (find-alternate-file (concat "/sudo::" buffer-file-name)))))
+      (find-alternate-file (concat "/sudo::" buffer-file-name))))
+
+  ;; StumpWM/Common-lisp related stuff
+  (load (expand-file-name "~/quicklisp/slime-helper.el"))
+  (setq inferior-lisp-program "sbcl"))
 
 (if (eq system-type 'windows-nt)
     (my-windows-mode-hook)
@@ -730,7 +735,3 @@ point reaches the beginning or end of the buffer, stop there."
          (eq system-type 'gnu/linux))
     (my-x-mode-hook)
   'nothing)
-
-;; StumpWM/Common-lisp related stuff
-(load (expand-file-name "~/quicklisp/slime-helper.el"))
-(setq inferior-lisp-program "sbcl")
