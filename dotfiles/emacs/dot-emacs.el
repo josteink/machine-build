@@ -29,7 +29,6 @@
         expand-region
         ace-jump-mode
         undo-tree
-        yasnippet
         ido-yes-or-no
         haskell-mode
         powershell-mode
@@ -129,10 +128,6 @@
 
 ;; always follow symlinks to files under source-control. dont ask.
 (setq vc-follow-symlinks t)
-
-;; load all YASnippets, but dont enable global mode.
-(require 'yasnippet)
-(yas-reload-all)
 
 ;; UTF-8 as default encoding. this is required for unix->windows safe dropbox transfers.
 (set-language-environment "UTF-8")
@@ -605,9 +600,6 @@ point reaches the beginning or end of the buffer, stop there."
   ;; C-c p f - search for any file in your lein/git/etc project
   ;; more docs and bindings here: https://github.com/bbatsov/projectile
   (projectile-mode)
-
-  ;; yasnippet
-  (yas-minor-mode)
 
   ;; formatting matters in programming files, but python is a silly
   ;; language which cares about white-space.
