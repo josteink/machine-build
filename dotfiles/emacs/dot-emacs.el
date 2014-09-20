@@ -409,8 +409,8 @@ point reaches the beginning or end of the buffer, stop there."
 ;; dont freeze emacs on ctrl-z
 (global-unset-key (kbd "C-z"))
 
-;; to be able to select text in stumpwm
-(gsk 'set-mark-command "C-|")
+;; if C-SPC doesn't work in X, it can be because ibus is "stealing" it.
+;; reconfigure ibus with ibus-setup.
 
 ;; we know these ones from everywhere else
 (gsk 'undo         "C-z")
