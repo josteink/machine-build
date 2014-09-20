@@ -507,6 +507,9 @@ point reaches the beginning or end of the buffer, stop there."
 
 ;; common lisp
 (defun my-lisp-mode-hook ()
+  ;; we know this one from VS :)
+  ;; we can also check symbols in slime with M-.
+  (lsk "<f5>" 'slime)
   (paredit-mode))
 (add-hook 'lisp-mode-hook 'my-lisp-mode-hook)
 

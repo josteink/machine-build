@@ -1,3 +1,4 @@
+
 ;; Hey, Emacs! This is a -*- lisp -*- file!
 (in-package :stumpwm)
 
@@ -82,11 +83,13 @@
 	(concatenate 'string "Start " name " unless it is already running, in which case focus it.")
 	(list 'run-or-raise name (list 'list :class name))))
 
-;; for debugging/fooling around - doesnt work yet.
+;; explicitly require swank. just in case.
 (ql:quickload :swank)
+(ql:quickload "quicklisp-slime-helper")
+(swank-loader:init)
 (defcommand swank () ()
             (swank:create-server :port 4005
-                                 :style swank:*communication-style*
+;;                                 :style swank:*communication-style*
                                  :dont-close t)
             (echo-string (current-screen)
                          "Starting swank. M-x slime-connect RET RET, then (in-package stumpwm)."))
@@ -139,7 +142,7 @@
 (i3-combinator "s-F" "gselect Workspace")
 
 ;; S-s-F1 -> gmove 1
-(i3-combinator "S-s-F" "gmove Workspace")
+(i3-combinator "S-s-F" "gmove-and-follow Workspace")
 ;; TODO: make gmove + gselect
 
 ;; s-1-0 -> select 1-0
@@ -190,3 +193,28 @@
 	       "C-0" "C-1" "C-2" "C-3" "C-4" "C-5" "C-6" "C-7" "C-8" "C-9"
 	       "F1" "F2" "F3" "F4" "F5" "F6" "F7" "F8" "F9" "F10"))
   (undefine-key *root-map* (kbd key)))
+
+;; setup volume control key bindings
+(defcommand volume-up () ()
+	    "Increases master volume by 5 percent."
+	    (let ((result (run-shell-command "amixer sset Master 5%+" t)))
+	      (cl-ppcre:register-groups-bind (pct) ("\\[(\\d+)%\\]" result)
+					     (message "~a%" pct))))
+(define-key *top-map* (kbd "XF86AudioRaiseVolume") "volume-up")
+
+(defcommand volume-down () ()
+	    "Increases master volume by 5 percent."
+	    (let ((result (run-shell-command "amixer sset Master 5%-" t)))
+	      (cl-ppcre:register-groups-bind (pct) ("\\[(\\d+)%\\]" result)
+					     (message "~a%" pct))))
+(define-key *top-map* (kbd "XF86AudioLowerVolume") "volume-down")
+
+(defcommand volume-mute-toggle () ()
+	    "Mutes/Unmutes the master volume."
+	    (let ((result (run-shell-command "amixer sset Master toggle" t)))
+	      (cl-ppcre:register-groups-bind (state) ("\\[(on|off)\\]" result)
+					     (if (equalp state "off")
+						 (message "muted.")
+						 (message "unmuted.")))))
+(define-key *top-map* (kbd "XF86AudioMute") "volume-mute-toggle")
+
