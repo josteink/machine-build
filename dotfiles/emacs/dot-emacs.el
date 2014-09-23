@@ -416,6 +416,10 @@ point reaches the beginning or end of the buffer, stop there."
 (gsk 'undo         "C-z")
 (gsk 'other-window "<C-tab>")
 
+;; C-x k is bound to kill, but C-x C-k is bound to nothing
+;; we hit this all the time, so bind it.
+(gsk 'ido-kill-buffer "C-x C-k")
+
 ;; make meta-j join the following line with the current one
 (gsk 'my-join-line-with-next "M-j")
 
