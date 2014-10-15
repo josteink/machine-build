@@ -6,6 +6,12 @@
 (load "~/quicklisp/setup.lisp")
 (ql:quickload "sb-posix")
 
+(set-contrib-dir "~/build/stumpwm-contrib")
+
+;; load tray-dependencies!
+(ql:quickload :xembed) ;; required for tray
+;;(load-module "stumptray")
+
 ;; utility functions
 
 (defun generate (from to &optional (by 1))
@@ -65,6 +71,9 @@
 	;; activate mode-line
 	(run-commands "mode-line")
 
+	;; activate tray
+	;;(stumptray)
+
         ;; startup stuff - safe to do this multiple times
         ;;(run-shell-command (concatenate 'string "xsetbg -border black -center " home "/Pictures/stumpwm_wallpaper.jpg"))
         (run-shell-command "emacs")
@@ -89,11 +98,10 @@
 (swank-loader:init)
 (defcommand swank () ()
             (swank:create-server :port 4005
-;;                                 :style swank:*communication-style*
                                  :dont-close t)
             (echo-string (current-screen)
                          "Starting swank. M-x slime-connect RET RET, then (in-package stumpwm)."))
-;;(swank)
+(swank)
 
 
 ;; X setup
@@ -105,7 +113,7 @@
 
 (define-key *root-map* (kbd "DEL") "quit")
 (define-key *top-map* (kbd "C-M-l") "screen-saver") ;; like unity/ubuntu
-(define-key *top-map* (kbd "s-RET") "exec x-terminal-emulator")
+(define-key *top-map* (kbd "s-RET") "exec gnome-terminal --hide-menubar")
 (define-key *top-map* (kbd "M-Tab") "pull-hidden-next")
 (define-key *top-map* (kbd "s-Tab") "fnext")
 (define-key *root-map* (kbd "s-r") "loadrc")
