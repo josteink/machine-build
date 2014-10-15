@@ -38,6 +38,7 @@
         git-rebase-mode
         magit ;; this DOES require the above two git-modse
 	elisp-slime-nav
+	macrostep
         ))
 
 (dolist (package package-list)
@@ -735,11 +736,13 @@ point reaches the beginning or end of the buffer, stop there."
   'nothing)
 
 (defun my-x-mode-hook ()
-  (define-key key-translation-map [dead-grave] (lookup-key key-translation-map "\C-x8`"))
-  (define-key key-translation-map [dead-acute] (lookup-key key-translation-map "\C-x8'"))
-  (define-key key-translation-map [dead-circumflex] (lookup-key key-translation-map "\C-x8^"))
-  (define-key key-translation-map [dead-diaeresis] (lookup-key key-translation-map "\C-x8\""))
-  (define-key key-translation-map [dead-tilde] (lookup-key key-translation-map "\C-x8~"))
+  ;; make keys act immediately
+  ;; http://unix.stackexchange.com/questions/28170/some-keys-are-invalid-on-emacs-when-using-german-keyboard
+  (define-key key-translation-map [dead-grave] "`")
+  (define-key key-translation-map [dead-acute] "'")
+  (define-key key-translation-map [dead-circumflex] "^")
+  (define-key key-translation-map [dead-diaeresis] "\"")
+  (define-key key-translation-map [dead-tilde] "~")
   (define-key isearch-mode-map [dead-grave] nil)
   (define-key isearch-mode-map [dead-acute] nil)
   (define-key isearch-mode-map [dead-circumflex] nil)
