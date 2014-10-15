@@ -53,20 +53,23 @@
 ;;;; DAEMONIZE
 
 
+(eval-after-load "server"
+  '(server-load-hook))
+
 (defun server-load-hook ()
   (if (and (fboundp 'server-running-p)
-	   (not (server-running-p)))
+	   (not (eq (server-running-p) t)))
       (server-start))
   ;; its annoying always having to say "yes" to close client-opened files
   (remove-hook 'kill-buffer-query-functions 'server-kill-buffer-query-function))
 
-(eval-after-load "server"
-  '(server-load-hook))
 
 ;; so we can use emacsclient from other terminals
 ;; but dont start server if it already exists
 (require 'server)
 
+;; just in case.
+(server-load-hook)
 
 
 ;;;; NON-DEFAULT FILE MAPPINGS
