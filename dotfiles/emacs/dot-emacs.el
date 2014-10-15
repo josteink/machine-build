@@ -100,6 +100,9 @@
 ;; set all search to case insensitive
 (setq case-fold-search t)
 
+;; ensure all occur-buffers have unique names (to enable multple ones)
+(add-hook 'occur-hook 'occur-rename-buffer)
+
 (defun make-scripts-executable ()
   "Makes scripts selectively executable"
   (if (not (derived-mode-p 'python-mode))
