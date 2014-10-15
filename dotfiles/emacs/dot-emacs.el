@@ -33,7 +33,7 @@
         haskell-mode
         powershell-mode
         web-mode
-        auto-complete
+	company
         git-commit-mode
         git-rebase-mode
         magit ;; this DOES require the above two git-modse
@@ -606,7 +606,7 @@ point reaches the beginning or end of the buffer, stop there."
   (lsk 'pop-global-mark "C--")
 
   ;; auto-complete is a must
-  (auto-complete-mode 1)
+  (company-mode 1)
 
   ;; settings
   ;; ensure we have line-numbers in all code-files
