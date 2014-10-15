@@ -55,7 +55,7 @@
 
 (defun server-load-hook ()
   (if (and (fboundp 'server-running-p)
-	   (not (server-running-p)))
+	   (not (eq (server-running-p) t)))
       (server-start))
   ;; its annoying always having to say "yes" to close client-opened files
   (remove-hook 'kill-buffer-query-functions 'server-kill-buffer-query-function))
@@ -66,7 +66,6 @@
 ;; so we can use emacsclient from other terminals
 ;; but dont start server if it already exists
 (require 'server)
-
 
 
 ;;;; NON-DEFAULT FILE MAPPINGS
@@ -97,6 +96,12 @@
 ;; pending-delete-mode means that when a region is selected and you
 ;; type, the contents of that region will be overwritten.
 (pending-delete-mode 1)
+
+;; set all search to case insensitive
+(setq case-fold-search t)
+
+;; ensure all occur-buffers have unique names (to enable multple ones)
+(add-hook 'occur-hook 'occur-rename-buffer)
 
 (defun make-scripts-executable ()
   "Makes scripts selectively executable"
@@ -169,6 +174,18 @@
   (interactive)
   (push (region-str-or-symbol) regexp-history)
   (call-interactively 'occur))
+
+
+;; automatically handle DOS EOL and silence it
+(defun my-find-file-hook ()
+  (interactive)
+  ;; will contain ^M if dos-eol is active
+  (setq file-line (thing-at-point 'line))
+  (setq file-line-match (string-match-p (regexp-quote "^M") file-line))
+
+  (if (not (eq :nil file-line-match))
+      (remove-dos-eol)))
+(add-hook 'find-file-hook 'my-find-file-hook)
 
 
 ;; automatically indents yanked (inserted/pasted) content
