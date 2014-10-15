@@ -173,6 +173,18 @@
   (call-interactively 'occur))
 
 
+;; automatically handle DOS EOL and silence it
+(defun my-find-file-hook ()
+  (interactive)
+  ;; will contain ^M if dos-eol is active
+  (setq file-line (thing-at-point 'line))
+  (setq file-line-match (string-match-p (regexp-quote "^M") file-line))
+
+  (if (not (eq :nil file-line-match))
+      (remove-dos-eol)))
+(add-hook 'find-file-hook 'my-find-file-hook)
+
+
 ;; automatically indents yanked (inserted/pasted) content
 (dolist (command '(yank yank-pop))
   (eval `(defadvice ,command (after indent-region activate)
