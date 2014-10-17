@@ -695,8 +695,11 @@ point reaches the beginning or end of the buffer, stop there."
       (find-alternate-file (concat "/sudo::" buffer-file-name))))
 
   ;; StumpWM/Common-lisp related stuff
-  (load (expand-file-name "~/quicklisp/slime-helper.el"))
-  (setq inferior-lisp-program "sbcl"))
+  (let ((file-name (expand-file-name "~/quicklisp/slime-helper.el")))
+    (when (file-exists-p file-name)
+      (progn
+	(load file-name)
+	(setq inferior-lisp-program "sbcl")))))
 
 (if (eq system-type 'windows-nt)
     (my-windows-mode-hook)
