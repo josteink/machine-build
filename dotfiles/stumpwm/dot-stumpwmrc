@@ -87,10 +87,12 @@
             (run-shell-command
              "gnome-screensaver-command -l"))
 
-(defmacro deflauncher (name)
-  (list 'defcommand (intern name) '() '()
-	(concatenate 'string "Start " name " unless it is already running, in which case focus it.")
-	(list 'run-or-raise name (list 'list :class name))))
+(defmacro deflauncher (name map key)
+  `(progn
+     (defcommand ,(intern name) () ()
+       ,(concatenate 'string "Start " name " unless it is already running, in which case focus it.")
+       (run-or-raise ,name '(:class ,name)))
+     (define-key ,map (kbd ,key) ,name)))
 
 ;; explicitly require swank. just in case.
 (ql:quickload :swank)
@@ -118,20 +120,14 @@
 (define-key *top-map* (kbd "s-Tab") "fnext")
 (define-key *root-map* (kbd "s-r") "loadrc")
 
-(deflauncher "emacs")
-(define-key *top-map* (kbd "s-e") "emacs")
-(deflauncher "firefox")
-(define-key *top-map* (kbd "s-d") "firefox")
-(deflauncher "nautilus")
-(define-key *top-map* (kbd "s-n") "nautilus")
-(deflauncher "spotify")
-(define-key *top-map* (kbd "s-s") "spotify")
+(deflauncher "emacs" *top-map* "s-e")
+(deflauncher "firefox" *top-map* "s-d")
+(deflauncher "nautilus" *top-map* "s-n")
+(deflauncher "spotify" *top-map* "s-s")
 
 ;; audio stuff
-(deflauncher "pavucontrol")
-(define-key *root-map* (kbd "s-v") "pavucontrol")
-(deflauncher "paprefs")
-(define-key *root-map* (kbd "s-d") "paprefs")
+(deflauncher "pavucontrol" *root-map* "s-v")
+(deflauncher "paprefs" *root-map* "s-d")
 
 
 ;;(define-key *top-map* (kbd "XF86AudioRaiseVolume") "raise-volume")
