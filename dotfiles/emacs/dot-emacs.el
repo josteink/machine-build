@@ -39,6 +39,7 @@
         magit ;; this DOES require the above two git-modse
 	elisp-slime-nav
 	macrostep
+	color-theme
         ))
 
 (dolist (package package-list)
@@ -750,7 +751,12 @@ point reaches the beginning or end of the buffer, stop there."
   (define-key isearch-mode-map [dead-acute] nil)
   (define-key isearch-mode-map [dead-circumflex] nil)
   (define-key isearch-mode-map [dead-diaeresis] nil)
-  (define-key isearch-mode-map [dead-tilde] nil))
+  (define-key isearch-mode-map [dead-tilde] nil)
+
+  ;; make things look funky and match stump-wm
+  ;;(color-theme-initialize) ;;uncomment to load all themes
+  (require 'color-theme-gruber-darker)
+  (color-theme-gruber-darker))
 
 ;; special workaround for dead keys needed only when running emacs in Linux & X.
 (if (and (display-graphic-p)
