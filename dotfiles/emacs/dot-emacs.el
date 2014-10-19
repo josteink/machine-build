@@ -181,12 +181,14 @@
 ;; automatically handle DOS EOL and silence it
 (defun my-find-file-hook ()
   (interactive)
-  ;; will contain ^M if dos-eol is active
-  (setq file-line (thing-at-point 'line))
-  (setq file-line-match (string-match-p (regexp-quote "^M") file-line))
 
-  (if (not (eq :nil file-line-match))
-      (remove-dos-eol)))
+  (when (file-exists-p (buffer-file-name))
+    (setq file-line (thing-at-point 'line))
+    (setq file-line-match (string-match-p (regexp-quote "^M") file-line))
+
+    ;; will contain ^M if dos-eol is active
+    (if (not (eq :nil file-line-match))
+	(remove-dos-eol))))
 (add-hook 'find-file-hook 'my-find-file-hook)
 
 
@@ -755,6 +757,7 @@ point reaches the beginning or end of the buffer, stop there."
 
   ;; make things look funky and match stump-wm
   ;;(color-theme-initialize) ;;uncomment to load all themes
+  ;; (color-theme-jsc-dark) ;; also a candidate
   (require 'color-theme-gruber-darker)
   (color-theme-gruber-darker))
 
