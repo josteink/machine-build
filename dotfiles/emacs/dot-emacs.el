@@ -33,13 +33,14 @@
         haskell-mode
         powershell-mode
         web-mode
-	company
+        company
+        slime-company ;; if loading fails with recursive load, check if distro-provided slime is installed.
         git-commit-mode
         git-rebase-mode
         magit ;; this DOES require the above two git-modse
-	elisp-slime-nav
-	macrostep
-	color-theme
+        elisp-slime-nav
+        macrostep
+        color-theme
         ))
 
 (dolist (package package-list)
@@ -57,7 +58,7 @@
 
 (defun server-load-hook ()
   (if (and (fboundp 'server-running-p)
-	   (not (eq (server-running-p) t)))
+           (not (eq (server-running-p) t)))
       (server-start))
   ;; its annoying always having to say "yes" to close client-opened files
   (remove-hook 'kill-buffer-query-functions 'server-kill-buffer-query-function))
@@ -188,7 +189,7 @@
 
     ;; will contain ^M if dos-eol is active
     (if (not (eq :nil file-line-match))
-	(remove-dos-eol))))
+        (remove-dos-eol))))
 (add-hook 'find-file-hook 'my-find-file-hook)
 
 
@@ -701,8 +702,11 @@ point reaches the beginning or end of the buffer, stop there."
   (let ((file-name (expand-file-name "~/quicklisp/slime-helper.el")))
     (when (file-exists-p file-name)
       (progn
-	(load file-name)
-	(setq inferior-lisp-program "sbcl")))))
+        (load file-name)
+	(setq inferior-lisp-program "sbcl")
+	(require 'slime-autoloads)
+	(require 'slime-company)
+	(slime-setup '(slime-fancy slime-asdf slime-company))))))
 
 (if (eq system-type 'windows-nt)
     (my-windows-mode-hook)
