@@ -297,6 +297,23 @@ point reaches the beginning or end of the buffer, stop there."
           (rename-file filename new-name t)
           (set-visited-file-name new-name t t)))))))
 
+(require 'imenu)
+(defun imenu-nav-dwim ()
+  "Call `imenu' for the current symbol."
+  (interactive)
+  (ring-insert find-tag-marker-ring (point-marker))
+  (let ((symbol (thing-at-point 'symbol)))
+    (imenu symbol)))
+
+;; copy-pasted from
+;; http://stackoverflow.com/questions/20426160/how-to-pop-local-and-global-marks-with-a-common-keybinding-in-emacs
+(defun pop-local-or-global-mark ()
+  "Pop to local mark if it exists or to the global mark if it does not."
+  (interactive)
+  (if (mark t)
+      (pop-to-mark-command)
+    (pop-global-mark)))
+
 ;; Windows-only window-control functions.
 
 (defun w32-maximize-frame ()
@@ -374,59 +391,11 @@ point reaches the beginning or end of the buffer, stop there."
   "Sets up a global keybinding for target with all keys provided."
   (fkt 'global-set-key target keys))
 
-;; ido-imenu
-;; taken from https://gist.github.com/magnars/2360578
-(require 'imenu)
-(defun ido-imenu ()
-  "Update the imenu index and then use ido to select a symbol to navigate to.
-  Symbols matching the text at point are put first in the completion list."
-  (interactive)
-  (imenu--make-index-alist)
-  (let ((name-and-pos '())
-        (symbol-names '()))
-    (flet ((addsymbols (symbol-list)
-                       (when (listp symbol-list)
-                         (dolist (symbol symbol-list)
-                           (let ((name nil) (position nil))
-                             (cond
-                              ((and (listp symbol) (imenu--subalist-p symbol))
-                               (addsymbols symbol))
-
-                              ((listp symbol)
-                               (setq name (car symbol))
-                               (setq position (cdr symbol)))
-
-                              ((stringp symbol)
-                               (setq name symbol)
-                               (setq position (get-text-property 1 'org-imenu-marker symbol))))
-
-                             (unless (or (null position) (null name))
-                               (add-to-list 'symbol-names name)
-                               (add-to-list 'name-and-pos (cons name position))))))))
-      (addsymbols imenu--index-alist))
-    ;; If there are matching symbols at point, put them at the beginning of `symbol-names'.
-    (let ((symbol-at-point (thing-at-point 'symbol)))
-      (when symbol-at-point
-        (let* ((regexp (concat (regexp-quote symbol-at-point) "$"))
-               (matching-symbols (delq nil (mapcar (lambda (symbol)
-                                                     (if (string-match regexp symbol) symbol))
-                                                   symbol-names))))
-          (when matching-symbols
-            (sort matching-symbols (lambda (a b) (> (length a) (length b))))
-            (mapc (lambda (symbol) (setq symbol-names (cons symbol (delete symbol symbol-names))))
-                  matching-symbols)))))
-    (let* ((selected-symbol (ido-completing-read "Symbol? " symbol-names))
-           (position (cdr (assoc selected-symbol name-and-pos))))
-      (goto-char position))))
-
-;; lets us pop mark and get back to where we were.
-(defadvice ido-imenu (before push-mark activate)
-  (push-mark))
-
 
 ;;;; GLOBAL KEYBOARD DEFINITIONS
 
 
+(push-mark)
 
 ;; dont freeze emacs on ctrl-z
 (global-unset-key (kbd "C-z"))
@@ -604,10 +573,10 @@ point reaches the beginning or end of the buffer, stop there."
   (lsk 'uncomment-region             "C-:")
 
   ;; code - navigate to definition
-  (lsk 'ido-imenu "<f12>")
+  (lsk 'imenu-nav-dwim "<f12>")
   ;; navigate back again.
   ;; (could also use set-mark with prefix argument C-u C-spc.)
-  (lsk 'pop-global-mark "C--")
+  (lsk 'pop-local-or-global-mark "C--")
 
   ;; auto-complete is a must
   (company-mode 1)
