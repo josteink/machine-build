@@ -19,7 +19,7 @@
 
 ;; ensure all packages we need are installed.
 (setq package-list
-      '(clojure-mode
+      '(;;clojure-mode
         markdown-mode
         paredit
         batch-mode
@@ -27,7 +27,6 @@
         multiple-cursors
         projectile
         expand-region
-        ace-jump-mode
         undo-tree
         ido-yes-or-no
         haskell-mode
@@ -41,6 +40,7 @@
         elisp-slime-nav
         macrostep
         color-theme
+        color-theme-gruber-darker
         ))
 
 (dolist (package package-list)
@@ -672,10 +672,10 @@ point reaches the beginning or end of the buffer, stop there."
     (when (file-exists-p file-name)
       (progn
         (load file-name)
-	(setq inferior-lisp-program "sbcl")
-	(require 'slime-autoloads)
-	(require 'slime-company)
-	(slime-setup '(slime-fancy slime-asdf slime-company))))))
+        (setq inferior-lisp-program "sbcl")
+        (require 'slime-autoloads)
+        (require 'slime-company)
+        (slime-setup '(slime-fancy slime-asdf slime-company))))))
 
 (if (eq system-type 'windows-nt)
     (my-windows-mode-hook)
