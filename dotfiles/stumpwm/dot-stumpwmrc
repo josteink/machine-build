@@ -9,7 +9,7 @@
 (set-contrib-dir "~/build/stumpwm-contrib")
 
 ;; load tray-dependencies!
-(ql:quickload :xembed) ;; required for tray
+;;(ql:quickload :xembed) ;; required for tray
 ;;(load-module "stumptray")
 
 ;; utility functions
