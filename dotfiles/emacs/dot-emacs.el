@@ -626,6 +626,12 @@ point reaches the beginning or end of the buffer, stop there."
 ;; css should be prog-mode but isn't
 (add-hook 'css-mode-hook 'my-prog-mode-hook)
 
+;; git thingies
+(defun my-git-commit-mode-hook ()
+  (flyspell-mode 't))
+(add-hook 'git-commit-mode-hook 'my-git-commit-mode-hook)
+
+
 ;;;; WINDOWS ONLY CUSTOMIZATIONS
 
 
