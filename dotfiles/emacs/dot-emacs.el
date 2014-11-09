@@ -721,6 +721,12 @@ point reaches the beginning or end of the buffer, stop there."
   'nothing)
 
 (defun my-x-mode-hook ()
+  ;; make things look funky and match stump-wm
+  ;;(color-theme-initialize) ;;uncomment to load all themes
+  ;; (color-theme-jsc-dark) ;; also a candidate
+  (require 'color-theme-gruber-darker)
+  (color-theme-gruber-darker)
+
   ;; make keys act immediately
   ;; http://unix.stackexchange.com/questions/28170/some-keys-are-invalid-on-emacs-when-using-german-keyboard
   (define-key key-translation-map [dead-grave] "`")
@@ -732,13 +738,7 @@ point reaches the beginning or end of the buffer, stop there."
   (define-key isearch-mode-map [dead-acute] nil)
   (define-key isearch-mode-map [dead-circumflex] nil)
   (define-key isearch-mode-map [dead-diaeresis] nil)
-  (define-key isearch-mode-map [dead-tilde] nil)
-
-  ;; make things look funky and match stump-wm
-  ;;(color-theme-initialize) ;;uncomment to load all themes
-  ;; (color-theme-jsc-dark) ;; also a candidate
-  (require 'color-theme-gruber-darker)
-  (color-theme-gruber-darker))
+  (define-key isearch-mode-map [dead-tilde] nil))
 
 ;; special workaround for dead keys needed only when running emacs in Linux & X.
 (if (and (display-graphic-p)
