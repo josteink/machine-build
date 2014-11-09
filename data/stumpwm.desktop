@@ -1,7 +1,7 @@
 [Desktop Entry]
 Encoding=UTF-8
-Name=StumpWM
+Name=StumpWM-Git
 Comment=This session logs you into StumpWM (a minimalistic window manager)
-Exec=/usr/bin/stumpwm
+Exec=/home/jostein/build/stumpwm/stumpwm
 Icon=
 Type=Application
