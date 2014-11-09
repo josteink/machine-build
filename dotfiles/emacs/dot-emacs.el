@@ -745,3 +745,6 @@ point reaches the beginning or end of the buffer, stop there."
          (eq system-type 'gnu/linux))
     (my-x-mode-hook)
   'nothing)
+
+;; un-disabled commands
+(put 'upcase-region 'disabled nil)
