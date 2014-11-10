@@ -78,7 +78,18 @@
         ;;(run-shell-command (concatenate 'string "xsetbg -border black -center " home "/Pictures/stumpwm_wallpaper.jpg"))
         (run-shell-command "emacs")
 	(setup-gnome-keyring)
-	(setup-groups))))
+	(setup-groups)
+
+	;; explicitly require swank. just in case.
+	(ql:quickload :swank)
+	(ql:quickload "quicklisp-slime-helper")
+	(swank-loader:init)
+	(defcommand swank () ()
+		    (swank:create-server :port 4005
+					 :dont-close t)
+		    (echo-string (current-screen)
+				 "Starting swank. M-x slime-connect RET RET, then (in-package stumpwm)."))
+	(swank))))
 
 ;; custom stumpwm-commands
 
@@ -93,17 +104,6 @@
        ,(concatenate 'string "Start " name " unless it is already running, in which case focus it.")
        (run-or-raise ,name '(:class ,name)))
      (define-key ,map (kbd ,key) ,name)))
-
-;; explicitly require swank. just in case.
-(ql:quickload :swank)
-(ql:quickload "quicklisp-slime-helper")
-(swank-loader:init)
-(defcommand swank () ()
-            (swank:create-server :port 4005
-                                 :dont-close t)
-            (echo-string (current-screen)
-                         "Starting swank. M-x slime-connect RET RET, then (in-package stumpwm)."))
-(swank)
 
 
 ;; X setup
@@ -122,7 +122,7 @@
 
 (deflauncher "emacs" *top-map* "s-e")
 (deflauncher "firefox" *top-map* "s-d")
-(deflauncher "nautilus" *top-map* "s-n")
+(deflauncher "thunar" *top-map* "s-n")
 (deflauncher "spotify" *top-map* "s-s")
 
 ;; audio stuff
