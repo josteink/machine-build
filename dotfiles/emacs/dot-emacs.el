@@ -748,3 +748,4 @@ point reaches the beginning or end of the buffer, stop there."
 
 ;; un-disabled commands
 (put 'upcase-region 'disabled nil)
+(put 'downcase-region 'disabled nil)
