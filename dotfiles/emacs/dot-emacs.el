@@ -659,7 +659,10 @@ point reaches the beginning or end of the buffer, stop there."
   ;; required for ediff.
   ;; see more: http://stackoverflow.com/questions/7423921/how-can-i-use-ediff-under-windows-ntemacs
   (setq ediff-diff-program "C:\\cygwin64\\bin\\diff.exe")
-  (setq ediff-diff3-program "C:\\cygwin64\\bin\\diff3.exe"))
+  (setq ediff-diff3-program "C:\\cygwin64\\bin\\diff3.exe")
+
+  ;; requires aspell installed by cygwin
+  (setq-default ispell-program-name "C:/cygwin64/bin/aspell.exe"))
 
 ;;;; UNIX ONLY CUSTOMIZATIONS
 
