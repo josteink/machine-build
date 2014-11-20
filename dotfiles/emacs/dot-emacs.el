@@ -331,6 +331,23 @@ point reaches the beginning or end of the buffer, stop there."
   (interactive)
   (w32-send-sys-command 61472))
 
+;; mode-helpers
+(defun get-active-modes ()
+  "Returns a list of the currently active modes."
+  (interactive)
+  (let ((active-modes))
+    (mapc (lambda (mode) (condition-case nil
+                             (if (and (symbolp mode) (symbol-value mode))
+                                 (add-to-list 'active-modes mode))
+                           (error nil) ))
+          minor-mode-list)
+    active-modes))
+
+(defun is-mode-active-p (minor-mode)
+  "Returns if the specified minor-mode is active or not."
+  (interactive)
+  (member minor-mode (get-active-modes)))
+
 ;; START active region-mode
 
 (defvar active-region-mode-map
@@ -392,6 +409,7 @@ point reaches the beginning or end of the buffer, stop there."
   (fkt 'global-set-key target keys))
 
 
+
 ;;;; GLOBAL KEYBOARD DEFINITIONS
 
 
@@ -399,6 +417,7 @@ point reaches the beginning or end of the buffer, stop there."
 
 ;; dont freeze emacs on ctrl-z
 (global-unset-key (kbd "C-z"))
+
 
 ;; if C-SPC doesn't work in X, it can be because ibus is "stealing" it.
 ;; reconfigure ibus with ibus-setup.
@@ -472,6 +491,17 @@ point reaches the beginning or end of the buffer, stop there."
 
 ;; indent properly, always
 (gsk 'newline-and-indent "RET")
+
+;; prevent accidentally enabling overwrite-mode
+(defun overwrite-mode-prompt ()
+  "A wrapper to ensure overwrite-mode is never enabled blindly."
+  (interactive)
+  (if (not (is-mode-active-p 'overwrite-mode))
+      (when (yes-or-no-p "WARNING! Enabling overwrite-mode. Please confirm")
+        (overwrite-mode 't))
+    (overwrite-mode 0)))
+
+(gsk 'overwrite-mode-prompt "<insertchar>" "<insert>")
 
 
 ;;;; MODE CUSTOMIZATIONS
