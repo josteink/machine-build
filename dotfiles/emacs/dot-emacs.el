@@ -74,8 +74,6 @@
 ;;;; NON-DEFAULT FILE MAPPINGS
 
 
-;; temporary fix for C# brokenness.
-;;(add-to-list 'auto-mode-alist '("\.cs$" . c++-mode))
 (add-to-list 'auto-mode-alist '("\.cljs$" . clojure-mode))
 (add-to-list 'auto-mode-alist '("\.bat$" . batch-mode))
 (add-to-list 'auto-mode-alist '("\.md$" . markdown-mode))
@@ -83,7 +81,8 @@
 (add-to-list 'auto-mode-alist '("\.ps$" . powershell-mode))
 (add-to-list 'auto-mode-alist '("\.ps1$" . powershell-mode))
 
-(add-to-list 'auto-mode-alist '("\.css$" . web-mode))
+;; we DONT want web-mode for CSS, because it breaks company-mode completion.
+;;(add-to-list 'auto-mode-alist '("\.css$" . web-mode))
 (add-to-list 'auto-mode-alist '("\.html$" . web-mode))
 (add-to-list 'auto-mode-alist '("\.php$" . web-mode))
 
@@ -638,6 +637,7 @@ point reaches the beginning or end of the buffer, stop there."
 
 (add-hook 'prog-mode-hook 'my-prog-mode-hook)
 (add-hook 'powershell-mode-hook 'my-prog-mode-hook)
+(add-hook 'css-mode-hook 'my-prog-mode-hook)
 
 ;; xml
 (defun my-xml-mode-hook()
