@@ -74,6 +74,8 @@
 ;;;; NON-DEFAULT FILE MAPPINGS
 
 
+;; temporary fix for C# brokenness.
+;;(add-to-list 'auto-mode-alist '("\.cs$" . c++-mode))
 (add-to-list 'auto-mode-alist '("\.cljs$" . clojure-mode))
 (add-to-list 'auto-mode-alist '("\.bat$" . batch-mode))
 (add-to-list 'auto-mode-alist '("\.md$" . markdown-mode))
@@ -778,6 +780,9 @@ point reaches the beginning or end of the buffer, stop there."
          (eq system-type 'gnu/linux))
     (my-x-mode-hook)
   'nothing)
+
+;; temporary fix for C# brokenness in 24.4 win.
+(require 'cl)
 
 ;; un-disabled commands
 (put 'upcase-region 'disabled nil)
