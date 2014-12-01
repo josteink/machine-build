@@ -525,6 +525,8 @@ point reaches the beginning or end of the buffer, stop there."
   (setq imenu-prev-index-position-function nil)
   (add-to-list 'imenu-generic-expression '("Sections" "^;;;; \\(.+\\)$" 1) t)
 
+  (lsk 'macrostep-expand "C-c C-e")
+
   ;; enable intelligent navifation with M-, and M-.
   (elisp-slime-nav-mode))
 
@@ -782,7 +784,7 @@ point reaches the beginning or end of the buffer, stop there."
   'nothing)
 
 ;; temporary fix for C# brokenness in 24.4 win.
-(require 'cl)
+;;(require 'cl)
 
 ;; un-disabled commands
 (put 'upcase-region 'disabled nil)
