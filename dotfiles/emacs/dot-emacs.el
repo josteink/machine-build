@@ -81,36 +81,10 @@
 (add-to-list 'auto-mode-alist '("\.ps$" . powershell-mode))
 (add-to-list 'auto-mode-alist '("\.ps1$" . powershell-mode))
 
-(add-to-list 'auto-mode-alist '("\.css$" . web-mode))
+;; we DONT want web-mode for CSS, because it breaks company-mode completion.
+;;(add-to-list 'auto-mode-alist '("\.css$" . web-mode))
 (add-to-list 'auto-mode-alist '("\.html$" . web-mode))
 (add-to-list 'auto-mode-alist '("\.php$" . web-mode))
-
-
-;;;; MODE HELPERS
-
-
-(defun get-active-modes ()
-  "Returns a list of the currently active modes."
-  (interactive)
-  (let ((active-modes))
-    (mapc (lambda (mode) (condition-case nil
-                             (if (and (symbolp mode) (symbol-value mode))
-                                 (add-to-list 'active-modes mode))
-                           (error nil) ))
-          minor-mode-list)
-    active-modes))
-
-(defun is-mode-active-p (minor-mode)
-  "Returns if the specified minor-mode is active or not."
-  (interactive)
-  (member minor-mode (get-active-modes)))
-
-(defmacro defhook (hook-name &rest body)
-  (let* ((my-hook-name (intern (concat "my-" (symbol-name hook-name)))))
-    `(progn
-       (defun ,my-hook-name ()
-         ,@body)
-       (add-hook ',hook-name ',my-hook-name))))
 
 
 ;;;; GLOBAL DEFAULT OVERRIDES
@@ -139,7 +113,8 @@
       (executable-make-buffer-file-executable-if-script-p)))
 
 ;; makes scripts executable automatically
-(add-hook 'after-save-hook 'make-scripts-executable)
+(add-hook 'after-save-hook
+          'make-scripts-executable)
 
 ;; provides automatic loading after changing branches etc in git
 (custom-set-variables
@@ -206,7 +181,7 @@
 
 
 ;; automatically handle DOS EOL and silence it
-(defhook find-file-hook
+(defun my-find-file-hook ()
   (interactive)
 
   (when (file-exists-p (buffer-file-name))
@@ -216,6 +191,7 @@
     ;; will contain ^M if dos-eol is active
     (if (not (eq :nil file-line-match))
         (remove-dos-eol))))
+(add-hook 'find-file-hook 'my-find-file-hook)
 
 
 ;; automatically indents yanked (inserted/pasted) content
@@ -355,6 +331,30 @@ point reaches the beginning or end of the buffer, stop there."
   "Minimizes the current frame"
   (interactive)
   (w32-send-sys-command 61472))
+
+;; mode-helpers
+(defun get-active-modes ()
+  "Returns a list of the currently active modes."
+  (interactive)
+  (let ((active-modes))
+    (mapc (lambda (mode) (condition-case nil
+                             (if (and (symbolp mode) (symbol-value mode))
+                                 (add-to-list 'active-modes mode))
+                           (error nil) ))
+          minor-mode-list)
+    active-modes))
+
+(defun is-mode-active-p (minor-mode)
+  "Returns if the specified minor-mode is active or not."
+  (interactive)
+  (member minor-mode (get-active-modes)))
+
+(defmacro defhook (hook-name &rest body)
+  (let* ((my-hook-name (intern (concat "my-" (symbol-name hook-name)))))
+    `(progn
+       (defun ,my-hook-name ()
+         ,@body)
+       (add-hook ',hook-name ',my-hook-name))))
 
 
 ;; START active region-mode
@@ -517,15 +517,16 @@ point reaches the beginning or end of the buffer, stop there."
 
 
 ;; active-region minor mode
-(defhook active-region-mode-hook
+(defun my-active-region-mode-hook ()
   ;; dont override whatever mode emacs thinks we're in with stuff. adress the mode-map specificly.
   (define-key active-region-mode-map (kbd "<tab>") 'increase-left-margin)
   (define-key active-region-mode-map (kbd "<S-tab>") 'decrease-left-margin)
   ;; required for X11
   (define-key active-region-mode-map (kbd "<backtab>") 'decrease-left-margin))
+(add-hook 'active-region-mode-hook 'my-active-region-mode-hook)
 
 ;; elisp
-(defhook emacs-lisp-mode-hook
+(defun my-emacs-lisp-mode-hook ()
   (paredit-mode)
 
   ;; enable imenu sections by ;;;;
@@ -533,26 +534,23 @@ point reaches the beginning or end of the buffer, stop there."
   (add-to-list 'imenu-generic-expression '("Sections" "^;;;; \\(.+\\)$" 1) t)
 
   (lsk 'macrostep-expand "C-c C-e")
-  
+
   ;; enable intelligent navifation with M-, and M-.
-  (elisp-slime-nav-mode)
+  (elisp-slime-nav-mode))
 
-  ;; enable relisp, if loaded
-  (ignore-errors
-    (relisp-mode t)))
-
-;; manually add this secondary mode, in case we ever enter ielm.
+(add-hook 'emacs-lisp-mode-hook 'my-emacs-lisp-mode-hook)
 (add-hook 'ielm-lisp-mode-hook 'my-emacs-lisp-mode-hook)
 
 ;; common lisp
-(defhook lisp-mode-hook
+(defun my-lisp-mode-hook ()
   ;; we know this one from VS :)
   ;; we can also check symbols in slime with M-.
   (lsk 'slime "<f5>")
   (paredit-mode))
+(add-hook 'lisp-mode-hook 'my-lisp-mode-hook)
 
 ;; paredit
-(defhook paredit-mode-hook
+(defun my-paredit-mode-hook ()
   ;; editing. keybindings which makes sense AND whic works in SSH
   (lsk 'paredit-forward-slurp-sexp  "<C-left>"   "M-[ c")
   (lsk 'paredit-forward-barf-sexp   "<C-right>"   "M-[ d")
@@ -563,18 +561,13 @@ point reaches the beginning or end of the buffer, stop there."
   (lsk 'paredit-backward            "<C-M-up>"    "ESC M-[ A")
   (lsk 'paredit-forward             "<C-M-down>"  "ESC M-[ B")
 
-  (lsk 'paredit-splice-sexp          "C-M-s")
-  (lsk 'paredit-split-sexp          "C-M-S")
-  ;; should be set by default, but gets overriden by over global-set-key
-  (lsk 'paredit-join-sexps          "M-J")
-  (lsk 'my-join-line-with-next      "M-j")
-
   (show-paren-mode 1) ; turn on paren match highlighting
   ;;(setq show-paren-style 'expression) ; highlight entire bracket expression
   )
+(add-hook 'paredit-mode-hook 'my-paredit-mode-hook)
 
 ;; clojure
-(defhook clojure-mode-hook
+(defun my-clojure-mode-hook ()
   ;; key-bindings
   (lsk 'nrepl-jack-in "<f5>") ; because we know this from VS!
 
@@ -582,20 +575,23 @@ point reaches the beginning or end of the buffer, stop there."
   (paredit-mode)
   ;; for clojure comments - override annoying elisp mode single-; comment-indentation.
   (setq comment-column 0))
+(add-hook 'clojure-mode-hook 'my-clojure-mode-hook)
 
 ;; haskell
-(defhook haskell-mode-hook
+(defun my-haskell-mode-hook ()
   ;; we want proper indentation
   (haskell-indent-mode +1))
+(add-hook 'haskell-mode-hook 'my-haskell-mode-hook)
 
 ;; c/c++
-;; (defhook c-mode-hook
-;;   ;; required for auto-completion
-;;   (semantic-mode 1))
-;; (add-hook 'c++-mode-hook 'my-c-mode-hook)
+(defun my-c-mode-hook ()
+  ;; required for auto-completion
+  (semantic-mode 1))
+(add-hook 'c-mode-hook 'my-c-mode-hook)
+(add-hook 'c++-mode-hook 'my-c-mode-hook)
 
 ;; org-mode
-(defhook org-mode-hook
+(defun my-org-mode-hook ()
   ;; keybindings
   (lsk 'org-store-link "C-c l")
   (lsk 'org-agenda     "C-c a")
@@ -608,8 +604,9 @@ point reaches the beginning or end of the buffer, stop there."
 
   ;; enable imenu
   (imenu-add-menubar-index))
+(add-hook 'org-mode-hook 'my-org-mode-hook)
 
-(defhook prog-mode-hook
+(defun my-prog-mode-hook ()
   ;; keybindings
 
   ;; not C-k C-c & C-k C-t because C-k is kill-line in emacs
@@ -648,26 +645,33 @@ point reaches the beginning or end of the buffer, stop there."
   (when (is-lisp-p)
     (lsk 'indent-whole-buffer "C-i")))
 
+(add-hook 'prog-mode-hook 'my-prog-mode-hook)
 (add-hook 'powershell-mode-hook 'my-prog-mode-hook)
+(add-hook 'css-mode-hook 'my-prog-mode-hook)
 
 ;; xml
-(defhook xml-mode-hook()
+(defun my-xml-mode-hook()
   ;; not C-k C-c & C-k C-t because C-k is kill-line in emacs
   (lsk 'comment-or-uncomment-region      "C-c C-c")
   (lsk 'uncomment-region    "C-c C-u"))
 
+(add-hook 'nxml-mode-hook 'my-xml-mode-hook)
+
 
 ;; html/web
-(defhook web-mode-hook ()
+(defun my-web-mode-hook ()
   (lsk 'web-mode-comment-or-uncomment      "C-c C-c")
   (lsk 'web-mode-uncomment    "C-c C-u"))
+
+(add-hook 'web-mode-hook 'my-web-mode-hook)
 
 ;; css should be prog-mode but isn't
 (add-hook 'css-mode-hook 'my-prog-mode-hook)
 
 ;; git thingies
-(defhook git-commit-mode-hook
+(defun my-git-commit-mode-hook ()
   (flyspell-mode 't))
+(add-hook 'git-commit-mode-hook 'my-git-commit-mode-hook)
 
 
 ;;;; WINDOWS ONLY CUSTOMIZATIONS
@@ -701,7 +705,6 @@ point reaches the beginning or end of the buffer, stop there."
 
   ;; requires aspell installed by cygwin
   (setq-default ispell-program-name "C:/cygwin64/bin/aspell.exe"))
-
 
 ;;;; UNIX ONLY CUSTOMIZATIONS
 
@@ -741,9 +744,6 @@ point reaches the beginning or end of the buffer, stop there."
     (my-freebsd-mode-hook))
 
 
-;;;; GUI-MODE CUSTOMIZATIONS
-
-
 (defun my-gui-mode-hook ()
   ;; only activate global-line mode when on X11/windows/non-terminal environment.
   ;; will deactivate syntax highlighting and more in SSH.
@@ -760,8 +760,10 @@ point reaches the beginning or end of the buffer, stop there."
   ;;                   nil)))))
   ;; (setq font-lock t)
   )
-(when (display-graphic-p)
-  (my-gui-mode-hook))
+
+(if (display-graphic-p)
+    (my-gui-mode-hook)
+  'nothing)
 
 (defun my-x-mode-hook ()
   ;; make things look funky and match stump-wm
@@ -784,10 +786,15 @@ point reaches the beginning or end of the buffer, stop there."
   (define-key isearch-mode-map [dead-tilde] nil))
 
 ;; special workaround for dead keys needed only when running emacs in Linux & X.
-(when (and (display-graphic-p)
-           (eq system-type 'gnu/linux))
-  (my-x-mode-hook))
+(if (and (display-graphic-p)
+         (eq system-type 'gnu/linux))
+    (my-x-mode-hook)
+  'nothing)
+
+;; temporary fix for C# brokenness in 24.4 win.
+;;(require 'cl)
 
 ;; un-disabled commands
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
+
