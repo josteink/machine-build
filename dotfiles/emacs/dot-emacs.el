@@ -631,9 +631,10 @@ point reaches the beginning or end of the buffer, stop there."
   (which-function-mode 1)
 
   ;; enable imenu - only for true prog-mode major-modes
-  (if (derived-mode-p 'prog-mode)
-      (imenu-add-menubar-index)
-    'nil)
+  (when (derived-mode-p 'prog-mode)
+    (imenu-add-menubar-index))
+
+
 
   ;; projectile mode: on!
   ;; C-c p f - search for any file in your lein/git/etc project
@@ -797,4 +798,3 @@ point reaches the beginning or end of the buffer, stop there."
 ;; un-disabled commands
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
-
