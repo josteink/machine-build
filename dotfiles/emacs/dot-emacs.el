@@ -561,6 +561,12 @@ point reaches the beginning or end of the buffer, stop there."
   (lsk 'paredit-backward            "<C-M-up>"    "ESC M-[ A")
   (lsk 'paredit-forward             "<C-M-down>"  "ESC M-[ B")
 
+  (lsk 'paredit-splice-sexp          "C-M-s")
+  (lsk 'paredit-split-sexp          "C-M-S")
+  ;; should be set by default, but gets overriden by over global-set-key
+  (lsk 'paredit-join-sexps          "M-J")
+  (lsk 'my-join-line-with-next      "M-j")
+
   (show-paren-mode 1) ; turn on paren match highlighting
   ;;(setq show-paren-style 'expression) ; highlight entire bracket expression
   )
@@ -583,12 +589,12 @@ point reaches the beginning or end of the buffer, stop there."
   (haskell-indent-mode +1))
 (add-hook 'haskell-mode-hook 'my-haskell-mode-hook)
 
-;; c/c++
-(defun my-c-mode-hook ()
-  ;; required for auto-completion
-  (semantic-mode 1))
-(add-hook 'c-mode-hook 'my-c-mode-hook)
-(add-hook 'c++-mode-hook 'my-c-mode-hook)
+;; ;; c/c++
+;; (defun my-c-mode-hook ()
+;;   ;; required for auto-completion
+;;   (semantic-mode 1))
+;; (add-hook 'c-mode-hook 'my-c-mode-hook)
+;; (add-hook 'c++-mode-hook 'my-c-mode-hook)
 
 ;; org-mode
 (defun my-org-mode-hook ()
@@ -634,8 +640,6 @@ point reaches the beginning or end of the buffer, stop there."
   (when (derived-mode-p 'prog-mode)
     (imenu-add-menubar-index))
 
-
-
   ;; projectile mode: on!
   ;; C-c p f - search for any file in your lein/git/etc project
   ;; more docs and bindings here: https://github.com/bbatsov/projectile
@@ -643,12 +647,15 @@ point reaches the beginning or end of the buffer, stop there."
 
   ;; formatting matters in programming files, but python is a silly
   ;; language which cares about white-space.
-  (when (is-lisp-p)
-    (lsk 'indent-whole-buffer "C-i")))
+  ;; also: for any non-lisp (paredit) language, enable electric-pair-mode.
+  (if (is-lisp-p)
+      (lsk 'indent-whole-buffer "C-i")
+    (electric-pair-mode 1)))
 
 (add-hook 'prog-mode-hook 'my-prog-mode-hook)
 (add-hook 'powershell-mode-hook 'my-prog-mode-hook)
 (add-hook 'css-mode-hook 'my-prog-mode-hook)
+(add-hook 'csharp-mode-hook 'my-prog-mode-hook)
 
 ;; xml
 (defun my-xml-mode-hook()
@@ -762,9 +769,8 @@ point reaches the beginning or end of the buffer, stop there."
   ;; (setq font-lock t)
   )
 
-(if (display-graphic-p)
-    (my-gui-mode-hook)
-  'nothing)
+(when (display-graphic-p)
+  (my-gui-mode-hook))
 
 (defun my-x-mode-hook ()
   ;; make things look funky and match stump-wm
@@ -787,10 +793,9 @@ point reaches the beginning or end of the buffer, stop there."
   (define-key isearch-mode-map [dead-tilde] nil))
 
 ;; special workaround for dead keys needed only when running emacs in Linux & X.
-(if (and (display-graphic-p)
-         (eq system-type 'gnu/linux))
-    (my-x-mode-hook)
-  'nothing)
+(when (and (display-graphic-p)
+           (eq system-type 'gnu/linux))
+  (my-x-mode-hook))
 
 ;; temporary fix for C# brokenness in 24.4 win.
 ;;(require 'cl)
