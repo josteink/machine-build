@@ -542,15 +542,14 @@ point reaches the beginning or end of the buffer, stop there."
 (add-hook 'ielm-lisp-mode-hook 'my-emacs-lisp-mode-hook)
 
 ;; common lisp
-(defun my-lisp-mode-hook ()
+(defhook lisp-mode-hook
   ;; we know this one from VS :)
   ;; we can also check symbols in slime with M-.
   (lsk 'slime "<f5>")
   (paredit-mode))
-(add-hook 'lisp-mode-hook 'my-lisp-mode-hook)
 
 ;; paredit
-(defun my-paredit-mode-hook ()
+(defhook paredit-mode-hook
   ;; editing. keybindings which makes sense AND whic works in SSH
   (lsk 'paredit-forward-slurp-sexp  "<C-left>"   "M-[ c")
   (lsk 'paredit-forward-barf-sexp   "<C-right>"   "M-[ d")
@@ -570,10 +569,9 @@ point reaches the beginning or end of the buffer, stop there."
   (show-paren-mode 1) ; turn on paren match highlighting
   ;;(setq show-paren-style 'expression) ; highlight entire bracket expression
   )
-(add-hook 'paredit-mode-hook 'my-paredit-mode-hook)
 
 ;; clojure
-(defun my-clojure-mode-hook ()
+(defhook clojure-mode-hook
   ;; key-bindings
   (lsk 'nrepl-jack-in "<f5>") ; because we know this from VS!
 
@@ -581,13 +579,11 @@ point reaches the beginning or end of the buffer, stop there."
   (paredit-mode)
   ;; for clojure comments - override annoying elisp mode single-; comment-indentation.
   (setq comment-column 0))
-(add-hook 'clojure-mode-hook 'my-clojure-mode-hook)
 
 ;; haskell
-(defun my-haskell-mode-hook ()
+(defhook haskell-mode-hook
   ;; we want proper indentation
   (haskell-indent-mode +1))
-(add-hook 'haskell-mode-hook 'my-haskell-mode-hook)
 
 ;; ;; c/c++
 ;; (defun my-c-mode-hook ()
@@ -597,7 +593,7 @@ point reaches the beginning or end of the buffer, stop there."
 ;; (add-hook 'c++-mode-hook 'my-c-mode-hook)
 
 ;; org-mode
-(defun my-org-mode-hook ()
+(defhook org-mode-hook
   ;; keybindings
   (lsk 'org-store-link "C-c l")
   (lsk 'org-agenda     "C-c a")
@@ -610,9 +606,8 @@ point reaches the beginning or end of the buffer, stop there."
 
   ;; enable imenu
   (imenu-add-menubar-index))
-(add-hook 'org-mode-hook 'my-org-mode-hook)
 
-(defun my-prog-mode-hook ()
+(defhook prog-mode-hook
   ;; keybindings
 
   ;; not C-k C-c & C-k C-t because C-k is kill-line in emacs
@@ -652,26 +647,21 @@ point reaches the beginning or end of the buffer, stop there."
       (lsk 'indent-whole-buffer "C-i")
     (electric-pair-mode 1)))
 
-(add-hook 'prog-mode-hook 'my-prog-mode-hook)
 (add-hook 'powershell-mode-hook 'my-prog-mode-hook)
 (add-hook 'css-mode-hook 'my-prog-mode-hook)
-(add-hook 'csharp-mode-hook 'my-prog-mode-hook)
 
 ;; xml
-(defun my-xml-mode-hook()
+(defhook xml-mode-hook
   ;; not C-k C-c & C-k C-t because C-k is kill-line in emacs
   (lsk 'comment-or-uncomment-region      "C-c C-c")
   (lsk 'uncomment-region    "C-c C-u"))
 
-(add-hook 'nxml-mode-hook 'my-xml-mode-hook)
 
 
 ;; html/web
-(defun my-web-mode-hook ()
+(defhook web-mode-hook
   (lsk 'web-mode-comment-or-uncomment      "C-c C-c")
   (lsk 'web-mode-uncomment    "C-c C-u"))
-
-(add-hook 'web-mode-hook 'my-web-mode-hook)
 
 ;; css should be prog-mode but isn't
 (add-hook 'css-mode-hook 'my-prog-mode-hook)
