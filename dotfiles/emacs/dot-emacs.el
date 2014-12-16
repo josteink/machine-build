@@ -1,5 +1,6 @@
 
 
+
 ;;;; PACKAGES AND REPOSITORIES
 
 
@@ -408,7 +409,7 @@ point reaches the beginning or end of the buffer, stop there."
   "Marks the contents of the current cell if in a org-mode table."
   (interactive "p")
 
-  (org-table-beginning-of-field n)
+  (org-table-beginning-of-field 0)
   (set-mark-command nil)
   (org-table-end-of-field 0))
 
