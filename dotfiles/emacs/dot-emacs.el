@@ -15,6 +15,8 @@
 
 (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
 (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
+(add-to-list 'package-archives '("melpa stable" . "http://stable.melpa.milkbox.net/packages/"))
+(add-to-list 'package-archives '("org-mode" . "http://orgmode.org/elpa/"))
 (package-initialize)
 
 ;; ensure all packages we need are installed.
@@ -41,6 +43,7 @@
         macrostep
         color-theme
         color-theme-gruber-darker
+	org
         ))
 
 (dolist (package package-list)
@@ -401,6 +404,14 @@ point reaches the beginning or end of the buffer, stop there."
   (org-return)
   (indent-according-to-mode))
 
+(defun my-org-select-field (&optional n)
+  "Marks the contents of the current cell if in a org-mode table."
+  (interactive "p")
+
+  (org-table-beginning-of-field n)
+  (set-mark-command nil)
+  (org-table-end-of-field 0))
+
 ;; utility functions for key-definitions
 (defun fkt (func target keys)
   "Sets up multiple keybindings for one function."
@@ -534,6 +545,7 @@ point reaches the beginning or end of the buffer, stop there."
   (add-to-list 'imenu-generic-expression '("Sections" "^;;;; \\(.+\\)$" 1) t)
 
   (lsk 'macrostep-expand "C-c C-e")
+  (lsk 'eval-buffer "C-c C-c")
 
   ;; enable intelligent navifation with M-, and M-.
   (elisp-slime-nav-mode))
@@ -601,6 +613,9 @@ point reaches the beginning or end of the buffer, stop there."
   ;; override C-c ¨ as that doesnt work on norwegian keyboards
   (lsk 'org-table-sort-lines "C-c s")
 
+  ;; select the contents of a cell.
+  (lsk 'my-org-select-field "C-M-+")
+  
   ;; we want proper new-line indentation
   ;;(lsk 'org-return-and-indent "RET")
 
