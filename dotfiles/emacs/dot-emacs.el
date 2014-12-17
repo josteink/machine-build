@@ -44,7 +44,7 @@
         macrostep
         color-theme
         color-theme-gruber-darker
-	org
+        org
         ))
 
 (dolist (package package-list)
@@ -405,11 +405,23 @@ point reaches the beginning or end of the buffer, stop there."
   (org-return)
   (indent-according-to-mode))
 
+(defun my-looks-back-at (args)
+  "Checks if the current point is preceeded by any of the provided arguments."
+  (let* ((result nil))
+    (dolist (arg args)
+      (let* ((start   (max (point-min) (- (point) (length arg))))
+             (stop    (max (point-min) (point)))
+             (content (buffer-substring-no-properties start stop)))
+        (setq result (or result
+			 (equal arg content)))))
+    result))
+
 (defun my-org-select-field (&optional n)
   "Marks the contents of the current cell if in a org-mode table."
   (interactive "p")
 
-  (org-table-beginning-of-field 0)
+  (when (not (my-looks-back-at '("|" "| ")))
+    (org-table-beginning-of-field 0))
   (set-mark-command nil)
   (org-table-end-of-field 0))
 
@@ -616,7 +628,7 @@ point reaches the beginning or end of the buffer, stop there."
 
   ;; select the contents of a cell.
   (lsk 'my-org-select-field "C-M-+")
-  
+
   ;; we want proper new-line indentation
   ;;(lsk 'org-return-and-indent "RET")
 
