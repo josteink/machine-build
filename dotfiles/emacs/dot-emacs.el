@@ -405,7 +405,7 @@ point reaches the beginning or end of the buffer, stop there."
   (org-return)
   (indent-according-to-mode))
 
-(defun my-looks-back-at (args)
+(defun looking-back-at-p (args)
   "Checks if the current point is preceeded by any of the provided arguments."
   (let* ((result nil))
     (dolist (arg args)
@@ -413,15 +413,22 @@ point reaches the beginning or end of the buffer, stop there."
              (stop    (max (point-min) (point)))
              (content (buffer-substring-no-properties start stop)))
         (setq result (or result
-			 (equal arg content)))))
+                         (equal arg content)))))
     result))
+
+(defun org-table-beginning-of-field-dwim (&optional n)
+  "Moves to the beginning of the current cell, and does not move to the previous
+   one if already at start."
+  (interactive "p")
+
+  (if (not (looking-back-at-p '("|" "| ")))
+      (org-table-beginning-of-field 0)))
 
 (defun my-org-select-field (&optional n)
   "Marks the contents of the current cell if in a org-mode table."
   (interactive "p")
 
-  (when (not (my-looks-back-at '("|" "| ")))
-    (org-table-beginning-of-field 0))
+  (org-table-beginning-of-field-dwim 0)
   (set-mark-command nil)
   (org-table-end-of-field 0))
 
@@ -625,6 +632,10 @@ point reaches the beginning or end of the buffer, stop there."
   (lsk 'org-iswitchb   "C-c b")
   ;; override C-c ¨ as that doesnt work on norwegian keyboards
   (lsk 'org-table-sort-lines "C-c s")
+
+  ;; override some defaults
+  (lsk 'org-table-beginning-of-field-dwim "M-a")
+  ;; TODO: create similar  end-of-field-dwim and map to M-e for symmetry.
 
   ;; select the contents of a cell.
   (lsk 'my-org-select-field "C-M-+")
