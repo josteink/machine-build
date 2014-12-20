@@ -45,6 +45,7 @@
         color-theme
         color-theme-gruber-darker
         org
+	flycheck flycheck-haskell flycheck-package
         ))
 
 (dolist (package package-list)
@@ -684,7 +685,10 @@ point reaches the beginning or end of the buffer, stop there."
   ;; also: for any non-lisp (paredit) language, enable electric-pair-mode.
   (if (is-lisp-p)
       (lsk 'indent-whole-buffer "C-i")
-    (electric-pair-mode 1)))
+    (electric-pair-mode 1))
+
+  ;; flycheck is super-useful
+  (flycheck-mode t))
 
 (add-hook 'powershell-mode-hook 'my-prog-mode-hook)
 (add-hook 'css-mode-hook 'my-prog-mode-hook)
