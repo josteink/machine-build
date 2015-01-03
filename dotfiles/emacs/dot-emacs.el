@@ -79,17 +79,17 @@
 ;;;; NON-DEFAULT FILE MAPPINGS
 
 
-(add-to-list 'auto-mode-alist '("\.cljs$" . clojure-mode))
-(add-to-list 'auto-mode-alist '("\.bat$" . batch-mode))
-(add-to-list 'auto-mode-alist '("\.md$" . markdown-mode))
-(add-to-list 'auto-mode-alist '("\.config$" . xml-mode))
-(add-to-list 'auto-mode-alist '("\.ps$" . powershell-mode))
-(add-to-list 'auto-mode-alist '("\.ps1$" . powershell-mode))
+(add-to-list 'auto-mode-alist '("\\.cljs$" . clojure-mode))
+(add-to-list 'auto-mode-alist '("\\.bat$" . batch-mode))
+(add-to-list 'auto-mode-alist '("\\.md$" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.config$" . xml-mode))
+(add-to-list 'auto-mode-alist '("\\.ps$" . powershell-mode))
+(add-to-list 'auto-mode-alist '("\\.ps1$" . powershell-mode))
 
 ;; we DONT want web-mode for CSS, because it breaks company-mode completion.
-;;(add-to-list 'auto-mode-alist '("\.css$" . web-mode))
-(add-to-list 'auto-mode-alist '("\.html$" . web-mode))
-(add-to-list 'auto-mode-alist '("\.php$" . web-mode))
+;;(add-to-list 'auto-mode-alist '("\\.css$" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.html$" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.php$" . web-mode))
 
 
 ;;;; GLOBAL DEFAULT OVERRIDES
