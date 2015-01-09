@@ -184,6 +184,26 @@
   (push (region-str-or-symbol) regexp-history)
   (call-interactively 'occur))
 
+(defun my-move-to-start-of-word ()
+  "Function to move us to the beginning of the currently selected word."
+  (forward-word)
+  (backward-word))
+
+;; upcase and dwoncase DWIM
+(defun upcase-word-dwim (arg)
+  (interactive "p")
+
+  ;; must be at start of word to upcase entire word.
+  (my-move-to-start-of-word)
+  (upcase-word arg))
+
+(defun downcase-word-dwim (arg)
+  (interactive "p")
+
+  ;; must be at start of word to upcase entire word.
+  (my-move-to-start-of-word)
+  (downcase-word arg))
+
 
 ;; automatically handle DOS EOL and silence it
 (defun my-find-file-hook ()
@@ -483,6 +503,10 @@ point reaches the beginning or end of the buffer, stop there."
 
 ;; search for all matches of a given regex, list results
 (gsk 'occur-dwim "C-c C-o")
+
+;; upcase and downcase like we want it
+(gsk 'upcase-word-dwim "M-u")
+(gsk 'downcase-word-dwim "M-l")
 
 ;; rgrep is grep for emacs
 (gsk 'rgrep "C-c C-g")
