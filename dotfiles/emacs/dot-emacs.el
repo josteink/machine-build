@@ -15,8 +15,8 @@
 (require 'package)
 
 (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
-(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
-(add-to-list 'package-archives '("melpa stable" . "http://stable.melpa.milkbox.net/packages/"))
+(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
+(add-to-list 'package-archives '("melpa stable" . "http://stable.melpa.org/packages/"))
 (add-to-list 'package-archives '("org-mode" . "http://orgmode.org/elpa/"))
 (package-initialize)
 
@@ -209,13 +209,14 @@
 (defun my-find-file-hook ()
   (interactive)
 
-  (when (file-exists-p (buffer-file-name))
-    (setq file-line (thing-at-point 'line))
-    (setq file-line-match (string-match-p (regexp-quote "^M") file-line))
+  (ignore-errors
+    (when (file-exists-p (buffer-file-name))
+      (setq file-line (thing-at-point 'line))
+      (setq file-line-match (string-match-p (regexp-quote "^M") file-line))
 
-    ;; will contain ^M if dos-eol is active
-    (if (not (eq :nil file-line-match))
-        (remove-dos-eol))))
+      ;; will contain ^M if dos-eol is active
+      (if (not (eq :nil file-line-match))
+	  (remove-dos-eol)))))
 (add-hook 'find-file-hook 'my-find-file-hook)
 
 
