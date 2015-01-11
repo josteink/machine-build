@@ -62,11 +62,14 @@
 
 
 (defun server-load-hook ()
-  (if (and (fboundp 'server-running-p)
-           (not (eq (server-running-p) t)))
-      (server-start))
-  ;; its annoying always having to say "yes" to close client-opened files
-  (remove-hook 'kill-buffer-query-functions 'server-kill-buffer-query-function))
+  ;; attempt start server. if already running, fail silently.
+  (ignore-errors
+    (require 'xref)
+    (if (and (fboundp 'server-running-p)
+	     (not (eq (server-running-p) t)))
+	(server-start))
+    ;; its annoying always having to say "yes" to close client-opened files
+    (remove-hook 'kill-buffer-query-functions 'server-kill-buffer-query-function)))
 
 (eval-after-load "server"
   '(server-load-hook))
