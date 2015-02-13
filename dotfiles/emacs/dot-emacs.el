@@ -50,13 +50,16 @@
 
 (dolist (package package-list)
   (when (not (package-installed-p package))
-    (package-install package)))
+    ;; ATTEMPT install, but dont panic!
+    (ignore-errors
+      (package-install package))))
 
 ;; tramp lets us open /sudo::/etc/files
 (require 'tramp)
 
-;; powershell-mode needs to be explicitly loaded
-(require 'powershell-mode)
+;; powershell-mode needs to be explicitly loaded, but only on supported platforms!
+(ignore-errors
+  (require 'powershell-mode))
 
 ;;;; DAEMONIZE
 
@@ -64,7 +67,8 @@
 (defun server-load-hook ()
   ;; attempt start server. if already running, fail silently.
   (ignore-errors
-    (require 'xref)
+    (ignore-errors
+      (require 'xref))
     (if (and (fboundp 'server-running-p)
 	     (not (eq (server-running-p) t)))
 	(server-start))
