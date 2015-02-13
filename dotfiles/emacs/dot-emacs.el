@@ -153,6 +153,9 @@
 ;; UTF-8 as default encoding. this is required for unix->windows safe dropbox transfers.
 (set-language-environment "UTF-8")
 
+;; use node for JS-execution
+(setq inferior-js-program-command "node --interactive")
+(setq js-indent-level 2)
 
 ;;;; FUNCTIONS
 
