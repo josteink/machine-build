@@ -664,7 +664,16 @@ point reaches the beginning or end of the buffer, stop there."
 ;; C# is better with omnisharp, if available
 (defhook csharp-mode-hook
   (ignore-errors
-    (omnisharp-mode)))
+    (omnisharp-mode t)
+
+    ;; vs/resharper-like bindings
+    (lsk 'omnisharp-go-to-definition "<f12>")
+    (lsk 'omnisharp-find-usages "S-<f12>")
+    (lsk 'omnisharp-find-implementations "M-<f11>")
+    ;; C-r is taken for reverse isearch, so we do C-o for omnisharp
+    (local-unset-key (kbd "C-o"))
+    (lsk 'omnisharp-rename "C-o C-r")
+    (lsk 'omnisharp-rename-interactively "C-u C-o C-r")))
 
 ;; org-mode
 (defhook org-mode-hook
@@ -727,6 +736,8 @@ point reaches the beginning or end of the buffer, stop there."
   (if (is-lisp-p)
       (lsk 'indent-whole-buffer "C-i")
     (electric-pair-mode 1))
+
+  (lsk 'company-complete "C-.")
 
   ;; flycheck is super-useful
   (flycheck-mode t))
@@ -814,7 +825,7 @@ point reaches the beginning or end of the buffer, stop there."
         (slime-setup '(slime-fancy slime-asdf slime-company)))))
 
   ;; omnisharp
-  (setq omnisharp-server-executable-path "~/build/omnisharp-server/OmniSharp/bin/Debug/Omnisharp.exe"))
+  (setq omnisharp-server-executable-path "~/build/omnisharp-server/OmniSharp/bin/Debug/OmniSharp.exe"))
 
 (if (eq system-type 'windows-nt)
     (my-windows-mode-hook)
