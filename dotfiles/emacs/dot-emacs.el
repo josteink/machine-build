@@ -45,7 +45,8 @@
         color-theme
         color-theme-gruber-darker
         org
-	flycheck flycheck-haskell flycheck-package
+        flycheck flycheck-haskell flycheck-package
+        omnisharp
         ))
 
 (dolist (package package-list)
@@ -70,8 +71,8 @@
     (ignore-errors
       (require 'xref))
     (if (and (fboundp 'server-running-p)
-	     (not (eq (server-running-p) t)))
-	(server-start))
+             (not (eq (server-running-p) t)))
+        (server-start))
     ;; its annoying always having to say "yes" to close client-opened files
     (remove-hook 'kill-buffer-query-functions 'server-kill-buffer-query-function)))
 
@@ -226,7 +227,7 @@
 
       ;; will contain ^M if dos-eol is active
       (if (not (eq :nil file-line-match))
-	  (remove-dos-eol)))))
+          (remove-dos-eol)))))
 (add-hook 'find-file-hook 'my-find-file-hook)
 
 
@@ -660,6 +661,11 @@ point reaches the beginning or end of the buffer, stop there."
 ;; (add-hook 'c-mode-hook 'my-c-mode-hook)
 ;; (add-hook 'c++-mode-hook 'my-c-mode-hook)
 
+;; C# is better with omnisharp, if available
+(defhook csharp-mode-hook
+  (ignore-errors
+    (omnisharp-mode)))
+
 ;; org-mode
 (defhook org-mode-hook
   ;; keybindings
@@ -780,7 +786,10 @@ point reaches the beginning or end of the buffer, stop there."
   (setq ediff-diff3-program "C:\\cygwin64\\bin\\diff3.exe")
 
   ;; requires aspell installed by cygwin
-  (setq-default ispell-program-name "C:/cygwin64/bin/aspell.exe"))
+  (setq-default ispell-program-name "C:/cygwin64/bin/aspell.exe")
+
+  ;; omnisharp
+  (setq omnisharp-server-executable-path "D:/Git/omnisharp-server/OmniSharp/bin/Debug/Omnisharp.exe"))
 
 ;;;; UNIX ONLY CUSTOMIZATIONS
 
@@ -802,7 +811,10 @@ point reaches the beginning or end of the buffer, stop there."
         (setq inferior-lisp-program "sbcl")
         (require 'slime-autoloads)
         (require 'slime-company)
-        (slime-setup '(slime-fancy slime-asdf slime-company))))))
+        (slime-setup '(slime-fancy slime-asdf slime-company)))))
+
+  ;; omnisharp
+  (setq omnisharp-server-executable-path "~/build/omnisharp-server/OmniSharp/bin/Debug/Omnisharp.exe"))
 
 (if (eq system-type 'windows-nt)
     (my-windows-mode-hook)
