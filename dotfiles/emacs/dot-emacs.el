@@ -665,6 +665,7 @@ point reaches the beginning or end of the buffer, stop there."
 (defhook csharp-mode-hook
   (ignore-errors
     (omnisharp-mode t)
+    (omnisharp-imenu-create-index)
 
     ;; vs/resharper-like bindings
     (lsk 'omnisharp-go-to-definition "<f12>")
