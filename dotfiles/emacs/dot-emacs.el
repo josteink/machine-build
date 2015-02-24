@@ -98,7 +98,8 @@
 ;;(add-to-list 'auto-mode-alist '("\\.css$" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.html$" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.php$" . web-mode))
-
+(add-to-list 'auto-mode-alist '("\\.js$" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.json$" . web-mode))
 
 ;;;; GLOBAL DEFAULT OVERRIDES
 
@@ -156,7 +157,7 @@
 
 ;; use node for JS-execution
 (setq inferior-js-program-command "node --interactive")
-(setq js-indent-level 2)
+(web-mode-code-indent-offset 4)
 
 ;;;; FUNCTIONS
 
@@ -604,7 +605,7 @@ point reaches the beginning or end of the buffer, stop there."
   (lsk 'macrostep-expand "C-c C-e")
   (lsk 'eval-buffer "C-c C-c")
 
-  ;; enable intelligent navifation with M-, and M-.
+  ;; enable intelligent navigation with M-, and M-.
   (elisp-slime-nav-mode))
 
 (add-hook 'emacs-lisp-mode-hook 'my-emacs-lisp-mode-hook)
@@ -663,18 +664,33 @@ point reaches the beginning or end of the buffer, stop there."
 
 ;; C# is better with omnisharp, if available
 (defhook csharp-mode-hook
+  ;; hide-show is nice for modes which supports it.
+  (hs-minor-mode)
+  (local-unset-key (kbd "M-m"))
+  (lsk 'hs-toggle-hiding "M-m M-m")
+
   (ignore-errors
     (omnisharp-mode t)
     (omnisharp-imenu-create-index)
 
     ;; vs/resharper-like bindings
-    (lsk 'omnisharp-go-to-definition "<f12>")
     (lsk 'omnisharp-find-usages "S-<f12>")
     (lsk 'omnisharp-find-implementations "M-<f11>")
     ;; C-r is taken for reverse isearch, so we do C-o for omnisharp
     (local-unset-key (kbd "C-o"))
     (lsk 'omnisharp-rename "C-o C-r")
-    (lsk 'omnisharp-rename-interactively "C-u C-o C-r")))
+    (lsk 'omnisharp-rename-interactively "C-u C-o C-r")
+
+    ;; overrides
+    (lsk 'omnisharp-go-to-definition "<f12>" "M-.") ;; like cslisp smart-navn
+    (lsk 'pop-tag-mark "M-,")
+    (lsk 'omnisharp-auto-complete "C-.") ;; override company-mode, with better popup
+    (lsk 'hippie-expand "C-:") ;; still allow hippie-expand
+    ))
+
+(defhook js-mode-hook
+  (lsk 'run-js "<f6>")
+  (lsk 'js-send-region "C-x C-e"))
 
 ;; org-mode
 (defhook org-mode-hook
@@ -741,7 +757,12 @@ point reaches the beginning or end of the buffer, stop there."
   (lsk 'company-complete "C-.")
 
   ;; flycheck is super-useful
-  (flycheck-mode t))
+  (flycheck-mode t)
+
+  ;; build and navigate errors.
+  (lsk 'compile "<f5>")
+  (lsk 'previous-error "<f7>")
+  (lsk 'next-error "<f8>"))
 
 (add-hook 'powershell-mode-hook 'my-prog-mode-hook)
 (add-hook 'css-mode-hook 'my-prog-mode-hook)
@@ -757,7 +778,11 @@ point reaches the beginning or end of the buffer, stop there."
 ;; html/web
 (defhook web-mode-hook
   (lsk 'web-mode-comment-or-uncomment      "C-c C-c")
-  (lsk 'web-mode-uncomment    "C-c C-u"))
+  (lsk 'web-mode-uncomment    "C-c C-u")
+
+  (when (or (string-suffix-p (buffer-file-name) ".js")
+	    (string-suffix-p (buffer-file-name) ".json"))
+    (my-js-mode-hook)))
 
 ;; css should be prog-mode but isn't
 (add-hook 'css-mode-hook 'my-prog-mode-hook)
