@@ -98,8 +98,8 @@
 ;;(add-to-list 'auto-mode-alist '("\\.css$" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.html$" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.php$" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.js$" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.json$" . web-mode))
+;;(add-to-list 'auto-mode-alist '("\\.js$" . web-mode))
+;;(add-to-list 'auto-mode-alist '("\\.json$" . web-mode))
 
 ;;;; GLOBAL DEFAULT OVERRIDES
 
@@ -158,6 +158,7 @@
 ;; use node for JS-execution
 (setq inferior-js-program-command "node --interactive")
 (setq web-mode-code-indent-offset 4)
+(setq js-indent-level 4)
 
 ;;;; FUNCTIONS
 
