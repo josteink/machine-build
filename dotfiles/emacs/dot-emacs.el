@@ -157,7 +157,7 @@
 
 ;; use node for JS-execution
 (setq inferior-js-program-command "node --interactive")
-(web-mode-code-indent-offset 4)
+(setq web-mode-code-indent-offset 4)
 
 ;;;; FUNCTIONS
 
