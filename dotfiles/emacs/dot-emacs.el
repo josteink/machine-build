@@ -841,6 +841,7 @@ point reaches the beginning or end of the buffer, stop there."
   (ignore-errors
     (require 'tfs)
     (setq tfs/tf-exe  "C:\\Program Files (x86)\\Microsoft Visual Studio 12.0\\Common7\\IDE\\tf.exe")
+    (setq tfs/tfpt-exe "C:\\Program Files (x86)\\Microsoft Team Foundation Server 2013 Power Tools\\TFPT.EXE")
     (setq tfs/login ""))
   
   ;; omnisharp
