@@ -31,6 +31,7 @@
         projectile
         expand-region
         undo-tree
+	helm
         ido-yes-or-no
         haskell-mode
         powershell-mode
@@ -47,6 +48,7 @@
         org
         flycheck flycheck-haskell flycheck-package
         omnisharp
+	js2-mode
         ))
 
 (dolist (package package-list)
@@ -98,8 +100,11 @@
 ;;(add-to-list 'auto-mode-alist '("\\.css$" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.html$" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.php$" . web-mode))
-;;(add-to-list 'auto-mode-alist '("\\.js$" . web-mode))
-;;(add-to-list 'auto-mode-alist '("\\.json$" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
+(add-to-list 'auto-mode-alist '("\\.json$" . js2-mode))
+
+;; hook it in for shell scripts running via node.js
+(add-to-list 'interpreter-mode-alist '("node" . js2-mode))
 
 ;;;; GLOBAL DEFAULT OVERRIDES
 
@@ -149,6 +154,10 @@
 (ido-mode)
 (ido-yes-or-no-mode)
 
+;; try out helm
+(require 'helm-config)
+(global-set-key (kbd "M-x") 'helm-M-x)
+
 ;; always follow symlinks to files under source-control. dont ask.
 (setq vc-follow-symlinks t)
 
@@ -159,6 +168,8 @@
 (setq inferior-js-program-command "node --interactive")
 (setq web-mode-code-indent-offset 4)
 (setq js-indent-level 4)
+
+(setq js2-use-font-lock-faces t)
 
 ;;;; FUNCTIONS
 
@@ -675,7 +686,7 @@ point reaches the beginning or end of the buffer, stop there."
     (omnisharp-imenu-create-index)
 
     ;; vs/resharper-like bindings
-    (lsk 'omnisharp-find-usages "S-<f12>")
+    (lsk 'omnisharp-helm-find-usages "S-<f12>")
     (lsk 'omnisharp-find-implementations "M-<f11>")
     ;; C-r is taken for reverse isearch, so we do C-o for omnisharp
     (local-unset-key (kbd "C-o"))
@@ -826,6 +837,12 @@ point reaches the beginning or end of the buffer, stop there."
   ;; requires aspell installed by cygwin
   (setq-default ispell-program-name "C:/cygwin64/bin/aspell.exe")
 
+  ;; load tfs-support if tfs.el is installed.
+  (ignore-errors
+    (require 'tfs)
+    (setq tfs/tf-exe  "C:\\Program Files (x86)\\Microsoft Visual Studio 12.0\\Common7\\IDE\\tf.exe")
+    (setq tfs/login ""))
+  
   ;; omnisharp
   (setq omnisharp-server-executable-path "D:/Git/omnisharp-server/OmniSharp/bin/Debug/Omnisharp.exe"))
 
