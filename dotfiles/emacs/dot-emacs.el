@@ -92,6 +92,8 @@
 (add-to-list 'auto-mode-alist '("\\.cljs$" . clojure-mode))
 (add-to-list 'auto-mode-alist '("\\.bat$" . batch-mode))
 (add-to-list 'auto-mode-alist '("\\.md$" . markdown-mode))
+;; it's all text, firefox extension!
+(add-to-list 'auto-mode-alist '("www\\..*\\.txt$" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.config$" . xml-mode))
 (add-to-list 'auto-mode-alist '("\\.ps$" . powershell-mode))
 (add-to-list 'auto-mode-alist '("\\.ps1$" . powershell-mode))
