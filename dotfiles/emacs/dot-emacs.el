@@ -780,6 +780,7 @@ point reaches the beginning or end of the buffer, stop there."
 
 (add-hook 'powershell-mode-hook 'my-prog-mode-hook)
 (add-hook 'css-mode-hook 'my-prog-mode-hook)
+(add-hook 'cmake-mode-hook 'my-prog-mode-hook)
 
 ;; xml
 (defhook xml-mode-hook
@@ -941,3 +942,33 @@ point reaches the beginning or end of the buffer, stop there."
 ;; un-disabled commands
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
+
+
+(eval-after-load 'company
+  '(progn
+     (add-to-list 'company-backends 'company-irony)
+     (add-to-list 'company-backends 'company-c-headers)))
+;; (optional) adds CC special commands to `company-begin-commands' in order to
+;; trigger completion at interesting places, such as after scope operator
+;;     std::|
+
+(add-hook 'irony-mode-hook 'company-irony-setup-begin-commands)
+
+(add-hook 'c++-mode-hook 'irony-mode)
+(add-hook 'c-mode-hook 'irony-mode)
+(add-hook 'objc-mode-hook 'irony-mode)
+
+;; replace the `completion-at-point' and `complete-symbol' bindings in
+;; irony-mode's buffers by irony-mode's function
+(defun my-irony-mode-hook ()
+  (define-key irony-mode-map [remap completion-at-point]
+    'irony-completion-at-point-async)
+  (define-key irony-mode-map [remap complete-symbol]
+    'irony-completion-at-point-async))
+(add-hook 'irony-mode-hook 'my-irony-mode-hook)
+(add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
+
+
+(global-ede-mode 1)
+
+(global-set-key (kbd "C-q") 'set-mark-command)
