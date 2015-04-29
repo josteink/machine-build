@@ -166,6 +166,9 @@
 ;; UTF-8 as default encoding. this is required for unix->windows safe dropbox transfers.
 (set-language-environment "UTF-8")
 
+;; generally speaking we always want spaces, not tabs.
+(setq indent-tabs-mode nil)
+
 ;; use node for JS-execution
 (setq inferior-js-program-command "node --interactive")
 (setq web-mode-code-indent-offset 4)
