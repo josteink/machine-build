@@ -31,7 +31,7 @@
         projectile
         expand-region
         undo-tree
-	helm
+        helm
         ido-yes-or-no
         haskell-mode
         powershell-mode
@@ -48,7 +48,7 @@
         org
         flycheck flycheck-haskell flycheck-package
         omnisharp
-	js2-mode
+        js2-mode
         ))
 
 (dolist (package package-list)
@@ -692,7 +692,7 @@ point reaches the beginning or end of the buffer, stop there."
 
     ;; vs/resharper-like bindings
     (lsk 'omnisharp-helm-find-usages "S-<f12>")
-    (lsk 'omnisharp-find-implementations "M-<f11>")
+    (lsk 'omnisharp-find-implementations-popup "M-<f11>")
     ;; C-r is taken for reverse isearch, so we do C-o for omnisharp
     (local-unset-key (kbd "C-o"))
     (lsk 'omnisharp-rename "C-o C-r")
@@ -799,7 +799,7 @@ point reaches the beginning or end of the buffer, stop there."
   (lsk 'web-mode-uncomment    "C-c C-u")
 
   (when (or (string-suffix-p (buffer-file-name) ".js")
-	    (string-suffix-p (buffer-file-name) ".json"))
+            (string-suffix-p (buffer-file-name) ".json"))
     (my-js-mode-hook)))
 
 ;; css should be prog-mode but isn't
@@ -849,7 +849,7 @@ point reaches the beginning or end of the buffer, stop there."
     (setq tfs/tf-exe  "C:\\Program Files (x86)\\Microsoft Visual Studio 12.0\\Common7\\IDE\\tf.exe")
     (setq tfs/tfpt-exe "C:\\Program Files (x86)\\Microsoft Team Foundation Server 2013 Power Tools\\TFPT.EXE")
     (setq tfs/login ""))
-  
+
   ;; omnisharp
   (setq omnisharp-server-executable-path "D:/Git/omnisharp-server/OmniSharp/bin/Debug/Omnisharp.exe"))
 
