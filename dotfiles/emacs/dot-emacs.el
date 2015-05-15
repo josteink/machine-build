@@ -768,6 +768,7 @@ point reaches the beginning or end of the buffer, stop there."
   (projectile-mode)
   (setq projectile-completion-system 'helm)
   (helm-projectile-on)
+  ;; C-c p s g ;; projectile live grep!
 
   ;; formatting matters in programming files, but python is a silly
   ;; language which cares about white-space.
