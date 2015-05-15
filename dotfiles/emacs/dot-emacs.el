@@ -32,6 +32,7 @@
         expand-region
         undo-tree
         helm
+	helm-projectile
         ido-yes-or-no
         haskell-mode
         powershell-mode
@@ -740,6 +741,7 @@ point reaches the beginning or end of the buffer, stop there."
 
   ;; code - navigate to definition
   (lsk 'imenu-nav-dwim "<f12>")
+  (lsk 'helm-imenu "M-g m" "M-g f")
   ;; navigate back again.
   ;; (could also use set-mark with prefix argument C-u C-spc.)
   (lsk 'pop-local-or-global-mark "C--")
@@ -763,6 +765,7 @@ point reaches the beginning or end of the buffer, stop there."
   ;; C-c p f - search for any file in your lein/git/etc project
   ;; more docs and bindings here: https://github.com/bbatsov/projectile
   (projectile-mode)
+  (define-key 'projectile-command-map (kbd "f") 'helm-projectile-find-file-dwim)
 
   ;; formatting matters in programming files, but python is a silly
   ;; language which cares about white-space.
