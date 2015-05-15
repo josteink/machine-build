@@ -144,8 +144,9 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(global-auto-revert-mode t)
- '(inhibit-startup-screen t))
+ '(package-selected-packages
+   (quote
+    (powershell-mode nrepl web-mode undo-tree slime-company paredit omnisharp multiple-cursors markdown-mode magit macrostep js2-mode ido-yes-or-no helm-projectile flycheck-package flycheck-haskell expand-region elisp-slime-nav company-irony company-cmake color-theme-gruber-darker cmake-mode batch-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -765,7 +766,8 @@ point reaches the beginning or end of the buffer, stop there."
   ;; C-c p f - search for any file in your lein/git/etc project
   ;; more docs and bindings here: https://github.com/bbatsov/projectile
   (projectile-mode)
-  (define-key 'projectile-command-map (kbd "f") 'helm-projectile-find-file-dwim)
+  (setq projectile-completion-system 'helm)
+  (helm-projectile-on)
 
   ;; formatting matters in programming files, but python is a silly
   ;; language which cares about white-space.
