@@ -1,0 +1,11 @@
+#!/bin/sh
+
+BRANCH=$1
+shift
+COMMITS=$*
+
+# remove branch if exists
+git checkout master
+git branch -D $BRANCH
+git checkout -b $BRANCH
+git cherry-pick $COMMITS
