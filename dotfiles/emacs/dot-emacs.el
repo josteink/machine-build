@@ -725,7 +725,7 @@ point reaches the beginning or end of the buffer, stop there."
 
 (defhook c-mode-common-hook
   ;; setup navigation based on tags.
-  (lsk 'helm-imenu "<f12>" "M-."))
+  (lsk 'find-tag "<f12>" "M-."))
 
 (defhook js-mode-hook
   (lsk 'run-js "<f6>")
