@@ -38,6 +38,7 @@
         web-mode
         company
         company-c-headers
+        ggtags
         slime-company ;; if loading fails with recursive load, check if distro-provided slime is installed.
         git-commit-mode
         git-rebase-mode
@@ -483,6 +484,21 @@ point reaches the beginning or end of the buffer, stop there."
   (set-mark-command nil)
   (org-table-end-of-field 0))
 
+;; we must load original helm-imenu to get access to its state-variables and matchers.
+(require 'helm-imenu)
+(defun helm-imenu-dwim ()
+  "Preconfigured `helm' for `imenu'. Unlike regular `helm-imenu' does always cause a helm popup."
+  (interactive)
+  (unless helm-source-imenu
+    (setq helm-source-imenu
+          (helm-make-source "Imenu" 'helm-imenu-source
+            :fuzzy-match helm-imenu-fuzzy-match)))
+  (helm :sources 'helm-source-imenu
+        ;;:default (list (concat "\\_<" str "\\_>") str)
+        :candidate-number-limit 9999
+        :buffer "*helm imenu*"))
+
+
 ;; utility functions for key-definitions
 (defun fkt (func target keys)
   "Sets up multiple keybindings for one function."
@@ -740,7 +756,7 @@ point reaches the beginning or end of the buffer, stop there."
 
   ;; code - navigate to definition
   (lsk 'imenu-nav-dwim "<f12>")
-  (lsk 'helm-imenu "M-g m" "M-g M-m" "M-g f" "M-g M-f")
+  (lsk 'helm-imenu-dwim "M-g m" "M-g M-m" "M-g f" "M-g M-f")
   ;; navigate back again.
   ;; (could also use set-mark with prefix argument C-u C-spc.)
   (lsk 'pop-local-or-global-mark "C--")
@@ -759,10 +775,6 @@ point reaches the beginning or end of the buffer, stop there."
   ;; enable imenu - only for true prog-mode major-modes
   (when (derived-mode-p 'prog-mode)
     (imenu-add-menubar-index))
-
-  ;; avoid tab-based commit-snafu
-  (highlight-tabs)
-  (highlight-trailing-whitespace)
 
   ;; projectile mode: on!
   ;; C-c p f - search for any file in your lein/git/etc project
@@ -965,7 +977,7 @@ point reaches the beginning or end of the buffer, stop there."
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (powershell-mode nrepl web-mode undo-tree slime-company paredit omnisharp multiple-cursors markdown-mode magit macrostep js2-mode ido-yes-or-no helm-projectile flycheck-package flycheck-haskell expand-region elisp-slime-nav company-cmake company-c-headers color-theme-gruber-darker cmake-mode batch-mode))))
+    (powershell-mode nrepl web-mode undo-tree slime-company paredit omnisharp multiple-cursors markdown-mode magit macrostep js2-mode ido-yes-or-no helm-projectile ggtags flycheck-package flycheck-haskell expand-region elisp-slime-nav company-cmake company-c-headers color-theme-gruber-darker cmake-mode batch-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
