@@ -155,6 +155,8 @@
 ;; try out helm
 (require 'helm-config)
 (global-set-key (kbd "M-x") 'helm-M-x)
+(global-set-key (kbd "C-x C-b") 'helm-buffers-list)
+(global-set-key (kbd "C-x b") 'helm-buffers-list)
 
 ;; always follow symlinks to files under source-control. dont ask.
 (setq vc-follow-symlinks t)
@@ -720,6 +722,10 @@ point reaches the beginning or end of the buffer, stop there."
     (lsk 'omnisharp-auto-complete "C-.") ;; override company-mode, with better popup
     (lsk 'hippie-expand "C-:") ;; still allow hippie-expand
     ))
+
+(defhook c-mode-common-hook
+  ;; setup navigation based on tags.
+  (lsk 'helm-imenu "<f12>" "M-."))
 
 (defhook js-mode-hook
   (lsk 'run-js "<f6>")
