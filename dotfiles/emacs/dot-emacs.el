@@ -119,6 +119,9 @@
 ;; supress splash-screen.
 (setq inhibit-startup-screen t)
 
+;; supress magit-nagging
+(setq magit-last-seen-setup-instructions "1.4.0")
+
 ;; always update files when changing git-branches, etc.
 (global-auto-revert-mode t)
 
@@ -737,7 +740,7 @@ point reaches the beginning or end of the buffer, stop there."
 
   ;; code - navigate to definition
   (lsk 'imenu-nav-dwim "<f12>")
-  (lsk 'helm-imenu "M-g m" "M-g f")
+  (lsk 'helm-imenu "M-g m" "M-g M-m" "M-g f" "M-g M-f")
   ;; navigate back again.
   ;; (could also use set-mark with prefix argument C-u C-spc.)
   (lsk 'pop-local-or-global-mark "C--")
