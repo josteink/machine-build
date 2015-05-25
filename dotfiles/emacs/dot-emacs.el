@@ -1,6 +1,5 @@
 
 
-
 ;;;; PACKAGES AND REPOSITORIES
 
 
@@ -14,10 +13,10 @@
 (add-to-list 'load-path "~/.emacs.d/local/") ;; emacs23 + package.el on debian
 (require 'package)
 
-(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
-(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
+(add-to-list 'package-archives '("marmalade"    . "http://marmalade-repo.org/packages/"))
+(add-to-list 'package-archives '("melpa"        . "http://melpa.org/packages/"))
 (add-to-list 'package-archives '("melpa stable" . "http://stable.melpa.org/packages/"))
-(add-to-list 'package-archives '("org-mode" . "http://orgmode.org/elpa/"))
+(add-to-list 'package-archives '("org-mode"     . "http://orgmode.org/elpa/"))
 (package-initialize)
 
 ;; ensure all packages we need are installed.
@@ -32,12 +31,13 @@
         expand-region
         undo-tree
         helm
-	helm-projectile
+        helm-projectile
         ido-yes-or-no
         haskell-mode
         powershell-mode
         web-mode
         company
+        company-c-headers
         slime-company ;; if loading fails with recursive load, check if distro-provided slime is installed.
         git-commit-mode
         git-rebase-mode
@@ -116,6 +116,12 @@
 ;; dont let other sysadmins override our config ;)
 (setq inhibit-default-init t)
 
+;; supress splash-screen.
+(setq inhibit-startup-screen t)
+
+;; always update files when changing git-branches, etc.
+(global-auto-revert-mode t)
+
 ;; enable windows-y selection-behaviour
 (delete-selection-mode 1)
 
@@ -138,22 +144,6 @@
 (add-hook 'after-save-hook
           'make-scripts-executable)
 
-;; provides automatic loading after changing branches etc in git
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   (quote
-    (powershell-mode nrepl web-mode undo-tree slime-company paredit omnisharp multiple-cursors markdown-mode magit macrostep js2-mode ido-yes-or-no helm-projectile flycheck-package flycheck-haskell expand-region elisp-slime-nav company-irony company-cmake color-theme-gruber-darker cmake-mode batch-mode))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
-
 ;; ido mode just makes everything better.
 (ido-mode)
 (ido-yes-or-no-mode)
@@ -170,11 +160,16 @@
 
 ;; generally speaking we always want spaces, not tabs.
 (setq indent-tabs-mode nil)
+(setq-default indent-tabs-mode nil)
+
+;; try to set indentation consistently.
+(setq c-basic-indent 4)
+(setq tab-width 4)
+(setq web-mode-code-indent-offset 4)
+(setq js-indent-level 4)
 
 ;; use node for JS-execution
 (setq inferior-js-program-command "node --interactive")
-(setq web-mode-code-indent-offset 4)
-(setq js-indent-level 4)
 
 (setq js2-use-font-lock-faces t)
 
@@ -762,6 +757,10 @@ point reaches the beginning or end of the buffer, stop there."
   (when (derived-mode-p 'prog-mode)
     (imenu-add-menubar-index))
 
+  ;; avoid tab-based commit-snafu
+  (highlight-tabs)
+  (highlight-trailing-whitespace)
+
   ;; projectile mode: on!
   ;; C-c p f - search for any file in your lein/git/etc project
   ;; more docs and bindings here: https://github.com/bbatsov/projectile
@@ -945,39 +944,32 @@ point reaches the beginning or end of the buffer, stop there."
            (eq system-type 'gnu/linux))
   (my-x-mode-hook))
 
-;; temporary fix for C# brokenness in 24.4 win.
-;;(require 'cl)
-
 ;; un-disabled commands
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
 
-
+;; configure company-mode
 (eval-after-load 'company
   '(progn
-     (add-to-list 'company-backends 'company-irony)
      (add-to-list 'company-backends 'company-c-headers)))
-;; (optional) adds CC special commands to `company-begin-commands' in order to
-;; trigger completion at interesting places, such as after scope operator
-;;     std::|
-
-(add-hook 'irony-mode-hook 'company-irony-setup-begin-commands)
-
-(add-hook 'c++-mode-hook 'irony-mode)
-(add-hook 'c-mode-hook 'irony-mode)
-(add-hook 'objc-mode-hook 'irony-mode)
-
-;; replace the `completion-at-point' and `complete-symbol' bindings in
-;; irony-mode's buffers by irony-mode's function
-(defun my-irony-mode-hook ()
-  (define-key irony-mode-map [remap completion-at-point]
-    'irony-completion-at-point-async)
-  (define-key irony-mode-map [remap complete-symbol]
-    'irony-completion-at-point-async))
-(add-hook 'irony-mode-hook 'my-irony-mode-hook)
-(add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
-
 
 (global-ede-mode 1)
 
-(global-set-key (kbd "C-q") 'set-mark-command)
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+    (powershell-mode nrepl web-mode undo-tree slime-company paredit omnisharp multiple-cursors markdown-mode magit macrostep js2-mode ido-yes-or-no helm-projectile flycheck-package flycheck-haskell expand-region elisp-slime-nav company-cmake company-c-headers color-theme-gruber-darker cmake-mode batch-mode))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+
+;; how to remap a key for function X to function Y.
+;; (define-key irony-mode-map [remap completion-at-point]
+;;   'irony-completion-at-point-async)
