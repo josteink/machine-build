@@ -550,7 +550,7 @@ point reaches the beginning or end of the buffer, stop there."
 (gsk 'align-regexp "M-&")
 
 ;; search for all matches of a given regex, list results
-(gsk 'occur-dwim "C-c C-o")
+(gsk 'occur-dwim "C-c C-o" "M-s o" "M-s M-o")
 
 ;; upcase and downcase like we want it
 (gsk 'upcase-word-dwim "M-u")
@@ -786,8 +786,10 @@ point reaches the beginning or end of the buffer, stop there."
   ;; C-c p f - search for any file in your lein/git/etc project
   ;; more docs and bindings here: https://github.com/bbatsov/projectile
   (projectile-mode)
-  (setq projectile-completion-system 'helm)
-  (helm-projectile-on)
+  (ignore-errors
+    (helm-projectile-on)
+    (setq projectile-completion-system 'helm))
+
   ;; C-c p s g ;; projectile live grep!
 
   ;; formatting matters in programming files, but python is a silly
