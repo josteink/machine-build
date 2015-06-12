@@ -550,7 +550,7 @@ point reaches the beginning or end of the buffer, stop there."
 (gsk 'align-regexp "M-&")
 
 ;; search for all matches of a given regex, list results
-gsk 'occur-dwim "C-c C-o" "M-s o" "M-s M-o"
+(gsk 'occur-dwim "C-c C-o" "M-s o" "M-s M-o")
 
 ;; upcase and downcase like we want it
 (gsk 'upcase-word-dwim "M-u")
