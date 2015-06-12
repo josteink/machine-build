@@ -1,0 +1,6 @@
+#!/bin/sh
+
+# force sudo-prompt
+sudo -v || exit 1
+
+pv $1 | sudo dd of=$2 bs=1M oflag=sync

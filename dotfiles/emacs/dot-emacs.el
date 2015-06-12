@@ -51,6 +51,7 @@
         flycheck flycheck-haskell flycheck-package
         omnisharp
         js2-mode
+        ssh-config-mode
         ))
 
 (dolist (package package-list)
@@ -985,7 +986,7 @@ point reaches the beginning or end of the buffer, stop there."
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (powershell-mode nrepl web-mode undo-tree slime-company paredit omnisharp multiple-cursors markdown-mode magit macrostep js2-mode ido-yes-or-no helm-projectile ggtags flycheck-package flycheck-haskell expand-region elisp-slime-nav company-cmake company-c-headers color-theme-gruber-darker cmake-mode batch-mode))))
+    (ssh-config-mode powershell-mode nrepl web-mode undo-tree slime-company paredit omnisharp multiple-cursors markdown-mode magit macrostep js2-mode ido-yes-or-no helm-projectile ggtags flycheck-package flycheck-haskell expand-region elisp-slime-nav company-c-headers color-theme-gruber-darker batch-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
