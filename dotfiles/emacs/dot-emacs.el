@@ -137,6 +137,9 @@
 ;; set all search to case insensitive
 (setq case-fold-search t)
 
+;; org-mode fontified properly for babel
+(setq org-src-fontify-natively t)
+
 ;; ensure all occur-buffers have unique names (to enable multple ones)
 (add-hook 'occur-hook 'occur-rename-buffer)
 
