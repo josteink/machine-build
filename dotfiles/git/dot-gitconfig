@@ -1,0 +1,10 @@
+[user]
+	name = Jostein Kjønigsen
+	email = jostein@kjonigsen.net
+[push]
+	default = simple
+[branch]
+	autosetuprebase = always
+[alias]
+	unadd = reset HEAD
+	restore = "!f() { git checkout $(git rev-list -n 1 HEAD -- $1)~1 -- $(git diff --name-status $(git rev-list -n 1 HEAD -- $1)~1 | grep ^D | cut -f 2); }; f"
