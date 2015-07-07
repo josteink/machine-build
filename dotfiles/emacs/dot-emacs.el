@@ -97,7 +97,7 @@
 (add-to-list 'auto-mode-alist '("\\.md$" . markdown-mode))
 ;; it's all text, firefox extension!
 (add-to-list 'auto-mode-alist '("www\\..*\\.txt$" . markdown-mode))
-(add-to-list 'auto-mode-alist '("\\.config$" . xml-mode))
+(add-to-list 'auto-mode-alist '("\\.config$" . nxml-mode))
 (add-to-list 'auto-mode-alist '("\\.ps$" . powershell-mode))
 (add-to-list 'auto-mode-alist '("\\.ps1$" . powershell-mode))
 
@@ -137,6 +137,9 @@
 ;; set all search to case insensitive
 (setq case-fold-search t)
 
+;; org-mode fontified properly for babel
+(setq org-src-fontify-natively t)
+
 ;; ensure all occur-buffers have unique names (to enable multple ones)
 (add-hook 'occur-hook 'occur-rename-buffer)
 
@@ -158,6 +161,7 @@
 (global-set-key (kbd "M-x") 'helm-M-x)
 (global-set-key (kbd "C-x C-b") 'helm-buffers-list)
 (global-set-key (kbd "C-x b") 'helm-buffers-list)
+(global-set-key (kbd "C-c p h") 'helm-projectile)
 
 ;; always follow symlinks to files under source-control. dont ask.
 (setq vc-follow-symlinks t)
@@ -786,10 +790,7 @@ point reaches the beginning or end of the buffer, stop there."
   ;; projectile mode: on!
   ;; C-c p f - search for any file in your lein/git/etc project
   ;; more docs and bindings here: https://github.com/bbatsov/projectile
-  (projectile-mode)
-  (ignore-errors
-    (helm-projectile-on)
-    (setq projectile-completion-system 'helm))
+  (projectile-mode t)
 
   ;; C-c p s g ;; projectile live grep!
 
@@ -814,18 +815,25 @@ point reaches the beginning or end of the buffer, stop there."
 (add-hook 'css-mode-hook 'my-prog-mode-hook)
 (add-hook 'cmake-mode-hook 'my-prog-mode-hook)
 
+(defhook projectile-mode-hook
+  (ignore-errors
+    (helm-projectile-on)
+    (setq projectile-completion-system 'helm)))
+
 ;; xml
-(defhook xml-mode-hook
-  ;; not C-k C-c & C-k C-t because C-k is kill-line in emacs
-  (lsk 'comment-or-uncomment-region      "C-c C-c")
-  (lsk 'uncomment-region    "C-c C-u"))
+(defhook nxml-mode-hook
+  (lsk 'comment-or-uncomment-region "C-c C-c")
+  (lsk 'uncomment-region            "C-c C-u")
+
+  ;; xml-files are more often than not part of a project.
+  (projectile-mode t))
 
 
 
 ;; html/web
 (defhook web-mode-hook
-  (lsk 'web-mode-comment-or-uncomment      "C-c C-c")
-  (lsk 'web-mode-uncomment    "C-c C-u")
+  (lsk 'web-mode-comment-or-uncomment "C-c C-c")
+  (lsk 'web-mode-uncomment            "C-c C-u")
 
   (when (or (string-suffix-p (buffer-file-name) ".js")
             (string-suffix-p (buffer-file-name) ".json"))
@@ -986,7 +994,7 @@ point reaches the beginning or end of the buffer, stop there."
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (ssh-config-mode powershell-mode nrepl web-mode undo-tree slime-company paredit omnisharp multiple-cursors markdown-mode magit macrostep js2-mode ido-yes-or-no helm-projectile ggtags flycheck-package flycheck-haskell expand-region elisp-slime-nav company-c-headers color-theme-gruber-darker batch-mode))))
+    (powershell-mode nrepl web-mode undo-tree ssh-config-mode slime-company paredit omnisharp multiple-cursors marmalade-client markdown-mode magit macrostep js2-mode ido-yes-or-no helm-projectile ggtags flycheck-package flycheck-haskell expand-region elisp-slime-nav company-c-headers color-theme-gruber-darker batch-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
