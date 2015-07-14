@@ -305,11 +305,9 @@
                (ignore-errors (paredit-backward-up)
                               (paredit-backward-up))
                (sexp-at-point))))
-    (cl-flet ((check (s) (and (not (equal nil s))
-                              ;; if the symbol is a string, the point is at a string.
-                              (stringp s))))
-      (or (check s2)
-          (check s3)))))
+    ;; if the symbol is a string, the point is at a string.
+    (or (stringp s2)
+        (stringp s3))))
 
 (defun yank-quote-dwim (r)
   "Yank with automatic quoting when inside a string-context."
