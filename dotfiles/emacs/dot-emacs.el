@@ -286,18 +286,14 @@
   (interactive)
 
   ;; TODO: determine if we are in a string-context
-  (let* ((contents nil))
-    
-    (with-temp-buffer
-      (yank)
-      (setq contents (buffer-substring-no-properties (point-min) (point-max))))
-
-    (let* ((quoted (format "%S" contents))
-           ;; quoted actually has start and end quotes abc -> "abc".
-           ;; remove quotes to get escaped text only.
-           (escaped (substring quoted 1 (- (length quoted) 1))))
-      (insert-string escaped)))) 
-
+  (let* ((contents (car kill-ring))
+         ;; strip out fontification metadata
+         (ignored  (set-text-properties 0 (length contents) 'nil contents))
+         (quoted   (format "%S" contents)) 
+         ;; quoted actually has start and end quotes abc -> "abc".
+         ;; remove quotes to get escaped text only.
+         (escaped  (substring quoted 1 (- (length quoted) 1))))
+    (insert-string escaped))) 
 
 ;; taken from
 ;; emacsredux.com/blog/2013/06/21/eval-and-replace/
