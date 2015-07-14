@@ -300,17 +300,22 @@
 (defun point-at-string-p ()
   "Returns true if point is in a string-context"
 
-  (let* ((s1 (sexp-at-point))                           ;; |"you are here" - not valid!
-         (s2 (save-excursion                            ;; "|you are here" - valid
-               (ignore-errors (paredit-backward-up))
-               (sexp-at-point)))
-         (s3 (save-excursion                            ;; "you |are here" - valid
-               (ignore-errors (paredit-backward-up)
-                              (paredit-backward-up))
-               (sexp-at-point))))
-    ;; if the symbol is a string, the point is at a string.
-    (or (stringp s2)
-        (stringp s3))))
+  ;; search-backward is not bullet-proof, but a decent fallback for
+  ;; paredit-backward-up, because that only works in lisp-modes.
+  (cl-flet ((search-up () (condition-case nil
+                           (paredit-backward-up)
+                           (error (search-backward "\"")))))
+    (let* ((s1 (sexp-at-point))                           ;; |"you are here" - not valid!
+           (s2 (save-excursion                            ;; "|you are here" - valid
+                 (ignore-errors (search-up))
+                 (sexp-at-point)))
+           (s3 (save-excursion                            ;; "you |are here" - valid
+                 (ignore-errors (search-up)
+                                (search-up))
+                 (sexp-at-point))))
+      ;; if the symbol is a string, the point is at a string.
+      (or (stringp s2)
+          (stringp s3)))))
 
 (defun yank-quote-dwim (r)
   "Yank with automatic quoting when inside a string-context."
