@@ -285,15 +285,39 @@
   "Automatically quotes and escapes the clipboard-data."
   (interactive)
 
-  ;; TODO: determine if we are in a string-context
   (let* ((contents (car kill-ring))
          ;; strip out fontification metadata
          (ignored  (set-text-properties 0 (length contents) 'nil contents))
-         (quoted   (format "%S" contents)) 
+         (quoted   (format "%S" contents))
          ;; quoted actually has start and end quotes abc -> "abc".
          ;; remove quotes to get escaped text only.
          (escaped  (substring quoted 1 (- (length quoted) 1))))
-    (insert-string escaped))) 
+    (insert-string escaped)))
+
+(defun point-at-string-p ()
+  "Returns true if point is in a string-context"
+
+  (let* ((s1 (sexp-at-point))                           ;; |"you are here" - not valid!
+         (s2 (save-excursion                            ;; "|you are here" - valid
+               (ignore-errors (paredit-backward-up))
+               (sexp-at-point)))
+         (s3 (save-excursion                            ;; "you |are here" - valid
+               (ignore-errors (paredit-backward-up)
+                              (paredit-backward-up))
+               (sexp-at-point))))
+    (cl-flet ((check (s) (and (not (equal nil s))
+                              ;; if the symbol is a string, the point is at a string.
+                              (stringp s))))
+      (or (check s2)
+          (check s3)))))
+
+(defun yank-quote-dwim (r)
+  "Yank with automatic quoting when inside a string-context."
+  (interactive "p")
+
+  (if (point-at-string-p)
+      (yank-quote)
+    (yank r)))
 
 ;; taken from
 ;; emacsredux.com/blog/2013/06/21/eval-and-replace/
@@ -553,7 +577,7 @@ point reaches the beginning or end of the buffer, stop there."
 (gsk 'undo         "C-z")
 (gsk 'other-window "<C-tab>")
 
-(gsk 'yank-quote   "C-M-y") ;; sexps yank.
+(gsk 'yank-quote-dwim "C-M-y") ;; sexps yank.
 
 ;; C-x k is bound to kill, but C-x C-k is bound to nothing
 ;; we hit this all the time, so bind it.
