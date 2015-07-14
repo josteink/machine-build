@@ -137,6 +137,9 @@
 ;; set all search to case insensitive
 (setq case-fold-search t)
 
+;; avoid ever loading old code from outdated ELC-files
+(setq load-prefer-newer t)
+
 ;; org-mode fontified properly for babel
 (setq org-src-fontify-natively t)
 
@@ -316,6 +319,10 @@
   (if (point-at-string-p)
       (yank-quote)
     (yank r)))
+
+(defun kill-line-dwim (r)
+  "Tries to do the 'right thing' when killing a line."
+  (interactive "p"))
 
 ;; taken from
 ;; emacsredux.com/blog/2013/06/21/eval-and-replace/
