@@ -866,6 +866,9 @@ point reaches the beginning or end of the buffer, stop there."
   ;; flycheck is super-useful
   (flycheck-mode t)
 
+  ;; flyspell too!
+  (flyspell-prog-mode t)
+
   ;; build and navigate errors.
   (lsk 'compile "<f5>")
   (lsk 'previous-error "<f7>")
