@@ -874,6 +874,15 @@ point reaches the beginning or end of the buffer, stop there."
   (lsk 'comment-or-uncomment-region "C-c C-c")
   (lsk 'uncomment-region            "C-c C-u")
 
+  ;; C-c C-o is bound to some useless heading/section things
+  ;; we're not using. Restablish occur-dwim as a "global" binding.
+  (local-unset-key "C-c C-o")
+  (lsk 'occur-dwim "C-c C-o")
+
+  ;; for some reason these highly useful bindings are not set.
+  (lsk 'previous-error "<f7>")
+  (lsk 'next-error "<f8>")
+
   ;; xml-files are more often than not part of a project.
   (projectile-mode t))
 
