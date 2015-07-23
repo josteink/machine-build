@@ -915,9 +915,8 @@ point reaches the beginning or end of the buffer, stop there."
 (add-hook 'css-mode-hook 'my-prog-mode-hook)
 
 ;; git thingies
-(defun my-git-commit-mode-hook ()
+(defhook git-commit-mode-hook
   (flyspell-mode 't))
-(add-hook 'git-commit-mode-hook 'my-git-commit-mode-hook)
 
 
 ;;;; WINDOWS ONLY CUSTOMIZATIONS
