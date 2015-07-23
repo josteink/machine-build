@@ -284,18 +284,29 @@
                   (indent-region (region-beginning)
                                  (region-end) nil))))))
 
+(defun get-clipboard-no-properties ()
+  "Gets the current clipboard/`kill-ring' item with all metadata and properties stripped out."
+
+  (let* ((contents (car kill-ring))
+         ;; strip out fontification metadata
+         (ignored  (set-text-properties 0 (length contents) 'nil contents)))
+    contents))
+
+(defun escape-string (text)
+  "Escapes the provded string so that itself will fit inside a string-constant.
+
+  TEXT: string to escape"
+
+  ;; quoted actually has start and end quotes abc -> "abc".
+  ;; remove quotes to get escaped text only.
+  (let* ((quoted (format "%S" text)))
+    (substring quoted 1 (- (length quoted) 1))))
+
 (defun yank-quote ()
   "Automatically quotes and escapes the clipboard-data."
   (interactive)
 
-  (let* ((contents (car kill-ring))
-         ;; strip out fontification metadata
-         (ignored  (set-text-properties 0 (length contents) 'nil contents))
-         (quoted   (format "%S" contents))
-         ;; quoted actually has start and end quotes abc -> "abc".
-         ;; remove quotes to get escaped text only.
-         (escaped  (substring quoted 1 (- (length quoted) 1))))
-    (insert-string escaped)))
+  (insert-string (escape-string (get-clipboard-no-properties))))
 
 (defun point-at-string-p ()
   "Returns true if point is in a string-context"
@@ -303,8 +314,8 @@
   ;; search-backward is not bullet-proof, but a decent fallback for
   ;; paredit-backward-up, because that only works in lisp-modes.
   (cl-flet ((search-up () (condition-case nil
-                           (paredit-backward-up)
-                           (error (search-backward "\"")))))
+                              (paredit-backward-up)
+                            (error (search-backward "\"")))))
     (let* ((s1 (sexp-at-point))                           ;; |"you are here" - not valid!
            (s2 (save-excursion                            ;; "|you are here" - valid
                  (ignore-errors (search-up))
@@ -854,6 +865,9 @@ point reaches the beginning or end of the buffer, stop there."
 
   ;; flycheck is super-useful
   (flycheck-mode t)
+
+  ;; flyspell too!
+  (flyspell-prog-mode t)
 
   ;; build and navigate errors.
   (lsk 'compile "<f5>")
