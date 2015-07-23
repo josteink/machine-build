@@ -278,6 +278,7 @@
                           objc-mode
                           latex-mode
                           plain-tex-mode
+                          nxml-mode
                           prog-mode)) ; sadly setting prog-mode alone is not enough
                 (let
                     ((mark-even-if-inactive transient-mark-mode))
