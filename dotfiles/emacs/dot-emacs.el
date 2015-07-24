@@ -870,7 +870,7 @@ point reaches the beginning or end of the buffer, stop there."
   (flycheck-mode t)
 
   ;; flyspell too!
-  (flyspell-prog-mode t)
+  (flyspell-prog-mode)
 
   ;; build and navigate errors.
   (lsk 'compile "<f5>")
