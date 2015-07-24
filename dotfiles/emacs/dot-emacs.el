@@ -225,6 +225,19 @@
   (push (region-str-or-symbol) regexp-history)
   (call-interactively 'occur))
 
+(defun previous-error-dwim ()
+  "Customized version of `previous-error' which never causes failures and just does the right thing."
+  (interactive)
+  (condition-case nil
+      (previous-error)
+    (error (first-error))))
+
+(defun next-error-dwim ()
+  "Customized version of `next-error' which never causes failures."
+  (interactive)
+  (ignore-errors
+    (next-error)))
+
 (defun my-move-to-start-of-word ()
   "Function to move us to the beginning of the currently selected word."
   (forward-word)
@@ -385,6 +398,10 @@ point reaches the beginning or end of the buffer, stop there."
 ;; remap C-a to `smarter-move-beginning-of-line'
 (global-set-key [remap move-beginning-of-line]
                 'smarter-move-beginning-of-line)
+
+;; fix next and previous-error behaviour
+(global-set-key [remap previous-error] 'previous-error-dwim)
+(global-set-key [remap next -error]    'next-error-dwim)
 
 ;; Fix page-up/page-down behaviour when at beginning and end
 ;; of buffers.
@@ -874,8 +891,9 @@ point reaches the beginning or end of the buffer, stop there."
 
   ;; build and navigate errors.
   (lsk 'compile "<f5>")
-  (lsk 'previous-error "<f7>")
-  (lsk 'next-error "<f8>"))
+  (lsk 'previous-error-dwim "<f7>")
+  (lsk 'next-error-dwim     "<f8>")
+  )
 
 (add-hook 'powershell-mode-hook 'my-prog-mode-hook)
 (add-hook 'css-mode-hook 'my-prog-mode-hook)
@@ -897,8 +915,8 @@ point reaches the beginning or end of the buffer, stop there."
   (lsk 'occur-dwim "C-c C-o")
 
   ;; for some reason these highly useful bindings are not set.
-  (lsk 'previous-error "<f7>")
-  (lsk 'next-error "<f8>")
+  (lsk 'previous-error-dwim "<f7>")
+  (lsk 'next-error-dwim     "<f8>")
 
   ;; xml-files are more often than not part of a project.
   (projectile-mode t))
