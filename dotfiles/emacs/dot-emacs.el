@@ -1061,6 +1061,25 @@ point reaches the beginning or end of the buffer, stop there."
 
 (global-ede-mode 1)
 
+;; enable eww as the main browser if found
+(when (fboundp 'eww)
+  (progn
+    ;; if wa want links cliked in elfeed and friends to open in emacs,
+    ;; we must tell emacss to use eww.
+    (setq browse-url-browser-function 'eww-browse-url)
+
+    ;; unless built from emacs master, we may encounter some errors in 24.4
+    ;; See: https://emacs.stackexchange.com/questions/5469/invalid-date-01-jan-2055
+
+    ;; Override built in function with implementation in master to fix it in all versions.
+    (defun url-cookie-expired-p (cookie)
+      "Return non-nil if COOKIE is expired."
+      (let ((exp (url-cookie-expires cookie)))
+        (and (> (length exp) 0)
+             (condition-case ()
+                 (> (float-time) (float-time (date-to-time exp)))
+               (error nil)))))))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
