@@ -258,6 +258,23 @@
   (my-move-to-start-of-word)
   (downcase-word arg))
 
+(defun nxml-where ()
+  "Display the hierarchy of XML elements the point is on as a path."
+  (interactive)
+  (let ((path nil))
+    (save-excursion
+      (save-restriction
+        (widen)
+        (while (and (< (point-min) (point)) ;; Doesn't error if point is at beginning of buffer
+                    (condition-case nil
+                        (progn
+                          (nxml-backward-up-element) ; always returns nil
+                          t)
+                      (error nil)))
+          (setq path (cons (xmltok-start-tag-local-name) path)))
+        (if (called-interactively-p t)
+            (message "/%s" (mapconcat 'identity path "/"))
+          (format "/%s" (mapconcat 'identity path "/")))))))
 
 ;; automatically handle DOS EOL and silence it
 (defun my-find-file-hook ()
@@ -908,6 +925,8 @@ point reaches the beginning or end of the buffer, stop there."
 (defhook nxml-mode-hook
   (lsk 'comment-or-uncomment-region "C-c C-c")
   (lsk 'uncomment-region            "C-c C-u")
+
+  (lsk 'nxml-where                  "C-c C-w")
 
   ;; causes entire elements (with children) to be treated as sexps.
   (setq nxml-sexp-element-flag t)
