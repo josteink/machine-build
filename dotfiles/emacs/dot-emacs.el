@@ -909,6 +909,9 @@ point reaches the beginning or end of the buffer, stop there."
   (lsk 'comment-or-uncomment-region "C-c C-c")
   (lsk 'uncomment-region            "C-c C-u")
 
+  ;; causes entire elements (with children) to be treated as sexps.
+  (setq nxml-sexp-element-flag t)
+
   ;; C-c C-o is bound to some useless heading/section things
   ;; we're not using. Restablish occur-dwim as a "global" binding.
   (local-unset-key "C-c C-o")
