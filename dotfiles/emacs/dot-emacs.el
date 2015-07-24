@@ -52,6 +52,7 @@
         omnisharp
         js2-mode
         ssh-config-mode
+        elfeed
         ))
 
 (dolist (package package-list)
@@ -682,6 +683,7 @@ point reaches the beginning or end of the buffer, stop there."
 
 (gsk 'overwrite-mode-prompt "<insertchar>" "<insert>")
 
+(gsk 'elfeed "C-x w")
 
 ;;;; MODE CUSTOMIZATIONS
 
