@@ -416,10 +416,6 @@ point reaches the beginning or end of the buffer, stop there."
 (global-set-key [remap move-beginning-of-line]
                 'smarter-move-beginning-of-line)
 
-;; fix next and previous-error behaviour
-(global-set-key [remap previous-error] 'previous-error-dwim)
-(global-set-key [remap next -error]    'next-error-dwim)
-
 ;; Fix page-up/page-down behaviour when at beginning and end
 ;; of buffers.
 ;; From http://snarfed.org/emacs_page_up_page_down
@@ -617,6 +613,12 @@ point reaches the beginning or end of the buffer, stop there."
   "Sets up a global keybinding for target with all keys provided."
   (fkt 'global-set-key target keys))
 
+;; fix next and previous-error behaviour
+(gsk 'previous-error-dwim "<f7>")
+(gsk 'next-error-dwim     "<f8>")
+;; sometimes we want things to error (like with keyboard macros)
+(gsk 'previous-error      "<S-f7>")
+(gsk 'next-error          "<S-f8>")
 
 
 ;;;; GLOBAL KEYBOARD DEFINITIONS
@@ -907,10 +909,7 @@ point reaches the beginning or end of the buffer, stop there."
   (flyspell-prog-mode)
 
   ;; build and navigate errors.
-  (lsk 'compile "<f5>")
-  (lsk 'previous-error-dwim "<f7>")
-  (lsk 'next-error-dwim     "<f8>")
-  )
+  (lsk 'compile "<f5>"))
 
 (add-hook 'powershell-mode-hook 'my-prog-mode-hook)
 (add-hook 'css-mode-hook 'my-prog-mode-hook)
@@ -935,10 +934,6 @@ point reaches the beginning or end of the buffer, stop there."
   ;; we're not using. Restablish occur-dwim as a "global" binding.
   (local-unset-key "C-c C-o")
   (lsk 'occur-dwim "C-c C-o")
-
-  ;; for some reason these highly useful bindings are not set.
-  (lsk 'previous-error-dwim "<f7>")
-  (lsk 'next-error-dwim     "<f8>")
 
   ;; xml-files are more often than not part of a project.
   (projectile-mode t))
@@ -1127,7 +1122,7 @@ point reaches the beginning or end of the buffer, stop there."
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (powershell-mode nrepl web-mode undo-tree ssh-config-mode slime-company paredit omnisharp multiple-cursors marmalade-client markdown-mode magit macrostep js2-mode ido-yes-or-no helm-projectile ggtags flycheck-package flycheck-haskell expand-region elisp-slime-nav company-c-headers color-theme-gruber-darker batch-mode))))
+    (powershell-mode nrepl web-mode undo-tree ssh-config-mode slime-company paredit omnisharp multiple-cursors marmalade-client markdown-mode magit macrostep js2-mode ido-yes-or-no helm-projectile ggtags flycheck-package flycheck-haskell expand-region elisp-slime-nav elfeed company-c-headers color-theme-gruber-darker batch-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
