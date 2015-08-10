@@ -124,6 +124,7 @@
 
 ;; supress magit-nagging
 (setq magit-last-seen-setup-instructions "1.4.0")
+(setq magit-push-always-verify nil)
 
 ;; always update files when changing git-branches, etc.
 (global-auto-revert-mode t)
