@@ -612,6 +612,13 @@ point reaches the beginning or end of the buffer, stop there."
     (rename-buffer result t)))
 (add-hook 'eww-after-render-hook 'my-set-eww-buffer-title)
 
+(defun my-eww-reflow ()
+  "Causes the current buffer to reflow if it's a eww-buffer."
+  (interactive)
+  (when (string= "eww-mode" major-mode)
+    (eww-reload t nil)))
+
+
 
 ;; utility functions for key-definitions
 (defun fkt (func target keys)
@@ -972,6 +979,10 @@ point reaches the beginning or end of the buffer, stop there."
 (defhook git-commit-mode-hook
   (flyspell-mode 't))
 
+;; eww thingies
+(defhook eww-mode-hook
+  (lsk 'eww-readable "C-c C-r" "C-c r")
+  (lsk 'my-eww-reflow "M-g" "M-g"))
 
 ;;;; WINDOWS ONLY CUSTOMIZATIONS
 
