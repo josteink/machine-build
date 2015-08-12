@@ -597,30 +597,6 @@ point reaches the beginning or end of the buffer, stop there."
         :candidate-number-limit 9999
         :buffer "*helm imenu*"))
 
-
-;; Fix eww's one-buffer-only behaviour
-(defun my-set-eww-buffer-title ()
-  "Set the title of the current eww-buffer based on the current web-page.
-
-  A side effect of this is that the buffer is made unique
-  and wont be replaced by other eww-invocations."
-  (let* ((title  (plist-get eww-data :title))
-         (url    (plist-get eww-data :url))
-         (result (concat "*eww-" (or title
-                                     (if (string-match "://" url)
-                                         (substring url (match-beginning 0))
-                                       url)) "*")))
-    (rename-buffer result t)))
-(add-hook 'eww-after-render-hook 'my-set-eww-buffer-title)
-
-(defun my-eww-reflow ()
-  "Causes the current buffer to reflow if it's a eww-buffer."
-  (interactive)
-  (when (string= "eww-mode" major-mode)
-    (eww-reload t nil)))
-
-
-
 ;; utility functions for key-definitions
 (defun fkt (func target keys)
   "Sets up multiple keybindings for one function."
@@ -1141,7 +1117,28 @@ point reaches the beginning or end of the buffer, stop there."
         (and (> (length exp) 0)
              (condition-case ()
                  (> (float-time) (float-time (date-to-time exp)))
-               (error nil)))))))
+               (error nil)))))
+
+    ;; Fix eww's one-buffer-only behaviour
+    (defun my-set-eww-buffer-title ()
+      "Set the title of the current eww-buffer based on the current web-page.
+
+  A side effect of this is that the buffer is made unique
+  and wont be replaced by other eww-invocations."
+      (let* ((title  (plist-get eww-data :title))
+             (url    (plist-get eww-data :url))
+             (result (concat "*eww-" (or title
+                                         (if (string-match "://" url)
+                                             (substring url (match-beginning 0))
+                                           url)) "*")))
+        (rename-buffer result t)))
+    (add-hook 'eww-after-render-hook 'my-set-eww-buffer-title)
+
+    (defun my-eww-reflow ()
+      "Causes the current buffer to reflow if it's a eww-buffer."
+      (interactive)
+      (when (string= "eww-mode" major-mode)
+        (eww-reload t nil)))))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
