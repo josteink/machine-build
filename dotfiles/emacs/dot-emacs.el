@@ -1102,45 +1102,67 @@ point reaches the beginning or end of the buffer, stop there."
 
 (global-ede-mode 1)
 
-;; enable eww as the main browser if found
-(when (fboundp 'eww)
-  (progn
-    ;; if wa want links cliked in elfeed and friends to open in emacs,
-    ;; we must tell emacss to use eww.
-    (setq browse-url-browser-function 'eww-browse-url)
+;; enable eww as the main browser
+(require 'eww)
 
-    ;; unless built from emacs master, we may encounter some errors in 24.4
-    ;; See: https://emacs.stackexchange.com/questions/5469/invalid-date-01-jan-2055
+;; if wa want links cliked in elfeed and friends to open in emacs,
+;; we must tell emacss to use eww.
+(setq browse-url-browser-function 'eww-browse-url)
 
-    ;; Override built in function with implementation in master to fix it in all versions.
-    (defun url-cookie-expired-p (cookie)
-      "Return non-nil if COOKIE is expired."
-      (let ((exp (url-cookie-expires cookie)))
-        (and (> (length exp) 0)
-             (condition-case ()
-                 (> (float-time) (float-time (date-to-time exp)))
-               (error nil)))))
+;; unless built from emacs master, we may encounter some errors in 24.4
+;; See: https://emacs.stackexchange.com/questions/5469/invalid-date-01-jan-2055
 
-    ;; Fix eww's one-buffer-only behaviour
-    (defun my-set-eww-buffer-title ()
-      "Set the title of the current eww-buffer based on the current web-page.
+;; Override built in function with implementation in master to fix it in all versions.
+(defun url-cookie-expired-p (cookie)
+  "Return non-nil if COOKIE is expired."
+  (let ((exp (url-cookie-expires cookie)))
+    (and (> (length exp) 0)
+         (condition-case ()
+             (> (float-time) (float-time (date-to-time exp)))
+           (error nil)))))
+
+(defun my-eww-get-title ()
+  "Version-independent title-extractor for eww."
+  (if (boundp 'eww-data)
+      (plist-get eww-data :title)
+    eww-current-title))
+
+(defun my-eww-get-url ()
+  "Version-independent url-extractor for eww."
+  (if (boundp 'eww-data)
+      (plist-get eww-data :url)
+    eww-current-url))
+
+;; Fix eww's one-buffer-only behaviour
+(defun my-set-eww-buffer-title ()
+  "Set the title of the current eww-buffer based on the current web-page.
 
   A side effect of this is that the buffer is made unique
   and wont be replaced by other eww-invocations."
-      (let* ((title  (plist-get eww-data :title))
-             (url    (plist-get eww-data :url))
-             (result (concat "*eww-" (or title
-                                         (if (string-match "://" url)
-                                             (substring url (match-beginning 0))
-                                           url)) "*")))
-        (rename-buffer result t)))
-    (add-hook 'eww-after-render-hook 'my-set-eww-buffer-title)
+  (let* ((title  (my-eww-get-title))
+         (url    (my-eww-get-url))
+         (result (concat "*eww-" (or title
+                                     (if (string-match "://" url)
+                                         (substring url (match-beginning 0))
+                                       url)) "*")))
+    (rename-buffer result t)))
 
-    (defun my-eww-reflow ()
-      "Causes the current buffer to reflow if it's a eww-buffer."
-      (interactive)
-      (when (string= "eww-mode" major-mode)
-        (eww-reload t nil)))))
+
+;; support emacs 24.5 and friends as far as possible
+(if (boundp 'eww-after-render-hook)
+    (add-hook 'eww-after-render-hook 'my-set-eww-buffer-title)
+  
+  (defadvice eww-render (after kill-buffer activate)
+    (my-set-eww-buffer-title)))
+
+
+
+
+(defun my-eww-reflow ()
+  "Causes the current buffer to reflow if it's a eww-buffer."
+  (interactive)
+  (when (string= "eww-mode" major-mode)
+    (eww-reload t nil)))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
