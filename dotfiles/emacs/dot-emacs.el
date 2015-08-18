@@ -917,7 +917,8 @@ point reaches the beginning or end of the buffer, stop there."
 
 (defhook projectile-mode-hook
   (ignore-errors
-    (helm-projectile-on)
+    ;; same as (helm-projectile-on) except it doesn't emit annoying message.
+    (helm-projectile-toggle 1)
     (setq projectile-completion-system 'helm)))
 
 ;; xml
