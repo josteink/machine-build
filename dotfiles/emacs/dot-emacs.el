@@ -40,9 +40,7 @@
         company-c-headers
         ggtags
         slime-company ;; if loading fails with recursive load, check if distro-provided slime is installed.
-        git-commit-mode
-        git-rebase-mode
-        magit ;; this DOES require the above two git-modse
+        magit
         elisp-slime-nav
         macrostep
         color-theme
