@@ -1121,6 +1121,13 @@ point reaches the beginning or end of the buffer, stop there."
              (> (float-time) (float-time (date-to-time exp)))
            (error nil)))))
 
+(defun my-strip-whitespace (string)
+  "Remove excess white spaces in beginning, ending and middle of STRING.
+White space here is any of: space, tab, emacs newline (line feed, ASCII 10)."
+  (replace-regexp-in-string "[ \t\n]+" " " 
+                            (replace-regexp-in-string "\\`[ \t\n]*" ""
+                                                      (replace-regexp-in-string "[ \t\n]*\\'" "" string))))
+
 (defun my-eww-get-title ()
   "Version-independent title-extractor for eww."
   (if (boundp 'eww-data)
@@ -1139,7 +1146,7 @@ point reaches the beginning or end of the buffer, stop there."
 
   A side effect of this is that the buffer is made unique
   and wont be replaced by other eww-invocations."
-  (let* ((title  (my-eww-get-title))
+  (let* ((title  (my-strip-whitespace (my-eww-get-title)))
          (url    (my-eww-get-url))
          (result (concat "*eww-" (or title
                                      (if (string-match "://" url)
