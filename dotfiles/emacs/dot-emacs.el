@@ -851,6 +851,9 @@ point reaches the beginning or end of the buffer, stop there."
   ;; select the contents of a cell.
   (lsk 'my-org-select-field "C-M-+")
 
+  ;; default mapped to only "C-c '"
+  (lsk 'org-edit-src-code "C-c C-'")
+
   ;; we want proper new-line indentation
   ;;(lsk 'org-return-and-indent "RET")
 
