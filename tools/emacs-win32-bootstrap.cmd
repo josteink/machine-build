@@ -15,9 +15,9 @@ cd download
 echo Getting Emacs main...
 curl -O "http://ftp.gnu.org/gnu/emacs/windows/emacs-24.5-bin-i686-mingw32.zip"
 
-echo Getting wzwinports (source http://sourceforge.net/projects/ezwinports/files/)...
+echo Getting ezwinports (source http://sourceforge.net/projects/ezwinports/files/)...
 
-echo - gnuTLS
+echo - gnutls
 curl -O "http://skylink.dl.sourceforge.net/project/ezwinports/gnutls-3.3.11-w32-bin.zip"
 
 echo - libpng
