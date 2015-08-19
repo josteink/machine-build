@@ -468,6 +468,91 @@ point reaches the beginning or end of the buffer, stop there."
       (pop-to-mark-command)
     (pop-global-mark)))
 
+;; commenting out sexps is easy: C-M-<SPC> M-; but uncommenting them is harder...
+;; this function solves this. copied from:
+;; http://endlessparentheses.com/a-comment-or-uncomment-sexp-command.html?source=rss
+(defun uncomment-sexp (&optional n)
+  "Uncomment a sexp around point."
+  (interactive "P")
+  (let* ((initial-point (point-marker))
+         (p)
+         (end (save-excursion
+                (when (elt (syntax-ppss) 4)
+                  (re-search-backward comment-start-skip
+                                      (line-beginning-position)
+                                      t))
+                (setq p (point-marker))
+                (comment-forward (point-max))
+                (point-marker)))
+         (beg (save-excursion
+                (forward-line 0)
+                (while (= end (save-excursion
+                                (comment-forward (point-max))
+                                (point)))
+                  (forward-line -1))
+                (goto-char (line-end-position))
+                (re-search-backward comment-start-skip
+                                    (line-beginning-position)
+                                    t)
+                (while (looking-at-p comment-start-skip)
+                  (forward-char -1))
+                (point-marker))))
+    (unless (= beg end)
+      (uncomment-region beg end)
+      (goto-char p)
+      ;; Indentify the "top-level" sexp inside the comment.
+      (while (and (ignore-errors (backward-up-list) t)
+                  (>= (point) beg))
+        (skip-chars-backward (rx (syntax expression-prefix)))
+        (setq p (point-marker)))
+      ;; Re-comment everything before it.
+      (ignore-errors
+        (comment-region beg p))
+      ;; And everything after it.
+      (goto-char p)
+      (forward-sexp (or n 1))
+      (skip-chars-forward "\r\n[:blank:]")
+      (if (< (point) end)
+          (ignore-errors
+            (comment-region (point) end))
+        ;; If this is a closing delimiter, pull it up.
+        (goto-char end)
+        (skip-chars-forward "\r\n[:blank:]")
+        (when (= 5 (car (syntax-after (point))))
+          (delete-indentation))))
+    ;; Without a prefix, it's more useful to leave point where
+    ;; it was.
+    (unless n
+      (goto-char initial-point))))
+
+(defun comment-sexp--raw ()
+  "Comment the sexp at point or ahead of point."
+  (pcase (or (bounds-of-thing-at-point 'sexp)
+             (save-excursion
+               (skip-chars-forward "\r\n[:blank:]")
+               (bounds-of-thing-at-point 'sexp)))
+    (`(,l . ,r)
+     (goto-char r)
+     (skip-chars-forward "\r\n[:blank:]")
+     (comment-region l r)
+     (skip-chars-forward "\r\n[:blank:]"))))
+
+(defun comment-or-uncomment-sexp (&optional n)
+  "Comment the sexp at point and move past it.
+If already inside (or before) a comment, uncomment instead.
+With a prefix argument N, (un)comment that many sexps."
+  (interactive "P")
+  (if (or (elt (syntax-ppss) 4)
+          (< (save-excursion
+               (skip-chars-forward "\r\n[:blank:]")
+               (point))
+             (save-excursion
+               (comment-forward 1)
+               (point))))
+      (uncomment-sexp n)
+    (dotimes (_ (or n 1))
+      (comment-sexp--raw))))
+
 ;; Windows-only window-control functions.
 
 (defun w32-maximize-frame ()
@@ -898,7 +983,9 @@ point reaches the beginning or end of the buffer, stop there."
   ;; language which cares about white-space.
   ;; also: for any non-lisp (paredit) language, enable electric-pair-mode.
   (if (is-lisp-p)
-      (lsk 'indent-whole-buffer "C-i")
+      (progn
+        (lsk 'indent-whole-buffer "C-i")
+        (lsk 'comment-or-uncomment-sexp "M-;" "C-M-;"))
     (electric-pair-mode 1))
 
   (lsk 'company-complete "C-.")
@@ -1124,7 +1211,7 @@ point reaches the beginning or end of the buffer, stop there."
 (defun my-strip-whitespace (string)
   "Remove excess white spaces in beginning, ending and middle of STRING.
 White space here is any of: space, tab, emacs newline (line feed, ASCII 10)."
-  (replace-regexp-in-string "[ \t\n]+" " " 
+  (replace-regexp-in-string "[ \t\n]+" " "
                             (replace-regexp-in-string "\\`[ \t\n]*" ""
                                                       (replace-regexp-in-string "[ \t\n]*\\'" "" string))))
 
@@ -1158,7 +1245,7 @@ White space here is any of: space, tab, emacs newline (line feed, ASCII 10)."
 ;; support emacs 24.5 and friends as far as possible
 (if (boundp 'eww-after-render-hook)
     (add-hook 'eww-after-render-hook 'my-set-eww-buffer-title)
-  
+
   (defadvice eww-render (after kill-buffer activate)
     (my-set-eww-buffer-title)))
 
