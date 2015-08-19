@@ -20,12 +20,11 @@
 (package-initialize)
 
 ;; ensure all packages we need are installed.
-(setq package-list
+(setq my-packages
       '(;;clojure-mode
         markdown-mode
         paredit
         batch-mode
-        nrepl
         multiple-cursors
         projectile
         expand-region
@@ -34,7 +33,6 @@
         helm-projectile
         ido-yes-or-no
         haskell-mode
-        powershell-mode
         web-mode
         company
         company-c-headers
@@ -53,11 +51,28 @@
         elfeed
         ))
 
-(dolist (package package-list)
-  (when (not (package-installed-p package))
-    ;; ATTEMPT install, but dont panic!
-    (ignore-errors
-      (package-install package))))
+;; only query package sources when package is missing! copied from:
+;; https://github.com/zirrostig/emacsd/blob/master/my-packages/my-packages.el
+
+(require 'cl)
+(defun my-packages-installed-p ()
+  "Return nil if there are packages that are not installed."
+  (loop for p in my-packages
+        when (not (package-installed-p p)) do (return nil)
+        finally (return t)))
+
+(defun my-packages-install-packages ()
+  "Install missing packages."
+  (unless (my-packages-installed-p)
+    ;; Referesh package lists
+    (package-refresh-contents)
+    ;; Install missing
+    (dolist (p my-packages)
+      (when (not (package-installed-p p))
+        (package-install p)))))
+
+(my-packages-install-packages)
+
 
 ;; tramp lets us open /sudo::/etc/files
 (require 'tramp)
@@ -1005,8 +1020,7 @@ With a prefix argument N, (un)comment that many sexps."
 
 (defhook projectile-mode-hook
   (ignore-errors
-    ;; same as (helm-projectile-on) except it doesn't emit annoying message.
-    (helm-projectile-toggle 1)
+    (helm-projectile-on)
     (setq projectile-completion-system 'helm)))
 
 ;; xml
