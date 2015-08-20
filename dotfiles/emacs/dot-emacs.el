@@ -949,8 +949,8 @@ With a prefix argument N, (un)comment that many sexps."
   ;; select the contents of a cell.
   (lsk 'my-org-select-field "C-M-+")
 
-  ;; default mapped to only "C-c '"
-  (lsk 'org-edit-src-code "C-c C-'")
+  ;; edit source in org-babel, org-tables etc. default mapped to only "C-c '"
+  (lsk 'org-edit-special "C-c C-'")
 
   ;; we want proper new-line indentation
   ;;(lsk 'org-return-and-indent "RET")
