@@ -1,4 +1,9 @@
 
+;;;; Custom
+
+(setq custom-file "./custom.el")
+(when (file-exists-p custom-file)
+  (load-file custom-file))
 
 ;;;; PACKAGES AND REPOSITORIES
 
@@ -1272,20 +1277,6 @@ White space here is any of: space, tab, emacs newline (line feed, ASCII 10)."
   (when (string= "eww-mode" major-mode)
     (eww-reload t nil)))
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   (quote
-    (powershell-mode nrepl web-mode undo-tree ssh-config-mode slime-company paredit omnisharp multiple-cursors marmalade-client markdown-mode magit macrostep js2-mode ido-yes-or-no helm-projectile ggtags flycheck-package flycheck-haskell expand-region elisp-slime-nav elfeed company-c-headers color-theme-gruber-darker batch-mode))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
 
 ;; how to remap a key for function X to function Y.
 ;; (define-key irony-mode-map [remap completion-at-point]
