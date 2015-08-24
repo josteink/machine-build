@@ -936,9 +936,11 @@ With a prefix argument N, (un)comment that many sexps."
   ;; setup navigation based on tags.
   (lsk 'find-tag "<f12>" "M-."))
 
-(defhook js-mode-hook
+(defhook js2-mode-hook
   (lsk 'run-js "<f6>")
-  (lsk 'js-send-region "C-x C-e"))
+  (lsk 'js-send-region "C-x C-e")
+
+  (lsk 'my-join-line-with-next "M-j"))
 
 ;; org-mode
 (defhook org-mode-hook
@@ -1074,7 +1076,7 @@ With a prefix argument N, (un)comment that many sexps."
 (defun eww-dgg ()
   "Search the internets using DDG with `eww'."
   (interactive)
-  (eww (concat "https://duckduckgo.com/html/?q=" (read-from-minibuffer "Search for: "))))
+  (eww (concat "https://duckduckgo.com/html/?q=" (url-encode-url (read-from-minibuffer "Search for: ")))))
 
 ;;;; WINDOWS ONLY CUSTOMIZATIONS
 
