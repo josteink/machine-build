@@ -1071,6 +1071,11 @@ With a prefix argument N, (un)comment that many sexps."
   (lsk 'eww-readable "C-c C-r" "C-c r")
   (lsk 'my-eww-reflow "M-g" "M-g"))
 
+(defun eww-dgg ()
+  "Search the internets using DDG with `eww'."
+  (interactive)
+  (eww (concat "https://duckduckgo.com/html/?q=" (read-from-minibuffer "Search for: "))))
+
 ;;;; WINDOWS ONLY CUSTOMIZATIONS
 
 
