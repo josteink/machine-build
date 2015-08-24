@@ -110,6 +110,11 @@
 
 ;;;; NON-DEFAULT FILE MAPPINGS
 
+(defun add-extensions-to-mode (mode &rest extensions)
+  "Register the provided `extensions' to handle the provided `mode'."
+  (dolist (item extensions)
+    (let ((rx (concat "\\." item "$")))
+      (add-to-list 'auto-mode-alist (cons rx mode)))))
 
 (add-to-list 'auto-mode-alist '("\\.cljs$" . clojure-mode))
 (add-to-list 'auto-mode-alist '("\\.bat$" . batch-mode))
@@ -117,15 +122,12 @@
 ;; it's all text, firefox extension!
 (add-to-list 'auto-mode-alist '("www\\..*\\.txt$" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.config$" . nxml-mode))
-(add-to-list 'auto-mode-alist '("\\.ps$" . powershell-mode))
-(add-to-list 'auto-mode-alist '("\\.ps1$" . powershell-mode))
+;; (add-to-list 'auto-mode-alist '("\\.ps$" . powershell-mode))
+;; (add-to-list 'auto-mode-alist '("\\.ps1$" . powershell-mode))
 
 ;; we DONT want web-mode for CSS, because it breaks company-mode completion.
-;;(add-to-list 'auto-mode-alist '("\\.css$" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.html$" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.php$" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
-(add-to-list 'auto-mode-alist '("\\.json$" . js2-mode))
+(add-extensions-to-mode 'web-mode "html" "php" "ascx" "aspx")
+(add-extensions-to-mode 'js2-mode "js" "json")
 
 ;; hook it in for shell scripts running via node.js
 (add-to-list 'interpreter-mode-alist '("node" . js2-mode))
