@@ -116,20 +116,20 @@
     (let ((rx (concat "\\." item "$")))
       (add-to-list 'auto-mode-alist (cons rx mode)))))
 
-(add-to-list 'auto-mode-alist '("\\.cljs$" . clojure-mode))
-(add-to-list 'auto-mode-alist '("\\.bat$" . batch-mode))
-(add-to-list 'auto-mode-alist '("\\.md$" . markdown-mode))
-;; it's all text, firefox extension!
-(add-to-list 'auto-mode-alist '("www\\..*\\.txt$" . markdown-mode))
-(add-to-list 'auto-mode-alist '("\\.config$" . nxml-mode))
-;; (add-to-list 'auto-mode-alist '("\\.ps$" . powershell-mode))
-;; (add-to-list 'auto-mode-alist '("\\.ps1$" . powershell-mode))
+(add-extensions-to-mode 'clojure-mode "cljs") ;; clojure-script too!
+(add-extensions-to-mode 'batch-mode "bat" "cmd")
+
+(add-extensions-to-mode 'markdown-mode "md")
+(add-to-list 'auto-mode-alist '("www\\..*\\.txt$" . markdown-mode)) ;; it's all text, firefox extension!
+
+(add-extensions-to-mode 'nxml-mode "config" "merge") ;; .NET, SuperOffice config-merge.
+(add-extensions-to-mode 'powershell-mode "ps" "ps1")
 
 ;; we DONT want web-mode for CSS, because it breaks company-mode completion.
 (add-extensions-to-mode 'web-mode "html" "php" "ascx" "aspx")
 (add-extensions-to-mode 'js2-mode "js" "json")
 
-;; hook it in for shell scripts running via node.js
+;; hook js2-mode in for shell scripts running via node.js
 (add-to-list 'interpreter-mode-alist '("node" . js2-mode))
 
 ;;;; GLOBAL DEFAULT OVERRIDES
