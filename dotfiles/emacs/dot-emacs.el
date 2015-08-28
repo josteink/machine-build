@@ -36,7 +36,6 @@
         undo-tree
         helm
         helm-projectile
-        ido-yes-or-no
         haskell-mode
         web-mode
         company
@@ -177,9 +176,8 @@
 (add-hook 'after-save-hook
           'make-scripts-executable)
 
-;; ido mode just makes everything better.
-(ido-mode)
-(ido-yes-or-no-mode)
+;; helm mode everywhere. (as opposed to ido-mode)
+(helm-mode)
 
 ;; try out helm
 (require 'helm-config)
