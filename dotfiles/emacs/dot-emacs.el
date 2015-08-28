@@ -176,15 +176,13 @@
 (add-hook 'after-save-hook
           'make-scripts-executable)
 
-;; helm mode everywhere. (as opposed to ido-mode)
-(helm-mode)
-
 ;; try out helm
 (require 'helm-config)
-(global-set-key (kbd "M-x") 'helm-M-x)
-(global-set-key (kbd "C-x C-b") 'helm-buffers-list)
-(global-set-key (kbd "C-x b") 'helm-buffers-list)
-(global-set-key (kbd "C-c p h") 'helm-projectile)
+(helm-mode)
+;; (global-set-key (kbd "M-x") 'helm-M-x)
+;; (global-set-key (kbd "C-x C-b") 'helm-buffers-list)
+;; (global-set-key (kbd "C-x b") 'helm-buffers-list)
+;; (global-set-key (kbd "C-c p h") 'helm-projectile)
 
 ;; always follow symlinks to files under source-control. dont ask.
 (setq vc-follow-symlinks t)
