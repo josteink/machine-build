@@ -36,6 +36,7 @@
         undo-tree
         helm
         helm-projectile
+        ido-yes-or-no
         haskell-mode
         web-mode
         company
@@ -176,9 +177,12 @@
 (add-hook 'after-save-hook
           'make-scripts-executable)
 
-;; try out helm
+;; helm everywhere
 (require 'helm-config)
 (helm-mode)
+;; still useful, even with helm.
+(ido-yes-or-no-mode)
+
 ;; (global-set-key (kbd "M-x") 'helm-M-x)
 ;; (global-set-key (kbd "C-x C-b") 'helm-buffers-list)
 ;; (global-set-key (kbd "C-x b") 'helm-buffers-list)
