@@ -15,7 +15,7 @@
 (when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 
 ;; setup repositories
-(add-to-list 'load-path "~/.emacs.d/local/") ;; emacs23 + package.el on debian
+(add-to-list 'load-path "~/.emacs.d/local/") ;; emacs23 + package.el on Debian
 (require 'package)
 
 (add-to-list 'package-archives '("marmalade"    . "http://marmalade-repo.org/packages/"))
@@ -150,7 +150,7 @@
 (global-auto-revert-mode t)
 
 ;; enable windows-y selection-behaviour
-(delete-selection-mode 1)
+;; (delete-selection-mode 1)
 
 ;; pending-delete-mode means that when a region is selected and you
 ;; type, the contents of that region will be overwritten.
@@ -166,7 +166,7 @@
 (setq org-src-fontify-natively t)
 
 ;; ensure all occur-buffers have unique names (to enable multple ones)
-(add-hook 'occur-hook 'occur-rename-buffer)
+;; (add-hook 'occur-hook 'occur-rename-buffer)
 
 (defun make-scripts-executable ()
   "Makes scripts selectively executable"
@@ -1137,6 +1137,8 @@ With a prefix argument N, (un)comment that many sexps."
       (find-alternate-file (concat "/sudo::" buffer-file-name))))
 
   ;; StumpWM/Common-lisp related stuff
+  ;; Install using sbcl.
+  ;; (ql:quickload "quicklisp-slime-helper")
   (let ((file-name (expand-file-name "~/quicklisp/slime-helper.el")))
     (when (file-exists-p file-name)
       (progn
