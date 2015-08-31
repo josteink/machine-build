@@ -1156,6 +1156,12 @@ With a prefix argument N, (un)comment that many sexps."
                  (file-writable-p buffer-file-name))
       (find-alternate-file (concat "/sudo::" buffer-file-name))))
 
+  ;; hunspell is supposedly better and more modern than ispell.
+  ;; use it when available.
+  (when (executable-find "hunspell")
+    (setq-default ispell-program-name "hunspell")
+    (setq ispell-really-hunspell t))
+
   ;; StumpWM/Common-lisp related stuff
   ;; Install using sbcl.
   ;; (ql:quickload "quicklisp-slime-helper")
