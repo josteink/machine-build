@@ -221,7 +221,7 @@
   (not (derived-mode-p 'python-mode)))
 
 (defun is-lisp-p ()
-  (derived-mode-p 'emacs-lisp-mode 'clojure-mode 'scheme-mode))
+  (derived-mode-p 'emacs-lisp-mode 'clojure-mode 'scheme-mode 'lisp-mode))
 
 (defun indent-whole-buffer ()
   "indent whole buffer and untabify it"
