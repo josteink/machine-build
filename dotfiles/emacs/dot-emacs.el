@@ -242,10 +242,7 @@
 
 (defun font-exists-p (font)
   "Probes for the existence of a font."
-  (if (string-equal (describe-font font)
-                    "No matching font found")
-      nil
-    t))
+  (member font (font-family-list)))
 
 ;; occur which has currently selected text as default value.
 (defun occur-dwim ()
@@ -1218,9 +1215,9 @@ With a prefix argument N, (un)comment that many sexps."
   ;; (setq font-lock t)
 
   ;; font thingie, downloaded from http://sourcefoundry.org/hack/
-  (let ((FONT "Hack-10"))
-    (when (font-exists-p FONT)
-      (add-to-list 'default-frame-alist '(font . FONT ))
+  (when (font-exists-p "Hack")
+    (let ((FONT "Hack-10"))
+      (add-to-list 'default-frame-alist `(font . ,FONT ))
       (set-face-attribute 'default t :font FONT)
       (set-default-font FONT))))
 
