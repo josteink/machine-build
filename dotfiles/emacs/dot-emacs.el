@@ -820,6 +820,18 @@ With a prefix argument N, (un)comment that many sexps."
 ;; indent properly, always
 (gsk 'newline-and-indent "RET")
 
+
+;; spell-checking via languagetool
+(let* ((jar (expand-file-name "~/build/LanguageTool-3.0/languagetool-commandline.jar")))
+  (when (file-exists-p jar)
+    (require 'langtool)
+    (setq langtool-language-tool-jar jar
+          langtool-mother-tongue "en"
+          langtool-disabled-rules '("WHITESPACE_RULE"
+                                    "EN_UNPAIRED_BRACKETS"
+                                    "COMMA_PARENTHESIS_WHITESPACE"
+                                    "EN_QUOTES"))))
+
 ;; prevent accidentally enabling overwrite-mode
 (defun overwrite-mode-prompt ()
   "A wrapper to ensure overwrite-mode is never enabled blindly."
@@ -1075,9 +1087,17 @@ With a prefix argument N, (un)comment that many sexps."
 ;; css should be prog-mode but isn't
 (add-hook 'css-mode-hook 'my-prog-mode-hook)
 
-;; git thingies
-(defhook git-commit-mode-hook
-  (flyspell-mode 't))
+;; things like markdown
+(defhook text-mode-hook
+  (flyspell-mode 't)
+
+  (lsk 'langtool-check-buffer "C-c C-l")
+  (lsk 'langtool-show-message-at-point "C-c C-p")
+  (lsk 'langtool-goto-previous-error "<f7>")
+  (lsk 'langtool-goto-next-error "<f8>"))
+
+;; git commits are text too.
+(add-hook 'git-commit-mode-hook 'my-text-mode-hook)
 
 ;; eww thingies
 (defhook eww-mode-hook
@@ -1142,6 +1162,12 @@ With a prefix argument N, (un)comment that many sexps."
     (unless (and buffer-file-name
                  (file-writable-p buffer-file-name))
       (find-alternate-file (concat "/sudo::" buffer-file-name))))
+
+  ;; hunspell is supposedly better and more modern than ispell.
+  ;; use it when available.
+  (when (executable-find "hunspell")
+    (setq-default ispell-program-name "hunspell")
+    (setq ispell-really-hunspell t))
 
   ;; StumpWM/Common-lisp related stuff
   ;; Install using sbcl.
