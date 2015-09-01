@@ -122,6 +122,7 @@
 
 (add-extensions-to-mode 'markdown-mode "md")
 (add-to-list 'auto-mode-alist '("www\\..*\\.txt$" . markdown-mode)) ;; it's all text, firefox extension!
+(add-to-list 'auto-mode-alist '("news\\.ycombinator\\.com.*\\.txt$" . markdown-mode)) ;; hacker news is all markdown.
 
 (add-extensions-to-mode 'nxml-mode "config" "merge") ;; .NET, SuperOffice config-merge.
 (add-extensions-to-mode 'powershell-mode "ps" "ps1")
