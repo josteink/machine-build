@@ -39,6 +39,7 @@
         ido-yes-or-no
         haskell-mode
         web-mode
+        langtool
         company
         company-c-headers
         ggtags
