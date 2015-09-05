@@ -847,6 +847,8 @@ With a prefix argument N, (un)comment that many sexps."
 
 ;; spell-checking via languagetool
 (let* ((jar (expand-file-name "~/build/LanguageTool-3.0/languagetool-commandline.jar")))
+  ;; TODO: auto-download ZIP from https://languagetool.org/download/LanguageTool-3.0.zip
+  ;; and uncompress to get jar without manually having to download this.
   (when (file-exists-p jar)
     (require 'langtool)
     (setq langtool-language-tool-jar jar
