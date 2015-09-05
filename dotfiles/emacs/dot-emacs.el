@@ -55,6 +55,7 @@
         js2-mode
         ssh-config-mode
         elfeed
+        plantuml-mode
         ))
 
 ;; only query package sources when package is missing! copied from:
@@ -211,6 +212,29 @@
 (setq inferior-js-program-command "node --interactive")
 
 (setq js2-use-font-lock-faces t)
+
+;; Handling packages which relies on binaries (like JARs)
+
+(setq emacs-binaries-folder "~/.emacs.d/binaries/")
+(defun download-binary-if-missing (url)
+  "Downloads a binary file to the emacs binary directory if not already there."
+
+  (when (not (file-exists-p emacs-binaries-folder))
+    (make-directory emacs-binaries-folder))
+  
+  (let* ((filename (file-name-nondirectory url))
+         (local-filename (concat emacs-binaries-folder filename)))
+    (when (not (file-exists-p local-filename))
+      (url-copy-file url local-filename))
+    local-filename))
+
+;; plantuml-support needs to be manually wired up, both the JAR and org-mode.
+(setq org-plantuml-jar-path (download-binary-if-missing "http://freefr.dl.sourceforge.net/project/plantuml/plantuml.jar"))
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '(;; other Babel languages
+   (plantuml . t)))
+
 
 ;;;; FUNCTIONS
 
