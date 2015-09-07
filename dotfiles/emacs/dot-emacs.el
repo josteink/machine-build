@@ -1065,13 +1065,14 @@ With a prefix argument N, (un)comment that many sexps."
         (lsk 'comment-or-uncomment-sexp "M-;" "C-M-;"))
     (electric-pair-mode 1))
 
-  (lsk 'company-complete "C-.")
-
   ;; flycheck is super-useful
   (flycheck-mode t)
 
   ;; flyspell too!
   (flyspell-prog-mode)
+
+  ;; must be set AFTER flyspell!
+  (lsk 'company-complete "C-.")
 
   ;; build and navigate errors.
   (lsk 'compile "<f5>"))
@@ -1182,7 +1183,7 @@ With a prefix argument N, (un)comment that many sexps."
     (setq tfs/login ""))
 
   ;; omnisharp
-  (setq omnisharp-server-executable-path "D:/Git/omnisharp-server/OmniSharp/bin/Debug/Omnisharp.exe"))
+  (setq omnisharp-server-executable-path "D:/Git/omnisharp-roslyn/scripts/"))
 
 ;;;; UNIX ONLY CUSTOMIZATIONS
 
