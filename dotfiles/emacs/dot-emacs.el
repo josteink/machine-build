@@ -962,6 +962,10 @@ With a prefix argument N, (un)comment that many sexps."
   (local-unset-key (kbd "M-m"))
   (lsk 'hs-toggle-hiding "M-m M-m")
 
+  ;; cc-mode overrides some of our global bindings.
+  ;; search for all matches of a given regex, list results
+  (lsk 'occur-dwim "C-c C-o" "M-s o" "M-s M-o")
+
   (ignore-errors
     (omnisharp-mode t)
     (omnisharp-imenu-create-index)
@@ -1139,6 +1143,9 @@ With a prefix argument N, (un)comment that many sexps."
 
 
 (defun my-windows-mode-hook ()
+  (require 'color-theme-gruber-darker)
+  (color-theme-gruber-darker)
+  
   ;;(add-to-list 'load-path "~/.emacs.d/vendor/emacs-powerline")
   ;;(require 'powerline)
 
