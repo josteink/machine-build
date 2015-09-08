@@ -56,6 +56,7 @@
         ssh-config-mode
         elfeed
         plantuml-mode
+        org ;; we want a newer version than the one built in!
         ))
 
 ;; only query package sources when package is missing! copied from:
