@@ -1,7 +1,7 @@
 
 ;;;; Custom
 
-(setq custom-file "./custom.el")
+(setq custom-file (expand-file-name "~/.emacs.d/custom.el"))
 (when (file-exists-p custom-file)
   (load-file custom-file))
 
