@@ -57,6 +57,7 @@
         elfeed
         plantuml-mode
         org ;; we want a newer version than the one built in!
+        marmalade-client
         ))
 
 ;; only query package sources when package is missing! copied from:
