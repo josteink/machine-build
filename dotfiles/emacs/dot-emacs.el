@@ -850,6 +850,23 @@ With a prefix argument N, (un)comment that many sexps."
 ;; indent properly, always
 (gsk 'newline-and-indent "RET")
 
+;; compilation-mode tweaks:
+
+;; remove association for guile-files. the reason for this is that the guile-compiler
+;; emits errors in the same form as emacs does when byte-compiling.
+;; compilation-mode will this "hit" on lines like these:
+;; In toplevel form:
+;; In end of data:
+;; It will however not have a file match and break prev/next-error navigation.
+(assq-delete-all 'guile-file compilation-error-regexp-alist-alist)
+;; found using the elisp below.
+;; (let* ((result nil))
+;;   (dolist (item compilation-error-regexp-alist-alist)
+;;     (let* ((category (car item))
+;;            (regexp   (car (cdr item))))
+;;       (setq result (concat result "\n" (symbol-name category) ": " regexp))))
+;;   result) 
+
 
 ;; spell-checking via languagetool
 (let* ((jar (expand-file-name "~/build/LanguageTool-3.0/languagetool-commandline.jar")))
