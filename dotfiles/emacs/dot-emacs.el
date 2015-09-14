@@ -82,6 +82,45 @@
 
 (my-packages-install-packages)
 
+;; Configure GUI as early as possible. It makes loading look nicer :)
+
+(defun font-exists-p (font)
+  "Probes for the existence of a font."
+  (member font (font-family-list)))
+
+(defun my-gui-mode-hook ()
+  ;; activate theme early!
+
+  ;; make things look funky and match stump-wm
+  ;;(color-theme-initialize) ;;uncomment to load all themes
+  ;; (color-theme-jsc-dark) ;; also a candidate
+  (require 'color-theme-gruber-darker)
+  (color-theme-gruber-darker)
+
+  ;; only activate global-line mode when on X11/windows/non-terminal environment.
+  ;; will deactivate syntax highlighting and more in SSH.
+  (global-hl-line-mode +1)
+
+  ;; same with column-numbers.
+  (column-number-mode +1)
+
+  ;; substitute lambdas with fancy symbols
+  ;; (font-lock-add-keywords
+  ;;  nil `(("(\\(lambda\\>\\)"
+  ;;         (0 (progn (compose-region (match-beginning 1) (match-end 1)
+  ;;                                   ,(make-char 'greek-iso8859-7 107))
+  ;;                   nil)))))
+  ;; (setq font-lock t)
+
+  ;; font thingie, downloaded from http://sourcefoundry.org/hack/
+  (when (font-exists-p "Hack")
+    (let ((FONT "Hack-10"))
+      (add-to-list 'default-frame-alist `(font . ,FONT ))
+      (set-face-attribute 'default t :font FONT)
+      (set-default-font FONT))))
+
+(when (display-graphic-p)
+  (my-gui-mode-hook))
 
 ;; tramp lets us open /sudo::/etc/files
 (require 'tramp)
@@ -227,7 +266,7 @@
 
   (when (not (file-exists-p emacs-binaries-folder))
     (make-directory emacs-binaries-folder))
-  
+
   (let* ((filename (file-name-nondirectory url))
          (local-filename (concat emacs-binaries-folder filename)))
     (when (not (file-exists-p local-filename))
@@ -271,10 +310,6 @@
        (region-beginning)
        (region-end))
     (thing-at-point 'symbol)))
-
-(defun font-exists-p (font)
-  "Probes for the existence of a font."
-  (member font (font-family-list)))
 
 ;; occur which has currently selected text as default value.
 (defun occur-dwim ()
@@ -865,7 +900,7 @@ With a prefix argument N, (un)comment that many sexps."
 ;;     (let* ((category (car item))
 ;;            (regexp   (car (cdr item))))
 ;;       (setq result (concat result "\n" (symbol-name category) ": " regexp))))
-;;   result) 
+;;   result)
 
 
 ;; spell-checking via languagetool
@@ -1168,20 +1203,6 @@ With a prefix argument N, (un)comment that many sexps."
 
 
 (defun my-windows-mode-hook ()
-  (require 'color-theme-gruber-darker)
-  (color-theme-gruber-darker)
-  
-  ;;(add-to-list 'load-path "~/.emacs.d/vendor/emacs-powerline")
-  ;;(require 'powerline)
-
-  ;; get some themes man! (black on white is tiresome)
-  ;;(add-to-list 'load-path "~/.emacs.d/vendor/color-theme-6.6.0")
-  ;; (require 'color-theme)
-  ;; (eval-after-load "color-theme"
-  ;;   '(progn
-  ;;      (color-theme-initialize)
-  ;;      (color-theme-arjen)))
-
   ;; free up M-SPC to allow prefixed commands.
   (global-unset-key (kbd "M-SPC"))
 
@@ -1258,38 +1279,8 @@ With a prefix argument N, (un)comment that many sexps."
     (my-freebsd-mode-hook))
 
 
-(defun my-gui-mode-hook ()
-  ;; only activate global-line mode when on X11/windows/non-terminal environment.
-  ;; will deactivate syntax highlighting and more in SSH.
-  (global-hl-line-mode +1)
-
-  ;; same with column-numbers.
-  (column-number-mode +1)
-
-  ;; substitute lambdas with fancy symbols
-  ;; (font-lock-add-keywords
-  ;;  nil `(("(\\(lambda\\>\\)"
-  ;;         (0 (progn (compose-region (match-beginning 1) (match-end 1)
-  ;;                                   ,(make-char 'greek-iso8859-7 107))
-  ;;                   nil)))))
-  ;; (setq font-lock t)
-
-  ;; font thingie, downloaded from http://sourcefoundry.org/hack/
-  (when (font-exists-p "Hack")
-    (let ((FONT "Hack-10"))
-      (add-to-list 'default-frame-alist `(font . ,FONT ))
-      (set-face-attribute 'default t :font FONT)
-      (set-default-font FONT))))
-
-(when (display-graphic-p)
-  (my-gui-mode-hook))
-
 (defun my-x-mode-hook ()
-  ;; make things look funky and match stump-wm
-  ;;(color-theme-initialize) ;;uncomment to load all themes
-  ;; (color-theme-jsc-dark) ;; also a candidate
-  (require 'color-theme-gruber-darker)
-  (color-theme-gruber-darker)
+
 
   ;; make keys act immediately
   ;; http://unix.stackexchange.com/questions/28170/some-keys-are-invalid-on-emacs-when-using-german-keyboard
