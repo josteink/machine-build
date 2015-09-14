@@ -1040,8 +1040,9 @@ With a prefix argument N, (un)comment that many sexps."
   ;; we want proper new-line indentation
   ;;(lsk 'org-return-and-indent "RET")
 
-  ;; enable imenu
-  (imenu-add-menubar-index))
+  ;; enable imenu, and add standard navigation.
+  (imenu-add-menubar-index)
+  (lsk 'helm-imenu-dwim "M-g m" "M-g M-m" "M-g f" "M-g M-f"))
 
 (defhook prog-mode-hook
   ;; keybindings
