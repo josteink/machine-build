@@ -1215,11 +1215,11 @@ With a prefix argument N, (un)comment that many sexps."
 (defun my-unix-mode-hook ()
   ;; allow us to (automatically) open files as root when needed via tramp and /sudo::
   (require 'tramp)
-  (defadvice find-file (after find-file-sudo activate)
-    "Find file as root if necessary."
-    (unless (and buffer-file-name
-                 (file-writable-p buffer-file-name))
-      (find-alternate-file (concat "/sudo::" buffer-file-name))))
+  ;; (defadvice find-file (after find-file-sudo activate)
+  ;;   "Find file as root if necessary."
+  ;;   (unless (and buffer-file-name
+  ;;                (file-writable-p buffer-file-name))
+  ;;     (find-alternate-file (concat "/sudo::" buffer-file-name))))
 
   ;; hunspell is supposedly better and more modern than ispell.
   ;; use it when available.
