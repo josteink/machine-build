@@ -1181,6 +1181,10 @@ With a prefix argument N, (un)comment that many sexps."
 (defhook text-mode-hook
   (flyspell-mode 't)
 
+  ;; make line-wraps where they should be according to
+  ;; ancient conventions.
+  (auto-fill-mode t)
+
   (lsk 'langtool-check-buffer "C-c C-l")
   (lsk 'langtool-show-message-at-point "C-c C-p")
   (lsk 'langtool-goto-previous-error "<f7>")
