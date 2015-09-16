@@ -211,6 +211,9 @@
 ;; org-mode fontified properly for babel
 (setq org-src-fontify-natively t)
 
+;; enable narrowing and widening of buffers via C-x n n and C-x n w
+(put 'narrow-to-region 'disabled nil)
+
 ;; ensure all occur-buffers have unique names (to enable multple ones)
 ;; (add-hook 'occur-hook 'occur-rename-buffer)
 
