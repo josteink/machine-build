@@ -1190,6 +1190,7 @@ With a prefix argument N, (un)comment that many sexps."
 
   (lsk 'langtool-check-buffer "C-c C-l")
   (lsk 'langtool-show-message-at-point "C-c C-p")
+  (lsk 'flyspell-correct-word-before-point "C-c C-k")
   (lsk 'langtool-goto-previous-error "<f7>")
   (lsk 'langtool-goto-next-error "<f8>"))
 
