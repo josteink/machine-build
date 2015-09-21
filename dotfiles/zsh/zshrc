@@ -75,7 +75,6 @@ bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
 
 # useful aliases
-alias rgrep "grep -R '$*' \*"
 alias e="emacsclient $*"
 
 # provides useful completions, like for LXC
