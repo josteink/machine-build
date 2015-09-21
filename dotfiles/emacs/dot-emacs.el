@@ -1082,6 +1082,10 @@ With a prefix argument N, (un)comment that many sexps."
   (imenu-add-menubar-index)
   (lsk 'helm-imenu-dwim "M-g m" "M-g M-m" "M-g f" "M-g M-f"))
 
+(defhook org-src-mode-hook
+  ;; create easy exit from org-edit-special.
+  (lsk 'org-edit-src-exit "C-c C-'"))
+
 (defhook prog-mode-hook
   ;; keybindings
 
