@@ -53,6 +53,7 @@
         flycheck flycheck-haskell flycheck-package
         omnisharp
         js2-mode
+        json-mode
         ssh-config-mode
         elfeed
         plantuml-mode
@@ -173,7 +174,7 @@
 
 ;; we DONT want web-mode for CSS, because it breaks company-mode completion.
 (add-extensions-to-mode 'web-mode "html" "php" "ascx" "aspx")
-(add-extensions-to-mode 'js2-mode "js" "json")
+(add-extensions-to-mode 'js2-mode "js")
 
 ;; hook js2-mode in for shell scripts running via node.js
 (add-to-list 'interpreter-mode-alist '("node" . js2-mode))
