@@ -1127,13 +1127,6 @@ With a prefix argument N, (un)comment that many sexps."
   (when (derived-mode-p 'prog-mode)
     (imenu-add-menubar-index))
 
-  ;; projectile mode: on!
-  ;; C-c p f - search for any file in your lein/git/etc project
-  ;; more docs and bindings here: https://github.com/bbatsov/projectile
-  (projectile-mode t)
-
-  ;; C-c p s g ;; projectile live grep!
-
   ;; formatting matters in programming files, but python is a silly
   ;; language which cares about white-space.
   ;; also: for any non-lisp (paredit) language, enable electric-pair-mode.
@@ -1160,8 +1153,12 @@ With a prefix argument N, (un)comment that many sexps."
 (add-hook 'cmake-mode-hook 'my-prog-mode-hook)
 
 (defhook projectile-mode-hook
+  ;; projectile mode: on!
+  ;; C-c p f - search for any file in your lein/git/etc project
+  ;; more docs and bindings here: https://github.com/bbatsov/projectile
+  ;; (projectile-mode t)
+  ;; C-c p s g ;; projectile live grep!
   (ignore-errors
-    (helm-projectile-on)
     (setq projectile-completion-system 'helm)))
 
 ;; xml
