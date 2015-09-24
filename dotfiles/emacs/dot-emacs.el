@@ -79,7 +79,8 @@
     ;; Install missing
     (dolist (p my-packages)
       (when (not (package-installed-p p))
-        (package-install p)))))
+	(ignore-errors
+	  (package-install p))))))
 
 (my-packages-install-packages)
 
@@ -1335,7 +1336,8 @@ With a prefix argument N, (un)comment that many sexps."
 (global-ede-mode 1)
 
 ;; enable eww as the main browser
-(require 'eww)
+(ignore-errors
+  (require 'eww))
 
 ;; if wa want links cliked in elfeed and friends to open in emacs,
 ;; we must tell emacss to use eww.
