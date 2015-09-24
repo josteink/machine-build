@@ -920,6 +920,16 @@ With a prefix argument N, (un)comment that many sexps."
                                     "COMMA_PARENTHESIS_WHITESPACE"
                                     "EN_QUOTES"))))
 
+(defun langtool-check-buffer-dwim (arg)
+  "Check and correct buffer with langtool."
+  (interactive "p")
+
+  (if (= 1 arg)
+      ;; default, no prefix argument.
+      (langtool-check-buffer)
+    ;; non-default. prefix-argument. C-u or something.
+    (langtool-correct-buffer)))
+
 ;; prevent accidentally enabling overwrite-mode
 (defun overwrite-mode-prompt ()
   "A wrapper to ensure overwrite-mode is never enabled blindly."
@@ -1193,7 +1203,7 @@ With a prefix argument N, (un)comment that many sexps."
   ;; ancient conventions.
   (auto-fill-mode t)
 
-  (lsk 'langtool-check-buffer "C-c C-l")
+  (lsk 'langtool-check-buffer-dwim "C-c C-l")
   (lsk 'langtool-show-message-at-point "C-c C-p")
   (lsk 'flyspell-correct-word-before-point "C-c C-k")
   (lsk 'langtool-goto-previous-error "<f7>")
