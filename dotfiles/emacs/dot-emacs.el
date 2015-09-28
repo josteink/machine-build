@@ -42,6 +42,7 @@
         langtool
         company
         company-c-headers
+        cmake-mode
         ggtags
         slime-company ;; if loading fails with recursive load, check if distro-provided slime is installed.
         magit
