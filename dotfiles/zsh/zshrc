@@ -82,3 +82,4 @@ fpath=($fpath $HOME/.zsh.comp.d)
 autoload -U compinit
 compinit
 
+DISABLE_UPDATE_PROMPT=true
