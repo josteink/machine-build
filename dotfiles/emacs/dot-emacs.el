@@ -660,10 +660,10 @@ With a prefix argument N, (un)comment that many sexps."
   "Sends the currently highlighted region to the nodejs repl."
   (interactive "r")
 
-  (comint-send-region
-   (get-process nodejs-repl-process-name)
-   start
-   end))
+  (let* ((proc (get-process nodejs-repl-process-name)))
+    (comint-send-region proc start end)
+    ;; in case newline is not included at end of region.
+    (comint-send-string proc "\n")))
 
 (defun my-nodejs-eval-buffer ()
   "Sends the enture current buffer to the nodejs repl."
