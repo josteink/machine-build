@@ -60,6 +60,7 @@
         plantuml-mode
         org ;; we want a newer version than the one built in!
         marmalade-client
+        nodejs-repl
         ))
 
 ;; only query package sources when package is missing! copied from:
@@ -653,6 +654,25 @@ With a prefix argument N, (un)comment that many sexps."
     (dotimes (_ (or n 1))
       (comment-sexp--raw))))
 
+;; make nodejs nicer to work with
+
+(defun my-nodejs-send-region-to-repl (start end)
+  "Sends the currently highlighted region to the nodejs repl."
+  (interactive "r")
+
+  (comint-send-region
+   (get-process nodejs-repl-process-name)
+   start
+   end))
+
+(defun my-nodejs-eval-buffer ()
+  "Sends the enture current buffer to the nodejs repl."
+  (interactive)
+
+  (my-nodejs-send-region-to-repl
+   (point-min)
+   (point-max)))
+
 ;; Windows-only window-control functions.
 
 (defun w32-maximize-frame ()
@@ -1067,7 +1087,13 @@ With a prefix argument N, (un)comment that many sexps."
   (lsk 'run-js "<f6>")
   (lsk 'js-send-region "C-x C-e")
 
-  (lsk 'my-join-line-with-next "M-j"))
+  (lsk 'my-join-line-with-next "M-j")
+
+  ;; nodejs stuff
+  (lsk 'nodejs-repl "C-c C-r")
+  (lsk 'my-nodejs-send-region-to-repl "C-c C-e")
+  (lsk 'my-nodejs-eval-buffer "C-c C-c"))
+
 
 ;; org-mode
 (defhook org-mode-hook
