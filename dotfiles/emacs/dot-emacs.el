@@ -81,8 +81,8 @@
     ;; Install missing
     (dolist (p my-packages)
       (when (not (package-installed-p p))
-	(ignore-errors
-	  (package-install p))))))
+        (ignore-errors
+          (package-install p))))))
 
 (my-packages-install-packages)
 
@@ -910,6 +910,9 @@ With a prefix argument N, (un)comment that many sexps."
 
 ;; indent properly, always
 (gsk 'newline-and-indent "RET")
+
+
+(gsk 'helm-bookmarks "C-x r l")
 
 ;; compilation-mode tweaks:
 
