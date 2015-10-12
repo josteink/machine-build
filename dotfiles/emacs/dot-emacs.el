@@ -1122,6 +1122,8 @@ With a prefix argument N, (un)comment that many sexps."
 
   (lsk 'my-join-line-with-next "M-j")
 
+  (lsk 'occur-dwim "C-c C-o");
+
   ;; nodejs stuff
   (lsk 'nodejs-repl "C-c C-r")
   (lsk 'my-nodejs-send-region-to-repl "C-c C-e")
