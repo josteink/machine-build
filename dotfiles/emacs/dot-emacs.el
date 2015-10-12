@@ -673,6 +673,36 @@ With a prefix argument N, (un)comment that many sexps."
    (point-min)
    (point-max)))
 
+;; Windbg helper
+
+(defface hi-yellow-b
+  '((((min-colors 88)) (:weight bold :foreground "yellow1"))
+    (t (:weight bold :foreground "yellow")))
+  "Face for hi-lock mode."
+  :group 'hi-lock-faces)
+
+(defface hi-cyan-b
+  '((((min-colors 88)) (:weight bold :foreground "cyan1"))
+    (t (:weight bold :foreground "cyan")))
+  "Face for hi-lock mode."
+  :group 'hi-lock-faces)
+
+(defun windbg-mode ()
+  "Provide simple highlighting of common constructs in windbg log output"
+  (interactive)
+
+  ;; highlight prompts
+  (hi-lock-face-buffer "[0-9]+:[0-9]+>" 'hi-yellow)
+
+  ;; highlight typical commands
+  (hi-lock-face-buffer "\s!\\w+" 'hi-green-b)
+  (hi-lock-face-buffer "\s\\.\\w+" 'hi-green-b)
+  ;; monitors are always ugly
+  (hi-lock-face-buffer "Monitor.Enter" 'hi-red-b)
+
+  ;; Some things should light up subtly in log
+  (hi-lock-face-buffer "SuperOffice[A-Za-z0-9\s\\._\\+-]+" 'hi-cyan-b))
+
 ;; Windows-only window-control functions.
 
 (defun w32-maximize-frame ()
