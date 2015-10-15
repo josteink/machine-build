@@ -1311,7 +1311,7 @@ With a prefix argument N, (un)comment that many sexps."
     (setq tfs/login ""))
 
   ;; omnisharp
-  (setq omnisharp-server-executable-path "D:/Git/omnisharp-roslyn/scripts/"))
+  (setq omnisharp-server-executable-path "D:/Git/omnisharp-roslyn/scripts/Omnisharp.cmd"))
 
 ;;;; UNIX ONLY CUSTOMIZATIONS
 
