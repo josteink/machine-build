@@ -1290,6 +1290,11 @@ With a prefix argument N, (un)comment that many sexps."
   (interactive)
   (eww (concat "https://duckduckgo.com/html/?q=" (url-encode-url (read-from-minibuffer "Search for: ")))))
 
+;; dired
+(defhook dired-mode-hook
+  (lsk 'dired-isearch-filenames "C-s")
+  (lsk 'isearch-forward "C-S"))
+
 ;;;; WINDOWS ONLY CUSTOMIZATIONS
 
 
