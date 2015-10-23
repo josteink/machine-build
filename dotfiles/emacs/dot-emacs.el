@@ -358,9 +358,9 @@
   (my-move-to-start-of-word)
   (downcase-word arg))
 
-(defun nxml-where ()
+(defun nxml-where (arg)
   "Display the hierarchy of XML elements the point is on as a path."
-  (interactive)
+  (interactive "p")
   (let ((path nil))
     (save-excursion
       (save-restriction
@@ -373,8 +373,12 @@
                       (error nil)))
           (setq path (cons (xmltok-start-tag-local-name) path)))
         (if (called-interactively-p t)
-            (message "/%s" (mapconcat 'identity path "/"))
-          (format "/%s" (mapconcat 'identity path "/")))))))
+            (let* ((result (concat "/" (mapconcat 'identity path "/"))))
+              (if (= 1 arg)
+                  (message result)
+                (progn
+                  (kill-new result)
+                  (message "Path %s added to kill-ring." result)))))))))
 
 ;; automatically handle DOS EOL and silence it
 (defun my-find-file-hook ()
