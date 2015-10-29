@@ -61,6 +61,7 @@
         org ;; we want a newer version than the one built in!
         marmalade-client
         nodejs-repl
+        crontab-mode
         ))
 
 ;; only query package sources when package is missing! copied from:
@@ -171,6 +172,7 @@
 (add-to-list 'auto-mode-alist '("github\\.com.*\\.txt$" . markdown-mode)) ;; it's all text, firefox extension!
 (add-to-list 'auto-mode-alist '("news\\.ycombinator\\.com.*\\.txt$" . markdown-mode)) ;; hacker news is all markdown.
 (add-to-list 'auto-mode-alist '("www.websequencediagrams.com.*\\.txt$" . wsd-mode)) ;; obviously
+(add-to-list 'auto-mode-alist '("crontab" . crontab-mode))
 
 (add-extensions-to-mode 'nxml-mode "config" "merge") ;; .NET, SuperOffice config-merge.
 (add-extensions-to-mode 'powershell-mode "ps" "ps1")
