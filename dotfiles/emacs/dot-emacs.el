@@ -1138,6 +1138,9 @@ With a prefix argument N, (un)comment that many sexps."
     (lsk 'omnisharp-rename "C-o C-r")
     (lsk 'omnisharp-rename-interactively "C-u C-o C-r")
 
+    ;; type-info
+    (lsk 'omnisharp-current-type-information "C-c C-t")
+
     ;; overrides
     (lsk 'omnisharp-go-to-definition "<f12>" "M-.") ;; like cslisp smart-navn
     (lsk 'pop-tag-mark "M-,")
@@ -1206,6 +1209,9 @@ With a prefix argument N, (un)comment that many sexps."
   ;; navigate back again.
   ;; (could also use set-mark with prefix argument C-u C-spc.)
   (lsk 'pop-local-or-global-mark "C--")
+
+  ;; sometimes flyspell can make things slow, especially on Windows.
+  (lsk 'flyspell-mode "C-c C-f")
 
   ;; auto-complete is a must
   (company-mode 1)
