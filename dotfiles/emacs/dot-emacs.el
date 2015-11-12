@@ -382,6 +382,25 @@
                   (kill-new result)
                   (message "Path %s added to kill-ring." result)))))))))
 
+(defun nxml-pretty-print-buffer ()
+  "Pretty format XML markup in the buffer.
+
+The function inserts line-breaks to separate tags that have
+nothing but whitespace between them. It then indents the markup
+by using nxml's indentation rules."
+  (interactive)
+
+  (when (not (derived-mode-p 'nxml-mode))
+    (nxml-mode))
+
+  (save-excursion
+    (goto-char (point-min))
+    (while (search-forward-regexp "\>[ \\t]*\<" nil t)
+      (backward-char) (insert "\n"))
+    (indent-whole-buffer))
+  (message "Ah, much better!"))
+
+
 ;; automatically handle DOS EOL and silence it
 (defun my-find-file-hook ()
   (interactive)
@@ -1243,6 +1262,7 @@ With a prefix argument N, (un)comment that many sexps."
   (lsk 'uncomment-region            "C-c C-u")
 
   (lsk 'nxml-where                  "C-c C-w")
+  (lsk 'nxml-pretty-print-buffer    "C-c C-e")
 
   ;; causes entire elements (with children) to be treated as sexps.
   (setq nxml-sexp-element-flag t)
