@@ -93,6 +93,15 @@
   "Probes for the existence of a font."
   (member font (font-family-list)))
 
+(defun try-set-default-font (font size)
+  "Attempt to set default-font, if present on system"
+
+  (when (font-exists-p font)
+    (let ((FONT (concat font "-" (number-to-string size))))
+      (add-to-list 'default-frame-alist `(font . ,FONT ))
+      (set-face-attribute 'default t :font FONT)
+      (set-default-font FONT))))
+
 (defun my-gui-mode-hook ()
   ;; activate theme early!
 
@@ -118,11 +127,9 @@
   ;; (setq font-lock t)
 
   ;; font thingie, downloaded from http://sourcefoundry.org/hack/
-  (when (font-exists-p "Hack")
-    (let ((FONT "Hack-10"))
-      (add-to-list 'default-frame-alist `(font . ,FONT ))
-      (set-face-attribute 'default t :font FONT)
-      (set-default-font FONT))))
+  (try-set-default-font "Hack" 10)
+  ;; KDE, Hidpi laptop
+  (try-set-default-font "Droid Sans Mono" 14))
 
 (when (display-graphic-p)
   (my-gui-mode-hook))
