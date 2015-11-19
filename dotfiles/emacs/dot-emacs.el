@@ -108,8 +108,16 @@
   ;; make things look funky and match stump-wm
   ;;(color-theme-initialize) ;;uncomment to load all themes
   ;; (color-theme-jsc-dark) ;; also a candidate
-  (require 'color-theme-gruber-darker)
-  (color-theme-gruber-darker)
+  ;; (require 'color-theme-gruber-darker)
+  ;; (color-theme-gruber-darker)
+
+  (ignore-errors
+    ;; https://github.com/caisah/seti-theme/
+    (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
+    (load-theme 'seti)
+    (set-face-foreground font-lock-comment-delimiter-face "#c06000")
+    (set-face-foreground font-lock-comment-face "#707070")
+    (set-face-background hl-line-face "#303040"))
 
   ;; only activate global-line mode when on X11/windows/non-terminal environment.
   ;; will deactivate syntax highlighting and more in SSH.
@@ -129,7 +137,7 @@
   ;; font thingie, downloaded from http://sourcefoundry.org/hack/
   (try-set-default-font "Hack" 10)
   ;; KDE, Hidpi laptop
-  (try-set-default-font "Droid Sans Mono" 14))
+  (try-set-default-font "Droid Sans Mono" 11))
 
 (when (display-graphic-p)
   (my-gui-mode-hook))
