@@ -67,7 +67,7 @@ bindsym $mod+Return exec $term
 bindsym $mod+Shift+Q kill
 
 # allow us to lock the screen
-bindsym $mod+Shift+L exec i3lock
+bindsym $mod+Shift+L exec i3lock -c 111111 -d
 
 # start dmenu (a program launcher)
 bindsym $mod+d exec dmenu_run
