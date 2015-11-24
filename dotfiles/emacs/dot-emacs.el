@@ -1132,6 +1132,7 @@ With a prefix argument N, (un)comment that many sexps."
   ;; cc-mode overrides some of our global bindings.
   ;; search for all matches of a given regex, list results
   (lsk 'occur-dwim "C-c C-o" "M-s o" "M-s M-o")
+  (lsk 'helm-imenu "<f12>")
 
   (ignore-errors
     ;; company mode must be configured before omnisharp is loaded.
