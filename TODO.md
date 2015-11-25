@@ -4,7 +4,7 @@ Things to do:
 
 * server: fail2ban
 * workstation: dropbox, etc
-* development: same as workstation? clojure, etc.
-* laptop: greenify things
+
+
 
 

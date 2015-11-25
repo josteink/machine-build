@@ -7,6 +7,5 @@ Basically things to remember, with references/links to how.
 For instance:
 
 * Firefox. setup sync.
-* Thunderbird. Configure Sogo plugins and sync.
 * Etc
 
