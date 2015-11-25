@@ -42,6 +42,9 @@ bindsym $mod+m exec i3-input
 #exec owncloud
 exec dropbox start
 
+# start kdeconnect
+exec $HOME/build/indicator-kdeconnect/build/indicator-kdeconnect
+
 # setup default workspace
 exec $term
 $msg '$w2; exec firefox'
