@@ -44,6 +44,7 @@ exec dropbox start
 
 # start kdeconnect
 exec $HOME/build/indicator-kdeconnect/build/indicator-kdeconnect
+exec nm-applet
 
 # setup default workspace
 exec $term
