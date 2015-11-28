@@ -213,6 +213,11 @@ bindsym Print exec scrot -e 'mv $f /tmp/ && gimp /tmp/$f'
 bindsym Mod1+Print exec scrot -s -e 'mv $f /tmp/ && gimp /tmp/$f'
 
 
+# for volume and stuff
+bindsym XF86AudioRaiseVolume exec pactl set-sink-volume 1 +2db
+bindsym XF86AudioLowerVolume exec pactl set-sink-volume 1 -2db
+bindsym XF86AudioMute exec pactl set-sink-mute 1 toggle
+
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {

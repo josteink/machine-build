@@ -137,7 +137,7 @@
   ;; font thingie, downloaded from http://sourcefoundry.org/hack/
   (try-set-default-font "Hack" 10)
   ;; KDE, Hidpi laptop
-  (try-set-default-font "Droid Sans Mono" 11))
+  (try-set-default-font "Droid Sans Mono" 12))
 
 (when (display-graphic-p)
   (my-gui-mode-hook))
