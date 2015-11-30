@@ -1062,6 +1062,10 @@ With a prefix argument N, (un)comment that many sexps."
   (add-to-list 'imenu-generic-expression
                '(nil "^\\s-*(def\\sw+\\s-+\\(\\(\\sw\\|\\s_\\)+\\)" 1 ) t)
 
+  ;; many macros start with def-something. We want those usages in imenu.
+  (add-to-list 'imenu-generic-expression
+               '(nil "^\\s-*(ert-deftest\\s-+\\(\\(\\sw\\|\\s_\\)+\\)" 1 ) t)
+
   (lsk 'macrostep-expand "C-c C-e")
   (lsk 'eval-buffer "C-c C-c")
 
