@@ -1143,12 +1143,12 @@ With a prefix argument N, (un)comment that many sexps."
     (eval-after-load 'company
       '(add-to-list 'company-backends 'company-omnisharp))
 
-    ;; prepare imenu-support
-    (setq omnisharp-imenu-support t)
-    (omnisharp-mode t)
-    (omnisharp-imenu-create-index)
-    ;; disable csharp-mode imenu when omnisharp is running!
-    (setq csharp-want-imenu nil)
+    ;; ;; prepare imenu-support
+    ;; (setq omnisharp-imenu-support t)
+    ;; (omnisharp-mode t)
+    ;; (omnisharp-imenu-create-index)
+    ;; ;; disable csharp-mode imenu when omnisharp is running!
+    ;; (setq csharp-want-imenu nil)
 
     ;; vs/resharper-like bindings
     (lsk 'omnisharp-helm-find-usages "S-<f12>")
