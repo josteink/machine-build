@@ -1220,7 +1220,7 @@ With a prefix argument N, (un)comment that many sexps."
   ;; keybindings
 
   ;; not C-k C-c & C-k C-t because C-k is kill-line in emacs
-  (lsk 'comment-or-uncomment-region  "C-;")
+  (lsk 'comment-or-uncomment-region  "C-;" "C-M-,")
   (lsk 'uncomment-region             "C-:")
 
   ;; code - navigate to definition
