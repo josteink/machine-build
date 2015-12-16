@@ -112,12 +112,18 @@
   ;; (color-theme-gruber-darker)
 
   (ignore-errors
-    ;; https://github.com/caisah/seti-theme/
-    (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
-    (load-theme 'seti)
-    (set-face-foreground font-lock-comment-delimiter-face "#c06000")
-    (set-face-foreground font-lock-comment-face "#707070")
-    (set-face-background hl-line-face "#303040"))
+    (let* ((themes-dir "~/.emacs.d/themes/")
+           (seti-theme (concat themes-dir "seti-theme.el")))
+      (when (not (file-exists-p themes-dir))
+        (make-directory themes-dir))
+      (when (not (file-exists-p seti-theme))
+        (url-copy-file "https://raw.githubusercontent.com/caisah/seti-theme/master/seti-theme.el" seti-theme))
+
+      (add-to-list 'custom-theme-load-path themes-dir)
+      (load-theme 'seti)
+      (set-face-foreground font-lock-comment-delimiter-face "#c06000")
+      (set-face-foreground font-lock-comment-face "#707070")
+      (set-face-background hl-line-face "#303040")))
 
   ;; only activate global-line mode when on X11/windows/non-terminal environment.
   ;; will deactivate syntax highlighting and more in SSH.
