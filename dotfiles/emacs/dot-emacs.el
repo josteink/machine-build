@@ -148,6 +148,13 @@
 (when (display-graphic-p)
   (my-gui-mode-hook))
 
+(defun my-light-guide-mode ()
+  "A bright UI-mode which better fits things like wsd-mode."
+  
+  (interactive)
+  (color-theme-emacs-nw)
+  (set-face-background hl-line-face "#c0c0c0"))
+
 ;; tramp lets us open /sudo::/etc/files
 (require 'tramp)
 
