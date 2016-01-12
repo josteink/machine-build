@@ -48,8 +48,6 @@
         magit
         elisp-slime-nav
         macrostep
-        color-theme
-        color-theme-gruber-darker
         org
         flycheck flycheck-haskell flycheck-package
         omnisharp
