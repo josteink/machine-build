@@ -1250,7 +1250,7 @@ With a prefix argument N, (un)comment that many sexps."
   (lsk 'pop-local-or-global-mark "C--")
 
   ;; sometimes flyspell can make things slow, especially on Windows.
-  (lsk 'flyspell-mode "C-c C-f")
+  (lsk 'flyspell-prog-mode "C-c C-f")
 
   ;; auto-complete is a must
   (company-mode 1)
