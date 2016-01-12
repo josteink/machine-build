@@ -248,6 +248,11 @@
 ;; enable narrowing and widening of buffers via C-x n n and C-x n w
 (put 'narrow-to-region 'disabled nil)
 
+(defcustom my-enable-omnisharp nil
+  "Whether to enable omnisharp in chsarp-mode or not"
+  :type 'boolean
+  :group 'my)
+
 ;; ensure all occur-buffers have unique names (to enable multple ones)
 ;; (add-hook 'occur-hook 'occur-rename-buffer)
 
@@ -1151,35 +1156,36 @@ With a prefix argument N, (un)comment that many sexps."
   (lsk 'occur-dwim "C-c C-o" "M-s o" "M-s M-o")
   (lsk 'helm-imenu "<f12>")
 
-  (ignore-errors
-    ;; company mode must be configured before omnisharp is loaded.
-    (eval-after-load 'company
-      '(add-to-list 'company-backends 'company-omnisharp))
+  (when my-enable-omnisharp
+    (ignore-errors
+      ;; company mode must be configured before omnisharp is loaded.
+      (eval-after-load 'company
+        '(add-to-list 'company-backends 'company-omnisharp))
 
-    ;; ;; prepare imenu-support
-    ;; (setq omnisharp-imenu-support t)
-    ;; (omnisharp-mode t)
-    ;; (omnisharp-imenu-create-index)
-    ;; ;; disable csharp-mode imenu when omnisharp is running!
-    ;; (setq csharp-want-imenu nil)
+      ;; prepare imenu-support
+      (setq omnisharp-imenu-support t)
+      (omnisharp-mode t)
+      (omnisharp-imenu-create-index)
+      ;; disable csharp-mode imenu when omnisharp is running!
+      (setq csharp-want-imenu nil)
 
-    ;; vs/resharper-like bindings
-    (lsk 'omnisharp-helm-find-usages "S-<f12>")
-    (lsk 'omnisharp-find-implementations-popup "M-<f11>")
-    ;; C-r is taken for reverse isearch, so we do C-o for omnisharp
-    (local-unset-key (kbd "C-o"))
-    (lsk 'omnisharp-rename "C-o C-r")
-    (lsk 'omnisharp-rename-interactively "C-u C-o C-r")
+      ;; vs/resharper-like bindings
+      (lsk 'omnisharp-helm-find-usages "S-<f12>")
+      (lsk 'omnisharp-find-implementations-popup "M-<f11>")
+      ;; C-r is taken for reverse isearch, so we do C-o for omnisharp
+      (local-unset-key (kbd "C-o"))
+      (lsk 'omnisharp-rename "C-o C-r")
+      (lsk 'omnisharp-rename-interactively "C-u C-o C-r")
 
-    ;; type-info
-    (lsk 'omnisharp-current-type-information "C-c C-t")
+      ;; type-info
+      (lsk 'omnisharp-current-type-information "C-c C-t")
 
-    ;; overrides
-    (lsk 'omnisharp-go-to-definition "<f12>" "M-.") ;; like cslisp smart-navn
-    (lsk 'pop-tag-mark "M-,")
-    (lsk 'omnisharp-auto-complete "C-.") ;; override company-mode, with better popup
-    (lsk 'hippie-expand "C-:") ;; still allow hippie-expand
-    ))
+      ;; overrides
+      (lsk 'omnisharp-go-to-definition "<f12>" "M-.") ;; like cslisp smart-navn
+      (lsk 'pop-tag-mark "M-,")
+      (lsk 'omnisharp-auto-complete "C-.") ;; override company-mode, with better popup
+      (lsk 'hippie-expand "C-:") ;; still allow hippie-expand
+      )))
 
 (defhook c-mode-common-hook
   ;; setup navigation based on tags.
