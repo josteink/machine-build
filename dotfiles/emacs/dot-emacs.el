@@ -1366,6 +1366,12 @@ With a prefix argument N, (un)comment that many sexps."
   (lsk 'dired-isearch-filenames "C-s")
   (lsk 'isearch-forward "C-S"))
 
+;; shellstuff
+(defhook shell-mode-hook
+  (compilation-shell-minor-mode)
+  (company-mode)
+  (lsk #'company-manual-begin "TAB"))
+
 ;;;; WINDOWS ONLY CUSTOMIZATIONS
 
 
