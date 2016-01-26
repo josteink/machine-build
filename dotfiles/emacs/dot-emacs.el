@@ -1368,7 +1368,7 @@ With a prefix argument N, (un)comment that many sexps."
 (defhook shell-mode-hook
   (compilation-shell-minor-mode)
   (company-mode)
-  (lsk #'company-manual-begin "TAB"))
+  (lsk #'company-manual-begin "\t"))
 
 ;;;; WINDOWS ONLY CUSTOMIZATIONS
 
