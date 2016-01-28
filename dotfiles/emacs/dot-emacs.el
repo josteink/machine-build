@@ -148,7 +148,7 @@
 
 (defun my-light-guide-mode ()
   "A bright UI-mode which better fits things like wsd-mode."
-  
+
   (interactive)
   (color-theme-emacs-nw)
   (set-face-background hl-line-face "#c0c0c0"))
@@ -282,9 +282,9 @@
 ;; we want projectile everywhere.
 (projectile-global-mode t)
 
-;; (global-set-key (kbd "M-x") 'helm-M-x)
-;; (global-set-key (kbd "C-x C-b") 'helm-buffers-list)
-;; (global-set-key (kbd "C-x b") 'helm-buffers-list)
+(global-set-key (kbd "M-x") 'helm-M-x)
+(global-set-key (kbd "C-x C-b") 'helm-buffers-list)
+(global-set-key (kbd "C-x b") 'helm-buffers-list)
 ;; (global-set-key (kbd "C-c p h") 'helm-projectile)
 
 ;; always follow symlinks to files under source-control. dont ask.
@@ -1370,7 +1370,7 @@ With a prefix argument N, (un)comment that many sexps."
 (defhook dired-mode-hook
   ;; move cursor to beginning of filename when that makes sense
   (setq wdired-use-dired-vertical-movement 'sometimes)
-  
+
   (lsk 'dired-isearch-filenames "C-s")
   (lsk 'isearch-forward "C-S"))
 
