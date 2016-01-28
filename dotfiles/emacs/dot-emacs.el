@@ -251,6 +251,16 @@
   :type 'boolean
   :group 'my)
 
+(defun my-enable-flyspell-mode (prog-mode)
+  "Enable flyspell, but only on platforms where it works well."
+
+  ;; it basically boils down to flyspell is slow on windows,
+  ;; so don't auto-enable it by default for all and any modes.
+  (when (not (eq system-type 'windows-nt))
+    (if prog-mode
+        (flyspell-prog-mode)
+      (flyspell-mode))))
+
 ;; ensure all occur-buffers have unique names (to enable multple ones)
 ;; (add-hook 'occur-hook 'occur-rename-buffer)
 
@@ -1247,9 +1257,6 @@ With a prefix argument N, (un)comment that many sexps."
   ;; (could also use set-mark with prefix argument C-u C-spc.)
   (lsk 'pop-local-or-global-mark "C--")
 
-  ;; sometimes flyspell can make things slow, especially on Windows.
-  (lsk 'flyspell-prog-mode "C-c C-f")
-
   ;; auto-complete is a must
   (company-mode 1)
 
@@ -1278,7 +1285,7 @@ With a prefix argument N, (un)comment that many sexps."
   (flycheck-mode t)
 
   ;; flyspell too!
-  (flyspell-prog-mode)
+  (my-enable-flyspell-mode t)
 
   ;; must be set AFTER flyspell!
   (lsk 'company-complete "C-.")
@@ -1334,7 +1341,7 @@ With a prefix argument N, (un)comment that many sexps."
 
 ;; things like markdown
 (defhook text-mode-hook
-  (flyspell-mode 't)
+  (my-enable-flyspell-mode nil)
 
   ;; make line-wraps where they should be according to
   ;; ancient conventions.
