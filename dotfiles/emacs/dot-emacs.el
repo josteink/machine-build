@@ -1361,6 +1361,9 @@ With a prefix argument N, (un)comment that many sexps."
 
 ;; dired
 (defhook dired-mode-hook
+  ;; move cursor to beginning of filename when that makes sense
+  (setq wdired-use-dired-vertical-movement 'sometimes)
+  
   (lsk 'dired-isearch-filenames "C-s")
   (lsk 'isearch-forward "C-S"))
 
