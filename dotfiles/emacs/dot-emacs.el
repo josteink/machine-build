@@ -1198,7 +1198,14 @@ With a prefix argument N, (un)comment that many sexps."
 
 (defhook c-mode-common-hook
   ;; setup navigation based on tags.
-  (lsk 'find-tag "<f12>" "M-."))
+  (lsk 'find-tag "<f12>" "M-.")
+  (lsk 'pop-tag-mark "M-,")
+
+  (when (derived-mode-p 'c-mode 'c++-mode)
+    (ignore-errors
+      (require 'rtags)
+      (lsk 'rtags-find-symbol-at-point "<f12>" "M-.")
+      (lsk 'rtags-find-references-at-point "S-<f12>"))))
 
 (defhook js2-mode-hook
   (lsk 'run-js "<f6>")
