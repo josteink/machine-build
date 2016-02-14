@@ -1097,7 +1097,10 @@ With a prefix argument N, (un)comment that many sexps."
   (lsk 'eval-buffer "C-c C-c")
 
   ;; enable intelligent navigation with M-, and M-.
-  (elisp-slime-nav-mode))
+  (elisp-slime-nav-mode)
+
+  ;; we want documentation
+  (eldoc-mode t))
 
 (add-hook 'emacs-lisp-mode-hook 'my-emacs-lisp-mode-hook)
 (add-hook 'ielm-lisp-mode-hook 'my-emacs-lisp-mode-hook)
