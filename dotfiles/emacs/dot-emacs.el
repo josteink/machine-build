@@ -1510,6 +1510,7 @@ With a prefix argument N, (un)comment that many sexps."
 ;; if wa want links cliked in elfeed and friends to open in emacs,
 ;; we must tell emacss to use eww.
 (setq browse-url-browser-function 'eww-browse-url)
+;;(setq browse-url-browser-function 'browse-url-default-browser)
 
 ;; unless built from emacs master, we may encounter some errors in 24.4
 ;; See: https://emacs.stackexchange.com/questions/5469/invalid-date-01-jan-2055
