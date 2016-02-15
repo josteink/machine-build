@@ -44,11 +44,11 @@ exec dropbox start
 
 # start kdeconnect
 exec $HOME/build/indicator-kdeconnect/build/indicator-kdeconnect
-exec nm-applet
+#exec nm-applet
 
 # gnome-settings-demon makes DPI scaling, fonts and GTK settings come active.
 # this makes quite a bit more pretty.
-exec --no-startup-id gnome-settings-daemon
+exec --no-startup-id /usr/libexec/gnome-settings-daemon
 
 # setup default workspace
 exec $term
@@ -63,7 +63,7 @@ exec i3-msg '$w2'
 
 # font for window titles. ISO 10646 = Unicode
 #font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
-font pango:monospace 12
+font pango:Cantarell Bold 16
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -78,7 +78,12 @@ bindsym $mod+Shift+Q kill
 bindsym $mod+Shift+L exec i3lock -c 111111 -d
 
 # start dmenu (a program launcher)
-bindsym $mod+d exec dmenu_run
+# bindsym $mod+d exec dmenu_run
+
+# we need XFT support to use Hack or Cantarell here... and fedora doesn't
+# include that patch..
+bindsym $mod+d exec dmenu_run -fn "-xos4-terminus-medium-r-*-*-28-*" -b
+
 
 # we have cursor keys
 ## change focus
