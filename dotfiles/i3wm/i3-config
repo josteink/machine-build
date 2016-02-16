@@ -12,8 +12,8 @@
 #
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
 
-set $w1 workspace 1: shell
-set $w2 workspace 2: www
+set $w1 workspace 1: www
+set $w2 workspace 2: shell
 set $w3 workspace 3: emacs
 set $w4 workspace 4: files
 set $w5 workspace 5
@@ -22,6 +22,16 @@ set $w7 workspace 7
 set $w8 workspace 8
 set $w9 workspace 9
 set $w10 workspace 10
+
+# theme
+
+# class                 border  backgr. text    indicator
+client.focused          #282844 #282844 #ffffff #2e9ef4
+client.focused_inactive #222233 #5f676a #ffffff #484e50
+client.unfocused        #222233 #111111 #888888 #292d2e
+client.urgent           #2f343a #900000 #ffffff #900000
+client.placeholder      #000000 #0c0c0c #ffffff #000000
+
 
 set $msg exec --no-startup-id i3-msg
 set $term exec gnome-terminal --hide-menubar
@@ -49,15 +59,14 @@ exec $HOME/build/indicator-kdeconnect/build/indicator-kdeconnect
 # gnome-settings-demon makes DPI scaling, fonts and GTK settings come active.
 # this makes quite a bit more pretty.
 exec --no-startup-id /usr/libexec/gnome-settings-daemon
+exec --no-startup-id /usr/bin/gnome-keyring-daemon
 
 # setup default workspace
-exec $term
-$msg '$w2; exec firefox'
+exec firefox
+$msg '$w2; exec $term'
 #$msg '$w3; exec thunderbird'
 $msg '$w3; exec emacs'
-$msg '$w4; exec thunar'
-#$msg '$w5; exec pidgin'
-#$msg '$w6; exec gimp'
+$msg '$w4; exec nautilus'
 
 exec i3-msg '$w2'
 
@@ -75,7 +84,8 @@ bindsym $mod+Return exec $term
 bindsym $mod+Shift+Q kill
 
 # allow us to lock the screen
-bindsym $mod+Shift+L exec i3lock -c 111111 -d
+exec --no-startup-id gnome-screensaver
+bindsym $mod+Shift+L exec gnome-screensaver-command --lock
 
 # start dmenu (a program launcher)
 # bindsym $mod+d exec dmenu_run
@@ -83,6 +93,8 @@ bindsym $mod+Shift+L exec i3lock -c 111111 -d
 # we need XFT support to use Hack or Cantarell here... and fedora doesn't
 # include that patch..
 bindsym $mod+d exec dmenu_run -fn "-xos4-terminus-medium-r-*-*-28-*" -b
+
+bindsym $mod+n exec nautilus
 
 
 # we have cursor keys
