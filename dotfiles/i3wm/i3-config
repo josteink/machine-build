@@ -1,6 +1,12 @@
 # Hey Emacs, this is a -*- conf -*-
 # This file should be placed in ~/.i3/config
 
+# gnome-settings-demon makes DPI scaling, fonts and GTK settings come active.
+# this makes quite a bit more pretty.
+exec --no-startup-id /usr/libexec/gnome-settings-daemon
+exec --no-startup-id /usr/bin/gnome-keyring-daemon
+# start as early as possible to ensure its up and ready by the time firefox comes..
+
 # Should you change your keyboard layout somewhen, delete
 # this file and re-run i3-config-wizard(1).
 #
@@ -44,16 +50,12 @@ bindsym $mod+m exec i3-input
 exec dropbox start
 
 # start kdeconnect
-exec $HOME/build/indicator-kdeconnect/build/indicator-kdeconnect
-#exec nm-applet
+#exec $HOME/build/indicator-kdeconnect/build/indicator-kdeconnect
+exec nm-applet
 
-# gnome-settings-demon makes DPI scaling, fonts and GTK settings come active.
-# this makes quite a bit more pretty.
-exec --no-startup-id /usr/libexec/gnome-settings-daemon
-exec --no-startup-id /usr/bin/gnome-keyring-daemon
 
 # setup default workspace
-exec firefox
+$msg '$w1; exec firefox'
 $msg '$w2; exec $term'
 #$msg '$w3; exec thunderbird'
 $msg '$w3; exec emacs'
