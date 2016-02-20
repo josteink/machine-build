@@ -51,13 +51,13 @@ exec dropbox start
 
 # start kdeconnect
 #exec $HOME/build/indicator-kdeconnect/build/indicator-kdeconnect
+exec kdeconnect-cli --refresh
 exec nm-applet
 
 
 # setup default workspace
 $msg '$w1; exec firefox'
 $msg '$w2; exec $term'
-#$msg '$w3; exec thunderbird'
 $msg '$w3; exec emacs'
 $msg '$w4; exec nautilus'
 
@@ -79,6 +79,7 @@ bindsym $mod+Shift+Q kill
 # allow us to lock the screen
 exec --no-startup-id gnome-screensaver
 bindsym $mod+Shift+L exec gnome-screensaver-command --lock
+bindsym $mod+L exec gnome-screensaver-command --lock
 
 # start dmenu (a program launcher)
 
