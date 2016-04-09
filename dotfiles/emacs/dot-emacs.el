@@ -1223,6 +1223,15 @@ With a prefix argument N, (un)comment that many sexps."
   (lsk 'my-nodejs-send-region-to-repl "C-c C-e")
   (lsk 'my-nodejs-eval-buffer "C-c C-c"))
 
+(defhook python-mode-hook
+  ;; elpy improves python-coding considerably, when on a
+  ;; well-supported platform, so package not installed by default.
+  (when (fboundp 'elpy-mode)
+    (elpy-mode))
+  ;; gud defaults to a seperate pdb executable which does not exist
+  ;; on Fedora. Just use python and pdb module directly.
+  (setq gud-pdb-command-name "python -m pdb"))
+
 
 ;; org-mode
 (defhook org-mode-hook
