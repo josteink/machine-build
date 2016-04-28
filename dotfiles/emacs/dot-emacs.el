@@ -1228,6 +1228,8 @@ With a prefix argument N, (un)comment that many sexps."
   ;; well-supported platform, so package not installed by default.
   (when (fboundp 'elpy-mode)
     (elpy-mode))
+
+  (lsk 'occur-dwim "S-<f12>")
   ;; gud defaults to a seperate pdb executable which does not exist
   ;; on Fedora. Just use python and pdb module directly.
   (setq gud-pdb-command-name "python -m pdb"))
