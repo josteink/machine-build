@@ -60,6 +60,7 @@
         marmalade-client
         nodejs-repl
         crontab-mode
+        highlight-symbol
         ))
 
 ;; only query package sources when package is missing! copied from:
@@ -1229,7 +1230,6 @@ With a prefix argument N, (un)comment that many sexps."
   (when (fboundp 'elpy-mode)
     (elpy-mode))
 
-  (lsk 'occur-dwim "S-<f12>")
   ;; gud defaults to a seperate pdb executable which does not exist
   ;; on Fedora. Just use python and pdb module directly.
   (setq gud-pdb-command-name "python -m pdb"))
@@ -1274,6 +1274,8 @@ With a prefix argument N, (un)comment that many sexps."
 
   ;; code - navigate to definition
   (lsk 'imenu-nav-dwim "<f12>")
+  (lsk 'highlight-symbol-occur "S-<f12>")
+
   (lsk 'helm-imenu-dwim "M-g m" "M-g M-m" "M-g f" "M-g M-f")
   ;; navigate back again.
   ;; (could also use set-mark with prefix argument C-u C-spc.)
@@ -1289,6 +1291,9 @@ With a prefix argument N, (un)comment that many sexps."
 
   ;; highlight current function?
   (which-function-mode 1)
+
+  ;; flashy flashy
+  (highlight-symbol-mode 1)
 
   ;; enable imenu - only for true prog-mode major-modes
   (when (derived-mode-p 'prog-mode)
