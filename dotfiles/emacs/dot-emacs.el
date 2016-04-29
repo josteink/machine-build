@@ -50,7 +50,7 @@
         macrostep
         org
         flycheck flycheck-haskell flycheck-package
-        omnisharp
+        ;; omnisharp
         js2-mode
         json-mode
         ssh-config-mode
