@@ -983,7 +983,7 @@ With a prefix argument N, (un)comment that many sexps."
 ;; M-s o      => open occur buffer with results
 
 ;; expand-region
-(global-set-key (kbd "C-+") 'er/expand-region)
+(gsk 'er/expand-region "C-+" "C-?" "M-+") ;; ? = S-? => C-S-+ = C-?
 
 ;; ace jump - remember C-u C-c SPC etc
 ;;(global-set-key (kbd "C-c SPC") 'ace-jump-mode)
