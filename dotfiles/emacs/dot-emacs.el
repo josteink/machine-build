@@ -1069,6 +1069,9 @@ With a prefix argument N, (un)comment that many sexps."
 ;;;; MODE CUSTOMIZATIONS
 
 
+;; performance
+(add-hook 'focus-out-hook #'garbage-collect)
+
 ;; active-region minor mode
 (defun my-active-region-mode-hook ()
   ;; dont override whatever mode emacs thinks we're in with stuff. adress the mode-map specificly.
