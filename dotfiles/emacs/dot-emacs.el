@@ -61,6 +61,7 @@
         nodejs-repl
         crontab-mode
         highlight-symbol
+        realgud
         ))
 
 ;; only query package sources when package is missing! copied from:
@@ -1240,9 +1241,11 @@ With a prefix argument N, (un)comment that many sexps."
   (when (fboundp 'elpy-mode)
     (elpy-mode))
 
-  ;; gud defaults to a seperate pdb executable which does not exist
-  ;; on Fedora. Just use python and pdb module directly.
-  (setq gud-pdb-command-name "python -m pdb"))
+  ;; gud/realgud defaults to a seperate pdb executable which does not
+  ;; exist on Fedora. Just use python and pdb module directly.
+  (setq gud-pdb-command-name "python3 -m pdb")
+  (setq realgud:pdb-command-name "python3 -m pdb")
+  (lsk 'realgud:pdb "C-<f5>"))
 
 
 ;; org-mode
@@ -1328,7 +1331,10 @@ With a prefix argument N, (un)comment that many sexps."
   (lsk 'company-complete "C-.")
 
   ;; build and navigate errors.
-  (lsk 'compile "<f5>"))
+  (lsk 'compile "<f5>")
+
+  ;; realgud needs to be required
+  (require 'realgud))
 
 (add-hook 'powershell-mode-hook 'my-prog-mode-hook)
 (add-hook 'css-mode-hook 'my-prog-mode-hook)
