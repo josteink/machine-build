@@ -58,7 +58,7 @@ exec nm-applet
 # setup default workspace
 $msg '$w1; exec firefox'
 $msg '$w2; exec $term'
-$msg '$w3; exec emacs'
+$msg '$w3; exec emacsclient -c'
 $msg '$w4; exec nautilus'
 
 exec i3-msg '$w2'
