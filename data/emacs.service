@@ -1,0 +1,14 @@
+[Unit]
+Description=Emacs daemon
+After=syslog.target network.target
+ 
+[Service]
+Type=forking
+ExecStart=/home/jostein/bin/emacs --daemon
+ExecStop=/usr/bin/emacsclient --eval "(progn (setq kill-emacs-hook 'nil) (kill-emacs))"
+Restart=always
+Environment=SSH_AUTH_SOCK=/run/user/1000/keyring/ssh GPG_AGENT_INFO=/run/user/1000/keyring/gpg:0:1
+TimeoutStartSec=0
+ 
+[Install]
+WantedBy=multi-user.target
