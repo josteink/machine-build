@@ -148,6 +148,13 @@
 (when (display-graphic-p)
   (my-gui-mode-hook))
 
+;; support frames created by emacs-clients when Emacs is launched as a
+;; presistent daemon.
+(defun my-after-create-frame-function (frame)
+  (my-gui-mode-hook))
+(add-hook 'after-make-frame-functions #'my-after-create-frame-function)
+
+
 (defun my-light-guide-mode ()
   "A bright UI-mode which better fits things like wsd-mode."
 
