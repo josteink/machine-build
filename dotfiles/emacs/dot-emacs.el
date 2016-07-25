@@ -86,6 +86,19 @@
         (ignore-errors
           (package-install p))))))
 
+(defun my-windows-cookie-cleanup ()
+  "Fix for issue which corrupts emacs' http client.
+
+This will among other things caused emacs to break in a million ways
+and packages never to download (and thus ruining the self-bootstrapping
+process if the profile is 'correupted':
+
+https://emacs.stackexchange.com/questions/15020/eww-error-in-process-sentinel-url-cookie-generate-header-lines-wrong-type-arg/15153#15153"
+
+  (when (eq system-type 'windows-nt)
+    (delete-file
+     (expand-file-name "~/.emacs.d/url/cookie"))))
+
 (my-packages-install-packages)
 
 ;; Configure GUI as early as possible. It makes loading look nicer :)
@@ -285,13 +298,23 @@
           'make-scripts-executable)
 
 ;; helm everywhere
-(require 'helm-config)
-(helm-mode)
+(ignore-errors
+  (require 'helm-config)
+  (helm-mode)
+  (global-set-key (kbd "M-x") 'helm-M-x)
+  (global-set-key (kbd "C-x C-b") 'helm-buffers-list)
+  (global-set-key (kbd "C-x b") 'helm-buffers-list)
+  (global-set-key (kbd "C-x r l") 'helm-bookmarks)
+  ;; (global-set-key (kbd "C-c p h") 'helm-projectile)
+  )
+
 ;; still useful, even with helm.
-(ido-yes-or-no-mode)
+(ignore-errors
+  (ido-yes-or-no-mode))
 
 ;; we want projectile everywhere.
-(projectile-global-mode t)
+(ignore-errors
+  (projectile-global-mode t))
 
 (global-set-key (kbd "M-x") 'helm-M-x)
 (global-set-key (kbd "C-x C-b") 'helm-buffers-list)
@@ -898,7 +921,8 @@ With a prefix argument N, (un)comment that many sexps."
   (org-table-end-of-field 0))
 
 ;; we must load original helm-imenu to get access to its state-variables and matchers.
-(require 'helm-imenu)
+(ignore-errors
+  (require 'helm-imenu))
 (defun helm-imenu-dwim ()
   "Preconfigured `helm' for `imenu'. Unlike regular `helm-imenu' does always cause a helm popup."
   (interactive)
@@ -1003,8 +1027,10 @@ With a prefix argument N, (un)comment that many sexps."
 ;;(global-set-key (kbd "C-c SPC") 'ace-jump-mode)
 
 ;; undo-tree - enable globally
-(global-undo-tree-mode 1)
-(gsk 'undo-tree-redo "C-M-z") ;; quick access to redo.
+(ignore-errors
+  (global-undo-tree-mode 1)
+  (gsk 'undo-tree-redo "C-M-z") ;; quick access to redo.
+  )
 ;; use default-binding C-x U for visualize.
 
 ;; special global keybindings for active regions minor-mode
@@ -1023,8 +1049,6 @@ With a prefix argument N, (un)comment that many sexps."
 (gsk 'newline-and-indent "RET")
 
 
-(gsk 'helm-bookmarks "C-x r l")
-
 ;; compilation-mode tweaks:
 
 ;; remove association for guile-files. the reason for this is that the guile-compiler
@@ -1033,7 +1057,8 @@ With a prefix argument N, (un)comment that many sexps."
 ;; In toplevel form:
 ;; In end of data:
 ;; It will however not have a file match and break prev/next-error navigation.
-(assq-delete-all 'guile-file compilation-error-regexp-alist-alist)
+(ignore-errors
+  (assq-delete-all 'guile-file compilation-error-regexp-alist-alist))
 ;; found using the elisp below.
 ;; (let* ((result nil))
 ;;   (dolist (item compilation-error-regexp-alist-alist)
@@ -1048,13 +1073,14 @@ With a prefix argument N, (un)comment that many sexps."
   ;; TODO: auto-download ZIP from https://languagetool.org/download/LanguageTool-3.0.zip
   ;; and uncompress to get jar without manually having to download this.
   (when (file-exists-p jar)
-    (require 'langtool)
-    (setq langtool-language-tool-jar jar
-          langtool-mother-tongue "en"
-          langtool-disabled-rules '("WHITESPACE_RULE"
-                                    "EN_UNPAIRED_BRACKETS"
-                                    "COMMA_PARENTHESIS_WHITESPACE"
-                                    "EN_QUOTES"))))
+    (ignore-errors
+      (require 'langtool)
+      (setq langtool-language-tool-jar jar
+            langtool-mother-tongue "en"
+            langtool-disabled-rules '("WHITESPACE_RULE"
+                                      "EN_UNPAIRED_BRACKETS"
+                                      "COMMA_PARENTHESIS_WHITESPACE"
+                                      "EN_QUOTES")))))
 
 (defun langtool-check-buffer-dwim (arg)
   "Check and correct buffer with langtool."
