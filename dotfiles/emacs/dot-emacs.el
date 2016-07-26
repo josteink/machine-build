@@ -1366,7 +1366,10 @@ With a prefix argument N, (un)comment that many sexps."
   (lsk 'occur-dwim "C-c C-o")
 
   ;; xml-files are more often than not part of a project.
-  (projectile-mode t))
+  (projectile-mode t)
+
+  ;; autofill mode should NEVER be on for xml!
+  (auto-fill-mode 0))
 
 
 
