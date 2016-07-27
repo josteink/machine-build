@@ -4,7 +4,7 @@
 sudo -v || exit 1
 
 # check for pv
-which pv 2>/dev/null || echo FAILED! Install pv first! && exit 1
+which pv 1>/dev/null 2>/dev/null || echo FAILED! Install pv first! && exit 1
 
 # write image
 pv $1 | sudo dd of=$2 bs=1M oflag=sync
