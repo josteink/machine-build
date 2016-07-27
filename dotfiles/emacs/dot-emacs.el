@@ -37,7 +37,7 @@
         helm
         helm-projectile
         ido-yes-or-no
-        haskell-mode
+        imenu-anywhere
         web-mode
         langtool
         company
@@ -49,19 +49,20 @@
         elisp-slime-nav
         macrostep
         org
-        flycheck flycheck-haskell flycheck-package
+        flycheck flycheck-package
         ;; omnisharp
         js2-mode
         json-mode
         ssh-config-mode
         elfeed
-        plantuml-mode
         org ;; we want a newer version than the one built in!
         marmalade-client
         nodejs-repl
         crontab-mode
         highlight-symbol
         realgud
+        ;; for rust
+        rust-mode cargo racer flycheck-rust toml-mode
         ))
 
 ;; only query package sources when package is missing! copied from:
@@ -1251,6 +1252,22 @@ With a prefix argument N, (un)comment that many sexps."
   (lsk 'realgud:pdb "C-<f5>"))
 
 
+;; rust
+(defhook rust-mode-hook
+  (require 'racer)
+  (setq racer-cmd "~/.cargo/bin/racer") ;; Rustup binaries PATH
+  (setq racer-rust-src-path "/home/jostein/build/rust/src") ;; Rust source code PATH
+
+  (cargo-minor-mode)
+  (racer-mode)
+  (eldoc-mode)
+  (company-mode)
+
+  (lsk 'company-indent-or-complete-common "TAB")
+  ;;(lsk 'company-complete- "." ":")
+  (setq company-tooltip-align-annotations t))
+
+
 ;; org-mode
 (defhook org-mode-hook
   ;; keybindings
@@ -1293,6 +1310,7 @@ With a prefix argument N, (un)comment that many sexps."
   (lsk 'highlight-symbol-occur "S-<f12>")
 
   (lsk 'helm-imenu-dwim "M-g m" "M-g M-m" "M-g f" "M-g M-f")
+  (lsk 'helm-imenu-anywhere "C-M-g C-M-m" "C-M-g C-M-f")
   ;; navigate back again.
   ;; (could also use set-mark with prefix argument C-u C-spc.)
   (lsk 'pop-local-or-global-mark "C--")
@@ -1337,7 +1355,10 @@ With a prefix argument N, (un)comment that many sexps."
   (lsk 'compile "<f5>")
 
   ;; realgud needs to be required
-  (require 'realgud))
+  (require 'realgud)
+
+  (require 'yasnippet)
+  (yas-minor-mode-on))
 
 (add-hook 'powershell-mode-hook 'my-prog-mode-hook)
 (add-hook 'css-mode-hook 'my-prog-mode-hook)
