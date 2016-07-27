@@ -562,6 +562,9 @@ by using nxml's indentation rules."
 
 (global-set-key (kbd "C-c e") 'eval-and-replace)
 
+;; assist helm-completion. I -never- type auto-fill with a dash...
+(setq autofill-mode #'auto-fill-mode)
+
 
 ;; make home/ctrl-a move to beginning of indentation level.
 ;; from http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginning-of-a-line/
