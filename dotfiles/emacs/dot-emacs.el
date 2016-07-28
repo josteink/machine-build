@@ -1340,7 +1340,7 @@ With a prefix argument N, (un)comment that many sexps."
       (progn
         (lsk 'indent-whole-buffer "C-i")
         (lsk 'comment-or-uncomment-sexp "M-;" "C-M-;"))
-    (electric-pair-mode 1))
+    (electric-pair-local-mode 1))
 
   ;; flycheck is super-useful
   (flycheck-mode t)
