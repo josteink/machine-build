@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+SESSION_NAME=$1
+shift
+ARGS=$*
+SESSION_COUNT=`screen -ls $SESSION_NAME | grep $SESSION_NAME | wc -l`
+
+if [ $SESSION_COUNT -eq 0 ] ; then
+    echo -n "No session found. Starting one..."
+    screen -dmS $SESSION_NAME $ARGS
+    echo " Done!"
+fi
+
+echo -n "Attaching to session..."
+screen -Adr $SESSION_NAME
+echo " Done!"
