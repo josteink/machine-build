@@ -63,6 +63,7 @@
         realgud
         ;; for rust
         rust-mode cargo racer flycheck-rust toml-mode
+        yasnippet
         ))
 
 ;; only query package sources when package is missing! copied from:
@@ -216,13 +217,15 @@ https://emacs.stackexchange.com/questions/15020/eww-error-in-process-sentinel-ur
 
 (add-extensions-to-mode 'clojure-mode "cljs") ;; clojure-script too!
 (add-extensions-to-mode 'batch-mode "bat" "cmd")
-
 (add-extensions-to-mode 'markdown-mode "md")
+(add-extensions-to-mode 'message-mode "somail")
+
 (add-to-list 'auto-mode-alist '("www\\..*\\.txt$" . markdown-mode)) ;; it's all text, firefox extension!
 (add-to-list 'auto-mode-alist '("github\\.com.*\\.txt$" . markdown-mode)) ;; it's all text, firefox extension!
 (add-to-list 'auto-mode-alist '("news\\.ycombinator\\.com.*\\.txt$" . markdown-mode)) ;; hacker news is all markdown.
 (add-to-list 'auto-mode-alist '("www.websequencediagrams.com.*\\.txt$" . wsd-mode)) ;; obviously
 (add-to-list 'auto-mode-alist '("crontab" . crontab-mode))
+
 
 (add-extensions-to-mode 'nxml-mode "config" "merge") ;; .NET, SuperOffice config-merge.
 (add-extensions-to-mode 'powershell-mode "ps" "ps1")
@@ -1367,7 +1370,10 @@ With a prefix argument N, (un)comment that many sexps."
       (progn
         (lsk 'indent-whole-buffer "C-i")
         (lsk 'comment-or-uncomment-sexp "M-;" "C-M-;"))
-    (electric-pair-local-mode 1))
+    (progn
+      (if (fboundp #'electric-pair-local-mode)
+          (electric-pair-local-mode 1)
+        (electric-pair-mode 1))))
 
   ;; flycheck is super-useful
   (flycheck-mode t)
