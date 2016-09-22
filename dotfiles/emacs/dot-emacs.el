@@ -1243,7 +1243,14 @@ With a prefix argument N, (un)comment that many sexps."
 (defhook python-mode-hook
   ;; elpy improves python-coding considerably, when on a
   ;; well-supported platform, so package not installed by default.
+  (ignore-errors
+    (require 'elpy))
   (when (fboundp 'elpy-mode)
+    (elpy-enable)
+    (setq elpy-rpc-python-command "python3")
+    (elpy-use-cpython "python3")
+    (setq python-shell-interpreter "python3")
+
     (elpy-mode))
 
   ;; gud/realgud defaults to a seperate pdb executable which does not
@@ -1499,6 +1506,10 @@ With a prefix argument N, (un)comment that many sexps."
   (when (executable-find "hunspell")
     (setq-default ispell-program-name "hunspell")
     (setq ispell-really-hunspell t))
+
+  (when (executable-find "python3")
+    ;; (setq python-shell-interpreter "python3")
+    (setq elpy-rpc-python-command "python3"))
 
   ;; StumpWM/Common-lisp related stuff
   ;; Install using sbcl.
