@@ -63,6 +63,8 @@
         realgud
         ;; for rust
         rust-mode cargo racer flycheck-rust toml-mode
+        typescript-mode
+        tide
         ))
 
 ;; only query package sources when package is missing! copied from:
@@ -1275,6 +1277,32 @@ With a prefix argument N, (un)comment that many sexps."
   ;;(lsk 'company-complete- "." ":")
   (setq company-tooltip-align-annotations t))
 
+
+;; typescript
+(defhook typescript-mode-hook
+  (interactive)
+  (tide-setup)
+  (flycheck-mode +1)
+  (setq flycheck-check-syntax-automatically '(save mode-enabled))
+  (eldoc-mode +1)
+  ;; company is an optional dependency. You have to
+  ;; install it separately via package-install
+  ;; `M-x package-install [ret] company`
+  (company-mode +1)
+
+  ;; aligns annotation to the right hand side
+  (setq company-tooltip-align-annotations t)
+
+  ;; typescript 2
+  (setq tide-tsserver-executable "/usr/lib/node_modules/typescript/bin/tsserver")
+
+  ;; format options
+  (setq tide-format-options '(:insertSpaceAfterFunctionKeywordForAnonymousFunctions t :placeOpenBraceOnNewLineForFunctions nil))
+
+  (lsk 'tide-references "S-<f12>"))
+
+;; formats the buffer before saving
+(add-hook 'before-save-hook 'tide-format-before-save)
 
 ;; org-mode
 (defhook org-mode-hook
