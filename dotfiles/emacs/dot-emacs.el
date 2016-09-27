@@ -18,9 +18,12 @@
 (add-to-list 'load-path "~/.emacs.d/local/") ;; emacs23 + package.el on Debian
 (require 'package)
 
-(add-to-list 'package-archives '("marmalade"    . "https://marmalade-repo.org/packages/"))
-(add-to-list 'package-archives '("melpa"        . "https://melpa.org/packages/"))
-(add-to-list 'package-archives '("melpa stable" . "https://stable.melpa.org/packages/"))
+(let ((prefix (if (gnutls-available-p) "https" "http")))
+  (cl-flet ((make-url (lambda (x) (concat prefix "://" x))))
+    (add-to-list 'package-archives `("marmalade"    . ,(make-url "marmalade-repo.org/packages/")))
+    (add-to-list 'package-archives `("melpa"        . ,(make-url "melpa.org/packages/")))
+    (add-to-list 'package-archives `("melpa stable" . ,(make-url "stable.melpa.org/packages/")))))
+
 (add-to-list 'package-archives '("org-mode"     . "http://orgmode.org/elpa/"))
 (package-initialize)
 
