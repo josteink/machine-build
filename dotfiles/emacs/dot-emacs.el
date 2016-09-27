@@ -1326,7 +1326,10 @@ With a prefix argument N, (un)comment that many sexps."
   (setq company-tooltip-align-annotations t)
 
   ;; typescript 2
-  (setq tide-tsserver-executable "/usr/lib/node_modules/typescript/bin/tsserver")
+  (setq tide-tsserver-executable
+        (if (eq system-type 'windows-nt)
+            (expand-file-name "~/npm/tsserver.cmd")
+          "/usr/lib/node_modules/typescript/bin/tsserver"))
 
   ;; format options
   (setq tide-format-options '(:insertSpaceAfterFunctionKeywordForAnonymousFunctions t :placeOpenBraceOnNewLineForFunctions nil))
