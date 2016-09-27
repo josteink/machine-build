@@ -16,7 +16,7 @@ set $w1 workspace 1: www
 set $w2 workspace 2: shell
 set $w3 workspace 3: emacs
 set $w4 workspace 4: files
-set $w5 workspace 5
+set $w5 workspace 5: music
 set $w6 workspace 6
 set $w7 workspace 7
 set $w8 workspace 8
@@ -60,6 +60,7 @@ $msg '$w1; exec firefox'
 $msg '$w2; exec $term'
 $msg '$w3; exec emacs'
 $msg '$w4; exec nautilus'
+$msg '$w5: exec google-play-music-desktop-player'
 
 exec i3-msg '$w2'
 
