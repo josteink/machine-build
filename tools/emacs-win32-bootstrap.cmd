@@ -13,22 +13,22 @@ mkdir download
 cd download
 
 echo Getting Emacs main...
-curl -O "http://ftp.gnu.org/gnu/emacs/windows/emacs-24.5-bin-i686-mingw32.zip"
+curl -L -O "http://ftp.gnu.org/gnu/emacs/windows/emacs-25.1-i686-w32-mingw32.zip"
 
 echo Getting ezwinports (source http://sourceforge.net/projects/ezwinports/files/)...
 
-curl -L -O "http://skylink.dl.sourceforge.net/project/ezwinports/gnutls-3.3.11-w32-bin.zip"
-curl -L -O "http://skylink.dl.sourceforge.net/project/ezwinports/giflib-5.1.0-w32-bin.zip"
-curl -L -O "http://skylink.dl.sourceforge.net/project/ezwinports/jpeg-v9a-w32-bin.zip"
-curl -L -O "http://skylink.dl.sourceforge.net/project/ezwinports/libpng-1.6.12-w32-bin.zip"
-curl -L -O "http://skylink.dl.sourceforge.net/project/ezwinports/librsvg-2.40.1-2-w32-bin.zip"
-curl -L -O "http://skylink.dl.sourceforge.net/project/ezwinports/libxml2-2.7.8-w32-bin.zip"
-curl -L -O "http://skylink.dl.sourceforge.net/project/ezwinports/zlib-1.2.8-2-w32-bin.zip"
+curl -L -O "http://netix.dl.sourceforge.net/project/ezwinports/gnutls-3.3.11-w32-bin.zip"
+curl -L -O "http://netix.dl.sourceforge.net/project/ezwinports/giflib-5.1.0-w32-bin.zip"
+curl -L -O "http://netix.dl.sourceforge.net/project/ezwinports/jpeg-v9a-w32-bin.zip"
+curl -L -O "http://netix.dl.sourceforge.net/project/ezwinports/libpng-1.6.12-w32-bin.zip"
+curl -L -O "http://netix.dl.sourceforge.net/project/ezwinports/librsvg-2.40.1-2-w32-bin.zip"
+curl -L -O "http://netix.dl.sourceforge.net/project/ezwinports/libxml2-2.7.8-w32-bin.zip"
+curl -L -O "http://netix.dl.sourceforge.net/project/ezwinports/zlib-1.2.8-2-w32-bin.zip"
 
 echo Unpacking...
 cd ..
 
-unzip download/emacs-24.5-bin-i686-mingw32.zip
+unzip download/emacs-25.1-i686-w32-mingw32.zip
 unzip -o download/gnutls-3.3.11-w32-bin.zip
 unzip -o download/giflib-5.1.0-w32-bin.zip
 unzip -o download/jpeg-v9a-w32-bin.zip
