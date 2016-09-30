@@ -811,6 +811,8 @@ With a prefix argument N, (un)comment that many sexps."
   (hi-lock-face-buffer "\s\\.\\w+" 'hi-green-b)
   ;; monitors are always ugly
   (hi-lock-face-buffer "Monitor.Enter" 'hi-red-b)
+  ;; exceptions
+  (hi-lock-face-buffer "[A-Za-z]+Exception" 'hi-red-b)
 
   ;; Some things should light up subtly in log
   (hi-lock-face-buffer "SuperOffice[A-Za-z0-9\s\\._\\+-]+" 'hi-cyan-b))
