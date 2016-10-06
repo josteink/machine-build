@@ -72,7 +72,7 @@
            start end (list 'mouse-face 'highlight
                            'help-echo   "mouse-2: dump the object represented by this link"
                            'keymap      map)))))
-    (setq cdb--pointer-update-pos (end-of-buffer))))
+    (setq cdb--pointer-update-pos (point-max))))
 
 (defun cdb--pointer-at-point ()
   (interactive)
