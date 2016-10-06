@@ -1319,8 +1319,9 @@ With a prefix argument N, (un)comment that many sexps."
 
   ;; TS-COMINT
   (lsk #'ts-send-buffer "C-c C-c")
-  (lsk #'ts-send-last-sexp "C-x C-e" "C-x e")
+  (lsk #'ts-send-last-sexp "C-x C-e" "C-x e" "C-M-x")
   (lsk #'ts-send-region "C-c C-r")
+  (lsk #'ts-load-file "C-c l")
 
   ;; TIDE
   (tide-setup)
