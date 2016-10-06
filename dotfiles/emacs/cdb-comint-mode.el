@@ -1,4 +1,42 @@
+;; cdb-comint-mode.el --- Emacs major-mode for inferior cdb/windbg process.
 
+;; Author   : Jostein Kjønigsen <jostein@gmail.com>
+;; Created  : October 2016
+;; Version  : 0.0.1
+;; Keywords : inferior-mode, convenience
+
+;; This file is NOT part of GNU Emacs.
+
+;;; License:
+
+;; cdb-comint-mode.el is free software; you can redistribute it and/or
+;; modify it under the terms of the GNU General Public License as
+;; published by the Free Software Foundation; either version 2, or
+;; at your option any later version.
+
+;; cdb-comint-mode.el is distributed in the hope that it will be useful, but
+;; WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+;; General Public License for more details.
+
+;;; Commentary:
+
+;; cdb-comint-mode is a comint mode for Emacs which allows you to run a
+;; cdb.exe (command line version of windbg) in a inferior process,
+;;
+;; Main features:
+;; - Syntax highlighting.
+;; - Automatic SOS loading, across .NET versions.
+;; - Clickable pointers.
+
+;; Usage:
+;;  Put cdb-comint-mode.el in your load path
+;;  Add (require 'cdb-comint-mode) to your .emacs or ~/.emacs.d/init.el
+;;
+;;  Do: `M-x cdb-dump'
+;;  Away you go.
+
+;;; Code:
 
 (require 'comint)
 
@@ -21,7 +59,8 @@
   (when cdb-custom-update-function
     (funcall cdb-custom-update-function)))
 
-
+;; TODO: make configurable instead.
+;; TODO: make option to launch 32-bit?
 (defun cdb--get-exe-path ()
   "C:/Program Files (x86)/Windows Kits/8.1/Debuggers/x64/cdb.exe")
 
@@ -126,3 +165,6 @@
   (hi-lock-face-buffer "SuperOffice[A-Za-z0-9\s\\._\\+-]+" 'hi-cyan-b))
 (setq cdb-custom-update-function 'my-cdb-custom-highlight-function)
 
+
+(provide 'cdb-comint-mode)
+;;; cdb-comint-mode.el ends here
