@@ -8,9 +8,6 @@
 (defvar cdb--pointer-update-pos nil)
 
 (defun cdb--update-hightlight (&optional string)
-  ;; highlight prompts
-  (hi-lock-face-buffer "[0-9]+:[0-9]+>" 'hi-yellow)
-
   ;; highlight typical commands
   (hi-lock-face-buffer "\s!\\w+" 'hi-green-b)
   (hi-lock-face-buffer "\s\\.\\w+" 'hi-green-b)
@@ -33,6 +30,7 @@
   (let ((buffer (get-buffer-create "*cdb*")))
     (switch-to-buffer buffer)
     (cdb-comint-mode)
+    (setq-local comint-prompt-regexp "[0-9]+:[0-9]+>")
     (apply #'make-comint "cdb" (cdb--get-exe-path)
            nil arguments)))
 
