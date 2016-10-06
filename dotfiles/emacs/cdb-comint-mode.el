@@ -117,7 +117,7 @@
 
 (defun cdb-load-sos ()
   (interactive)
-  (cdb-send-command ".sympath %temp%\symbolcache")
+  (cdb-send-command ".sympath %temp%\\symbolcache")
   (cdb-send-command ".symfix+")
   (cdb-send-command ".cordll -ve -u -l")
   (cdb-send-command ".reload"))
@@ -127,3 +127,4 @@
   ;; Some things should light up subtly in log
   (hi-lock-face-buffer "SuperOffice[A-Za-z0-9\s\\._\\+-]+" 'hi-cyan-b))
 (setq cdb-custom-update-function 'my-cdb-custom-highlight-function)
+
