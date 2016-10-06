@@ -68,6 +68,7 @@
         rust-mode cargo racer flycheck-rust toml-mode
         typescript-mode
         tide
+        ;;ts-comint
         yasnippet
         ))
 
@@ -1314,7 +1315,14 @@ With a prefix argument N, (un)comment that many sexps."
 
 ;; typescript
 (defhook typescript-mode-hook
-  (interactive)
+  ;; (interactive)
+
+  ;; TS-COMINT
+  (lsk #'ts-send-buffer "C-c C-c")
+  (lsk #'ts-send-last-sexp "C-x C-e" "C-x e")
+  (lsk #'ts-send-region "C-c C-r")
+
+  ;; TIDE
   (tide-setup)
   (flycheck-mode +1)
   (setq flycheck-check-syntax-automatically '(save mode-enabled))
@@ -1336,7 +1344,14 @@ With a prefix argument N, (un)comment that many sexps."
   ;; format options
   (setq tide-format-options '(:insertSpaceAfterFunctionKeywordForAnonymousFunctions t :placeOpenBraceOnNewLineForFunctions nil))
 
-  (lsk 'tide-references "S-<f12>"))
+  (lsk 'tide-references "S-<f12>")
+
+  ;; ts-comint
+  (local-set-key (kbd "C-x C-e") 'ts-send-last-sexp)
+  (local-set-key (kbd "C-M-x") 'ts-send-last-sexp-and-go)
+  (local-set-key (kbd "C-c b") 'ts-send-buffer)
+  (local-set-key (kbd "C-c C-b") 'ts-send-buffer-and-go)
+  (local-set-key (kbd "C-c l") 'ts-load-file-and-go))
 
 ;; formats the buffer before saving
 (add-hook 'before-save-hook 'tide-format-before-save)
