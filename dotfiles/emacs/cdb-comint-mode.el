@@ -40,20 +40,15 @@
   (interactive "fCrash dump file: ")
   (cdb-run "-z" filename))
 
-(defun cdb-send (string)
-  (interactive "sCommand to send: ")
-  (let ((buffer (get-buffer-create "*cdb*")))
-    ;;(switch-to-buffer buffer)
-    (comint-send-string (get-buffer-process buffer)
-                        (concat ".echo" string "\n"
-                                string "\n"))))
-
 ;; actual major mode
 
 (define-derived-mode cdb-comint-mode comint-mode "CDB"
   (make-local-variable 'comint-output-filter-function)
   (setq-local comint-output-filter-functions #'cdb--update-hightlight)
   (setq-local cdb--pointer-pos nil)
+  ;; this makes it read only; a contentious subject as some prefer the
+  ;; buffer to be overwritable.
+  (setq comint-prompt-read-only t)
   (cdb--update-hightlight))
 
 ;; make pointers clicky
@@ -94,8 +89,8 @@
     (with-current-buffer (window-buffer window)
       (goto-char pos)
       (let ((pointer (cdb--pointer-at-point)))
-        (end-of-buffer)
-        (insert-string pointer)))))
+        (goto-char (point-max))
+        (insert pointer)))))
 
 (defun cdb--dump-object (event)
   (interactive "e")
@@ -107,7 +102,10 @@
         (error "No pointer found"))
     (with-current-buffer (window-buffer window)
       (goto-char pos)
-      (cdb-send (concat "!do " (cdb--pointer-at-point))))))
+      (let ((pointer (cdb--pointer-at-point)))
+        (goto-char (point-max))
+        (insert (concat "!do " pointer)))
+      (comint-send-input))))
 
 
 ;; superoffice-specific
