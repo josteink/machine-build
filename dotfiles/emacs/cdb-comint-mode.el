@@ -44,6 +44,7 @@
   "Function to call upon cdb-comint-mode buffer changes.")
 
 (defvar cdb--pointer-update-pos nil)
+(defvar cdb--latest-buffer nil)
 
 (defun cdb--update-hightlight (&optional string)
   ;; highlight typical commands
@@ -64,18 +65,22 @@
 (defun cdb--get-exe-path ()
   "C:/Program Files (x86)/Windows Kits/8.1/Debuggers/x64/cdb.exe")
 
-(defun cdb-run (&rest arguments)
+(defun cdb-run (&optional identifier &rest arguments)
   (interactive)
-  (let ((buffer (get-buffer-create "*cdb*")))
+  (let* ((full-name (concat "cdb " identifier))
+         (buffer-name (concat "*" full-name "*"))
+         (buffer (get-buffer-create buffer-name)))
+    (setq cdb--latest-buffer buffer-name)
     (switch-to-buffer buffer)
     (cdb-comint-mode)
     (setq-local comint-prompt-regexp "[0-9]+:[0-9]+>")
-    (apply #'make-comint "cdb" (cdb--get-exe-path)
+    (apply #'make-comint full-name (cdb--get-exe-path)
            nil arguments)))
 
 (defun cdb-dump (filename)
   (interactive "fCrash dump file: ")
-  (cdb-run "-z" filename))
+  (cdb-run (file-name-base filename)
+           "-z" (expand-file-name filename)))
 
 ;; actual major mode
 
@@ -148,7 +153,7 @@
 ;; utility functions
 
 (defun cdb-send-command (string)
-  (let ((buffer (get-buffer-create "*cdb*")))
+  (let ((buffer (get-buffer-create cdb--latest-buffer)))
     (comint-send-string (get-buffer-process buffer)
                         (concat string "\n"))))
 
