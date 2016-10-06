@@ -818,6 +818,13 @@ With a prefix argument N, (un)comment that many sexps."
   ;; Some things should light up subtly in log
   (hi-lock-face-buffer "SuperOffice[A-Za-z0-9\s\\._\\+-]+" 'hi-cyan-b))
 
+;; superoffice-specific customization for cdb-comint-mode
+(defun my-cdb-custom-highlight-function ()
+  ;; Some things should light up subtly in log
+  (hi-lock-face-buffer "SuperOffice[A-Za-z0-9\s\\._\\+-]+" 'hi-cyan-b))
+(setq cdb-custom-update-function 'my-cdb-custom-highlight-function)
+
+
 ;; Windows-only window-control functions.
 
 (defun w32-maximize-frame ()
