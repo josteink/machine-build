@@ -48,7 +48,7 @@
         cmake-mode
         ggtags
         slime-company ;; if loading fails with recursive load, check if distro-provided slime is installed.
-        magit
+        magit git-timemachine
         elisp-slime-nav
         macrostep
         org
@@ -1019,6 +1019,7 @@ With a prefix argument N, (un)comment that many sexps."
 (gsk 'rgrep "C-c C-g")
 
 (gsk 'magit-status "C-x v g")
+(gsk 'git-timemachine "C-x v h")
 
 ;; general text-completion. enable everywhere.
 ;; improve it with this setup here:
