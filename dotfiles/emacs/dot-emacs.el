@@ -1330,6 +1330,7 @@ With a prefix argument N, (un)comment that many sexps."
   (lsk #'ts-send-last-sexp "C-x C-e" "C-x e" "C-M-x")
   (lsk #'ts-send-region "C-c C-r")
   (lsk #'ts-load-file "C-c l")
+  (lsk #'tide-rename-symbol "C-x C-r" "C-x r")
 
   ;; TIDE
   (tide-setup)
