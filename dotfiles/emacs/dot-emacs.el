@@ -1347,7 +1347,7 @@ With a prefix argument N, (un)comment that many sexps."
   ;; typescript 2
   (setq tide-tsserver-executable
         (if (eq system-type 'windows-nt)
-            (expand-file-name "~/npm/tsserver.cmd")
+            (expand-file-name "c:/users/josteink/appdata/roaming/npm/tsserver.cmd")
           "/usr/lib/node_modules/typescript/bin/tsserver"))
 
   ;; format options
