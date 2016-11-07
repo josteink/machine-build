@@ -314,6 +314,7 @@ https://emacs.stackexchange.com/questions/15020/eww-error-in-process-sentinel-ur
   (global-set-key (kbd "C-x C-b") 'helm-buffers-list)
   (global-set-key (kbd "C-x b") 'helm-buffers-list)
   (global-set-key (kbd "C-x r l") 'helm-bookmarks)
+  (setq projectile-completion-system 'helm)
   ;; (global-set-key (kbd "C-c p h") 'helm-projectile)
   )
 
@@ -1464,15 +1465,6 @@ With a prefix argument N, (un)comment that many sexps."
 (add-hook 'powershell-mode-hook 'my-prog-mode-hook)
 (add-hook 'css-mode-hook 'my-prog-mode-hook)
 (add-hook 'cmake-mode-hook 'my-prog-mode-hook)
-
-(defhook projectile-mode-hook
-  ;; projectile mode: on!
-  ;; C-c p f - search for any file in your lein/git/etc project
-  ;; more docs and bindings here: https://github.com/bbatsov/projectile
-  ;; (projectile-mode t)
-  ;; C-c p s g ;; projectile live grep!
-  (ignore-errors
-    (setq projectile-completion-system 'helm)))
 
 ;; xml
 (defhook nxml-mode-hook
