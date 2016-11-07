@@ -1,0 +1,4 @@
+#!/bin/sh
+
+git commit --fixup=HEAD
+EDITOR=true git rebase -i --autostash --autosquash HEAD~2
