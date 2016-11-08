@@ -18,11 +18,14 @@
 (add-to-list 'load-path "~/.emacs.d/local/") ;; emacs23 + package.el on Debian
 (require 'package)
 
-(let ((prefix (if (gnutls-available-p) "https" "http")))
-  (cl-flet ((make-url (lambda (x) (concat prefix "://" x))))
-    (add-to-list 'package-archives `("marmalade"    . ,(make-url "marmalade-repo.org/packages/")))
-    (add-to-list 'package-archives `("melpa"        . ,(make-url "melpa.org/packages/")))
-    (add-to-list 'package-archives `("melpa stable" . ,(make-url "stable.melpa.org/packages/")))))
+(defun make-repo-url (path)
+  (let ((prefix (if (gnutls-available-p) "https" "http")))
+    (concat prefix "://" path)))
+
+(add-to-list 'package-archives `("marmalade"    . ,(make-repo-url "marmalade-repo.org/packages/")))
+(add-to-list 'package-archives `("melpa"        . ,(make-repo-url "melpa.org/packages/")))
+(add-to-list 'package-archives `("melpa stable" . ,(make-repo-url "stable.melpa.org/packages/")))
+
 
 (add-to-list 'package-archives '("org-mode"     . "http://orgmode.org/elpa/"))
 (package-initialize)
@@ -1332,6 +1335,7 @@ With a prefix argument N, (un)comment that many sexps."
   (lsk #'ts-send-region "C-c C-r")
   (lsk #'ts-load-file "C-c l")
   (lsk #'tide-rename-symbol "C-x C-r" "C-x r")
+  (lsk #'tide-documentation-at-point "C-c C-d" "C-c d")
 
   ;; TIDE
   (tide-setup)
