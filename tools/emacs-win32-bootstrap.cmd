@@ -1,7 +1,7 @@
 @echo off
 
-set URL=%*
-if "%URL%" == "" %0 http://ftp.gnu.org/gnu/emacs/windows/emacs-24.5-bin-i686-mingw32.zip
+set URL=%1
+if "%URL%"=="" %0 "http://ftp.gnu.org/gnu/emacs/windows/emacs-24.5-bin-i686-mingw32.zip"
 
 set WGET=%~dp0%wget.exe
 echo Using wget: %WGET%
@@ -19,23 +19,25 @@ cd download
 
 set EMACS_ZIP=%~nx1
 echo Getting Emacs main (%EMACS_ZIP%)...
-%WGET% -c "%URL%"
+echo Downloading from: %URL%
+%WGET% -c "%URL%" >NUL 2>NUL
 
 echo Getting ezwinports (source http://sourceforge.net/projects/ezwinports/files/)...
 
-%WGET% -c "http://netix.dl.sourceforge.net/project/ezwinports/gnutls-3.3.11-w32-bin.zip"
-%WGET% -c "http://netix.dl.sourceforge.net/project/ezwinports/giflib-5.1.0-w32-bin.zip"
-%WGET% -c "http://netix.dl.sourceforge.net/project/ezwinports/jpeg-v9a-w32-bin.zip"
-%WGET% -c "http://netix.dl.sourceforge.net/project/ezwinports/libpng-1.6.12-w32-bin.zip"
-%WGET% -c "http://netix.dl.sourceforge.net/project/ezwinports/librsvg-2.40.1-2-w32-bin.zip"
-%WGET% -c "http://netix.dl.sourceforge.net/project/ezwinports/libxml2-2.7.8-w32-bin.zip"
-%WGET% -c "http://netix.dl.sourceforge.net/project/ezwinports/zlib-1.2.8-2-w32-bin.zip"
+%WGET% -c "http://netix.dl.sourceforge.net/project/ezwinports/gnutls-3.3.11-w32-bin.zip" >NUL 2>NUL
+%WGET% -c "http://netix.dl.sourceforge.net/project/ezwinports/giflib-5.1.0-w32-bin.zip" >NUL 2>NUL
+%WGET% -c "http://netix.dl.sourceforge.net/project/ezwinports/jpeg-v9a-w32-bin.zip" >NUL 2>NUL
+%WGET% -c "http://netix.dl.sourceforge.net/project/ezwinports/libpng-1.6.12-w32-bin.zip" >NUL 2>NUL
+%WGET% -c "http://netix.dl.sourceforge.net/project/ezwinports/librsvg-2.40.1-2-w32-bin.zip" >NUL 2>NUL
+%WGET% -c "http://netix.dl.sourceforge.net/project/ezwinports/libxml2-2.7.8-w32-bin.zip" >NUL 2>NUL
+%WGET% -c "http://netix.dl.sourceforge.net/project/ezwinports/zlib-1.2.8-2-w32-bin.zip" >NUL 2>NUL
 
 cd ..
 
-echo Cleaning workspace
-del unpacked /s /q
+echo Cleaning workspace...
+del unpacked /s /q >NUL 2>NUL
 mkdir unpacked
+echo Done
 
 echo Unpacking...
 cd unpacked
