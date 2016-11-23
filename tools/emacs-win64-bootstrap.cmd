@@ -1,38 +1,43 @@
 @echo off
 
+set URL=%1
+if "%URL%"=="" %0 "http://alpha.gnu.org/gnu/emacs/pretest/windows/emacs-25.1-2-x86_64-w64-mingw32.zip"
+
+set WGET=%~dp0%wget.exe
+echo Using wget: %WGET%
+
 echo Creating workspace
+REM change drive first. TMP may be on different drive!
+%TMP:~0,2%
 cd %TMP%
 mkdir emacs
 cd emacs
-
-echo Cleaning workspace
-REM del *.* /s /q
 
 echo Creating download-folder
 mkdir download
 cd download
 
-echo Getting Emacs main...
-REM curl -L -O "http://ftp.gnu.org/gnu/emacs/windows/emacs-25.1-x86_64-w64-mingw32.zip"
+set EMACS_ZIP=%~nx1
+echo Getting Emacs main (%EMACS_ZIP%)...
+echo Downloading from: %URL%
+%WGET% -c "%URL%" >NUL 2>NUL
 
-echo Getting msys2 (64-bit) (source http://msys2.github.io/)...
-REM curl -L -O http://repo.msys2.org/distrib/x86_64/msys2-x86_64-20160205.exe
+echo Getting extra DLLs...
 
-echo Install msys2 using defaults options and execute the following commands:
-echo.
-echo pacman -Sy pacman
-echo pacman -S  mingw-w64-x86_64-xpm-nox mingw-w64-x86_64-libtiff mingw-w64-x86_64-giflib mingw-w64-x86_64-libpng mingw-w64-x86_64-libjpeg-turbo mingw-w64-x86_64-librsvg mingw-w64-x86_64-libxml2 mingw-w64-x86_64-gnutls mingw-w64-x86_64-zlib
-echo.
-echo Once done, continue by pressing any key
-pause >nul
+%WGET% -c "http://alpha.gnu.org/gnu/emacs/pretest/windows/emacs-25-x86_64-deps.zip" >NUL 2>NUL
 
-echo
-echo Unpacking!
+cd ..
 
-cd.. 
-unzip download/emacs-25.1-x86_64-w64-mingw32.zip
-cd bin
-xcopy C:\msys64\mingw64\bin\*.dll . /y
+echo Cleaning workspace...
+del unpacked /s /q >NUL 2>NUL
+mkdir unpacked
+echo Done
 
-echo Emacs ready and unpacked at %TMP%\Emacs
+echo Unpacking...
+cd unpacked
+
+unzip ../download/%EMACS_ZIP%
+unzip -o ../download/emacs-25-x86_64-deps.zip
+
+echo Emacs ready and unpacked at %TMP%\Emacs\Unpacked
 pause >NIL
