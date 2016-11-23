@@ -771,6 +771,33 @@ With a prefix argument N, (un)comment that many sexps."
     (dotimes (_ (or n 1))
       (comment-sexp--raw))))
 
+;; typescript helper functions
+
+(defun string-no-properties (value)
+  (substring-no-properties value 0 (length value)))
+
+(defun my-ts-create-function ()
+  (interactive)
+
+  (let* ((symbol        (symbol-at-point))
+         (name          (symbol-name symbol))
+         (function-name (string-no-properties name)))
+    (prin1 (concat "Creating function " function-name "."))
+
+    (search-backward "function ")
+    (beginning-of-line)
+    (newline-and-indent)
+    (newline-and-indent)
+    (forward-line -2)
+    (insert (concat "function " function-name "() {"))
+    (newline-and-indent)
+    (newline-and-indent)
+    (insert-char ?})
+    (newline-and-indent)
+    (forward-line -2)
+    (indent-according-to-mode)))
+
+
 ;; make nodejs nicer to work with
 
 (defun my-nodejs-send-region-to-repl (start end)
@@ -1028,7 +1055,7 @@ With a prefix argument N, (un)comment that many sexps."
 ;; general text-completion. enable everywhere.
 ;; improve it with this setup here:
 ;; http://ianeslick.com/2013/05/17/clojure-debugging-13-emacs-nrepl-and-ritz/
-(gsk 'hippie-expand "C-.") ;;(gsk 'dabbrev-expand "C-.")
+(gsk 'hippie-expand "C-." "C-:") ;;(gsk 'dabbrev-expand "C-.")
 
 ;; multiple-cursors setup. doesn't come with any bindings by default
 ;; puts a cursor on everyline of a selected region.
@@ -1327,25 +1354,10 @@ With a prefix argument N, (un)comment that many sexps."
 
 ;; typescript
 (defhook typescript-mode-hook
-  ;; (interactive)
-
-  ;; TS-COMINT
-  (lsk #'ts-send-buffer "C-c C-c")
-  (lsk #'ts-send-last-sexp "C-x C-e" "C-x e" "C-M-x")
-  (lsk #'ts-send-region "C-c C-r")
-  (lsk #'ts-load-file "C-c l")
-  (lsk #'tide-rename-symbol "C-x C-r" "C-x r")
-  (lsk #'tide-documentation-at-point "C-c C-d" "C-c d")
-
   ;; TIDE
   (tide-setup)
-  (flycheck-mode +1)
   (setq flycheck-check-syntax-automatically '(save mode-enabled))
   (eldoc-mode +1)
-  ;; company is an optional dependency. You have to
-  ;; install it separately via package-install
-  ;; `M-x package-install [ret] company`
-  (company-mode +1)
 
   ;; aligns annotation to the right hand side
   (setq company-tooltip-align-annotations t)
@@ -1359,14 +1371,21 @@ With a prefix argument N, (un)comment that many sexps."
   ;; format options
   (setq tide-format-options '(:insertSpaceAfterFunctionKeywordForAnonymousFunctions t :placeOpenBraceOnNewLineForFunctions nil))
 
-  (lsk 'tide-references "S-<f12>")
+  (lsk #'tide-references "S-<f12>")
+  (lsk #'tide-rename-symbol "C-c C-r" "C-c r")
+  (lsk #'tide-documentation-at-point "C-c C-d" "C-c d")
 
   ;; ts-comint
   (local-set-key (kbd "C-x C-e") 'ts-send-last-sexp)
   (local-set-key (kbd "C-M-x") 'ts-send-last-sexp-and-go)
   (local-set-key (kbd "C-c b") 'ts-send-buffer)
   (local-set-key (kbd "C-c C-b") 'ts-send-buffer-and-go)
-  (local-set-key (kbd "C-c l") 'ts-load-file-and-go))
+  (local-set-key (kbd "C-c l") 'ts-load-file-and-go)
+  (lsk #'ts-send-buffer "C-c C-c")
+  (lsk #'ts-send-last-sexp "C-x C-e" "C-x e" "C-M-x")
+  (lsk #'ts-load-file "C-c l")
+  (lsk #'hippie-expand "C-:")
+  (lsk #'my-ts-create-function "C-<return>"))
 
 ;; formats the buffer before saving
 (add-hook 'before-save-hook 'tide-format-before-save)
