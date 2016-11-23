@@ -184,6 +184,7 @@ https://emacs.stackexchange.com/questions/15020/eww-error-in-process-sentinel-ur
   "A bright UI-mode which better fits things like wsd-mode."
 
   (interactive)
+  (color-theme-initialize)
   (color-theme-emacs-nw)
   (set-face-background hl-line-face "#c0c0c0"))
 
@@ -1309,7 +1310,7 @@ With a prefix argument N, (un)comment that many sexps."
 
   (lsk 'my-join-line-with-next "M-j")
 
-  (lsk 'occur-dwim "C-c C-o");
+  (lsk 'occur-dwim "C-c C-o")
 
   ;; nodejs stuff
   (lsk 'nodejs-repl "C-c C-r")
