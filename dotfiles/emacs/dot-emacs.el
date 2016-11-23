@@ -1479,6 +1479,7 @@ With a prefix argument N, (un)comment that many sexps."
 
   ;; build and navigate errors.
   (lsk 'compile "<f5>")
+  (lsk 'recompile "<C-f5>")
 
   ;; realgud needs to be required
   (require 'realgud)
