@@ -780,7 +780,7 @@ With a prefix argument N, (un)comment that many sexps."
          (function-name (string-no-properties name)))
     (prin1 (concat "Creating function " function-name "."))
 
-    (search-backward "function ")
+    (backward-up-list)
     (beginning-of-line)
     (newline-and-indent)
     (newline-and-indent)
