@@ -330,11 +330,6 @@ https://emacs.stackexchange.com/questions/15020/eww-error-in-process-sentinel-ur
 (ignore-errors
   (projectile-global-mode t))
 
-(global-set-key (kbd "M-x") 'helm-M-x)
-(global-set-key (kbd "C-x C-b") 'helm-buffers-list)
-(global-set-key (kbd "C-x b") 'helm-buffers-list)
-(global-set-key (kbd "C-x C-f") 'helm-find-files)
-;; (global-set-key (kbd "C-c p h") 'helm-projectile)
 
 ;; always follow symlinks to files under source-control. dont ask.
 (setq vc-follow-symlinks t)
@@ -1007,6 +1002,9 @@ With a prefix argument N, (un)comment that many sexps."
 ;; sometimes we want things to error (like with keyboard macros)
 (gsk 'previous-error      "<S-f7>")
 (gsk 'next-error          "<S-f8>")
+
+(gsk 'beginning-of-buffer "<C-prior>")
+(gsk 'end-of-buffer       "<C-next>")
 
 
 ;;;; GLOBAL KEYBOARD DEFINITIONS
