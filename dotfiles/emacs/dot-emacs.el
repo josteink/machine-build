@@ -1154,6 +1154,10 @@ With a prefix argument N, (un)comment that many sexps."
 
 (gsk 'elfeed "C-x w")
 
+;; build should be available everywhere!
+(gsk 'compile "<f5>")
+(gsk 'recompile "<C-f5>")
+
 ;;;; MODE CUSTOMIZATIONS
 
 
@@ -1474,10 +1478,6 @@ With a prefix argument N, (un)comment that many sexps."
 
   ;; must be set AFTER flyspell!
   (lsk 'company-complete "C-.")
-
-  ;; build and navigate errors.
-  (lsk 'compile "<f5>")
-  (lsk 'recompile "<C-f5>")
 
   ;; realgud needs to be required
   (require 'realgud)
