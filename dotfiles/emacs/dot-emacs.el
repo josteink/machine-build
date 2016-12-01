@@ -793,6 +793,12 @@ With a prefix argument N, (un)comment that many sexps."
     (forward-line -2)
     (indent-according-to-mode)))
 
+(defun my-ts-tsc ()
+  "Compile code using tsc without changing default-command for `compile' or `recompile'."
+  (interactive)
+  (let* ((compile-command))
+    (compile "tsc")))
+
 
 ;; make nodejs nicer to work with
 
@@ -1388,7 +1394,10 @@ With a prefix argument N, (un)comment that many sexps."
   (lsk #'ts-send-last-sexp "C-x C-e" "C-x e" "C-M-x")
   (lsk #'ts-load-file "C-c l")
   (lsk #'hippie-expand "C-:")
-  (lsk #'my-ts-create-function "C-<return>"))
+  (lsk #'my-ts-create-function "C-<return>")
+
+  ;; have easy acces to tsc, always.
+  (lsk #'my-ts-tsc "<C-S-f5>"))
 
 ;; formats the buffer before saving
 (add-hook 'before-save-hook 'tide-format-before-save)
