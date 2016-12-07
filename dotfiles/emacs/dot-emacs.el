@@ -48,6 +48,7 @@
         langtool
         company
         company-c-headers
+        company-web
         cmake-mode
         ggtags
         slime-company ;; if loading fails with recursive load, check if distro-provided slime is installed.
@@ -1687,7 +1688,8 @@ With a prefix argument N, (un)comment that many sexps."
 ;; configure company-mode
 (eval-after-load 'company
   '(progn
-     (add-to-list 'company-backends 'company-c-headers)))
+     (add-to-list 'company-backends 'company-c-headers)
+     (add-to-list 'company-backends 'compant-web-html)))
 
 (global-ede-mode 1)
 
