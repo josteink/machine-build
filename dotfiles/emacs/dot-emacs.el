@@ -1262,7 +1262,7 @@ With a prefix argument N, (un)comment that many sexps."
 ;; C# is better with omnisharp, if available
 (defhook csharp-mode-hook
   ;; hide-show is nice for modes which supports it.
-  (hs-minor-mode)
+  ;; (hs-minor-mode)
   (local-unset-key (kbd "M-m"))
   (lsk 'hs-toggle-hiding "M-m M-m")
 
@@ -1272,7 +1272,7 @@ With a prefix argument N, (un)comment that many sexps."
   (lsk 'helm-imenu "<f12>")
 
   (when my-enable-omnisharp
-    (ignore-errors
+    (progn
       ;; company mode must be configured before omnisharp is loaded.
       (eval-after-load 'company
         '(add-to-list 'company-backends 'company-omnisharp))
@@ -1484,7 +1484,7 @@ With a prefix argument N, (un)comment that many sexps."
   (flycheck-mode t)
 
   ;; flyspell too!
-  (my-enable-flyspell-mode t)
+  ;; (my-enable-flyspell-mode t)
 
   ;; must be set AFTER flyspell!
   (lsk 'company-complete "C-.")
