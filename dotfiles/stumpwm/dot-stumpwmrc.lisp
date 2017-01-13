@@ -6,7 +6,7 @@
 (load "~/quicklisp/setup.lisp")
 (ql:quickload "sb-posix")
 
-(set-contrib-dir "~/build/stumpwm-contrib")
+(add-to-load-path "~/build/stumpwm-contrib")
 
 ;; load tray-dependencies!
 ;;(ql:quickload :xembed) ;; required for tray
