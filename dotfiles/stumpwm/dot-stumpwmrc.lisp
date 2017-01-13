@@ -58,12 +58,13 @@
 
 ;; basic stuff
 (defun x-setup-once ()
-  (defvar *x-setup-initialized*)
-  (if (boundp '*x-setup-initialized*)
+  (defvar *x-setup-initialized* nil)
+  (if *x-setup-initialized*
       (message "Already initialized, so skipping X setup.")
       (progn
         ;; (run-shell-command "stalonetray")
         ;;(run-shell-command "nm-applet --sm-disable")
+        (run-shell-command "/usr/libexec/gnome-settings-daemon &")
         (run-shell-command "gnome-screensaver &")
         (run-shell-command "dropbox start")
         (setq *x-setup-initialized* t)
@@ -81,15 +82,10 @@
 	(setup-groups)
 
 	;; explicitly require swank. just in case.
-	(ql:quickload :swank)
-	(ql:quickload "quicklisp-slime-helper")
-	(swank-loader:init)
-	(defcommand swank () ()
-		    (swank:create-server :port 4005
-					 :dont-close t)
-		    (echo-string (current-screen)
-				 "Starting swank. M-x slime-connect RET RET, then (in-package stumpwm)."))
-	(swank))))
+        (eval '(load "/home/jostein/build/machine-build/dotfiles/stumpwm/swank.lisp"))
+        (echo-string (current-screen)
+                     "Starting swank. M-x slime-connect RET RET, then (in-package stumpwm)."))))
+
 
 ;; custom stumpwm-commands
 
@@ -108,12 +104,11 @@
 
 ;; X setup
 (x-setup-once)
-
 ;; my hotkeys  (more info on http://stumpwm.svkt.org/cgi-bin/wiki.pl)
 
 (set-prefix-key (kbd "s-t")) ;; whatever which ISNT C-t.
 
-(define-key *root-map* (kbd "DEL") "quit")
+(define-key *root-map* (kbd "Delete") "quit")
 (define-key *top-map* (kbd "C-M-l") "screen-saver") ;; like unity/ubuntu
 ;; systemd can do unpriviliged suspend. auto-locked on startup.
 (define-key *top-map* (kbd "C-M-p") "exec systemctl suspend")
