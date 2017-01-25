@@ -329,7 +329,8 @@ https://emacs.stackexchange.com/questions/15020/eww-error-in-process-sentinel-ur
 
 ;; we want projectile everywhere.
 (ignore-errors
-  (projectile-global-mode t))
+  (projectile-global-mode t)
+  (gsk 'projectile-find-file "C-c C-p C-f" "C-c C-p f"))
 
 
 ;; always follow symlinks to files under source-control. dont ask.
