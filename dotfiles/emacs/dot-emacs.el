@@ -432,6 +432,15 @@ https://emacs.stackexchange.com/questions/15020/eww-error-in-process-sentinel-ur
   (forward-word)
   (backward-word))
 
+(defun my-switch-to-window-by-buffer-name (buffer)
+  "Select `BUFFER' by name, and move to the window it already has."
+  (interactive
+   (let ((buffer-names
+          (mapcar (lambda (window) (buffer-name (window-buffer window)))
+                  (window-list))))
+     (list (completing-read "Buffer: " buffer-names))))
+  (select-window (get-buffer-window buffer)))
+
 ;; upcase and dwoncase DWIM
 (defun upcase-word-dwim (arg)
   (interactive "p")
@@ -1014,6 +1023,7 @@ With a prefix argument N, (un)comment that many sexps."
 (gsk 'beginning-of-buffer "<C-prior>")
 (gsk 'end-of-buffer       "<C-next>")
 
+(gsk 'my-switch-to-window-by-buffer-name "C-x C-b")
 
 ;;;; GLOBAL KEYBOARD DEFINITIONS
 
