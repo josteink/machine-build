@@ -1560,6 +1560,10 @@ With a prefix argument N, (un)comment that many sexps."
   (lsk 'langtool-goto-previous-error "<f7>")
   (lsk 'langtool-goto-next-error "<f8>"))
 
+(defhook markdown-mode-hook
+  (lsk 'helm-imenu-dwim "M-g m" "M-g M-m" "M-g f" "M-g M-f")
+  (lsk 'helm-imenu-anywhere "C-M-g C-M-m" "C-M-g C-M-f"))
+
 ;; git commits are text too.
 (add-hook 'git-commit-mode-hook 'my-text-mode-hook)
 
