@@ -1375,18 +1375,17 @@ With a prefix argument N, (un)comment that many sexps."
 ;; typescript
 (defhook typescript-mode-hook
   ;; TIDE
+  (setq tide-tsserver-executable
+        (if (eq system-type 'windows-nt)
+            (expand-file-name "c:/users/josteink/appdata/roaming/npm/node_modules/typescript/lib/tsserver.js")
+          "/usr/lib/node_modules/typescript/bin/tsserver")
+        )
   (tide-setup)
   (setq flycheck-check-syntax-automatically '(save mode-enabled))
   (eldoc-mode +1)
 
   ;; aligns annotation to the right hand side
   (setq company-tooltip-align-annotations t)
-
-  ;; typescript 2
-  (setq tide-tsserver-executable
-        (if (eq system-type 'windows-nt)
-            (expand-file-name "c:/users/josteink/appdata/roaming/npm/tsserver.cmd")
-          "/usr/lib/node_modules/typescript/bin/tsserver"))
 
   ;; format options
   (setq tide-format-options '(:insertSpaceAfterFunctionKeywordForAnonymousFunctions t :placeOpenBraceOnNewLineForFunctions nil))
@@ -1405,9 +1404,11 @@ With a prefix argument N, (un)comment that many sexps."
   (lsk #'ts-send-last-sexp "C-x C-e" "C-x e" "C-M-x")
   (lsk #'ts-load-file "C-c l")
   (lsk #'hippie-expand "C-:")
-  (lsk #'my-ts-create-function "C-<return>")
+  (lsk #'tide-fix "C-<return>" "C-M-<return>" "M-<return>")
+  (lsk #'tide-navto "C-M-t")
+  (lsk #'tide-jump-to-implementation "C-M-.")
 
-  ;; have easy acces to tsc, always.
+  ;; have easy access to tsc, always.
   (lsk #'my-ts-tsc "<C-S-f5>"))
 
 ;; formats the buffer before saving
