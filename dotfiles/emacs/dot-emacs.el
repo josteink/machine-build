@@ -1018,20 +1018,16 @@ With a prefix argument N, (un)comment that many sexps."
 (gsk 'beginning-of-buffer "<C-prior>")
 (gsk 'end-of-buffer       "<C-next>")
 
-<<<<<<< HEAD
 (gsk 'my-switch-to-window-by-buffer-name "C-x C-b")
-=======
+
 ;; we want projectile everywhere.
 (ignore-errors
   (projectile-global-mode t)
   (gsk 'projectile-find-file "C-c C-p C-f" "C-c C-p f"))
 
->>>>>>> Emacs: Fix projectile keybindings initialization.
 
 ;;;; GLOBAL KEYBOARD DEFINITIONS
 
-
-(push-mark)
 
 ;; dont freeze emacs on ctrl-z
 (global-unset-key (kbd "C-z"))
