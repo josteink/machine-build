@@ -1405,7 +1405,7 @@ With a prefix argument N, (un)comment that many sexps."
   (lsk #'ts-load-file "C-c l")
   (lsk #'hippie-expand "C-:")
   (lsk #'tide-fix "C-<return>" "C-M-<return>" "M-<return>")
-  (lsk #'tide-navto "C-M-t")
+  (lsk #'tide-nav "C-M-t")
   (lsk #'tide-jump-to-implementation "C-M-.")
 
   ;; have easy access to tsc, always.
