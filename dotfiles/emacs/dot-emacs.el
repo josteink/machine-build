@@ -1704,7 +1704,7 @@ With a prefix argument N, (un)comment that many sexps."
 (eval-after-load 'company
   '(progn
      (add-to-list 'company-backends 'company-c-headers)
-     (add-to-list 'company-backends 'compant-web-html)))
+     (add-to-list 'company-backends 'company-web-html)))
 
 (global-ede-mode 1)
 
