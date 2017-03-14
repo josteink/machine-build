@@ -1479,6 +1479,10 @@ With a prefix argument N, (un)comment that many sexps."
   (when (derived-mode-p 'prog-mode)
     (imenu-add-menubar-index))
 
+  (setq-local fill-column 80)
+  (setq comment-auto-fill-only-comments t)
+  (auto-fill-mode t)
+
   ;; formatting matters in programming files, but python is a silly
   ;; language which cares about white-space.
   ;; also: for any non-lisp (paredit) language, enable electric-pair-mode.
