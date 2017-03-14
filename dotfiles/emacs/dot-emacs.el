@@ -1480,7 +1480,7 @@ With a prefix argument N, (un)comment that many sexps."
     (imenu-add-menubar-index))
 
   (setq-local fill-column 80)
-  (setq comment-auto-fill-only-comments t)
+  (setq-local comment-auto-fill-only-comments t)
   (auto-fill-mode t)
 
   ;; formatting matters in programming files, but python is a silly
