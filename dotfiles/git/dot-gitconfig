@@ -12,3 +12,5 @@
 [init]
 	templatedir = ~/.gittemplate
 
+[pull]
+	ff = only
