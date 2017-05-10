@@ -74,6 +74,8 @@
         tide
         ;;ts-comint
         yasnippet
+        ;; python
+        elpy
         ))
 
 ;; only query package sources when package is missing! copied from:
@@ -1506,6 +1508,8 @@ With a prefix argument N, (un)comment that many sexps."
 
   ;; realgud needs to be required
   (require 'realgud)
+  ;; allow variable inspection on right-mouse click!
+  (define-key realgud:shortkey-mode-map [mouse-3] #'realgud:tooltip-eval)
 
   (require 'yasnippet)
   (yas-minor-mode-on))
