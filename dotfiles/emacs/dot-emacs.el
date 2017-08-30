@@ -922,10 +922,19 @@ With a prefix argument N, (un)comment that many sexps."
   :group 'active-region
   )
 
+(setq active-region-restore-autofill nil)
+
 (defun active-region-on ()
-  (active-region-mode 1))
+  (active-region-mode 1)
+  (when auto-fill-function
+    (auto-fill-mode -1)
+    (setq active-region-restore-autofill t)))
+
 (defun active-region-off ()
-  (active-region-mode -1))
+  (active-region-mode -1)
+  (when active-region-restore-autofill
+    (auto-fill-mode 1)))
+
 (add-hook 'activate-mark-hook 'active-region-on)
 (add-hook 'deactivate-mark-hook 'active-region-off)
 
