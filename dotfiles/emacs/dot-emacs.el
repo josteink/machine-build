@@ -926,9 +926,10 @@ With a prefix argument N, (un)comment that many sexps."
 
 (defun active-region-on ()
   (active-region-mode 1)
-  (when auto-fill-function
-    (auto-fill-mode -1)
-    (setq active-region-restore-autofill t)))
+
+  ;; restore auto-fill-mode when active.
+  (setq active-region-restore-autofill (not (null auto-fill-function)))
+  (auto-fill-mode -1))
 
 (defun active-region-off ()
   (active-region-mode -1)
@@ -987,6 +988,20 @@ With a prefix argument N, (un)comment that many sexps."
   (org-table-beginning-of-field-dwim 0)
   (set-mark-command nil)
   (org-table-end-of-field 0))
+
+(defmacro with-timer (title &rest forms)
+  "Run the given FORMS, counting the elapsed time.
+A message including the given TITLE and the corresponding elapsed
+time is displayed."
+  (declare (indent 1))
+  (let ((nowvar (make-symbol "now"))
+        (body   `(progn ,@forms)))
+    `(let ((,nowvar (current-time)))
+       (prog1 ,body
+         (let ((elapsed
+                (float-time (time-subtract (current-time) ,nowvar))))
+           (when (> elapsed 0.001)
+             (message "%s... done (%.5fs)" ,title elapsed)))))))
 
 ;; we must load original helm-imenu to get access to its state-variables and matchers.
 (ignore-errors
