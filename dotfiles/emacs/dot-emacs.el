@@ -70,8 +70,8 @@
         realgud
         ;; for rust
         rust-mode cargo racer flycheck-rust toml-mode
-        typescript-mode
-        tide
+;;        typescript-mode
+  ;;      tide
         ;;ts-comint
         yasnippet
         ;; python
@@ -1406,36 +1406,38 @@ time is displayed."
             (expand-file-name "c:/users/josteink/appdata/roaming/npm/node_modules/typescript/lib/tsserver.js")
           "/usr/lib/node_modules/typescript/bin/tsserver")
         )
-  (tide-setup)
-  (setq flycheck-check-syntax-automatically '(save mode-enabled))
-  (eldoc-mode +1)
 
-  ;; aligns annotation to the right hand side
-  (setq company-tooltip-align-annotations t)
+  (ignore-errors
+    (tide-setup)
+    (setq flycheck-check-syntax-automatically '(save mode-enabled))
+    (eldoc-mode +1)
 
-  ;; format options
-  (setq tide-format-options '(:insertSpaceAfterFunctionKeywordForAnonymousFunctions t :placeOpenBraceOnNewLineForFunctions nil))
+    ;; aligns annotation to the right hand side
+    (setq company-tooltip-align-annotations t)
 
-  (lsk #'tide-references "S-<f12>")
-  (lsk #'tide-rename-symbol "C-c C-r" "C-c r")
-  (lsk #'tide-documentation-at-point "C-c C-d" "C-c d")
+    ;; format options
+    (setq tide-format-options '(:insertSpaceAfterFunctionKeywordForAnonymousFunctions t :placeOpenBraceOnNewLineForFunctions nil))
 
-  ;; ts-comint
-  (local-set-key (kbd "C-x C-e") 'ts-send-last-sexp)
-  (local-set-key (kbd "C-M-x") 'ts-send-last-sexp-and-go)
-  (local-set-key (kbd "C-c b") 'ts-send-buffer)
-  (local-set-key (kbd "C-c C-b") 'ts-send-buffer-and-go)
-  (local-set-key (kbd "C-c l") 'ts-load-file-and-go)
-  (lsk #'ts-send-buffer "C-c C-c")
-  (lsk #'ts-send-last-sexp "C-x C-e" "C-x e" "C-M-x")
-  (lsk #'ts-load-file "C-c l")
-  (lsk #'hippie-expand "C-:")
-  (lsk #'tide-fix "C-<return>" "C-M-<return>" "M-<return>")
-  (lsk #'tide-nav "C-M-t")
-  (lsk #'tide-jump-to-implementation "C-M-.")
+    (lsk #'tide-references "S-<f12>")
+    (lsk #'tide-rename-symbol "C-c C-r" "C-c r")
+    (lsk #'tide-documentation-at-point "C-c C-d" "C-c d")
 
-  ;; have easy access to tsc, always.
-  (lsk #'my-ts-tsc "<C-S-f5>"))
+    ;; ts-comint
+    (local-set-key (kbd "C-x C-e") 'ts-send-last-sexp)
+    (local-set-key (kbd "C-M-x") 'ts-send-last-sexp-and-go)
+    (local-set-key (kbd "C-c b") 'ts-send-buffer)
+    (local-set-key (kbd "C-c C-b") 'ts-send-buffer-and-go)
+    (local-set-key (kbd "C-c l") 'ts-load-file-and-go)
+    (lsk #'ts-send-buffer "C-c C-c")
+    (lsk #'ts-send-last-sexp "C-x C-e" "C-x e" "C-M-x")
+    (lsk #'ts-load-file "C-c l")
+    (lsk #'hippie-expand "C-:")
+    (lsk #'tide-fix "C-<return>" "C-M-<return>" "M-<return>")
+    (lsk #'tide-nav "C-M-t")
+    (lsk #'tide-jump-to-implementation "C-M-.")
+
+    ;; have easy access to tsc, always.
+    (lsk #'my-ts-tsc "<C-S-f5>")))
 
 ;; formats the buffer before saving
 (add-hook 'before-save-hook 'tide-format-before-save)
