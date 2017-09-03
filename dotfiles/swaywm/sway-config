@@ -1,0 +1,257 @@
+# Hey Emacs, this is a -*- conf -*-
+#
+# Read `man 5 sway` for a complete reference.
+
+# gnome-settings-demon makes DPI scaling, fonts and GTK settings come active.
+# this makes quite a bit more pretty.
+exec --no-startup-id /usr/libexec/gnome-settings-daemon
+exec --no-startup-id /usr/bin/gnome-keyring-daemon
+# start as early as possible to ensure its up and ready by the time firefox comes..
+
+set $w1 workspace 1: www
+set $w2 workspace 2: shell
+set $w3 workspace 3: emacs
+set $w4 workspace 4: files
+set $w5 workspace 5: music
+set $w6 workspace 6
+set $w7 workspace 7
+set $w8 workspace 8
+set $w9 workspace 9
+set $w10 workspace 10
+
+### Variables
+#
+# Logo key. Use Mod1 for Alt.
+set $mod Mod4
+# Your preferred terminal emulator
+set $term gnome-terminal --hide-menubar # urxvt
+# Your preferred application launcher
+set $menu dmenu_run -i -fn 'Hack-11' -b -nb '#111111' -nf '#cccccc' -sb '#222288' -sf '#ffffff' -l 7
+
+# theme
+# class                 border  backgr. text    indicator
+client.focused          #282866 #282866 #ffffff #2e9ef4
+client.focused_inactive #222233 #141433 #ffffff #484e50
+client.unfocused        #222233 #111111 #888888 #292d2e
+client.urgent           #2f343a #900000 #ffffff #900000
+client.placeholder      #000000 #0c0c0c #ffffff #000000
+
+# font for window titles. ISO 10646 = Unicode
+font pango:Hack Bold 16
+
+### Output configuration
+#
+# Default wallpaper (more resolutions are available in /usr/local/share/backgrounds/sway/)
+output * bg /usr/local/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
+
+# ensure we have cloud-sync running
+exec dropbox start
+
+# start kdeconnect
+#exec $HOME/build/indicator-kdeconnect/build/indicator-kdeconnect
+exec kdeconnect-cli --refresh
+exec nm-applet
+
+# setup default workspace
+# set $msg exec --no-startup-id swaymsg
+exec /home/jostein/bin/nightly
+exec $term
+exec emacs
+
+
+### Key bindings
+#
+# Basics:
+#
+# start a terminal
+bindsym $mod+Return exec $term
+
+# kill focused window
+bindsym $mod+Shift+q kill
+
+# start your launcher
+bindsym $mod+d exec $menu
+
+bindsym $mod+l exec swaylock -c 444444
+
+# nautilus is nice to have too.
+bindsym $mod+n exec nautilus
+
+# Drag floating windows by holding down $mod and left mouse button.
+# Resize them with right mouse button + $mod.
+# Despite the name, also works for non-floating windows.
+# Change normal to inverse to use left mouse button for resizing and right
+# mouse button for dragging.
+floating_modifier $mod normal
+
+# reload the configuration file
+bindsym $mod+Shift+c reload
+
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym $mod+Shift+r restart
+
+# exit sway (logs you out of your wayland session)
+# Create Log out, Reboot, Poweroff bindings
+mode "(E)xit, (R)eboot, (P)oweroff" {
+  bindsym r exec systemctl reboot
+  bindsym e exit
+  bindsym p exec systemctl poweroff
+  # back to normal: Enter or Escape
+  bindsym Return mode "default"
+  bindsym Escape mode "default"
+  bindsym Ctrl+g mode "default"
+}
+bindsym $mod+Shift+e mode "(E)xit, (R)eboot, (P)oweroff"
+# bindsym $mod+Shift+e exit
+bindsym $mod+Ctrl+e exit
+
+mode "resize" {
+  # These bindings trigger as soon as you enter the resize mode
+
+  # Pressing left will shrink the window’s width.
+  # Pressing right will grow the window’s width.
+  # Pressing up will shrink the window’s height.
+  # Pressing down will grow the window’s height.
+  bindsym Left resize shrink width 10 px or 10 ppt
+  bindsym Up resize grow height 10 px or 10 ppt
+  bindsym Down resize shrink height 10 px or 10 ppt
+  bindsym Right resize grow width 10 px or 10 ppt
+
+  # back to normal: Enter or Escape
+  bindsym Return mode "default"
+  bindsym Escape mode "default"
+}
+bindsym $mod+r mode "resize"
+
+
+#
+# Moving around:
+#
+# or use $mod+[up|down|left|right]
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+# ditto, with arrow keys
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+#
+# Workspaces:
+#
+# switch to workspace
+# switch to workspace
+bindsym $mod+1 $w1
+bindsym $mod+2 $w2
+bindsym $mod+3 $w3
+bindsym $mod+4 $w4
+bindsym $mod+5 $w5
+bindsym $mod+6 $w6
+bindsym $mod+7 $w7
+bindsym $mod+8 $w8
+bindsym $mod+9 $w9
+bindsym $mod+0 $w10
+
+# move focused container to workspace
+bindsym $mod+Shift+1 move container to $w1
+bindsym $mod+Shift+2 move container to $w2
+bindsym $mod+Shift+3 move container to $w3
+bindsym $mod+Shift+4 move container to $w4
+bindsym $mod+Shift+5 move container to $w5
+bindsym $mod+Shift+6 move container to $w6
+bindsym $mod+Shift+7 move container to $w7
+bindsym $mod+Shift+8 move container to $w8
+bindsym $mod+Shift+9 move container to $w9
+bindsym $mod+Shift+0 move container to $w10
+# Note: workspaces can have any name you want, not just numbers.
+# We just use 1-10 as the default.
+#
+# Layout stuff:
+#
+# You can "split" the current object of your focus with
+# $mod+b or $mod+v, for horizontal and vertical splits
+# respectively.
+bindsym $mod+b splith
+bindsym $mod+v splitv
+
+# Switch the current container between different layout styles
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+# Make the current focus fullscreen
+bindsym $mod+f fullscreen
+
+# Toggle the current focus between tiling and floating mode
+bindsym $mod+Shift+space floating toggle
+
+# Swap focus between the tiling area and the floating area
+bindsym $mod+space focus mode_toggle
+
+# move focus to the parent container
+bindsym $mod+a focus parent
+#
+# Scratchpad:
+#
+# Sway has a "scratchpad", which is a bag of holding for windows.
+# You can send windows there and get them back later.
+
+# Move the currently focused window to the scratchpad
+bindsym $mod+Shift+minus move scratchpad
+
+# Show the next scratchpad window or hide the focused scratchpad window.
+# If there are multiple scratchpad windows, this command cycles through them.
+bindsym $mod+minus scratchpad show
+#
+# Resizing containers:
+#
+mode "resize" {
+  # left will shrink the containers width
+  # right will grow the containers width
+  # up will shrink the containers height
+  # down will grow the containers height
+  bindsym $left resize shrink width 10 px or 10 ppt
+  bindsym $down resize grow height 10 px or 10 ppt
+  bindsym $up resize shrink height 10 px or 10 ppt
+  bindsym $right resize grow width 10 px or 10 ppt
+
+  # ditto, with arrow keys
+  bindsym Left resize shrink width 10 px or 10 ppt
+  bindsym Down resize grow height 10 px or 10 ppt
+  bindsym Up resize shrink height 10 px or 10 ppt
+  bindsym Right resize grow width 10 px or 10 ppt
+
+  # return to default mode
+  bindsym Return mode "default"
+  bindsym Escape mode "default"
+  bindsym Ctrl+g mode "default"
+}
+bindsym $mod+r mode "resize"
+
+# for volume and stuff
+bindsym XF86AudioRaiseVolume exec pactl set-sink-volume 0 +2db
+bindsym XF86AudioLowerVolume exec pactl set-sink-volume 0 -2db
+bindsym XF86AudioMute exec pactl set-sink-mute 0 toggle
+
+# for display brightness
+# requires sudo apt-get install xbacklight
+bindsym XF86MonBrightnessDown exec --no-startup-id xbacklight -dec 10%
+bindsym XF86MonBrightnessUp exec --no-startup-id xbacklight -inc 10%
+
+
+#
+# Status Bar:
+#
+# Read `man 5 sway-bar` for more information about this section.
+bar {
+    position bottom
+    colors {
+        statusline ffffff
+        background #323232
+        inactive_workspace #32323200 #32323200 #5c5c5c
+    }
+}
+
+include /etc/sway/config.d/*
