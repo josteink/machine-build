@@ -127,7 +127,7 @@ https://emacs.stackexchange.com/questions/15020/eww-error-in-process-sentinel-ur
     (let ((FONT (concat font "-" (number-to-string size))))
       (add-to-list 'default-frame-alist `(font . ,FONT ))
       (set-face-attribute 'default t :font FONT)
-      (set-default-font FONT))))
+      (set-frame-font FONT))))
 
 (defun my-gui-mode-hook ()
   ;; activate theme early!
