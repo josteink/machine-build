@@ -1621,6 +1621,10 @@ time is displayed."
   ;; move cursor to beginning of filename when that makes sense
   (setq wdired-use-dired-vertical-movement 'sometimes)
 
+  ;; improves defaults when moving or copying across dired-buffers.
+  ;; this of it as norton commander for Emacs.
+  (setq dired-dwim-target t)
+
   (lsk 'dired-isearch-filenames "C-s")
   (lsk 'isearch-forward "C-S"))
 
