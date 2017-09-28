@@ -168,7 +168,7 @@ https://emacs.stackexchange.com/questions/15020/eww-error-in-process-sentinel-ur
   ;; (setq font-lock t)
 
   ;; font thingie, downloaded from http://sourcefoundry.org/hack/
-  (try-set-default-font "Hack" 11)
+  (try-set-default-font "Hack" 12)
   ;; KDE, Hidpi laptop
   ;; (try-set-default-font "Droid Sans Mono" 11)
   )
