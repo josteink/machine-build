@@ -1368,18 +1368,23 @@ time is displayed."
   (ignore-errors
     (require 'elpy))
   (when (fboundp 'elpy-mode)
-    (elpy-enable)
-    (setq elpy-rpc-python-command "python3")
-    (elpy-use-cpython "python3")
-    (setq python-shell-interpreter "python3")
+    (let* ((python-exe (if (eq system-type 'windows-nt)
+                           "python.exe" ;; python3 is called python on windows!
+                         "python3"))
+           (pdb (concat python-exe " -m pdb")))
 
-    (elpy-mode))
+      (setq elpy-rpc-python-command python-exe)
+      (elpy-use-cpython python-exe)
+      (setq python-shell-interpreter python-exe)
 
-  ;; gud/realgud defaults to a seperate pdb executable which does not
-  ;; exist on Fedora. Just use python and pdb module directly.
-  (setq gud-pdb-command-name "python3 -m pdb")
-  (setq realgud:pdb-command-name "python3 -m pdb")
-  (lsk 'realgud:pdb "C-<f5>"))
+      (elpy-mode)
+
+      ;; gud/realgud defaults to a seperate pdb executable which does not
+      ;; exist on Fedora. Just use python and pdb module directly.
+      (setq gud-pdb-command-name pdb)
+      (setq realgud:pdb-command-name pdb))
+    (lsk 'realgud:pdb "C-<f5>")
+    (elpy-enable)))
 
 
 ;; rust
