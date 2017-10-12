@@ -1406,12 +1406,6 @@ time is displayed."
 ;; typescript
 (defhook typescript-mode-hook
   ;; TIDE
-  (setq tide-tsserver-executable
-        (if (eq system-type 'windows-nt)
-            (expand-file-name "c:/users/josteink/appdata/roaming/npm/node_modules/typescript/lib/tsserver.js")
-          "/usr/lib/node_modules/typescript/bin/tsserver")
-        )
-
   (ignore-errors
     (tide-setup)
     (setq flycheck-check-syntax-automatically '(save mode-enabled))
