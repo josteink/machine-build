@@ -57,7 +57,8 @@
         macrostep
         org
         flycheck flycheck-package
-        ;; omnisharp
+        csharp-mode
+        omnisharp
         js2-mode
         json-mode
         ssh-config-mode
