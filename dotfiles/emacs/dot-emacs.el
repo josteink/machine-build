@@ -55,14 +55,13 @@
         magit git-timemachine
         elisp-slime-nav
         macrostep
-        org
         flycheck flycheck-package
         csharp-mode
         omnisharp
         js2-mode
         json-mode
         ssh-config-mode
-        elfeed
+        ;; elfeed
         org ;; we want a newer version than the one built in!
         marmalade-client
         nodejs-repl
@@ -74,9 +73,10 @@
 ;;        typescript-mode
   ;;      tide
         ;;ts-comint
-        yasnippet
+        ;; yasnippet
         ;; python
         elpy
+	yasnippet ;; needed for elpy
         ))
 
 ;; only query package sources when package is missing! copied from:
@@ -1539,8 +1539,9 @@ time is displayed."
   ;; allow variable inspection on right-mouse click!
   (define-key realgud:shortkey-mode-map [mouse-3] #'realgud:tooltip-eval)
 
-  (require 'yasnippet)
-  (yas-minor-mode-on))
+  ;;(require 'yasnippet)
+  ;;(yas-minor-mode-on)
+  )
 
 (add-hook 'powershell-mode-hook 'my-prog-mode-hook)
 (add-hook 'css-mode-hook 'my-prog-mode-hook)
