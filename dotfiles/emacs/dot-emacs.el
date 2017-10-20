@@ -1406,6 +1406,8 @@ time is displayed."
 ;; typescript
 (defhook typescript-mode-hook
   ;; TIDE
+  ;; explicitly null preference to enable auto-detection.
+  (setq tide-tsserver-executable nil)
   (ignore-errors
     (tide-setup)
     (setq flycheck-check-syntax-automatically '(save mode-enabled))
