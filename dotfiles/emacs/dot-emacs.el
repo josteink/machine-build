@@ -1662,7 +1662,8 @@ time is displayed."
     (setq tfs/login ""))
 
   ;; omnisharp
-  (setq omnisharp-server-executable-path "D:/Git/omnisharp-roslyn/scripts/Omnisharp.cmd"))
+  ;; (setq omnisharp-server-executable-path "D:/Git/omnisharp-roslyn/scripts/Omnisharp.cmd")
+  )
 
 ;;;; UNIX ONLY CUSTOMIZATIONS
 
@@ -1699,7 +1700,8 @@ time is displayed."
         (slime-setup '(slime-fancy slime-asdf slime-company)))))
 
   ;; omnisharp
-  (setq omnisharp-server-executable-path "~/build/omnisharp-server/OmniSharp/bin/Debug/OmniSharp.exe"))
+  ;; (setq omnisharp-server-executable-path "~/build/omnisharp-server/OmniSharp/bin/Debug/OmniSharp.exe")
+  )
 
 (if (eq system-type 'windows-nt)
     (my-windows-mode-hook)
