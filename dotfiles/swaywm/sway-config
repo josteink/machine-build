@@ -8,11 +8,16 @@ exec --no-startup-id /usr/libexec/gnome-settings-daemon
 exec --no-startup-id /usr/bin/gnome-keyring-daemon
 # start as early as possible to ensure its up and ready by the time firefox comes..
 
-set $w1 workspace 1: www
-set $w2 workspace 2: shell
-set $w3 workspace 3: emacs
-set $w4 workspace 4: files
-set $w5 workspace 5: music
+set $w1 workspace 1
+#: www
+set $w2 workspace 2
+#: shell
+set $w3 workspace 3
+#: emacs
+set $w4 workspace 4
+#: files
+set $w5 workspace 5
+#: music
 set $w6 workspace 6
 set $w7 workspace 7
 set $w8 workspace 8
@@ -43,6 +48,14 @@ font pango:Hack Bold 16
 #
 # Default wallpaper (more resolutions are available in /usr/local/share/backgrounds/sway/)
 output * bg /usr/local/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
+
+input "2:7:SynPS/2_Synaptics_TouchPad" {
+    dwt enabled
+    tap disabled
+    natural_scroll disabled
+    #middle_emulation enabled
+    scroll_method two_finger
+}
 
 # ensure we have cloud-sync running
 exec dropbox start
