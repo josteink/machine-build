@@ -6,6 +6,7 @@
 # this makes quite a bit more pretty.
 exec --no-startup-id /usr/libexec/gnome-settings-daemon
 exec --no-startup-id /usr/bin/gnome-keyring-daemon
+exec --no-startup-up /usr/bin/xembedsniproxy # from KDE plasma. for tray-compatibility.
 # start as early as possible to ensure its up and ready by the time firefox comes..
 
 set $w1 workspace 1
@@ -62,7 +63,7 @@ exec dropbox start
 
 # start kdeconnect
 #exec $HOME/build/indicator-kdeconnect/build/indicator-kdeconnect
-exec kdeconnect-cli --refresh
+#exec kdeconnect-cli --refresh
 exec nm-applet
 
 # setup default workspace
@@ -89,6 +90,8 @@ bindsym $mod+l exec swaylock -c 444444
 
 # nautilus is nice to have too.
 bindsym $mod+n exec nautilus
+
+bindsyn $mod+Shift+p exec swaygrab $HOME/Pictures/output.png
 
 # Drag floating windows by holding down $mod and left mouse button.
 # Resize them with right mouse button + $mod.
