@@ -375,6 +375,9 @@ https://emacs.stackexchange.com/questions/15020/eww-error-in-process-sentinel-ur
    (plantuml . t)))
 
 
+;; company mode settings
+(setq company-tooltip-align-annotations t)
+
 ;;;; FUNCTIONS
 
 
@@ -1404,7 +1407,7 @@ time is displayed."
 
   (lsk 'company-indent-or-complete-common "TAB")
   ;;(lsk 'company-complete- "." ":")
-  (setq company-tooltip-align-annotations t))
+  )
 
 
 ;; typescript
@@ -1416,9 +1419,6 @@ time is displayed."
     (tide-setup)
     (setq flycheck-check-syntax-automatically '(save mode-enabled))
     (eldoc-mode +1)
-
-    ;; aligns annotation to the right hand side
-    (setq company-tooltip-align-annotations t)
 
     ;; format options
     (setq tide-format-options '(:insertSpaceAfterFunctionKeywordForAnonymousFunctions t :placeOpenBraceOnNewLineForFunctions nil))
