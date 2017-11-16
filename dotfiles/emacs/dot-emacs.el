@@ -241,7 +241,7 @@ https://emacs.stackexchange.com/questions/15020/eww-error-in-process-sentinel-ur
 (add-to-list 'auto-mode-alist '("crontab" . crontab-mode))
 
 
-(add-extensions-to-mode 'nxml-mode "config" "merge") ;; .NET, SuperOffice config-merge.
+(add-extensions-to-mode 'nxml-mode "config" "merge" "*proj") ;; .NET, SuperOffice config-merge.
 (add-extensions-to-mode 'powershell-mode "ps" "ps1")
 
 ;; we DONT want web-mode for CSS, because it breaks company-mode completion.
@@ -1379,14 +1379,17 @@ time is displayed."
       (setq python-shell-interpreter python-exe)
 
       (elpy-mode)
+      (define-key elpy-mode-map (kbd "C-c o") #'occur-dwim)
+      (define-key elpy-mode-map (kbd "C-c C-o") #'occur-dwim)
 
       ;; gud/realgud defaults to a seperate pdb executable which does not
       ;; exist on Fedora. Just use python and pdb module directly.
       (setq gud-pdb-command-name pdb)
       (setq realgud:pdb-command-name pdb))
-    (lsk 'realgud:pdb "C-<f5>")
-    (elpy-enable)))
+    (lsk 'realgud:pdb "C-<f5>")))
 
+(ignore-errors
+  (elpy-enable))
 
 ;; rust
 (defhook rust-mode-hook
