@@ -35,7 +35,6 @@
       '(;;clojure-mode
         markdown-mode
         paredit
-        batch-mode
         multiple-cursors
         projectile
         expand-region
@@ -230,7 +229,6 @@ https://emacs.stackexchange.com/questions/15020/eww-error-in-process-sentinel-ur
       (add-to-list 'auto-mode-alist (cons rx mode)))))
 
 (add-extensions-to-mode 'clojure-mode "cljs") ;; clojure-script too!
-(add-extensions-to-mode 'batch-mode "bat" "cmd")
 (add-extensions-to-mode 'markdown-mode "md")
 (add-extensions-to-mode 'message-mode "somail")
 
