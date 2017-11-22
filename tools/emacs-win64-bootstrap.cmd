@@ -1,7 +1,7 @@
 @echo off
 
 set URL=%1
-if "%URL%"=="" %0 "http://alpha.gnu.org/gnu/emacs/pretest/windows/emacs-25.1-2-x86_64-w64-mingw32.zip"
+if "%URL%"=="" %0 "http://ftp.gnu.org/gnu/emacs/windows/emacs-25.3_1-x86_64.zip"
 
 set WGET=%~dp0%wget.exe
 echo Using wget: %WGET%
@@ -24,7 +24,7 @@ echo Downloading from: %URL%
 
 echo Getting extra DLLs...
 
-%WGET% -c "http://alpha.gnu.org/gnu/emacs/pretest/windows/emacs-25-x86_64-deps.zip" >NUL 2>NUL
+%WGET% -c "http://ftp.gnu.org/gnu/emacs/windows/emacs-25-x86_64-deps.zip" >NUL 2>NUL
 
 cd ..
 
@@ -36,8 +36,8 @@ echo Done
 echo Unpacking...
 cd unpacked
 
-unzip ../download/%EMACS_ZIP%
-unzip -o ../download/emacs-25-x86_64-deps.zip
+"c:\Program Files\7-Zip\7z.exe" x -y ../download/%EMACS_ZIP%
+"c:\Program Files\7-Zip\7z.exe" x -y ../download/emacs-25-x86_64-deps.zip
 
 echo Emacs ready and unpacked at %TMP%\Emacs\Unpacked
 pause >NIL
