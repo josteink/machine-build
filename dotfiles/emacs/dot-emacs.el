@@ -76,6 +76,7 @@
         ;; python
         elpy
 	yasnippet ;; needed for elpy
+        yaml-mode
         ))
 
 ;; only query package sources when package is missing! copied from:
@@ -1828,3 +1829,25 @@ White space here is any of: space, tab, emacs newline (line feed, ASCII 10)."
 ;; how to remap a key for function X to function Y.
 ;; (define-key irony-mode-map [remap completion-at-point]
 ;;   'irony-completion-at-point-async)
+
+
+;; patch yaml-mode syntax table to ignore single-quotes:
+;; fix formatting error.
+(setq yaml-mode-syntax-table
+      (let ((syntax-table (make-syntax-table)))
+        ;; (modify-syntax-entry ?\' "\"" syntax-table)
+        (modify-syntax-entry ?\" "\"" syntax-table)
+        (modify-syntax-entry ?# "<" syntax-table)
+        (modify-syntax-entry ?\n ">" syntax-table)
+        (modify-syntax-entry ?\\ "\\" syntax-table)
+        (modify-syntax-entry ?- "_" syntax-table)
+        (modify-syntax-entry ?_ "_" syntax-table)
+        (modify-syntax-entry ?& "." syntax-table)
+        (modify-syntax-entry ?* "." syntax-table)
+        (modify-syntax-entry ?\( "." syntax-table)
+        (modify-syntax-entry ?\) "." syntax-table)
+        (modify-syntax-entry ?\{ "(}" syntax-table)
+        (modify-syntax-entry ?\} "){" syntax-table)
+        (modify-syntax-entry ?\[ "(]" syntax-table)
+        (modify-syntax-entry ?\] ")[" syntax-table)
+        syntax-table))
