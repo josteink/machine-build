@@ -260,6 +260,9 @@ https://emacs.stackexchange.com/questions/15020/eww-error-in-process-sentinel-ur
 ;; supress splash-screen.
 (setq inhibit-startup-screen t)
 
+;; "big files" are a thing of the past
+(setq large-file-warning-threshold nil)
+
 ;; supress magit-nagging
 (setq magit-last-seen-setup-instructions "1.4.0")
 (setq magit-push-always-verify nil)
