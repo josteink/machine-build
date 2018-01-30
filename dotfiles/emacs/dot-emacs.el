@@ -50,6 +50,7 @@
         company-web
         cmake-mode
         ggtags
+        helpful
         slime-company ;; if loading fails with recursive load, check if distro-provided slime is installed.
         magit git-timemachine
         elisp-slime-nav
