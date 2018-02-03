@@ -56,8 +56,8 @@
         elisp-slime-nav
         macrostep
         flycheck flycheck-package
-        csharp-mode
-        omnisharp
+        ;;csharp-mode
+        ;;omnisharp
         js2-mode
         json-mode
         ssh-config-mode
@@ -78,6 +78,7 @@
         elpy
 	yasnippet ;; needed for elpy
         yaml-mode
+        elisp-refs
         ))
 
 ;; only query package sources when package is missing! copied from:
@@ -1552,7 +1553,7 @@ time is displayed."
 (add-hook 'powershell-mode-hook 'my-prog-mode-hook)
 (add-hook 'css-mode-hook 'my-prog-mode-hook)
 (add-hook 'cmake-mode-hook 'my-prog-mode-hook)
-(add-hook 'batch-mode-hook 'my-prog-mode-hook)
+(add-hook 'bat-mode-hook 'my-prog-mode-hook)
 
 ;; xml
 (defhook nxml-mode-hook
