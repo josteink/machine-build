@@ -1553,7 +1553,6 @@ time is displayed."
 (add-hook 'powershell-mode-hook 'my-prog-mode-hook)
 (add-hook 'css-mode-hook 'my-prog-mode-hook)
 (add-hook 'cmake-mode-hook 'my-prog-mode-hook)
-(add-hook 'bat-mode-hook 'my-prog-mode-hook)
 
 ;; xml
 (defhook nxml-mode-hook
