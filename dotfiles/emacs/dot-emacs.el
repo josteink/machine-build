@@ -1034,6 +1034,37 @@ time is displayed."
     ;; ref http://stackoverflow.com/questions/7549628/whats-wrong-with-the-following-unbind-script
     (funcall func (read-kbd-macro key) target)))
 
+;; diff-navigation
+
+(defvar my-find-line-with-face-last-value nil)
+
+(defun my-find-line-with-face (arg)
+  "Search for the first upcoming line with a specific face.
+
+Searches for last face, or new face if invoked with prefix-argument"
+  (interactive "P")
+
+  ;; when ARG = t, or LAST = nil
+  ;; ask for new input value!
+  (when (or arg
+            (eq nil my-find-line-with-face-last-value))
+    (setq my-find-line-with-face-last-value
+          (list (read-face-name "Face to search for"))))
+
+  (forward-line 1)
+  (while (not (member (face-at-point)
+                      my-find-line-with-face-last-value))
+    (next-line 1)))
+
+(defun my-ediff-find-missing ()
+  (interactive)
+  (let ((my-find-line-with-face-last-value '(ediff-even-diff-A
+                                             ediff-even-diff-B
+                                             ediff-even-diff-C)))
+    (my-find-line-with-face)))
+
+;; keyboard configuration
+
 (defun lsk (target &rest keys)
   "Sets up a keymap local keybinding for target with all keys provided."
   (fkt 'local-set-key target keys))
@@ -1147,6 +1178,9 @@ time is displayed."
 
 ;; indent properly, always
 (gsk 'newline-and-indent "RET")
+
+(gsk #'my-find-line-with-face "<f9>")
+(gsk #'my-ediff-find-missing "<s-f9>")
 
 
 ;; compilation-mode tweaks:
