@@ -1601,8 +1601,10 @@ Searches for last face, or new face if invoked with prefix-argument"
 
   ;; C-c C-o is bound to some useless heading/section things
   ;; we're not using. Restablish occur-dwim as a "global" binding.
-  (local-unset-key "C-c C-o")
-  (lsk 'occur-dwim "C-c C-o")
+  (local-unset-key (kbd "C-c C-o"))
+  (local-unset-key (kbd "C-c"))
+  (local-unset-key (kbd "C"))
+  (local-set-key (kbd "C-c C-o") #'occur-dwim)
 
   ;; xml-files are more often than not part of a project.
   (projectile-mode t)
