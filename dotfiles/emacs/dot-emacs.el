@@ -689,6 +689,13 @@ point reaches the beginning or end of the buffer, stop there."
   (let ((symbol (thing-at-point 'symbol)))
     (imenu symbol)))
 
+(defun msbuild ()
+  "Trigger msbuild for the current directory."
+  (interactive)
+
+  (let ((compile-command "C:\\Windows\\Microsoft.NET\\Framework64\\v4.0.30319\\msbuild.exe"))
+    (recompile)))
+
 ;; copy-pasted from
 ;; http://stackoverflow.com/questions/20426160/how-to-pop-local-and-global-marks-with-a-common-keybinding-in-emacs
 (defun pop-local-or-global-mark ()
