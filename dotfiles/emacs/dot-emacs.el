@@ -277,6 +277,8 @@ https://emacs.stackexchange.com/questions/15020/eww-error-in-process-sentinel-ur
 (setq magit-last-seen-setup-instructions "1.4.0")
 (setq magit-push-always-verify nil)
 
+(setq org-support-shift-select t)
+
 ;; always update files when changing git-branches, etc.
 (global-auto-revert-mode t)
 
@@ -1767,8 +1769,7 @@ Searches for last face, or new face if invoked with prefix-argument"
         (slime-setup '(slime-fancy slime-asdf slime-company)))))
 
   ;; omnisharp
-  ;; (setq omnisharp-server-executable-path "~/build/omnisharp-server/OmniSharp/bin/Debug/OmniSharp.exe")
-  )
+  (setq omnisharp-server-executable-path "/home/jostein/build/omnisharp-roslyn/omnisharp.sh"))
 
 (if (eq system-type 'windows-nt)
     (my-windows-mode-hook)
