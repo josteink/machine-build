@@ -5,7 +5,8 @@
 # gnome-settings-demon makes DPI scaling, fonts and GTK settings come active.
 # this makes quite a bit more pretty.
 # exec --no-startup-id /usr/libexec/gnome-settings-daemon
-exec --no-startup-id /usr/libexec/gsd-xsettings
+# exec --no-startup-id /usr/libexec/gsd-xsettings
+exec --no-startup-id /usr/lib/gnome-settings-daemon/gsd-xsettings
 exec --no-startup-id /usr/bin/gnome-keyring-daemon
 exec --no-startup-up /usr/bin/xembedsniproxy # from KDE plasma. for tray-compatibility.
 # start as early as possible to ensure its up and ready by the time firefox comes..
