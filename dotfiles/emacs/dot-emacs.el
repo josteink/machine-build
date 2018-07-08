@@ -318,6 +318,14 @@ https://emacs.stackexchange.com/questions/15020/eww-error-in-process-sentinel-ur
 (add-hook 'after-save-hook
           'make-scripts-executable)
 
+;; make compilation-mode not die when tools provide ansi-output
+(require 'ansi-color)
+(defun colorize-compilation-buffer ()
+  (let ((inhibit-read-only t))
+    (ansi-color-apply-on-region (point-min) (point-max))))
+(add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
+
+
 ;; helm everywhere
 (ignore-errors
   (require 'helm-config)
