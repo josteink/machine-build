@@ -3,7 +3,7 @@
 
 # gnome-settings-demon makes DPI scaling, fonts and GTK settings come active.
 # this makes quite a bit more pretty.
-exec --no-startup-id /usr/libexec/gnome-settings-daemon
+exec --no-startup-id /usr/lib/gnome-settings-daemon/gsd-xsettings
 exec --no-startup-id /usr/bin/gnome-keyring-daemon
 # start as early as possible to ensure its up and ready by the time firefox comes..
 
@@ -214,5 +214,5 @@ bindsym XF86MonBrightnessUp exec --no-startup-id xbacklight -inc 10%
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
-    status_command i3status
+    status_command i3status --config ~/.config/i3/i3status.conf
 }
