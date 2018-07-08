@@ -132,6 +132,14 @@ https://emacs.stackexchange.com/questions/15020/eww-error-in-process-sentinel-ur
       (set-face-attribute 'default t :font FONT)
       (set-frame-font FONT))))
 
+(defun my-ert-run-tests ()
+  (interactive)
+  (ert-run-tests-interactively t)
+
+  ;; (kill-buffer "*ert*")
+  ;; (message "All tests good!")
+  )
+
 (defun my-gui-mode-hook ()
   ;; activate theme early!
 
@@ -1291,6 +1299,8 @@ Searches for last face, or new face if invoked with prefix-argument"
 
   (lsk 'macrostep-expand "C-c C-e")
   (lsk 'eval-buffer "C-c C-c")
+
+  (lsk #'my-ert-run-tests "<C-f5>")
 
   ;; enable intelligent navigation with M-, and M-.
   (elisp-slime-nav-mode)
