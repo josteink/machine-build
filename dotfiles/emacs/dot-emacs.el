@@ -582,7 +582,7 @@ by using nxml's indentation rules."
   "Automatically quotes and escapes the clipboard-data."
   (interactive)
 
-  (insert-string (escape-string (get-clipboard-no-properties))))
+  (insert (escape-string (get-clipboard-no-properties))))
 
 (defun point-at-string-p ()
   "Returns true if point is in a string-context"
