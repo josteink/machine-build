@@ -1088,6 +1088,12 @@ Searches for last face, or new face if invoked with prefix-argument"
                                              ediff-even-diff-C)))
     (my-find-line-with-face)))
 
+(defun save-buffer-no-hooks ()
+  "Save the current buffer with all hooks disabled."
+  (interactive)
+  (let ((before-save-hook))
+    (save-buffer)))
+
 ;; keyboard configuration
 
 (defun lsk (target &rest keys)
