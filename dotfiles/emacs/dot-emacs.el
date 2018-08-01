@@ -1116,7 +1116,8 @@ Searches for last face, or new face if invoked with prefix-argument"
 ;; we want projectile everywhere.
 (ignore-errors
   (projectile-global-mode t)
-  (gsk 'projectile-find-file "C-c C-p C-f" "C-c C-p f"))
+  (gsk 'projectile-find-file "C-c C-p C-f" "C-c C-p f")
+  (gsk 'projectile-switch-project "C-c C-p C-p"))
 
 
 ;;;; GLOBAL KEYBOARD DEFINITIONS
