@@ -1579,7 +1579,8 @@ Searches for last face, or new face if invoked with prefix-argument"
 
   ;; enable imenu - only for true prog-mode major-modes
   (when (derived-mode-p 'prog-mode)
-    (imenu-add-menubar-index))
+    (ignore-errors
+      (imenu-add-menubar-index)))
 
   (setq-local fill-column 80)
   (setq-local comment-auto-fill-only-comments t)
