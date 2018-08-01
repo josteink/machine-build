@@ -202,9 +202,6 @@ https://emacs.stackexchange.com/questions/15020/eww-error-in-process-sentinel-ur
   (color-theme-emacs-nw)
   (set-face-background hl-line-face "#c0c0c0"))
 
-;; tramp lets us open /sudo::/etc/files
-(require 'tramp)
-
 ;; powershell-mode needs to be explicitly loaded, but only on supported platforms!
 (ignore-errors
   (require 'powershell-mode))
