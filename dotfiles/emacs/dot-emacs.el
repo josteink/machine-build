@@ -40,6 +40,7 @@
         undo-tree
         helm
         helm-projectile
+        bmx-mode
         ido-yes-or-no
         imenu-anywhere
         web-mode
