@@ -247,7 +247,7 @@ https://emacs.stackexchange.com/questions/15020/eww-error-in-process-sentinel-ur
 (add-to-list 'auto-mode-alist '("crontab" . crontab-mode))
 
 
-(add-extensions-to-mode 'nxml-mode "config" "merge" "*proj") ;; .NET, SuperOffice config-merge.
+(add-extensions-to-mode 'nxml-mode "config" "merge" "*proj" "xaml") ;; .NET, SuperOffice config-merge.
 (add-extensions-to-mode 'powershell-mode "ps" "ps1")
 
 ;; we DONT want web-mode for CSS, because it breaks company-mode completion.
@@ -298,7 +298,7 @@ https://emacs.stackexchange.com/questions/15020/eww-error-in-process-sentinel-ur
 ;; enable narrowing and widening of buffers via C-x n n and C-x n w
 (put 'narrow-to-region 'disabled nil)
 
-(defcustom my-enable-omnisharp nil
+(defcustom my-enable-omnisharp t
   "Whether to enable omnisharp in chsarp-mode or not"
   :type 'boolean
   :group 'my)
@@ -1409,6 +1409,9 @@ Searches for last face, or new face if invoked with prefix-argument"
       (lsk 'pop-tag-mark "M-,")
       (lsk 'omnisharp-auto-complete "C-.") ;; override company-mode, with better popup
       (lsk 'hippie-expand "C-:") ;; still allow hippie-expand
+
+      (lsk #'omnisharp-run-code-action-refactoring "C-<return>" "C-M-<return>" "M-<return>")
+
       )))
 
 (defhook c-mode-common-hook
