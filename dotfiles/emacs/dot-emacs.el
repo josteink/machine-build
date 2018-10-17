@@ -325,6 +325,24 @@ https://emacs.stackexchange.com/questions/15020/eww-error-in-process-sentinel-ur
 (add-hook 'after-save-hook
           'make-scripts-executable)
 
+(defun dired-focus-current-file ()
+  "Go to dired with focus on the current file."
+  (interactive)
+  (when buffer-file-name
+    (let ((file buffer-file-name))
+      (dired (file-name-directory file))
+      (search-forward (file-name-nondirectory file)))))
+
+(defun describe-face-no-hl ()
+  (interactive)
+
+  (global-hl-line-mode -1)
+
+  (let ((face (face-at-point)))
+    (global-hl-line-mode t)
+    (highlight-symbol-mode -1)
+    (describe-face face)))
+
 ;; make compilation-mode not die when tools provide ansi-output
 (require 'ansi-color)
 (defun colorize-compilation-buffer ()
