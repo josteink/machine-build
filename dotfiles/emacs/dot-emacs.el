@@ -1250,6 +1250,9 @@ Searches for last face, or new face if invoked with prefix-argument"
 ;;       (setq result (concat result "\n" (symbol-name category) ": " regexp))))
 ;;   result)
 
+;; never ask about killing a ongoing build!
+(setq compilation-always-kill t)
+
 
 ;; spell-checking via languagetool
 (let* ((jar (expand-file-name "~/build/LanguageTool-3.0/languagetool-commandline.jar")))
