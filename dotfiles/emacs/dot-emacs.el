@@ -22,6 +22,9 @@
   (let ((prefix (if (gnutls-available-p) "https" "http")))
     (concat prefix "://" path)))
 
+(ignore-errors
+  (package-initialize))
+
 (add-to-list 'package-archives `("marmalade"    . ,(make-repo-url "marmalade-repo.org/packages/")))
 (add-to-list 'package-archives `("melpa"        . ,(make-repo-url "melpa.org/packages/")))
 (add-to-list 'package-archives `("melpa stable" . ,(make-repo-url "stable.melpa.org/packages/")))
