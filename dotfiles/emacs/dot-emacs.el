@@ -72,7 +72,8 @@
         highlight-symbol
         realgud
         ;; for rust
-        rust-mode cargo racer flycheck-rust toml-mode
+        rust-mode cargo toml-mode
+        lsp-mode lsp-flycheck ;; rust does LSP!
 ;;        typescript-mode
   ;;      tide
         ;;ts-comint
@@ -1489,18 +1490,14 @@ Searches for last face, or new face if invoked with prefix-argument"
 
 ;; rust
 (defhook rust-mode-hook
-  (require 'racer)
-  (setq racer-cmd "~/.cargo/bin/racer") ;; Rustup binaries PATH
-  (setq racer-rust-src-path "/home/jostein/build/rust/src") ;; Rust source code PATH
-
+  (require 'lsp-mode)
+  (lsp)
   (cargo-minor-mode)
-  (racer-mode)
+  ;; (racer-mode)
   (eldoc-mode)
   (company-mode)
 
-  (lsk 'company-indent-or-complete-common "TAB")
-  ;;(lsk 'company-complete- "." ":")
-  )
+  (lsk 'company-indent-or-complete-common "TAB"))
 
 
 ;; typescript
