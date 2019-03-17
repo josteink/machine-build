@@ -5,6 +5,11 @@
 # this makes quite a bit more pretty.
 exec --no-startup-id /usr/lib/gnome-settings-daemon/gsd-xsettings
 exec --no-startup-id /usr/bin/gnome-keyring-daemon
+
+# natural scrolling settings
+exec --no-startup-id gsettings set org.gnome.desktop.peripherals.mouse natural-scroll false
+exec --no-startup-id gsettings set org.gnome.desktop.peripherals.touchpad natural-scroll false
+
 # start as early as possible to ensure its up and ready by the time firefox comes..
 
 # Should you change your keyboard layout somewhen, delete
@@ -16,7 +21,7 @@ set $w1 workspace 1: www
 set $w2 workspace 2: shell
 set $w3 workspace 3: emacs
 set $w4 workspace 4: files
-set $w5 workspace 5: music
+set $w5 workspace 5
 set $w6 workspace 6
 set $w7 workspace 7
 set $w8 workspace 8
@@ -26,11 +31,11 @@ set $w10 workspace 10
 # theme
 
 # class                 border  backgr. text    indicator
-client.focused          #282866 #282866 #ffffff #2e9ef4
-client.focused_inactive #222233 #141433 #ffffff #484e50
-client.unfocused        #222233 #111111 #888888 #292d2e
-client.urgent           #2f343a #900000 #ffffff #900000
-client.placeholder      #000000 #0c0c0c #ffffff #000000
+#client.focused          #282866 #282866 #ffffff #2e9ef4
+#client.focused_inactive #222233 #141433 #ffffff #484e50
+#client.unfocused        #222233 #111111 #888888 #292d2e
+#client.urgent           #2f343a #900000 #ffffff #900000
+#client.placeholder      #000000 #0c0c0c #ffffff #000000
 
 set $msg exec --no-startup-id i3-msg
 set $term exec gnome-terminal --hide-menubar
@@ -47,7 +52,7 @@ bindsym $mod+m exec i3-input
 #exec nitrogen --restore
 
 # ensure we have cloud-sync running
-exec dropbox start
+# exec dropbox start
 
 # start kdeconnect
 #exec $HOME/build/indicator-kdeconnect/build/indicator-kdeconnect
