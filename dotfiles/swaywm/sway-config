@@ -1,165 +1,202 @@
 # Hey Emacs, this is a -*- conf -*-
-#
-# Read `man 5 sway` for a complete reference.
+# This file should be placed in ~/.i3/config
+
+# disable laptopscreen when lid closed!
+set $laptop eDP-1
+set $fujitsu DP-3
+set $dell DP-4
+
+# monitors and order: (left to right)
+# laptop (2560x1440) - fujitsu (1680x1050) - dell (1920x1080)
+
+output $laptop scale 1
+output $laptop pos 0 0 res 2560x1440
+output $fujitsu scale 0.75
+output $fujitsu pos 2560 0 res 1680x1080
+output $dell scale 0.75
+output $dell pos 4800 0 res 1920x1080
+
+# laptop HDMI output when not docked
+output HDMI-A-2 scale 0.75
+
+# disable laptop display on lid close
+bindswitch lid:on output $laptop disable
+bindswitch lid:off output $laptop enable
+
+
+# laptop keys
+input 1:1:AT_Translated_Set_2_keyboard {
+    xkb_layout no
+    xkb_variant ,nodeadkeys
+    xkb_options ctrl:nocaps
+}
+
+# dinovo edge
+input 1133:50963:Logitech_Logitech_BT_Mini-Receiver {
+    xkb_layout no
+    xkb_variant ,nodeadkeys
+    xkb_options ctrl:nocaps
+}
+
+
 
 # gnome-settings-demon makes DPI scaling, fonts and GTK settings come active.
 # this makes quite a bit more pretty.
-# exec --no-startup-id /usr/libexec/gnome-settings-daemon
-# exec --no-startup-id /usr/libexec/gsd-xsettings
 exec --no-startup-id /usr/lib/gnome-settings-daemon/gsd-xsettings
 exec --no-startup-id /usr/bin/gnome-keyring-daemon
-exec --no-startup-up /usr/bin/xembedsniproxy # from KDE plasma. for tray-compatibility.
+
+# natural scrolling settings
+exec --no-startup-id gsettings set org.gnome.desktop.peripherals.mouse natural-scroll false
+exec --no-startup-id gsettings set org.gnome.desktop.peripherals.touchpad natural-scroll false
+
 # start as early as possible to ensure its up and ready by the time firefox comes..
 
-set $w1 workspace 1
-#: www
-set $w2 workspace 2
-#: shell
-set $w3 workspace 3
-#: emacs
-set $w4 workspace 4
-#: files
+# Should you change your keyboard layout somewhen, delete
+# this file and re-run i3-config-wizard(1).
+#
+# Please see http://i3wm.org/docs/userguide.html for a complete reference!
+
+set $w1 workspace 1: www
+set $w2 workspace 2: shell
+set $w3 workspace 3: emacs
+set $w4 workspace 4: files
 set $w5 workspace 5
-#: music
 set $w6 workspace 6
 set $w7 workspace 7
 set $w8 workspace 8
 set $w9 workspace 9
 set $w10 workspace 10
 
-### Variables
-#
-# Logo key. Use Mod1 for Alt.
-set $mod Mod4
-# Your preferred terminal emulator
-set $term gnome-terminal --hide-menubar # urxvt
-# Your preferred application launcher
-set $menu dmenu_run -i -fn 'Hack-11' -b -nb '#111111' -nf '#cccccc' -sb '#222288' -sf '#ffffff' -l 7
-
 # theme
+
 # class                 border  backgr. text    indicator
-client.focused          #282866 #282866 #ffffff #2e9ef4
-client.focused_inactive #222233 #141433 #ffffff #484e50
-client.unfocused        #222233 #111111 #888888 #292d2e
-client.urgent           #2f343a #900000 #ffffff #900000
-client.placeholder      #000000 #0c0c0c #ffffff #000000
+#client.focused          #282866 #282866 #ffffff #2e9ef4
+#client.focused_inactive #222233 #141433 #ffffff #484e50
+#client.unfocused        #222233 #111111 #888888 #292d2e
+#client.urgent           #2f343a #900000 #ffffff #900000
+#client.placeholder      #000000 #0c0c0c #ffffff #000000
 
-# font for window titles. ISO 10646 = Unicode
-font pango:Hack Bold 16
+set $msg exec --no-startup-id swaymsg
+set $term exec gnome-terminal --hide-menubar
+#set $term exec kitty
+set $mod Mod4
 
-### Output configuration
-#
-# Default wallpaper (more resolutions are available in /usr/local/share/backgrounds/sway/)
-output * bg /usr/local/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
+# execute i3 commands on mod+m
+# bindsym $mod+m exec i3-input
 
-input "2:7:SynPS/2_Synaptics_TouchPad" {
-    dwt enabled
-    tap disabled
-    natural_scroll disabled
-    #middle_emulation enabled
-    scroll_method two_finger
-}
+# allows moving to workspace 2 with mod+2 and then going back to whereever
+# you came from by pressing mod+2 again.
+#workspace_auto_back_and_forth yes
+
+# get wallpaper
+# exec nitrogen --restore
 
 # ensure we have cloud-sync running
-exec dropbox start
+# exec dropbox start
 
 # start kdeconnect
 #exec $HOME/build/indicator-kdeconnect/build/indicator-kdeconnect
 #exec kdeconnect-cli --refresh
+
 exec nm-applet
 
+bindsym $mod+Control+1 focus output $laptop
+bindsym $mod+Control+2 focus output $fujitsu
+bindsym $mod+Control+3 focus output $dell
+
+bindsym $mod+Shift+f1 move workspace to output $laptop
+bindsym $mod+Shift+f2 move workspace to output $fujitsu
+bindsym $mod+Shift+f3 move workspace to output $dell
+
+
 # setup default workspace
-# set $msg exec --no-startup-id swaymsg
-exec /home/jostein/bin/nightly
-exec $term
-exec emacs
+$msg '$w1; exec /home/jostein/bin/nightly'
+$msg '$w2; exec $term'
+$msg '$w3; exec emacs'
+$msg '$w4; exec nautilus'
+# $msg '$w5: exec google-play-music-desktop-player'
 
+exec i3-msg '$w2'
 
-### Key bindings
-#
-# Basics:
-#
-# start a terminal
+# font for window titles. ISO 10646 = Unicode
+#font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
+font pango:Hack Bold 16
+
+# Use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
+
+# start a terminal, was i3-sensible-terminal
 bindsym $mod+Return exec $term
 
 # kill focused window
-bindsym $mod+Shift+q kill
+bindsym $mod+Shift+Q kill
 
-# start your launcher
-bindsym $mod+d exec $menu
+# allow us to lock the screen
+exec swayidle \
+    timeout 300 'swaylock -c 000000' \
+    timeout 600 'swaymsg "output * dpms off"' \
+       resume 'swaymsg "output * dpms on"' \
+    before-sleep 'swaylock -c 000000'
 
-bindsym $mod+l exec swaylock -c 444444
+bindsym $mod+Shift+L exec swaylock -c 000000
+bindsym $mod+L exec swaylock -c 000000
+
+#exec --no-startup-id gnome-screensaver
+#bindsym $mod+Shift+L exec gnome-screensaver-command --lock
+#bindsym $mod+L exec gnome-screensaver-command --lock
+
+# start dmenu (a program launcher)
+
+# we need XFT support to use TTF fonts here... and fedora ships with
+# demnu 4.5 which doesn't support that.
+# bindsym $mod+d exec dmenu_run -fn "-xos4-terminus-medium-r-*-*-28-*" -b
+
+# demnu 4.6 built from source supports xft, no patches
+# http://tools.suckless.org/dmenu/
+bindsym $mod+d exec dmenu_run -i -fn 'Hack-11' -b -nb '#111111' -nf '#cccccc' -sb '#222288' -sf '#ffffff' -l 7
 
 # nautilus is nice to have too.
 bindsym $mod+n exec nautilus
 
-bindsyn $mod+Shift+p exec swaygrab $HOME/Pictures/output.png
-
-# Drag floating windows by holding down $mod and left mouse button.
-# Resize them with right mouse button + $mod.
-# Despite the name, also works for non-floating windows.
-# Change normal to inverse to use left mouse button for resizing and right
-# mouse button for dragging.
-floating_modifier $mod normal
-
-# reload the configuration file
-bindsym $mod+Shift+c reload
-
-# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
-bindsym $mod+Shift+r restart
-
-# exit sway (logs you out of your wayland session)
-# Create Log out, Reboot, Poweroff bindings
-mode "(E)xit, (R)eboot, (P)oweroff" {
-  bindsym r exec systemctl reboot
-  bindsym e exit
-  bindsym p exec systemctl poweroff
-  # back to normal: Enter or Escape
-  bindsym Return mode "default"
-  bindsym Escape mode "default"
-  bindsym Ctrl+g mode "default"
-}
-bindsym $mod+Shift+e mode "(E)xit, (R)eboot, (P)oweroff"
-# bindsym $mod+Shift+e exit
-bindsym $mod+Ctrl+e exit
-
-mode "resize" {
-  # These bindings trigger as soon as you enter the resize mode
-
-  # Pressing left will shrink the window’s width.
-  # Pressing right will grow the window’s width.
-  # Pressing up will shrink the window’s height.
-  # Pressing down will grow the window’s height.
-  bindsym Left resize shrink width 10 px or 10 ppt
-  bindsym Up resize grow height 10 px or 10 ppt
-  bindsym Down resize shrink height 10 px or 10 ppt
-  bindsym Right resize grow width 10 px or 10 ppt
-
-  # back to normal: Enter or Escape
-  bindsym Return mode "default"
-  bindsym Escape mode "default"
-}
-bindsym $mod+r mode "resize"
-
-
-#
-# Moving around:
-#
-# or use $mod+[up|down|left|right]
+# we have cursor keys
+## change focus
 bindsym $mod+Left focus left
 bindsym $mod+Down focus down
 bindsym $mod+Up focus up
 bindsym $mod+Right focus right
 
-# ditto, with arrow keys
+## move focused window
 bindsym $mod+Shift+Left move left
 bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
-#
-# Workspaces:
-#
-# switch to workspace
+
+# split in horizontal orientation
+bindsym $mod+h split h
+
+# split in vertical orientation
+bindsym $mod+v split v
+
+# enter fullscreen mode for the focused container
+bindsym $mod+f fullscreen
+
+# change container layout (stacked, tabbed, default)
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout default
+
+# toggle tiling / floating
+bindsym $mod+Shift+space floating toggle
+
+# change focus between tiling / floating windows
+bindsym $mod+space focus mode_toggle
+
+# focus the parent container
+bindsym $mod+a focus parent
+
+# focus the child container
+#bindcode $mod+d focus child
+
 # switch to workspace
 bindsym $mod+1 $w1
 bindsym $mod+2 $w2
@@ -183,70 +220,49 @@ bindsym $mod+Shift+7 move container to $w7
 bindsym $mod+Shift+8 move container to $w8
 bindsym $mod+Shift+9 move container to $w9
 bindsym $mod+Shift+0 move container to $w10
-# Note: workspaces can have any name you want, not just numbers.
-# We just use 1-10 as the default.
-#
-# Layout stuff:
-#
-# You can "split" the current object of your focus with
-# $mod+b or $mod+v, for horizontal and vertical splits
-# respectively.
-bindsym $mod+b splith
-bindsym $mod+v splitv
 
-# Switch the current container between different layout styles
-bindsym $mod+s layout stacking
-bindsym $mod+w layout tabbed
-bindsym $mod+e layout toggle split
+# reload the configuration file
+bindsym $mod+Shift+C reload
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym $mod+Shift+R restart
 
-# Make the current focus fullscreen
-bindsym $mod+f fullscreen
+# exit i3 (logs you out of your X session)
+#bindsym $mod+Shift+E exit
 
-# Toggle the current focus between tiling and floating mode
-bindsym $mod+Shift+space floating toggle
-
-# Swap focus between the tiling area and the floating area
-bindsym $mod+space focus mode_toggle
-
-# move focus to the parent container
-bindsym $mod+a focus parent
-#
-# Scratchpad:
-#
-# Sway has a "scratchpad", which is a bag of holding for windows.
-# You can send windows there and get them back later.
-
-# Move the currently focused window to the scratchpad
-bindsym $mod+Shift+minus move scratchpad
-
-# Show the next scratchpad window or hide the focused scratchpad window.
-# If there are multiple scratchpad windows, this command cycles through them.
-bindsym $mod+minus scratchpad show
-#
-# Resizing containers:
-#
-mode "resize" {
-  # left will shrink the containers width
-  # right will grow the containers width
-  # up will shrink the containers height
-  # down will grow the containers height
-  bindsym $left resize shrink width 10 px or 10 ppt
-  bindsym $down resize grow height 10 px or 10 ppt
-  bindsym $up resize shrink height 10 px or 10 ppt
-  bindsym $right resize grow width 10 px or 10 ppt
-
-  # ditto, with arrow keys
-  bindsym Left resize shrink width 10 px or 10 ppt
-  bindsym Down resize grow height 10 px or 10 ppt
-  bindsym Up resize shrink height 10 px or 10 ppt
-  bindsym Right resize grow width 10 px or 10 ppt
-
-  # return to default mode
+# Create Log out, Reboot, Poweroff bindings
+mode "(E)xit, (R)eboot, (P)oweroff" {
+  bindsym r exec systemctl reboot
+  bindsym e exit
+  bindsym p exec systemctl poweroff
+  # back to normal: Enter or Escape
   bindsym Return mode "default"
   bindsym Escape mode "default"
-  bindsym Ctrl+g mode "default"
+}
+bindsym $mod+Shift+e mode "(E)xit, (R)eboot, (P)oweroff"
+
+# resize window (you can also use the mouse for that)
+mode "resize" {
+  # These bindings trigger as soon as you enter the resize mode
+
+  # Pressing left will shrink the window’s width.
+  # Pressing right will grow the window’s width.
+  # Pressing up will shrink the window’s height.
+  # Pressing down will grow the window’s height.
+  bindsym Left resize shrink width 10 px or 10 ppt
+  bindsym Up resize grow height 10 px or 10 ppt
+  bindsym Down resize shrink height 10 px or 10 ppt
+  bindsym Right resize grow width 10 px or 10 ppt
+
+  # back to normal: Enter or Escape
+  bindsym Return mode "default"
+  bindsym Escape mode "default"
 }
 bindsym $mod+r mode "resize"
+
+# scrot & gimp - root
+bindsym Print exec scrot -e 'mv $f /tmp/ && gimp /tmp/$f'
+# scrot & gimp - select window or rectangle
+bindsym Mod1+Print exec scrot -s -e 'mv $f /tmp/ && gimp /tmp/$f'
 
 # for volume and stuff
 bindsym XF86AudioRaiseVolume exec pactl set-sink-volume 0 +2db
@@ -258,19 +274,8 @@ bindsym XF86AudioMute exec pactl set-sink-mute 0 toggle
 bindsym XF86MonBrightnessDown exec --no-startup-id xbacklight -dec 10%
 bindsym XF86MonBrightnessUp exec --no-startup-id xbacklight -inc 10%
 
-
-#
-# Status Bar:
-#
-# Read `man 5 sway-bar` for more information about this section.
+# Start i3bar to display a workspace bar (plus the system information i3status
+# finds out, if available)
 bar {
-    status_command i3status
-    position bottom
-    colors {
-        statusline ffffff
-        background #323232
-        inactive_workspace #32323200 #32323200 #5c5c5c
-    }
+    status_command i3status --config ~/.config/i3/i3status.conf
 }
-
-include /etc/sway/config.d/*
