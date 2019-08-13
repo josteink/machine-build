@@ -108,6 +108,9 @@ bindsym $mod+Shift+f1 move workspace to output $laptop
 bindsym $mod+Shift+f2 move workspace to output $fujitsu
 bindsym $mod+Shift+f3 move workspace to output $dell
 
+bindsym $mod+Control+Left move workspace to output left
+bindsym $mod+Control+Right move workspace to output right
+
 
 # setup default workspace
 $msg '$w1; exec /home/jostein/bin/nightly'
