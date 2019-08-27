@@ -1495,11 +1495,14 @@ Searches for last face, or new face if invoked with prefix-argument"
   (require 'lsp-mode)
   (lsp)
   (cargo-minor-mode)
-  ;; (racer-mode)
   (eldoc-mode)
   (company-mode)
 
   (lsk 'company-indent-or-complete-common "TAB"))
+
+;; lsp
+(defhook lsp-mode
+  (lsk 'lsp-rename "C-c C-r"))
 
 
 ;; typescript
