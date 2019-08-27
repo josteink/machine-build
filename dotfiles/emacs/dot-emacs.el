@@ -41,22 +41,21 @@
         projectile
         expand-region
         undo-tree
-        helm
-        helm-projectile
+        helm helm-projectile
         bmx-mode
         ido-yes-or-no
         imenu-anywhere
         web-mode
         langtool
         company
-        company-c-headers
+        ;; company-c-headers
         company-web
-        cmake-mode
-        ggtags
+        ;; cmake-mode
+        ;; ggtags
         helpful
-        slime-company ;; if loading fails with recursive load, check if distro-provided slime is installed.
+        ;; slime-company ;; if loading fails with recursive load, check if distro-provided slime is installed.
         magit git-timemachine
-        elisp-slime-nav
+        elisp-slime-nav elisp-refs
         macrostep
         flycheck flycheck-package
         ;;csharp-mode
@@ -74,15 +73,12 @@
         ;; for rust
         rust-mode cargo toml-mode
         lsp-mode lsp-flycheck ;; rust does LSP!
-;;        typescript-mode
-  ;;      tide
+;;      typescript-mode
+;;      tide
         ;;ts-comint
-        ;; yasnippet
-        ;; python
-        elpy
-	yasnippet ;; needed for elpy
+        ;; python elpy yasnippet ;; needed for elpy
+        yasnippet
         yaml-mode
-        elisp-refs
         ))
 
 ;; only query package sources when package is missing! copied from:
