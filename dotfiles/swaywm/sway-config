@@ -5,6 +5,8 @@
 set $laptop eDP-1
 set $fujitsu DP-3
 set $dell DP-4
+set $fujitsu2 DP-5
+set $dell2 DP-6
 
 # monitors and order: (left to right)
 # laptop (2560x1440) - fujitsu (1680x1050) - dell (1920x1080)
@@ -15,6 +17,10 @@ output $fujitsu scale 0.75
 output $fujitsu pos 2560 0 res 1680x1080
 output $dell scale 0.75
 output $dell pos 4800 0 res 1920x1080
+output $fujitsu2 scale 0.75
+output $fujitsu2 pos 2560 0 res 1680x1080
+output $dell2 scale 0.75
+output $dell2 pos 4800 0 res 1920x1080
 
 # laptop HDMI output when not docked
 output HDMI-A-2 scale 0.75
