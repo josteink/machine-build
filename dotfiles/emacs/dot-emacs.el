@@ -1253,6 +1253,9 @@ Searches for last face, or new face if invoked with prefix-argument"
 ;; never ask about killing a ongoing build!
 (setq compilation-always-kill t)
 
+;; never ask about connected clients when quitting!
+(remove-hook 'kill-emacs-query-functions #'server-kill-emacs-query-function)
+
 
 ;; spell-checking via languagetool
 (let* ((jar (expand-file-name "~/build/LanguageTool-3.0/languagetool-commandline.jar")))
