@@ -119,6 +119,7 @@ https://emacs.stackexchange.com/questions/15020/eww-error-in-process-sentinel-ur
     (delete-file
      (expand-file-name "~/.emacs.d/url/cookie"))))
 
+;; INSTALL THE PACKAGES!!!
 (my-packages-install-packages)
 
 ;; Configure GUI as early as possible. It makes loading look nicer :)
