@@ -66,8 +66,8 @@ set $w1 workspace 1: www
 set $w2 workspace 2: shell
 set $w3 workspace 3: emacs
 set $w4 workspace 4: files
-set $w5 workspace 5
-set $w6 workspace 6
+set $w5 workspace 5: email
+set $w6 workspace 6: rdp
 set $w7 workspace 7
 set $w8 workspace 8
 set $w9 workspace 9
@@ -269,11 +269,14 @@ mode "resize" {
 bindsym $mod+r mode "resize"
 
 # scrot & gimp - root
-bindsym Print exec scrot -e 'mv $f /tmp/ && gimp /tmp/$f'
+#bindsym Print exec scrot -e 'mv $f /tmp/ && gimp /tmp/$f'
 # scrot & gimp - select window or rectangle
-bindsym Mod1+Print exec scrot -s -e 'mv $f /tmp/ && gimp /tmp/$f'
+#bindsym Mod1+Print exec scrot -s -e 'mv $f /tmp/ && gimp /tmp/$f'
 
-# for volume and stuff
+# wayland compatible print-screen (apt get install grim slurp)
+bindsym Print exec grim -g "$(slurp)" "$HOME/Pictures/screenshot-$(date).png"
+
+# For volume and stuff
 bindsym XF86AudioRaiseVolume exec pactl set-sink-volume 0 +2db
 bindsym XF86AudioLowerVolume exec pactl set-sink-volume 0 -2db
 bindsym XF86AudioMute exec pactl set-sink-mute 0 toggle
