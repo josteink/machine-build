@@ -162,7 +162,10 @@ https://emacs.stackexchange.com/questions/15020/eww-error-in-process-sentinel-ur
       (set-face-foreground font-lock-comment-delimiter-face "#c06000")
       (set-face-foreground font-lock-comment-face "#707070")
       (set-face-background hl-line-face "#004000")
-      (set-face-foreground font-lock-variable-name-face "#55dbB5")))
+      (set-face-foreground font-lock-string-face "#55B5DB")
+      (set-face-foreground font-lock-variable-name-face "#55dbB5")
+      (set-face-foreground font-lock-function-name-face "#dbb555")
+      (set-face-bold font-lock-type-face t)))
 
   ;; only activate global-line mode when on X11/windows/non-terminal environment.
   ;; will deactivate syntax highlighting and more in SSH.
