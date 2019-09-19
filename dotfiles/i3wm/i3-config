@@ -65,7 +65,7 @@ $msg '$w1; exec /home/jostein/bin/nightly'
 $msg '$w2; exec $term'
 $msg '$w3; exec emacs'
 $msg '$w4; exec nautilus'
-$msg '$w5: exec google-play-music-desktop-player'
+# $msg '$w5: exec google-play-music-desktop-player'
 
 exec i3-msg '$w2'
 
@@ -83,9 +83,9 @@ bindsym $mod+Return exec $term
 bindsym $mod+Shift+Q kill
 
 # allow us to lock the screen
-exec --no-startup-id gnome-screensaver
-bindsym $mod+Shift+L exec gnome-screensaver-command --lock
-bindsym $mod+L exec gnome-screensaver-command --lock
+#exec --no-startup-id gnome-screensaver
+bindsym $mod+Shift+L exec i3lock
+bindsym $mod+L exec i3lock
 
 # start dmenu (a program launcher)
 
