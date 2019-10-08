@@ -303,8 +303,13 @@ https://emacs.stackexchange.com/questions/15020/eww-error-in-process-sentinel-ur
 ;; enable narrowing and widening of buffers via C-x n n and C-x n w
 (put 'narrow-to-region 'disabled nil)
 
-(defcustom my-enable-omnisharp t
+(defcustom my-enable-omnisharp nil
   "Whether to enable omnisharp in chsarp-mode or not"
+  :type 'boolean
+  :group 'my)
+
+(defcustom my-enable-lsp t
+  "Whether to enable lsp-mode in prog-mode or not"
   :type 'boolean
   :group 'my)
 
@@ -1645,7 +1650,9 @@ Searches for last face, or new face if invoked with prefix-argument"
 
   ;;(require 'yasnippet)
   ;;(yas-minor-mode-on)
-  )
+
+  (when my-enable-lsp
+    (lsp)))
 
 (add-hook 'powershell-mode-hook 'my-prog-mode-hook)
 (add-hook 'css-mode-hook 'my-prog-mode-hook)
