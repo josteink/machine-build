@@ -1514,6 +1514,9 @@ Searches for last face, or new face if invoked with prefix-argument"
 (defhook lsp-mode-hook
   (lsk 'lsp-rename "C-c C-r"))
 
+(require 'company-lsp)
+(push 'company-lsp company-backends)
+
 
 ;; typescript
 (defhook typescript-mode-hook
