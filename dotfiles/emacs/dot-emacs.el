@@ -71,7 +71,7 @@
         realgud
         ;; for rust
         rust-mode cargo toml-mode
-        lsp-mode lsp-flycheck ;; rust does LSP!
+        lsp-mode lsp-flycheck company-lsp ;; rust does LSP!
 ;;      typescript-mode
 ;;      tide
         ;;ts-comint
@@ -1511,7 +1511,7 @@ Searches for last face, or new face if invoked with prefix-argument"
   (lsk 'company-indent-or-complete-common "TAB"))
 
 ;; lsp
-(defhook lsp-mode
+(defhook lsp-mode-hook
   (lsk 'lsp-rename "C-c C-r"))
 
 
