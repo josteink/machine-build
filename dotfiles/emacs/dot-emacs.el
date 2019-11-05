@@ -72,8 +72,8 @@
         ;; for rust
         rust-mode cargo toml-mode
         lsp-mode lsp-flycheck company-lsp ;; rust does LSP!
-;;      typescript-mode
-;;      tide
+        ;;      typescript-mode
+        ;;      tide
         ;;ts-comint
         ;; python elpy yasnippet ;; needed for elpy
         yasnippet
@@ -115,7 +115,7 @@ https://emacs.stackexchange.com/questions/15020/eww-error-in-process-sentinel-ur
      (expand-file-name "~/.emacs.d/url/cookie"))))
 
 ;; INSTALL THE PACKAGES!!!
-(my-packages-install-packages)
+;;(my-packages-install-packages)
 
 ;; Configure GUI as early as possible. It makes loading look nicer :)
 
@@ -188,10 +188,7 @@ https://emacs.stackexchange.com/questions/15020/eww-error-in-process-sentinel-ur
   ;; (setq font-lock t)
 
   ;; font thingie, downloaded from http://sourcefoundry.org/hack/
-  (try-set-default-font "Hack"
-                        (if (eq system-type 'windows-nt)
-                            11
-                          10))
+  (try-set-default-font "Hack" 11)
   ;; KDE, Hidpi laptop
   ;; (try-set-default-font "Droid Sans Mono" 10)
   )
