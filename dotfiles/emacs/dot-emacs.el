@@ -1358,6 +1358,10 @@ Searches for last face, or new face if invoked with prefix-argument"
   (lsk 'slime "<f5>")
   (paredit-mode))
 
+;; bat-mode!
+(defhook bat-mode-hook
+  (bmx-mode 1))
+
 ;; paredit
 (defhook paredit-mode-hook
   ;; editing. keybindings which makes sense AND whic works in SSH
