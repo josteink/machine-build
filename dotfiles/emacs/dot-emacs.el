@@ -1519,7 +1519,8 @@ Searches for last face, or new face if invoked with prefix-argument"
 
 ;; lsp
 (defhook lsp-mode-hook
-  (lsk 'lsp-rename "C-c C-r"))
+  (lsk 'lsp-rename "C-c C-r")
+  (lsk 'lsp-find-references "S-<f12>"))
 
 (require 'company-lsp)
 (push 'company-lsp company-backends)
