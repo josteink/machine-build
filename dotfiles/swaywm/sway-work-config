@@ -1,0 +1,277 @@
+# Hey Emacs, this is a -*- conf -*-
+# This file should be placed in ~/.config/sway/config
+
+# disable laptopscreen when lid closed!
+set $middle DP-1
+set $left DP-2
+set $right DP-3
+
+# monitors and order: (left to right)
+# laptop (2560x1440) - fujitsu (1680x1050) - dell (1920x1080)
+
+# normalize rendering-resolution of all panels to 1920x1080
+output $left pos 0 0 res 2560x1440
+output $left scale 1
+output $left transform 270
+output $middle pos 1440 560 res 2560x1440
+output $middle scale 1
+output $right pos 4000 0 res 2560x1440
+output $right scale 1
+output $right transform 270
+
+# dinovo edge
+input 1133:50963:Logitech_Logitech_BT_Mini-Receiver {
+    xkb_layout no
+    xkb_variant ,nodeadkeys
+    xkb_options ctrl:nocaps
+}
+
+
+
+# gnome-settings-demon makes DPI scaling, fonts and GTK settings come active.
+# this makes quite a bit more pretty.
+exec --no-startup-id /usr/lib/gnome-settings-daemon/gsd-xsettings
+exec --no-startup-id /usr/bin/gnome-keyring-daemon
+
+# natural scrolling settings
+exec --no-startup-id gsettings set org.gnome.desktop.peripherals.mouse natural-scroll false
+exec --no-startup-id gsettings set org.gnome.desktop.peripherals.touchpad natural-scroll false
+#exec --no-startup-id /home/jostein/build/Waybar/build/waybar
+
+# start as early as possible to ensure its up and ready by the time firefox comes..
+
+# Should you change your keyboard layout somewhen, delete
+# this file and re-run i3-config-wizard(1).
+#
+# Please see http://i3wm.org/docs/userguide.html for a complete reference!
+
+set $w1 workspace 1: www
+set $w2 workspace 2: shell
+set $w3 workspace 3: emacs
+set $w4 workspace 4: files
+set $w5 workspace 5: email
+set $w6 workspace 6: rdp
+set $w7 workspace 7
+set $w8 workspace 8
+set $w9 workspace 9
+set $w10 workspace 10
+
+# theme
+
+# class                 border  backgr. text    indicator
+#client.focused          #282866 #282866 #ffffff #2e9ef4
+#client.focused_inactive #222233 #141433 #ffffff #484e50
+#client.unfocused        #222233 #111111 #888888 #292d2e
+#client.urgent           #2f343a #900000 #ffffff #900000
+#client.placeholder      #000000 #0c0c0c #ffffff #000000
+
+set $msg exec --no-startup-id swaymsg
+set $term exec gnome-terminal --hide-menubar
+#set $term exec kitty
+set $mod Mod4
+
+# execute i3 commands on mod+m
+# bindsym $mod+m exec i3-input
+
+# allows moving to workspace 2 with mod+2 and then going back to whereever
+# you came from by pressing mod+2 again.
+#workspace_auto_back_and_forth yes
+
+# get wallpaper
+# exec nitrogen --restore
+
+# ensure we have cloud-sync running
+# exec dropbox start
+
+# start kdeconnect
+#exec $HOME/build/indicator-kdeconnect/build/indicator-kdeconnect
+#exec kdeconnect-cli --refresh
+
+exec nm-applet
+
+bindsym $mod+Control+1 focus output $right
+bindsym $mod+Control+2 focus output $middle
+bindsym $mod+Control+3 focus output $left
+
+bindsym $mod+Shift+f1 move workspace to output $left
+bindsym $mod+Shift+f2 move workspace to output $middle
+bindsym $mod+Shift+f3 move workspace to output $right
+
+bindsym $mod+Control+Left move workspace to output left
+bindsym $mod+Control+Right move workspace to output right
+
+
+# setup default workspace
+$msg '$w1; exec firefox'
+$msg '$w2; exec $term'
+$msg '$w3; exec emacs'
+$msg '$w4; exec nautilus'
+# $msg '$w5: exec google-play-music-desktop-player'
+
+exec i3-msg '$w2'
+
+# font for window titles. ISO 10646 = Unicode
+#font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
+font pango:Hack Bold 12
+
+# Use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
+
+# start a terminal, was i3-sensible-terminal
+bindsym $mod+Return exec $term
+
+# kill focused window
+bindsym $mod+Shift+Q kill
+
+# allow us to lock the screen
+#exec swayidle \
+#    timeout 300 'swaylock -c 000000' \
+#    timeout 600 'swaymsg "output * dpms off"' \
+#       resume 'swaymsg "output * dpms on"' \
+#    before-sleep 'swaylock -c 000000'
+
+bindsym $mod+Shift+L exec swaylock -c 000000
+bindsym $mod+L exec swaylock -c 000000
+
+#exec --no-startup-id gnome-screensaver
+#bindsym $mod+Shift+L exec gnome-screensaver-command --lock
+#bindsym $mod+L exec gnome-screensaver-command --lock
+
+# start dmenu (a program launcher)
+
+# we need XFT support to use TTF fonts here... and fedora ships with
+# demnu 4.5 which doesn't support that.
+# bindsym $mod+d exec dmenu_run -fn "-xos4-terminus-medium-r-*-*-28-*" -b
+
+# demnu 4.6 built from source supports xft, no patches
+# http://tools.suckless.org/dmenu/
+bindsym $mod+d exec dmenu_run -i -fn 'Hack-11' -b -nb '#111111' -nf '#cccccc' -sb '#222288' -sf '#ffffff' -l 7
+
+# nautilus is nice to have too.
+bindsym $mod+n exec nautilus
+
+# we have cursor keys
+## change focus
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+## move focused window
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+# split in horizontal orientation
+bindsym $mod+h split h
+
+# split in vertical orientation
+bindsym $mod+v split v
+
+# enter fullscreen mode for the focused container
+bindsym $mod+f fullscreen
+
+# change container layout (stacked, tabbed, default)
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout default
+
+# toggle tiling / floating
+bindsym $mod+Shift+space floating toggle
+
+# change focus between tiling / floating windows
+bindsym $mod+space focus mode_toggle
+
+# focus the parent container
+bindsym $mod+a focus parent
+
+# focus the child container
+#bindcode $mod+d focus child
+
+# switch to workspace
+bindsym $mod+1 $w1
+bindsym $mod+2 $w2
+bindsym $mod+3 $w3
+bindsym $mod+4 $w4
+bindsym $mod+5 $w5
+bindsym $mod+6 $w6
+bindsym $mod+7 $w7
+bindsym $mod+8 $w8
+bindsym $mod+9 $w9
+bindsym $mod+0 $w10
+
+# move focused container to workspace
+bindsym $mod+Shift+1 move container to $w1
+bindsym $mod+Shift+2 move container to $w2
+bindsym $mod+Shift+3 move container to $w3
+bindsym $mod+Shift+4 move container to $w4
+bindsym $mod+Shift+5 move container to $w5
+bindsym $mod+Shift+6 move container to $w6
+bindsym $mod+Shift+7 move container to $w7
+bindsym $mod+Shift+8 move container to $w8
+bindsym $mod+Shift+9 move container to $w9
+bindsym $mod+Shift+0 move container to $w10
+
+# reload the configuration file
+bindsym $mod+Shift+C reload
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym $mod+Shift+R restart
+
+# exit i3 (logs you out of your X session)
+#bindsym $mod+Shift+E exit
+
+# Create Log out, Reboot, Poweroff bindings
+mode "(E)xit, (R)eboot, (P)oweroff" {
+  bindsym r exec systemctl reboot
+  bindsym e exit
+  bindsym p exec systemctl poweroff
+  # back to normal: Enter or Escape
+  bindsym Return mode "default"
+  bindsym Escape mode "default"
+}
+bindsym $mod+Shift+e mode "(E)xit, (R)eboot, (P)oweroff"
+
+# resize window (you can also use the mouse for that)
+mode "resize" {
+  # These bindings trigger as soon as you enter the resize mode
+
+  # Pressing left will shrink the window’s width.
+  # Pressing right will grow the window’s width.
+  # Pressing up will shrink the window’s height.
+  # Pressing down will grow the window’s height.
+  bindsym Left resize shrink width 10 px or 10 ppt
+  bindsym Up resize grow height 10 px or 10 ppt
+  bindsym Down resize shrink height 10 px or 10 ppt
+  bindsym Right resize grow width 10 px or 10 ppt
+
+  # back to normal: Enter or Escape
+  bindsym Return mode "default"
+  bindsym Escape mode "default"
+}
+bindsym $mod+r mode "resize"
+
+# scrot & gimp - root
+#bindsym Print exec scrot -e 'mv $f /tmp/ && gimp /tmp/$f'
+# scrot & gimp - select window or rectangle
+#bindsym Mod1+Print exec scrot -s -e 'mv $f /tmp/ && gimp /tmp/$f'
+
+# wayland compatible print-screen (apt get install grim slurp)
+# only works on screen one... due to geometry?
+bindsym Print exec grim -g "$(slurp)" "$HOME/Pictures/Screenshot-$(date).png"
+
+# For volume and stuff
+bindsym XF86AudioRaiseVolume exec pactl set-sink-volume 0 +2db
+bindsym XF86AudioLowerVolume exec pactl set-sink-volume 0 -2db
+bindsym XF86AudioMute exec pactl set-sink-mute 0 Toggle
+
+# for display brightness
+# requires sudo apt-get install xbacklight
+bindsym XF86MonBrightnessDown exec --no-startup-id xbacklight -dec 10%
+bindsym XF86MonBrightnessUp exec --no-startup-id xbacklight -inc 10%
+
+# Start i3bar to display a workspace bar (plus the system information i3status
+# finds out, if available)
+#bar {
+#    status_command i3status --config ~/.config/i3/i3status.conf
+#}
