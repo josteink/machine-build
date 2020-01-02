@@ -13,7 +13,7 @@ set $right DP-3
 output $left pos 0 0 res 2560x1440
 output $left scale 1
 output $left transform 270
-output $middle pos 1440 560 res 2560x1440
+output $middle pos 1440 630 res 2560x1440
 output $middle scale 1
 output $right pos 4000 0 res 2560x1440
 output $right scale 1
