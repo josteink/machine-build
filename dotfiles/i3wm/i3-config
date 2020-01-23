@@ -19,16 +19,32 @@ exec --no-startup-id /home/jostein/build/machine-build/dotfiles/i3wm/i3-xrandr-w
 #
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
 
-set $w1 workspace 1: www
-set $w2 workspace 2: shell
-set $w3 workspace 3: emacs
-set $w4 workspace 4: files
-set $w5 workspace 5: email
-set $w6 workspace 6: chat
-set $w7 workspace 7: chrome
-set $w8 workspace 8: virt/rdp
-set $w9 workspace 9: music
-set $w10 workspace 10
+set $left DP-2
+set $mid DP-1
+set $right DP-3
+
+set $w1 workspace "1: www"
+set $w2 workspace "2: shell"
+set $w3 workspace "3: emacs"
+set $w4 workspace "4: files"
+set $w5 workspace "5: email"
+set $w6 workspace "6: chat"
+set $w7 workspace "7: chrome"
+set $w8 workspace "8: virt/rdp"
+set $w9 workspace "9: music"
+set $w10 workspace "10"
+
+$w1 output $mid
+$w2 output $left
+$w3 output $mid
+$w4 output $mid
+$w5 output $right
+$w6 output $right
+$w7 output $mid
+$w8 output $mid
+$w9 output $right
+$w10 output $left
+
 
 # theme
 
@@ -60,10 +76,6 @@ bindsym $mod+m exec i3-input
 #exec $HOME/build/indicator-kdeconnect/build/indicator-kdeconnect
 exec kdeconnect-cli --refresh
 exec nm-applet
-
-set $left DP-2
-set $mid DP-1
-set $right DP-3
 
 bindsym $mod+Control+1 focus output left
 bindsym $mod+Control+2 focus output $mid
