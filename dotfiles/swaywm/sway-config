@@ -69,10 +69,10 @@ set $w2 workspace 2: shell
 set $w3 workspace 3: emacs
 set $w4 workspace 4: files
 set $w5 workspace 5: email
-set $w6 workspace 6: rdp
-set $w7 workspace 7
-set $w8 workspace 8
-set $w9 workspace 9
+set $w6 workspace 6: chat
+set $w7 workspace 7: chrome
+set $w8 workspace 8: virt/rdp
+set $w9 workspace 9: music
 set $w10 workspace 10
 
 # theme
