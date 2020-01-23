@@ -10,6 +10,8 @@ exec --no-startup-id /usr/bin/gnome-keyring-daemon
 exec --no-startup-id gsettings set org.gnome.desktop.peripherals.mouse natural-scroll false
 exec --no-startup-id gsettings set org.gnome.desktop.peripherals.touchpad natural-scroll false
 
+exec --no-startup-id /home/jostein/build/machine-build/dotfiles/i3wm/i3-xrandr-work.sh
+
 # start as early as possible to ensure its up and ready by the time firefox comes..
 
 # Should you change your keyboard layout somewhen, delete
@@ -21,11 +23,11 @@ set $w1 workspace 1: www
 set $w2 workspace 2: shell
 set $w3 workspace 3: emacs
 set $w4 workspace 4: files
-set $w5 workspace 5
-set $w6 workspace 6
-set $w7 workspace 7
-set $w8 workspace 8
-set $w9 workspace 9
+set $w5 workspace 5: email
+set $w6 workspace 6: chat
+set $w7 workspace 7: chrome
+set $w8 workspace 8: virt/rdp
+set $w9 workspace 9: music
 set $w10 workspace 10
 
 # theme
@@ -58,6 +60,21 @@ bindsym $mod+m exec i3-input
 #exec $HOME/build/indicator-kdeconnect/build/indicator-kdeconnect
 exec kdeconnect-cli --refresh
 exec nm-applet
+
+set $left DP-2
+set $mid DP-1
+set $right DP-3
+
+bindsym $mod+Control+1 focus output left
+bindsym $mod+Control+2 focus output $mid
+bindsym $mod+Control+3 focus output $right
+
+bindsym $mod+Shift+f1 move workspace to output $left
+bindsym $mod+Shift+f2 move workspace to output $mid
+bindsym $mod+Shift+f3 move workspace to output $right
+
+bindsym $mod+Control+Left move workspace to output lEft
+bindsym $mod+Control+Right move workspace to output right
 
 
 # setup default workspace
