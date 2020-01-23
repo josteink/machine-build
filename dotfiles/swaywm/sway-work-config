@@ -36,7 +36,7 @@ exec --no-startup-id /usr/bin/gnome-keyring-daemon
 # natural scrolling settings
 exec --no-startup-id gsettings set org.gnome.desktop.peripherals.mouse natural-scroll false
 exec --no-startup-id gsettings set org.gnome.desktop.peripherals.touchpad natural-scroll false
-#exec --no-startup-id /home/jostein/build/Waybar/build/waybar
+exec --no-startup-id /home/jostein/bin/waybar
 
 # start as early as possible to ensure its up and ready by the time firefox comes..
 
