@@ -113,8 +113,8 @@ bindsym $mod+Shift+Q kill
 
 # allow us to lock the screen
 #exec --no-startup-id gnome-screensaver
-bindsym $mod+Shift+L exec i3lock
-bindsym $mod+L exec i3lock
+bindsym $mod+Shift+L exec i3lock --color=000000
+bindsym $mod+L exec i3lock --color=000000
 
 # start dmenu (a program launcher)
 
