@@ -306,7 +306,7 @@ https://emacs.stackexchange.com/questions/15020/eww-error-in-process-sentinel-ur
 ;; enable narrowing and widening of buffers via C-x n n and C-x n w
 (put 'narrow-to-region 'disabled nil)
 
-(defcustom my-enable-omnisharp nil
+(defcustom my-enable-omnisharp t
   "Whether to enable omnisharp in chsarp-mode or not"
   :type 'boolean
   :group 'my)
@@ -1662,10 +1662,13 @@ Searches for last face, or new face if invoked with prefix-argument"
   ;;(require 'yasnippet)
   ;;(yas-minor-mode-on)
 
-  (when my-enable-lsp
-    (lsp)))
+  ;; don't enable lsp for csharp-mode, if we have opted in for omnisharp instead!
+  (when (and my-enable-lsp
+             (not (and (derived-mode-p 'csharp-mode)
+                       my-enable-omnisharp)))
+    (lsp))
 
-(add-hook 'powershell-mode-hook 'my-prog-mode-hook)
+  (add-hook 'powershell-mode-hook 'my-prog-mode-hook))
 (add-hook 'css-mode-hook 'my-prog-mode-hook)
 (add-hook 'cmake-mode-hook 'my-prog-mode-hook)
 
@@ -1782,11 +1785,7 @@ Searches for last face, or new face if invoked with prefix-argument"
     (require 'tfs)
     (setq tfs/tf-exe  "C:\\Program Files (x86)\\Microsoft Visual Studio 12.0\\Common7\\IDE\\tf.exe")
     (setq tfs/tfpt-exe "C:\\Program Files (x86)\\Microsoft Team Foundation Server 2013 Power Tools\\TFPT.EXE")
-    (setq tfs/login ""))
-
-  ;; omnisharp
-  ;; (setq omnisharp-server-executable-path "D:/Git/omnisharp-roslyn/scripts/Omnisharp.cmd")
-  )
+    (setq tfs/login "")))
 
 ;;;; UNIX ONLY CUSTOMIZATIONS
 
@@ -1820,10 +1819,7 @@ Searches for last face, or new face if invoked with prefix-argument"
         (setq inferior-lisp-program "sbcl")
         (require 'slime-autoloads)
         (require 'slime-company)
-        (slime-setup '(slime-fancy slime-asdf slime-company)))))
-
-  ;; omnisharp
-  (setq omnisharp-server-executable-path "/home/jostein/build/omnisharp-roslyn/omnisharp.sh"))
+        (slime-setup '(slime-fancy slime-asdf slime-company))))))
 
 (if (eq system-type 'windows-nt)
     (my-windows-mode-hook)
