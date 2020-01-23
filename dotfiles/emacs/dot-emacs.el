@@ -447,7 +447,9 @@ https://emacs.stackexchange.com/questions/15020/eww-error-in-process-sentinel-ur
   (interactive)
   (delete-trailing-whitespace)
   (indent-region (point-min) (point-max) nil)
-  (untabify (point-min) (point-max)))
+  (if indent-tabs-mode
+      (tabify (point-min) (point-max))
+    (untabify (point-min) (point-max))))
 
 ;; utility-function for other functions
 (defun region-str-or-symbol ()
