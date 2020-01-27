@@ -97,17 +97,20 @@ bindsym $mod+Control+Right move workspace to output right
 
 
 # setup default workspace
-$msg '$w1; exec /home/jostein/bin/nightly'
+$msg '$w1; exec firefox'
 $msg '$w2; exec $term'
 $msg '$w3; exec emacs'
 $msg '$w4; exec nautilus'
-# $msg '$w5: exec google-play-music-desktop-player'
+$msg '$w5; exec thunderbird'
+$msg '$w6; exec /home/jostein/bin/teams ; exec /home/jostein/bin/weechat'
+$msg '$w8; exec virt-manager'
+$msg '$w9; exec /home/jostein/bin/youtube-music'
 
-exec i3-msg '$w2'
+exec i3-msg '$w1'
 
 # font for window titles. ISO 10646 = Unicode
 #font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
-font pango:Hack Bold 16
+font pango:Hack Bold 12
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
