@@ -88,9 +88,9 @@ bindsym $mod+Control+1 focus output left
 bindsym $mod+Control+2 focus output $mid
 bindsym $mod+Control+3 focus output $right
 
-bindsym $mod+Shift+f1 move workspace to output $left
-bindsym $mod+Shift+f2 move workspace to output $mid
-bindsym $mod+Shift+f3 move workspace to output $right
+# bindsym $mod+Shift+f1 move workspace to output $left
+# bindsym $mod+Shift+f2 move workspace to output $mid
+# bindsym $mod+Shift+f3 move workspace to output $right
 
 bindsym $mod+Control+Left move workspace to output lEft
 bindsym $mod+Control+Right move workspace to output right
@@ -240,10 +240,9 @@ mode "resize" {
 }
 bindsym $mod+r mode "resize"
 
-# scrot & gimp - root
-bindsym Print exec scrot -e 'mv $f /tmp/ && gimp /tmp/$f'
-# scrot & gimp - select window or rectangle
-bindsym Mod1+Print exec scrot -s -e 'mv $f /tmp/ && gimp /tmp/$f'
+# scrot
+bindsym Print exec scrot -s -e 'mv $f /home/jostein/Pictures/'
+bindsym Mod1+Print exec scrot -e 'mv $f /home/jostein/Pictures/'
 
 # for volume and stuff
 bindsym XF86AudioRaiseVolume exec pactl set-sink-volume 0 +2db
