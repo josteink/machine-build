@@ -12,6 +12,13 @@ exec --no-startup-id gsettings set org.gnome.desktop.peripherals.touchpad natura
 
 exec --no-startup-id /home/jostein/build/machine-build/dotfiles/i3wm/i3-xrandr-work.sh
 
+# disable screen sleep!
+exec --no-startup-id /usr/bin/xset -dpms
+exec --no-startup-id gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-timeout 0
+
+# disable caps-lock
+setxkbmap -option ctrl:nocaps
+
 # start as early as possible to ensure its up and ready by the time firefox comes..
 
 # Should you change your keyboard layout somewhen, delete
