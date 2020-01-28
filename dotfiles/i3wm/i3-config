@@ -17,7 +17,7 @@ exec --no-startup-id /usr/bin/xset -dpms
 exec --no-startup-id gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-timeout 0
 
 # disable caps-lock
-setxkbmap -option ctrl:nocaps
+exec --no-startup-id setxkbmap -option ctrl:nocaps
 
 # start as early as possible to ensure its up and ready by the time firefox comes..
 
