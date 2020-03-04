@@ -99,8 +99,10 @@ set $mod Mod4
 # get wallpaper
 # exec nitrogen --restore
 
+exec --no-startup-id waybar
+
 # ensure we have cloud-sync running
-exec nextcloud
+exec --no-startup-id nextcloud
 
 # start kdeconnect
 #exec $HOME/build/indicator-kdeconnect/build/indicator-kdeconnect
