@@ -1440,9 +1440,8 @@ Searches for last face, or new face if invoked with prefix-argument"
       (lsk 'omnisharp-helm-find-usages "S-<f12>")
       (lsk 'omnisharp-find-implementations-popup "M-<f11>")
       ;; C-r is taken for reverse isearch, so we do C-o for omnisharp
-      (local-unset-key (kbd "C-o"))
-      (lsk 'omnisharp-rename "C-o C-r")
-      (lsk 'omnisharp-rename-interactively "C-u C-o C-r")
+      (lsk 'omnisharp-rename "C-c C-r")
+      (lsk 'omnisharp-rename-interactively "C-u C-c C-r")
 
       ;; type-info
       (lsk 'omnisharp-current-type-information "C-c C-t")
