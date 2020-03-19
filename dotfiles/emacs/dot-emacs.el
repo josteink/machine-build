@@ -166,7 +166,11 @@ https://emacs.stackexchange.com/questions/15020/eww-error-in-process-sentinel-ur
       (set-face-foreground font-lock-function-name-face "#dbb555")
       (set-face-bold font-lock-type-face t)
       (when (boundp 'hl-line-face)
-        (set-face-background hl-line-face "#003030"))))
+        (set-face-background hl-line-face "#003030"))
+      (when (boundp 'lsp-face-highlight-read)
+        (set-face-background 'lsp-face-highlight-read "#303040")
+        (set-face-bold 'lsp-face-highlight-read t)
+        (set-face-underline 'lsp-face-highlight-read nil))))
 
   ;; only activate global-line mode when on X11/windows/non-terminal environment.
   ;; will deactivate syntax highlighting and more in SSH.
