@@ -16,8 +16,8 @@ output $laptop scale 1.333333
 output $laptop pos 0 0 res 2560x1440
 output $dell scale 1
 output $dell pos 1920 0 res 1920x1080
-output $fujitsu scale 0.875
-output $fujitsu pos 3840 0 res 1680x1080
+output $fujitsu scale 1
+output $fujitsu pos 3840 0 res 1920x1200
 
 output $dell2 scale 1
 output $dell2 pos 1920 0 res 1920x1080
