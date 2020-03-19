@@ -10,11 +10,12 @@ exec --no-startup-id /usr/bin/gnome-keyring-daemon
 exec --no-startup-id gsettings set org.gnome.desktop.peripherals.mouse natural-scroll false
 exec --no-startup-id gsettings set org.gnome.desktop.peripherals.touchpad natural-scroll false
 
+exec --no-startup-id gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-timeout 0
+
 exec --no-startup-id /home/jostein/build/machine-build/dotfiles/i3wm/i3-xrandr-work.sh
 
 # disable screen sleep!
-exec --no-startup-id /usr/bin/xset -dpms
-exec --no-startup-id gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-timeout 0
+exec --no-startup-id /usr/bin/xset s off -dpms
 
 # disable caps-lock
 exec --no-startup-id setxkbmap -option ctrl:nocaps
@@ -241,8 +242,10 @@ mode "resize" {
 bindsym $mod+r mode "resize"
 
 # scrot
-bindsym Print exec scrot -s -e 'mv $f /home/jostein/Pictures/'
-bindsym Mod1+Print exec scrot -e 'mv $f /home/jostein/Pictures/'
+bindsym Print exec scrot -e 'mv $f /tmp/ && gimp /tmp/$f'
+# scrot & gimp - select window or rectangle
+bindsym Mod1+Print exec scrot -s -e 'mv $f /tmp/ && gimp /tmp/$f'
+
 
 # for volume and stuff
 bindsym XF86AudioRaiseVolume exec pactl set-sink-volume 0 +2db
