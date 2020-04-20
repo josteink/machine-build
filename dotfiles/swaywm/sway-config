@@ -279,9 +279,9 @@ bindsym $mod+r mode "resize"
 
 # wayland compatible print-screen (apt get install grim slurp)
 # only works on screen one... due to geometry?
-bindsym Print exec grim -g "$(slurp)" "$HOME/Pictures/Screenshot-$(date +%Y.%m.%d-%H.%M.%S).png"
-bindsym $mod+Print exec grim "$HOME/Pictures/Screenshot-$(date +%Y.%m.%d-%H.%M.%S).png"
-bindsym $mod+F12 exec grim -g "$(slurp)" "$HOME/Pictures/Screenshot-$(date +%Y.%m.%d-%H.%M.%S).png"
+bindsym Print exec grim -g "$(slurp)" "$HOME/Pictures/Screenshots/Screenshot-$(date +%Y.%m.%d-%H.%M.%S).png"
+bindsym $mod+Print exec grim "$HOME/Pictures/Screenshots/Screenshot-$(date +%Y.%m.%d-%H.%M.%S).png"
+bindsym $mod+F12 exec grim -g "$(slurp)" "$HOME/Pictures/Screenshots/Screenshot-$(date +%Y.%m.%d-%H.%M.%S).png"
 
 # For volume and stuff
 bindsym XF86AudioRaiseVolume exec pactl set-sink-volume 0 +2db
