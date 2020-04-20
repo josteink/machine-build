@@ -307,14 +307,16 @@ https://emacs.stackexchange.com/questions/15020/eww-error-in-process-sentinel-ur
 ;; enable narrowing and widening of buffers via C-x n n and C-x n w
 (put 'narrow-to-region 'disabled nil)
 
-(defcustom my-enable-omnisharp t
-  "Whether to enable omnisharp in chsarp-mode or not"
-  :type 'boolean
+(defcustom my-csharp-backend 'omnisharp
+  "Which language-backend to use in C# files"
+  :type 'symbol
+  :options '(lsp omnisharp)
   :group 'my)
 
-(defcustom my-enable-lsp t
-  "Whether to enable lsp-mode in prog-mode or not"
-  :type 'boolean
+(defcustom my-typescript-backend 'lsp
+  "Which language-backend to use in TypeScript files"
+  :type 'symbol
+  :options '(lsp tide)
   :group 'my)
 
 (defun my-enable-flyspell-mode (prog-mode)
@@ -1424,38 +1426,36 @@ Searches for last face, or new face if invoked with prefix-argument"
   (lsk 'occur-dwim "C-c C-o" "M-s o" "M-s M-o")
   (lsk 'helm-imenu "<f12>")
 
-  (when my-enable-omnisharp
-    (progn
-      ;; company mode must be configured before omnisharp is loaded.
-      (eval-after-load 'company
-        '(add-to-list 'company-backends 'company-omnisharp))
+  (when (eq my-csharp-backend 'omnisharp)
+    (omnisharp-mode t)))
 
-      ;; prepare imenu-support
-      (setq omnisharp-imenu-support t)
-      (omnisharp-mode t)
-      (omnisharp-imenu-create-index)
-      ;; disable csharp-mode imenu when omnisharp is running!
-      (setq csharp-want-imenu nil)
+(defhook omnisharp-mode-hook
+  (eval-after-load 'company
+    '(add-to-list 'company-backends 'company-omnisharp))
 
-      ;; vs/resharper-like bindings
-      (lsk 'omnisharp-helm-find-usages "S-<f12>")
-      (lsk 'omnisharp-find-implementations-popup "M-<f11>")
-      ;; C-r is taken for reverse isearch, so we do C-o for omnisharp
-      (lsk 'omnisharp-rename "C-c C-r")
-      (lsk 'omnisharp-rename-interactively "C-u C-c C-r")
+  ;; prepare imenu-support
+  (setq omnisharp-imenu-support t)
+  (omnisharp-imenu-create-index)
+  ;; disable csharp-mode imenu when omnisharp is running!
+  (setq csharp-want-imenu nil)
 
-      ;; type-info
-      (lsk 'omnisharp-current-type-information "C-c C-t")
+  ;; vs/resharper-like bindings
+  (lsk 'omnisharp-helm-find-usages "S-<f12>")
+  (lsk 'omnisharp-find-implementations-popup "M-<f11>")
+  ;; C-r is taken for reverse isearch, so we do C-o for omnisharp
+  (lsk 'omnisharp-rename "C-c C-r")
+  (lsk 'omnisharp-rename-interactively "C-u C-c C-r")
 
-      ;; overrides
-      (lsk 'omnisharp-go-to-definition "<f12>" "M-.") ;; like cslisp smart-navn
-      (lsk 'pop-tag-mark "M-,")
-      (lsk 'omnisharp-auto-complete "C-.") ;; override company-mode, with better popup
-      (lsk 'hippie-expand "C-:") ;; still allow hippie-expand
+  ;; type-info
+  (lsk 'omnisharp-current-type-information "C-c C-t")
 
-      (lsk #'omnisharp-run-code-action-refactoring "C-<return>" "C-M-<return>" "M-<return>")
+  ;; overrides
+  (lsk 'omnisharp-go-to-definition "<f12>" "M-.") ;; like cslisp smart-navn
+  (lsk 'pop-tag-mark "M-,")
+  (lsk 'omnisharp-auto-complete "C-.") ;; override company-mode, with better popup
+  (lsk 'hippie-expand "C-:") ;; still allow hippie-expand
 
-      )))
+  (lsk #'omnisharp-run-code-action-refactoring "C-<return>" "C-M-<return>" "M-<return>"))
 
 (defhook c-mode-common-hook
   ;; setup navigation based on tags.
@@ -1530,11 +1530,14 @@ Searches for last face, or new face if invoked with prefix-argument"
 
 ;; typescript
 (defhook typescript-mode-hook
+  (when (eq my-typescript-backend 'tide)
+    (tide-setup)))
+
+(defhook tide-mode-hook
   ;; TIDE
   ;; explicitly null preference to enable auto-detection.
   (setq tide-tsserver-executable nil)
   (ignore-errors
-    (tide-setup)
     (setq flycheck-check-syntax-automatically '(save mode-enabled))
     (eldoc-mode +1)
 
@@ -1661,16 +1664,13 @@ Searches for last face, or new face if invoked with prefix-argument"
   ;; allow variable inspection on right-mouse click!
   (define-key realgud:shortkey-mode-map [mouse-3] #'realgud:tooltip-eval)
 
-  ;;(require 'yasnippet)
-  ;;(yas-minor-mode-on)
+  ;; don't enable major-modes using "competing" LSP backends
+  (when (not (or (and (derived-mode-p 'csharp-mode) (not (eq my-csharp-backend 'lsp)))
+                 (and (derived-mode-p 'typescript-mode) (not (eq my-typescript-backend 'lsp)))
+              ))
+    (lsp)))
 
-  ;; don't enable lsp for csharp-mode, if we have opted in for omnisharp instead!
-  (when (and my-enable-lsp
-             (not (and (derived-mode-p 'csharp-mode)
-                       my-enable-omnisharp)))
-    (lsp))
-
-  (add-hook 'powershell-mode-hook 'my-prog-mode-hook))
+(add-hook 'powershell-mode-hook 'my-prog-mode-hook)
 (add-hook 'css-mode-hook 'my-prog-mode-hook)
 (add-hook 'cmake-mode-hook 'my-prog-mode-hook)
 
