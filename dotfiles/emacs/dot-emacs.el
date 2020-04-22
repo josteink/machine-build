@@ -165,12 +165,16 @@ https://emacs.stackexchange.com/questions/15020/eww-error-in-process-sentinel-ur
       (set-face-foreground font-lock-variable-name-face "#55dbB5")
       (set-face-foreground font-lock-function-name-face "#dbb555")
       (set-face-bold font-lock-type-face t)
-      (when (boundp 'hl-line-face)
-        (set-face-background hl-line-face "#003030"))
-      (when (boundp 'lsp-face-highlight-read)
-        (set-face-background 'lsp-face-highlight-read "#303040")
-        (set-face-bold 'lsp-face-highlight-read t)
-        (set-face-underline 'lsp-face-highlight-read nil))))
+      ))
+
+  ;; adapt other minor-modes to theme - hl-line-mode
+  (when (boundp 'hl-line-face)
+    (set-face-background hl-line-face "#003030"))
+  ;; adapt other minor-modes to theme - lsp-mode
+  (require 'lsp-mode)
+  (set-face-background 'lsp-face-highlight-read "#303040")
+  (set-face-bold 'lsp-face-highlight-read t)
+  (set-face-underline 'lsp-face-highlight-read nil)
 
   ;; only activate global-line mode when on X11/windows/non-terminal environment.
   ;; will deactivate syntax highlighting and more in SSH.
@@ -1521,8 +1525,16 @@ Searches for last face, or new face if invoked with prefix-argument"
 
 ;; lsp
 (defhook lsp-mode-hook
-  (lsk 'lsp-rename "C-c C-r")
-  (lsk 'lsp-find-references "S-<f12>"))
+  ;; lsp-mode does proper symbol highlghting natively.
+  ;; disable generalized/regexp based symbol highlighting
+  (highlight-symbol-mode 0)
+
+  (lsk #'lsp-rename "C-c C-r")
+  (lsk #'lsp-ui-peek-find-implementation "<f12>")
+  (lsk #'lsp-find-definition "C-M-.")
+  (lsk #'lsp-find-references "S-<f12>")
+
+  (lsk #'lsp-execute-code-action "C-<return>" "C-M-<return>" "M-<return>"))
 
 (require 'company-lsp)
 (push 'company-lsp company-backends)
