@@ -117,7 +117,8 @@ https://emacs.stackexchange.com/questions/15020/eww-error-in-process-sentinel-ur
      (expand-file-name "~/.emacs.d/url/cookie"))))
 
 ;; INSTALL THE PACKAGES!!!
-;;(my-packages-install-packages)
+(when (not (file-exists-p (substitute-in-file-name "$HOME/.emacs.d/elpa")))
+  (my-packages-install-packages))
 
 ;; Configure GUI as early as possible. It makes loading look nicer :)
 
