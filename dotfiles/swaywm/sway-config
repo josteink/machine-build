@@ -289,7 +289,7 @@ bindsym ctrl+alt+Print exec grim - | wl-copy
 # For volume and stuff
 bindsym XF86AudioRaiseVolume exec pactl set-sink-volume 0 +2db
 bindsym XF86AudioLowerVolume exec pactl set-sink-volume 0 -2db
-bindsym XF86AudioMute exec pactl set-sink-mute 0 Toggle
+bindsym XF86AudioMute exec pactl set-sink-mute 0 toggle
 
 # for display brightness
 # requires sudo apt-get install xbacklight
