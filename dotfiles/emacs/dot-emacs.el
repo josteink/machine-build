@@ -78,6 +78,8 @@
         ;; python elpy yasnippet ;; needed for elpy
         yasnippet
         yaml-mode
+        lsp-mode company-lsp
+        editorconfig
         ))
 
 ;; only query package sources when package is missing! copied from:
@@ -1460,17 +1462,6 @@ Searches for last face, or new face if invoked with prefix-argument"
   (lsk 'hippie-expand "C-:") ;; still allow hippie-expand
 
   (lsk #'omnisharp-run-code-action-refactoring "C-<return>" "C-M-<return>" "M-<return>"))
-
-(defhook c-mode-common-hook
-  ;; setup navigation based on tags.
-  (lsk 'find-tag "<f12>" "M-.")
-  (lsk 'pop-tag-mark "M-,")
-
-  (when (derived-mode-p 'c-mode 'c++-mode)
-    (ignore-errors
-      (require 'rtags)
-      (lsk 'rtags-find-symbol-at-point "<f12>" "M-.")
-      (lsk 'rtags-find-references-at-point "S-<f12>"))))
 
 (defhook js2-mode-hook
   (lsk 'run-js "<f6>")
