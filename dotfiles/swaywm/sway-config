@@ -12,17 +12,17 @@ set $dell2 DP-6
 # laptop (2560x1440) - fujitsu (1680x1050) - dell (1920x1080)
 
 # normalize rendering-resolution of all panels to 1920x1080
-output $laptop scale 1.333333
-output $laptop pos 0 0 res 2560x1440
+output $laptop scale 1.0
+output $laptop pos 0 0 res 1920x1080
 output $fujitsi scale 1
 output $fujitsu pos 1920 0 res 1650x1050
 output $dell scale 1
 output $dell pos 3600 0 res 1920x1200
 
-output $fujitsi2 scale 1
-output $fujitsu2 pos 1920 0 res 1650x1050
-output $dell2 scale 1
-output $dell2 pos 3600 0 res 1920x1200
+#output $fujitsi2 scale 1
+#output $fujitsu2 pos 1920 0 res 1650x1050
+#output $dell2 scale 1
+#output $dell2 pos 3600 0 res 1920x1200
 
 # laptop HDMI output when not docked
 output HDMI-A-2 scale 0.75
