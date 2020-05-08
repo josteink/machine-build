@@ -1672,7 +1672,9 @@ Searches for last face, or new face if invoked with prefix-argument"
   (when (not (or (and (derived-mode-p 'csharp-mode) (not (eq my-csharp-backend 'lsp)))
                  (and (derived-mode-p 'typescript-mode) (not (eq my-typescript-backend 'lsp)))
               ))
-    (lsp)))
+    (lsp))
+
+  (editorconfig-mode t))
 
 (add-hook 'powershell-mode-hook 'my-prog-mode-hook)
 (add-hook 'css-mode-hook 'my-prog-mode-hook)
