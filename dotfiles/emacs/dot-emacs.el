@@ -71,14 +71,14 @@
         realgud
         ;; for rust
         rust-mode cargo toml-mode
-        lsp-mode lsp-flycheck company-lsp ;; rust does LSP!
-        ;;      typescript-mode
-        ;;      tide
+        lsp-mode lsp-flycheck ;; rust does LSP!
+        typescript-mode
+        tide
         ;;ts-comint
         ;; python elpy yasnippet ;; needed for elpy
         yasnippet
         yaml-mode
-        lsp-mode company-lsp
+        lsp-mode
         editorconfig
         ))
 
@@ -255,6 +255,7 @@ https://emacs.stackexchange.com/questions/15020/eww-error-in-process-sentinel-ur
 (add-extensions-to-mode 'clojure-mode "cljs") ;; clojure-script too!
 (add-extensions-to-mode 'markdown-mode "md")
 (add-extensions-to-mode 'message-mode "somail")
+(add-extensions-to-mode 'web-mode "cshtml")
 
 (add-to-list 'auto-mode-alist '("www\\..*\\.txt$" . markdown-mode)) ;; it's all text, firefox extension!
 (add-to-list 'auto-mode-alist '("github\\.com.*\\.txt$" . markdown-mode)) ;; it's all text, firefox extension!
@@ -295,6 +296,9 @@ https://emacs.stackexchange.com/questions/15020/eww-error-in-process-sentinel-ur
 ;; always update files when changing git-branches, etc.
 (global-auto-revert-mode t)
 
+;; required to make company-mode suck less with lsp-mode
+(yas-global-mode t)
+
 ;; enable windows-y selection-behaviour
 ;; (delete-selection-mode 1)
 
@@ -314,7 +318,7 @@ https://emacs.stackexchange.com/questions/15020/eww-error-in-process-sentinel-ur
 ;; enable narrowing and widening of buffers via C-x n n and C-x n w
 (put 'narrow-to-region 'disabled nil)
 
-(defcustom my-csharp-backend 'omnisharp
+(defcustom my-csharp-backend 'lsp
   "Which language-backend to use in C# files"
   :type 'symbol
   :options '(lsp omnisharp)
@@ -1433,7 +1437,8 @@ Searches for last face, or new face if invoked with prefix-argument"
   (lsk 'occur-dwim "C-c C-o" "M-s o" "M-s M-o")
   (lsk 'helm-imenu "<f12>")
 
-  (when (eq my-csharp-backend 'omnisharp)
+  (when (and (eq my-csharp-backend 'omnisharp)
+             (fboundp 'omnisharp-mode))
     (omnisharp-mode t)))
 
 (defhook omnisharp-mode-hook
@@ -1522,15 +1527,11 @@ Searches for last face, or new face if invoked with prefix-argument"
   (highlight-symbol-mode 0)
 
   (lsk #'lsp-rename "C-c C-r")
-  (lsk #'lsp-ui-peek-find-implementation "<f12>")
+  (lsk #'lsp-find-implementation "<f12>")
   (lsk #'lsp-find-definition "C-M-.")
   (lsk #'lsp-find-references "S-<f12>")
 
   (lsk #'lsp-execute-code-action "C-<return>" "C-M-<return>" "M-<return>"))
-
-(require 'company-lsp)
-(push 'company-lsp company-backends)
-
 
 ;; typescript
 (defhook typescript-mode-hook
@@ -1756,7 +1757,7 @@ Searches for last face, or new face if invoked with prefix-argument"
 
   ;; improves defaults when moving or copying across dired-buffers.
   ;; this of it as norton commander for Emacs.
-  (setq dired-dwim-target t)
+  (setq dired-dwim-target t)
 
   (lsk 'dired-isearch-filenames "C-s")
   (lsk 'isearch-forward "C-S"))
