@@ -3,26 +3,20 @@
 
 # disable laptopscreen when lid closed!
 set $laptop eDP-1
-set $fujitsu DP-3
-set $dell DP-4
-set $fujitsu2 DP-5
-set $dell2 DP-6
+set $fujitsu "Fujitsu Siemens Computers GmbH B22W-6 LED pG YV4G149090"
+set $samsung "Samsung Electric Company S24E650 H4ZH804547"
 
 # monitors and order: (left to right)
 # laptop (1920x1080) - fujitsu (1680x1050) - samsung (1920x1200)
 # 0                             1920                  3600
 
-output $laptop scale 1.0
+#output $laptop scale 1.0
 output $laptop pos 0 0 res 1920x1080
-output $fujitsi scale 1
+#output $fujitsi scale 1
 output $fujitsu pos 1920 0 res 1650x1050
-output $dell scale 1
-output $dell pos 3600 0 res 1920x1200
+#output $samsung scale 1
+output $samsung pos 3600 0 res 1920x1200
 
-output $fujitsi2 scale 1
-output $fujitsu2 pos 1920 0 res 1650x1050
-output $dell2 scale 1
-output $dell2 pos 3600 0 res 1920x1200
 
 # laptop HDMI output when not docked
 output HDMI-A-2 scale 0.75
