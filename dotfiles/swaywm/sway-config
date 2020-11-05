@@ -151,8 +151,8 @@ exec swayidle \
        resume 'swaymsg "output * dpms on"' \
     before-sleep 'swaylock -c 000000'
 
-bindsym $mod+Shift+L exec swaylock -c 000000
-bindsym $mod+L exec swaylock -c 000000
+bindsym --inhibited $mod+Shift+L exec swaylock -c 000000
+bindsym --inhibited $mod+L exec swaylock -c 000000
 
 #exec --no-startup-id gnome-screensaver
 #bindsym $mod+Shift+L exec gnome-screensaver-command --lock
@@ -211,28 +211,28 @@ bindsym $mod+a focus parent
 #bindcode $mod+d focus child
 
 # switch to workspace
-bindsym $mod+1 $w1
-bindsym $mod+2 $w2
-bindsym $mod+3 $w3
-bindsym $mod+4 $w4
-bindsym $mod+5 $w5
-bindsym $mod+6 $w6
-bindsym $mod+7 $w7
-bindsym $mod+8 $w8
-bindsym $mod+9 $w9
-bindsym $mod+0 $w10
+bindsym --inhibited $mod+1 $w1
+bindsym --inhibited $mod+2 $w2
+bindsym --inhibited $mod+3 $w3
+bindsym --inhibited $mod+4 $w4
+bindsym --inhibited $mod+5 $w5
+bindsym --inhibited $mod+6 $w6
+bindsym --inhibited $mod+7 $w7
+bindsym --inhibited $mod+8 $w8
+bindsym --inhibited $mod+9 $w9
+bindsym --inhibited $mod+0 $w10
 
 # move focused container to workspace
-bindsym $mod+Shift+1 move container to $w1
-bindsym $mod+Shift+2 move container to $w2
-bindsym $mod+Shift+3 move container to $w3
-bindsym $mod+Shift+4 move container to $w4
-bindsym $mod+Shift+5 move container to $w5
-bindsym $mod+Shift+6 move container to $w6
-bindsym $mod+Shift+7 move container to $w7
-bindsym $mod+Shift+8 move container to $w8
-bindsym $mod+Shift+9 move container to $w9
-bindsym $mod+Shift+0 move container to $w10
+bindsym --inhibited $mod+Shift+1 move container to $w1
+bindsym --inhibited $mod+Shift+2 move container to $w2
+bindsym --inhibited $mod+Shift+3 move container to $w3
+bindsym --inhibited $mod+Shift+4 move container to $w4
+bindsym --inhibited $mod+Shift+5 move container to $w5
+bindsym --inhibited $mod+Shift+6 move container to $w6
+bindsym --inhibited $mod+Shift+7 move container to $w7
+bindsym --inhibited $mod+Shift+8 move container to $w8
+bindsym --inhibited $mod+Shift+9 move container to $w9
+bindsym --inhibited $mod+Shift+0 move container to $w10
 
 # reload the configuration file
 bindsym $mod+Shift+C reload
