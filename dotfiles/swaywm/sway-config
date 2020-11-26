@@ -170,7 +170,7 @@ bindsym $mod+L --inhibited exec swaylock -c 000000
 
 # demnu 4.6 built from source supports xft, no patches
 # http://tools.suckless.org/dmenu/
-bindsym $mod+d --inhibited exec PATH=$PATH:$HOME/bin dmenu_run -i -fn 'Hack-11' -b -nb '#111111' -nf '#cccccc' -sb '#222288' -sf '#ffffff' -l 7
+bindsym $mod+d exec PATH=$PATH:$HOME/bin dmenu_run -i -fn 'Hack-11' -b -nb '#111111' -nf '#cccccc' -sb '#222288' -sf '#ffffff' -l 7
 
 # nautilus is nice to have too.
 bindsym $mod+n exec nautilus
