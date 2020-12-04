@@ -42,6 +42,8 @@ input 1133:50963:Logitech_Logitech_BT_Mini-Receiver {
 }
 
 
+# systemd does mysterious things. do we want to know?
+exec --no-startup-id systemctl --user import-environment
 
 # gnome-settings-demon makes DPI scaling, fonts and GTK settings come active.
 # this makes quite a bit more pretty.
@@ -75,6 +77,7 @@ assign [class="Firefox"] $w1
 assign [class="Element"] $w2
 assign [class="Emacs"] $w3
 assign [class="Thunderbird"] $w5
+assign [app_id="virt-manager"] $w8
 
 # enforce consistent windows-title height by always including some "tall" unicode-characters in titlebar
 #for_window [title=".*"] title_format ゜%title゜
