@@ -97,7 +97,11 @@ $w9 output $samsung
 
 set $w10 workspace "10"
 
-# default layout: shell/chat - firefox - email
+# default layouts
+$w8
+workspace_layout tabbed
+
+# default workspaces: shell/chat - firefox - email
 $w2
 $w1
 $w5
