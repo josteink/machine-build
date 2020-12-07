@@ -61,16 +61,46 @@ exec --no-startup-id gsettings set org.gnome.desktop.peripherals.touchpad natura
 #
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
 
-set $w1 workspace 1: www
-set $w2 workspace 2: shell
-set $w3 workspace 3: emacs
-set $w4 workspace 4: files
-set $w5 workspace 5: email
-set $w6 workspace 6: chat
-set $w7 workspace 7: chrome
-set $w8 workspace 8: virt/rdp
-set $w9 workspace 9: music
-set $w10 workspace 10
+set $w1 workspace "1: www"
+$w1
+$w1 output $fujitsu
+
+set $w2 workspace "2: shell"
+$w2
+$w2 output $laptop
+
+set $w3 workspace "3: emacs"
+$w3
+$w3 output $fujitsu
+
+set $w4 workspace "4: files"
+
+set $w5 workspace "5: email"
+$w5
+$w5 output $samsung
+
+set $w6 workspace "6: chat"
+$w6
+$w6 output $fujitsu
+
+set $w7 workspace "7: chrome"
+$w7
+$w7 output $fujitsu
+
+set $w8 workspace "8: virt/rdp"
+$w8
+$w8 output $samsung
+
+set $w9 workspace "9: music"
+$w9
+$w9 output $samsung
+
+set $w10 workspace "10"
+
+# default layout: shell/chat - firefox - email
+$w2
+$w1
+$w5
 
 # pin applications
 assign [class="Firefox"] $w1
