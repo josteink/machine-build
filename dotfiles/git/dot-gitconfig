@@ -22,3 +22,5 @@
 	insteadOf = git://
 [fetch]
 	prune = true
+[merge]
+	conflictStyle = diff3
