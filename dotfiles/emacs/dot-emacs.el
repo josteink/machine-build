@@ -168,6 +168,12 @@ https://emacs.stackexchange.com/questions/15020/eww-error-in-process-sentinel-ur
       (set-face-foreground font-lock-variable-name-face "#55dbB5")
       (set-face-foreground font-lock-function-name-face "#dbb555")
       (set-face-bold font-lock-type-face t)
+
+      ;; make ediffs readable!
+      (set-face-background 'ediff-even-diff-A "#800000")
+      (set-face-background 'ediff-odd-diff-A "#400000")
+      (set-face-background 'ediff-even-diff-B "#008000")
+      (set-face-background 'ediff-odd-diff-B "#004000")
       ))
 
   ;; adapt other minor-modes to theme - hl-line-mode
