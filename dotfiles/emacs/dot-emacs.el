@@ -69,16 +69,15 @@
         crontab-mode
         highlight-symbol
         realgud
+        lsp-mode lsp-flycheck
         ;; for rust
         rust-mode cargo toml-mode
-        lsp-mode lsp-flycheck ;; rust does LSP!
         typescript-mode
         tide
         ;;ts-comint
         ;; python elpy yasnippet ;; needed for elpy
         yasnippet
         yaml-mode
-        lsp-mode
         editorconfig
         ))
 
@@ -180,7 +179,9 @@ https://emacs.stackexchange.com/questions/15020/eww-error-in-process-sentinel-ur
   (when (boundp 'hl-line-face)
     (set-face-background hl-line-face "#003030"))
   ;; adapt other minor-modes to theme - lsp-mode
-  (require 'lsp-mode)
+
+  (ignore-errors
+    (require 'lsp-mode))
   (set-face-background 'lsp-face-highlight-read "#303040")
   (set-face-bold 'lsp-face-highlight-read t)
   (set-face-underline 'lsp-face-highlight-read nil)
