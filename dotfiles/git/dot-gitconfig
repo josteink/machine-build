@@ -11,6 +11,7 @@
 
 [init]
 	templatedir = ~/.gittemplate
+	defaultBranch = master
 
 [pull]
 	ff = only
