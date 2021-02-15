@@ -79,6 +79,7 @@
         yasnippet
         yaml-mode
         editorconfig
+        doom-modeline
         ))
 
 ;; only query package sources when package is missing! copied from:
@@ -1173,6 +1174,8 @@ Searches for last face, or new face if invoked with prefix-argument"
   (gsk 'projectile-find-file "C-c C-p C-f" "C-c C-p f" "C-c p f")
   (gsk 'projectile-switch-project "C-c C-p C-p" "C-c C-p p" "C-c p p"))
 
+;; doom modeline everywhere
+(doom-modeline-mode t)
 
 ;;;; GLOBAL KEYBOARD DEFINITIONS
 
@@ -1447,6 +1450,9 @@ Searches for last face, or new face if invoked with prefix-argument"
   (when (and (eq my-csharp-backend 'omnisharp)
              (fboundp 'omnisharp-mode))
     (omnisharp-mode t)))
+
+(defhook csharp-tree-sitter-mode-hook
+  (my-csharp-mode-hook))
 
 (defhook omnisharp-mode-hook
   (eval-after-load 'company
