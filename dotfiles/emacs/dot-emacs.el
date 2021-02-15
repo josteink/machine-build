@@ -174,6 +174,10 @@ https://emacs.stackexchange.com/questions/15020/eww-error-in-process-sentinel-ur
       (set-face-background 'ediff-odd-diff-A "#400000")
       (set-face-background 'ediff-even-diff-B "#008000")
       (set-face-background 'ediff-odd-diff-B "#004000")
+
+      ;; improve display of doom modeline
+      (set-face-background 'mode-line "#404040")
+      (set-face-underline 'mode-line nil)
       ))
 
   ;; adapt other minor-modes to theme - hl-line-mode
