@@ -506,6 +506,15 @@ https://emacs.stackexchange.com/questions/15020/eww-error-in-process-sentinel-ur
   (ignore-errors
     (next-error)))
 
+(defun git-grep-dwim ()
+  (interactive)
+  ;; same os occur-dwm... get good defaults!
+  ;; all files, always
+  ;; use projectile root, to get root folder automatically
+  (push (region-str-or-symbol) regexp-history)
+  (let* ((rx (read-string "Regexp: " "" 'regexp-history)))
+    (vc-git-grep rx "\\*" (projectile-project-root))))
+
 (defun my-move-to-start-of-word ()
   "Function to move us to the beginning of the currently selected word."
   (forward-word)
