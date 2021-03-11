@@ -50,6 +50,9 @@ exec --no-startup-id systemctl --user import-environment
 exec --no-startup-id /usr/lib/gnome-settings-daemon/gsd-xsettings
 exec --no-startup-id /usr/bin/gnome-keyring-daemon
 
+# ensure clipboard works as it should
+exec --no-startup-id /usr/bin/parcellite
+
 # natural scrolling settings
 exec --no-startup-id gsettings set org.gnome.desktop.peripherals.mouse natural-scroll false
 exec --no-startup-id gsettings set org.gnome.desktop.peripherals.touchpad natural-scroll false
