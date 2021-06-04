@@ -43,19 +43,19 @@ input 1133:50963:Logitech_Logitech_BT_Mini-Receiver {
 
 
 # systemd does mysterious things. do we want to know?
-exec --no-startup-id systemctl --user import-environment
+exec systemctl --user import-environment
 
 # gnome-settings-demon makes DPI scaling, fonts and GTK settings come active.
 # this makes quite a bit more pretty.
-exec --no-startup-id /usr/lib/gnome-settings-daemon/gsd-xsettings
-exec --no-startup-id /usr/bin/gnome-keyring-daemon
+exec /usr/lib/gnome-settings-daemon/gsd-xsettings
+exec /usr/bin/gnome-keyring-daemon
 
 # ensure clipboard works as it should
-exec --no-startup-id /usr/bin/parcellite
+exec /usr/bin/parcellite
 
 # natural scrolling settings
-exec --no-startup-id gsettings set org.gnome.desktop.peripherals.mouse natural-scroll false
-exec --no-startup-id gsettings set org.gnome.desktop.peripherals.touchpad natural-scroll false
+exec gsettings set org.gnome.desktop.peripherals.mouse natural-scroll false
+exec gsettings set org.gnome.desktop.peripherals.touchpad natural-scroll false
 
 # start as early as possible to ensure its up and ready by the time firefox comes..
 
@@ -140,7 +140,7 @@ exec remmina
 #client.urgent           #2f343a #900000 #ffffff #900000
 #client.placeholder      #000000 #0c0c0c #ffffff #000000
 
-set $msg exec --no-startup-id swaymsg
+set $msg exec swaymsg
 set $term exec gnome-terminal --hide-menubar
 #set $term exec kitty
 set $mod Mod4
@@ -149,7 +149,7 @@ set $mod Mod4
 # exec nitrogen --restore
 
 # ensure we have cloud-sync running
-exec --no-startup-id nextcloud
+exec nextcloud
 
 # start kdeconnect
 #exec $HOME/build/indicator-kdeconnect/build/indicator-kdeconnect
@@ -341,8 +341,9 @@ bindsym XF86AudioMute exec pactl set-sink-mute 0 toggle
 
 # for display brightness
 # requires sudo apt-get install xbacklight
-bindsym XF86MonBrightnessDown exec --no-startup-id xbacklight -dec 10%
-bindsym XF86MonBrightnessUp exec --no-startup-id xbacklight -inc 10%
+bindsym XF86MonBrightnessDown exec xbacklight -dec 10%
+bindsym XF86MonBrightnessUp exec xbacklight -inc 10%
+
 
 bar {
   swaybar_command waybar
