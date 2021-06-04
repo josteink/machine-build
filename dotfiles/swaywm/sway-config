@@ -332,8 +332,8 @@ bindsym $mod+r mode "resize"
 
 # wl-copy depends on wl-clipboard package being being
 bindsym Print exec grim -g "$(slurp)" - | wl-copy
-bindsym ctrl+Print exec grim -g "$(slurp)" - | wl-copy
-bindsym ctrl+alt+Print exec grim - | wl-copy
+bindsym ctrl+Print exec grim -g "$(slurp)" "$HOME/Pictures/Screenshots/Screenshot-$(date +%Y.%m.%d-%H.%M.%S).png"
+Bindsym ctrl+alt+Print exec grim - | wl-copy
 
 # For volume and stuff
 bindsym XF86AudioRaiseVolume exec pactl set-sink-volume 0 +2db
