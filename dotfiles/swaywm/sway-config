@@ -111,11 +111,12 @@ $w5
 
 # pin applications
 assign [class="Firefox"] $w1
-assign [app_id="Firefox"] $w1
+assign [app_id="firefox"] $w1
 assign [class="Element"] $w2
 assign [class="Emacs"] $w3
 assign [class="Thunderbird"] $w5
-assign [app_id="Thunderbird"] $w5
+assign [app_id="thunderbird"] $w5
+assign [app_id="thunderbird" title="[0-9]+ Reminder"] floating on
 assign [class="Google-chome"] $w6
 assign [app_id="virt-manager"] $w8
 assign [app_id="org.remmina.Remmina"] $w8
