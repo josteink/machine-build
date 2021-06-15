@@ -57,6 +57,9 @@ exec /usr/bin/parcellite
 exec gsettings set org.gnome.desktop.peripherals.mouse natural-scroll false
 exec gsettings set org.gnome.desktop.peripherals.touchpad natural-scroll false
 
+# fix issues with running certain apps (like gparted) as root
+exec xhost +SI:localuser:root
+
 # start as early as possible to ensure its up and ready by the time firefox comes..
 
 # Should you change your keyboard layout somewhen, delete
