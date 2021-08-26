@@ -27,20 +27,12 @@ bindswitch lid:on output $laptop disable
 bindswitch lid:off output $laptop enable
 
 
-# laptop keys
-input 1:1:AT_Translated_Set_2_keyboard {
+# all keyboards!
+input * {
     xkb_layout no
     xkb_variant ,nodeadkeys
     xkb_options ctrl:nocaps
 }
-
-# dinovo edge
-input 1133:50963:Logitech_Logitech_BT_Mini-Receiver {
-    xkb_layout no
-    xkb_variant ,nodeadkeys
-    xkb_options ctrl:nocaps
-}
-
 
 # systemd does mysterious things. do we want to know?
 exec systemctl --user import-environment
