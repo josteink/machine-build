@@ -2002,3 +2002,10 @@ White space here is any of: space, tab, emacs newline (line feed, ASCII 10)."
         (modify-syntax-entry ?\[ "(]" syntax-table)
         (modify-syntax-entry ?\] ")[" syntax-table)
         syntax-table))
+
+;; dirty-patch to compile.el
+;; remove any incorrectly added entries!
+(dolist (item compilation-error-regexp-alist)
+  (let* ((value (alist-get item compilation-error-regexp-alist-alist)))
+    (when (not value)
+      (setq compilation-error-regexp-alist (remove item compilation-error-regexp-alist)))))
