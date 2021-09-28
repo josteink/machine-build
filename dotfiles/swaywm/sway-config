@@ -1,31 +1,4 @@
 # Hey Emacs, this is a -*- conf -*-
-# This file should be placed in ~/.i3/config
-
-# disable laptopscreen when lid closed!
-set $laptop eDP-1
-set $fujitsu "Samsung Electric Company S24C450 H4MDB05128"
-set $samsung "Samsung Electric Company S24E650 H4ZH804547"
-
-# monitors and order: (left to right)
-# laptop (1920x1080) - fujitsu (1680x1050) - samsung (1920x1200)
-# 0                             1920                  3600
-
-#output $laptop scale 1.0
-output $laptop pos 0 0 res 1920x1080
-#output $fujitsi scale 1
-output $fujitsu pos 1920 0 res 1920x1200
-#output $samsung scale 1
-output $samsung pos 3840 0 res 1920x1200
-
-
-# laptop HDMI output when not docked
-output HDMI-A-2 scale 1
-
-
-# disable laptop display on lid close
-bindswitch lid:on output $laptop disable
-bindswitch lid:off output $laptop enable
-
 
 # all keyboards!
 input * {
@@ -61,37 +34,37 @@ exec xhost +SI:localuser:root
 
 set $w1 workspace "1: www"
 $w1
-$w1 output $fujitsu
+$w1 output $mmiddle
 
 set $w2 workspace "2: shell"
 $w2
-$w2 output $laptop
+$w2 output $mleft
 
 set $w3 workspace "3: emacs"
 $w3
-$w3 output $fujitsu
+$w3 output $mmidle
 
 set $w4 workspace "4: files"
 
 set $w5 workspace "5: email"
 $w5
-$w5 output $samsung
+$w5 output $mright
 
 set $w6 workspace "6: chat"
 $w6
-$w6 output $fujitsu
+$w6 output $mmiddle
 
 set $w7 workspace "7: chrome"
 $w7
-$w7 output $fujitsu
+$w7 output $mmiddle
 
 set $w8 workspace "8: virt/rdp"
 $w8
-$w8 output $samsung
+$w8 output $mright
 
 set $w9 workspace "9: music"
 $w9
-$w9 output $samsung
+$w9 output $mright
 
 set $w10 workspace "10"
 
@@ -145,9 +118,6 @@ set $term exec gnome-terminal --hide-menubar
 #set $term exec kitty
 set $mod Mod4
 
-# get wallpaper
-# exec nitrogen --restore
-
 # ensure we have cloud-sync running
 exec nextcloud
 
@@ -157,13 +127,13 @@ exec nextcloud
 
 exec nm-applet
 
-bindsym $mod+Control+1 focus output $laptop
-bindsym $mod+Control+2 focus output $fujitsu
-bindsym $mod+Control+3 focus output $dell
+bindsym $mod+Control+1 focus output $mleft
+bindsym $mod+Control+2 focus output $mmiddle
+bindsym $mod+Control+3 focus output $mright
 
-bindsym $mod+Shift+f1 move workspace to output $laptop
-bindsym $mod+Shift+f2 move workspace to output $fujitsu
-bindsym $mod+Shift+f3 move workspace to output $dell
+bindsym $mod+Shift+f1 move workspace to output $mright
+bindsym $mod+Shift+f2 move workspace to output $mmiddle
+bindsym $mod+Shift+f3 move workspace to output $mleft
 
 bindsym $mod+Control+Left move workspace to output left
 bindsym $mod+Control+Right move workspace to output right
@@ -206,13 +176,6 @@ bindsym $mod+L exec swaylock -c 000000
 #bindsym $mod+L exec gnome-screensaver-command --lock
 
 # start dmenu (a program launcher)
-
-# we need XFT support to use TTF fonts here... and fedora ships with
-# demnu 4.5 which doesn't support that.
-# bindsym $mod+d exec dmenu_run -fn "-xos4-terminus-medium-r-*-*-28-*" -b
-
-# demnu 4.6 built from source supports xft, no patches
-# http://tools.suckless.org/dmenu/
 bindsym $mod+d exec PATH=$PATH:$HOME/bin dmenu_run -i -fn 'Hack-11' -b -nb '#111111' -nf '#cccccc' -sb '#222288' -sf '#ffffff' -l 7
 
 # nautilus is nice to have too.
@@ -333,6 +296,7 @@ bindsym $mod+r mode "resize"
 bindsym Print exec grim -g "$(slurp)" - | wl-copy
 bindsym ctrl+Print exec grim -g "$(slurp)" "$HOME/Pictures/Screenshots/Screenshot-$(date +%Y.%m.%d-%H.%M.%S).png"
 Bindsym ctrl+alt+Print exec grim - | wl-copy
+bindsym ctrl+alt+shift+Print exec grim "$HOME/Pictures/Screenshots/Screenshot-$(date +%Y.%m.%d-%H.%M.%S).png"
 
 # For volume and stuff
 bindsym XF86AudioRaiseVolume exec pactl set-sink-volume 0 +2db
@@ -343,7 +307,6 @@ bindsym XF86AudioMute exec pactl set-sink-mute 0 toggle
 # requires sudo apt-get install xbacklight
 bindsym XF86MonBrightnessDown exec xbacklight -dec 10%
 bindsym XF86MonBrightnessUp exec xbacklight -inc 10%
-
 
 bar {
   swaybar_command waybar
