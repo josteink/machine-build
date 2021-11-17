@@ -79,6 +79,7 @@ $w5
 
 # pin applications
 assign [class="Firefox"] $w1
+assign [class="Brave-browser"] $w1
 assign [app_id="firefox"] $w1
 assign [class="Element"] $w2
 assign [class="Emacs"] $w3
@@ -94,7 +95,7 @@ for_window [app_id="virt-manager"] shortcuts_inhibitor disable
 for_window [app_id="org.remmina.Remmina"] shortcuts_inhibitor disable
 
 # launch applications
-exec firefox
+exec brave-browser
 exec thunderbird-net
 exec element-desktop
 exec emacs
