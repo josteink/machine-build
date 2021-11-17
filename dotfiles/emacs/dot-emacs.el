@@ -69,11 +69,14 @@
         crontab-mode
         highlight-symbol
         realgud
+        ;; lsp support!
         lsp-mode lsp-flycheck
+        ;; DAP/debug support
+        dap-mode
         ;; for rust
         rust-mode cargo toml-mode
         typescript-mode
-        tide
+        ;;tide
         ;;ts-comint
         ;; python elpy yasnippet ;; needed for elpy
         yasnippet
@@ -276,7 +279,7 @@ https://emacs.stackexchange.com/questions/15020/eww-error-in-process-sentinel-ur
 (add-to-list 'auto-mode-alist '("crontab" . crontab-mode))
 
 
-(add-extensions-to-mode 'nxml-mode "config" "merge" "*proj" "xaml") ;; .NET, SuperOffice config-merge.
+(add-extensions-to-mode 'nxml-mode "config" "merge" "*proj" "xaml" "props") ;; .NET, SuperOffice config-merge.
 (add-extensions-to-mode 'powershell-mode "ps" "ps1")
 
 ;; we DONT want web-mode for CSS, because it breaks company-mode completion.
@@ -758,6 +761,7 @@ point reaches the beginning or end of the buffer, stop there."
     (if (not (and filename (file-exists-p filename)))
         (message "Buffer is not visiting a file!")
       (let ((new-name (read-file-name "New name: " filename)))
+        (save-buffer)
         (cond
          ((vc-backend filename) (vc-rename-file filename new-name))
          (t
@@ -1538,8 +1542,6 @@ Searches for last face, or new face if invoked with prefix-argument"
 
 ;; rust
 (defhook rust-mode-hook
-  (require 'lsp-mode)
-  (lsp)
   (cargo-minor-mode)
   (eldoc-mode)
   (company-mode)
@@ -1547,6 +1549,7 @@ Searches for last face, or new face if invoked with prefix-argument"
   (lsk 'company-indent-or-complete-common "TAB"))
 
 ;; lsp
+(require 'lsp-mode)
 (defhook lsp-mode-hook
   ;; lsp-mode does proper symbol highlghting natively.
   ;; disable generalized/regexp based symbol highlighting
@@ -1558,6 +1561,22 @@ Searches for last face, or new face if invoked with prefix-argument"
   (lsk #'lsp-find-references "S-<f12>")
 
   (lsk #'lsp-execute-code-action "C-<return>" "C-M-<return>" "M-<return>"))
+
+;; dap/debug support
+(require 'dap-mode)
+(require 'dap-python)
+(require 'dap-pwsh)
+(require 'dap-node)
+(require 'dap-netcore)
+(require 'dap-gdb-lldb)
+(dap-register-debug-template "Rust::GDB Run Configuration"
+                             (list :type "gdb"
+                                   :request "launch"
+                                   :name "GDB::Run"
+                                   :gdbpath "rust-gdb"
+                                   :target nil
+                                   :cwd nil))
+(dap-auto-configure-mode 1)
 
 ;; typescript
 (defhook typescript-mode-hook
@@ -1596,8 +1615,12 @@ Searches for last face, or new face if invoked with prefix-argument"
     ;; have easy access to tsc, always.
     (lsk #'my-ts-tsc "<C-S-f5>")))
 
-;; formats the buffer before saving
-(add-hook 'before-save-hook 'tide-format-before-save)
+;; formats the buffer before saving, if using tide
+(ignore-errors
+  (when (eq my-typescript-backend 'tide)
+    (require 'tide)
+    (add-hook 'before-save-hook 'tide-format-before-save)))
+
 
 ;; org-mode
 (defhook org-mode-hook
