@@ -185,6 +185,7 @@ https://emacs.stackexchange.com/questions/15020/eww-error-in-process-sentinel-ur
 
   ;; adapt other minor-modes to theme - hl-line-mode
   (when (boundp 'hl-line-face)
+    (set-face-background 'default "#202223")
     (set-face-background hl-line-face "#003030"))
   ;; adapt other minor-modes to theme - lsp-mode
 
