@@ -34,6 +34,7 @@
 ;; ensure all packages we need are installed.
 (setq my-packages
       '(;;clojure-mode
+        dracula-theme
         markdown-mode
         paredit
         multiple-cursors
@@ -146,42 +147,50 @@ https://emacs.stackexchange.com/questions/15020/eww-error-in-process-sentinel-ur
   ;; (message "All tests good!")
   )
 
-(defun my-gui-mode-hook ()
-  ;; activate theme early!
-
+(defun my-activate-theme ()
   ;; make things look funky and match stump-wm
   ;;(color-theme-initialize) ;;uncomment to load all themes
   ;; (color-theme-jsc-dark) ;; also a candidate
   ;; (require 'color-theme-gruber-darker)
   ;; (color-theme-gruber-darker)
 
-  (ignore-errors
-    (let* ((themes-dir "~/.emacs.d/themes/")
-           (seti-theme (concat themes-dir "seti-theme.el")))
-      (when (not (file-exists-p themes-dir))
-        (make-directory themes-dir))
-      (when (not (file-exists-p seti-theme))
-        (url-copy-file "https://raw.githubusercontent.com/caisah/seti-theme/master/seti-theme.el" seti-theme))
+  ;; (ignore-errors
+  ;;   (let* ((themes-dir "~/.emacs.d/themes/")
+  ;;          (seti-theme (concat themes-dir "seti-theme.el")))
+  ;;     (when (not (file-exists-p themes-dir))
+  ;;       (make-directory themes-dir))
+  ;;     (when (not (file-exists-p seti-theme))
+  ;;       (url-copy-file "https://raw.githubusercontent.com/caisah/seti-theme/master/seti-theme.el" seti-theme))
 
-      (add-to-list 'custom-theme-load-path themes-dir)
-      (load-theme 'seti)
-      (set-face-foreground font-lock-comment-delimiter-face "#c06000")
-      (set-face-foreground font-lock-comment-face "#707070")
-      (set-face-foreground font-lock-string-face "#55B5DB")
-      (set-face-foreground font-lock-variable-name-face "#55dbB5")
-      (set-face-foreground font-lock-function-name-face "#dbb555")
-      (set-face-bold font-lock-type-face t)
+  ;;     (add-to-list 'custom-theme-load-path themes-dir)
+  ;;     (load-theme 'seti)
+  ;;     (set-face-foreground font-lock-comment-delimiter-face "#c06000")
+  ;;     (set-face-foreground font-lock-comment-face "#707070")
+  ;;     (set-face-foreground font-lock-string-face "#55B5DB")
+  ;;     (set-face-foreground font-lock-variable-name-face "#55dbB5")
+  ;;     (set-face-foreground font-lock-function-name-face "#dbb555")
+  ;;     (set-face-bold font-lock-type-face t)
 
-      ;; make ediffs readable!
-      (set-face-background 'ediff-even-diff-A "#800000")
-      (set-face-background 'ediff-odd-diff-A "#400000")
-      (set-face-background 'ediff-even-diff-B "#008000")
-      (set-face-background 'ediff-odd-diff-B "#004000")
+  ;;     ;; make ediffs readable!
+  ;;     (set-face-background 'ediff-even-diff-A "#800000")
+  ;;     (set-face-background 'ediff-odd-diff-A "#400000")
+  ;;     (set-face-background 'ediff-even-diff-B "#008000")
+  ;;     (set-face-background 'ediff-odd-diff-B "#004000")
 
-      ;; improve display of doom modeline
-      (set-face-background 'mode-line "#404040")
-      (set-face-underline 'mode-line nil)
-      ))
+  ;;     ;; improve display of doom modeline
+  ;;     (set-face-background 'mode-line "#404040")
+  ;;     (set-face-underline 'mode-line nil)
+  ;;     ))
+
+  (require 'dracula-theme)
+  (load-theme 'dracula t))
+
+(defun my-gui-mode-hook ()
+  ;; activate theme early!
+  (my-activate-theme)
+
+
+
 
   ;; adapt other minor-modes to theme - hl-line-mode
   (when (boundp 'hl-line-face)
