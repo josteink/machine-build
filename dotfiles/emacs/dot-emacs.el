@@ -289,12 +289,13 @@ https://emacs.stackexchange.com/questions/15020/eww-error-in-process-sentinel-ur
 (add-to-list 'auto-mode-alist '("crontab" . crontab-mode))
 
 
-(add-extensions-to-mode 'nxml-mode "config" "merge" "*proj" "xaml" "props") ;; .NET, SuperOffice config-merge.
+(add-extensions-to-mode 'nxml-mode "config" "merge" "*proj" "xaml" "props" "resx") ;; .NET, SuperOffice config-merge.
 (add-extensions-to-mode 'powershell-mode "ps" "ps1")
 
 ;; we DONT want web-mode for CSS, because it breaks company-mode completion.
 (add-extensions-to-mode 'web-mode "html" "php" "ascx" "aspx")
 (add-extensions-to-mode 'js2-mode "js")
+(add-extensions-to-mode 'csharp-tree-sitter-mode "cs")
 
 ;; hook js2-mode in for shell scripts running via node.js
 (add-to-list 'interpreter-mode-alist '("node" . js2-mode))
