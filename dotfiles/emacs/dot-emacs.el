@@ -97,6 +97,7 @@
 
 (defun my-packages-install-packages ()
   "Install missing packages."
+  (interactive)
   (unless (my-packages-installed-p)
     ;; Referesh package lists
     (package-refresh-contents)
