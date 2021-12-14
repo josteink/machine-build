@@ -58,8 +58,7 @@
         elisp-slime-nav elisp-refs
         macrostep
         flycheck flycheck-package
-        ;;csharp-mode
-        ;;omnisharp
+        csharp-mode
         js2-mode
         json-mode
         ssh-config-mode
