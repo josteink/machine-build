@@ -59,6 +59,7 @@
         macrostep
         flycheck flycheck-package
         csharp-mode
+        tree-sitter tree-sitter-langs tree-sitter-indent
         js2-mode
         json-mode
         ssh-config-mode
