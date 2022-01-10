@@ -69,7 +69,7 @@
         "format-alt": "{:%Y-%m-%d}"
     },
     "custom/clock": {
-        "exec": "echo '  '$(date +'%H:%M')'  '",
+        "exec": "echo '  '$(date +'%Y-%m-%d %H:%M')'  '",
         "interval": 5
     },
     "cpu": {
