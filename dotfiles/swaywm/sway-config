@@ -3,7 +3,7 @@
 # all keyboards!
 input * {
     xkb_layout no
-    xkb_variant ,nodeadkeys
+    xkb_variant nodeadkeys
     xkb_options ctrl:nocaps
 }
 
