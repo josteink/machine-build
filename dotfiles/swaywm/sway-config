@@ -80,6 +80,7 @@ $w5
 # pin applications
 assign [class="Firefox"] $w1
 assign [class="Brave-browser"] $w1
+assign [title="Brave"] $w1
 assign [app_id="firefox"] $w1
 assign [class="Element"] $w2
 assign [class="Emacs"] $w3
