@@ -86,6 +86,7 @@ assign [class="Emacs"] $w3
 assign [class="Thunderbird"] $w5
 assign [app_id="thunderbird"] $w5
 assign [app_id="thunderbird" title="[0-9]+ Reminder"] floating on
+assign [class="webex"] $w6
 assign [class="Google-chome"] $w6
 assign [app_id="virt-manager"] $w8
 assign [app_id="org.remmina.Remmina"] $w8
@@ -101,6 +102,7 @@ exec element-desktop
 exec emacs
 exec virt-manager
 exec remmina
+exec webex-x11
 
 # enforce consistent windows-title height by always including some "tall" unicode-characters in titlebar
 #for_window [title=".*"] title_format ゜%title゜
