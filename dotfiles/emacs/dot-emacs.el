@@ -280,7 +280,7 @@ https://emacs.stackexchange.com/questions/15020/eww-error-in-process-sentinel-ur
 
 (add-extensions-to-mode 'clojure-mode "cljs") ;; clojure-script too!
 (add-extensions-to-mode 'markdown-mode "md")
-(add-extensions-to-mode 'message-mode "somail")
+(add-extensions-to-mode 'message-mode "somail" "eml")
 (add-extensions-to-mode 'web-mode "cshtml")
 
 (add-to-list 'auto-mode-alist '("www\\..*\\.txt$" . markdown-mode)) ;; it's all text, firefox extension!
