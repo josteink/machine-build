@@ -1,0 +1,15 @@
+# Hey Emacs, this is a -*- conf -*-
+
+# per host-specific config-settings
+
+set $laptop eDP-1
+
+# laptop HDMI output when not docked
+output $laptop scale 1.5
+
+# disable laptop display on lid close
+# bindswitch lid:on output $laptop disable
+# bindswitch lid:off output $laptop enable
+
+# base config
+include /home/jostein/build/machine-build/dotfiles/swaywm/sway-config
