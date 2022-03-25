@@ -296,6 +296,7 @@ https://emacs.stackexchange.com/questions/15020/eww-error-in-process-sentinel-ur
 ;; we DONT want web-mode for CSS, because it breaks company-mode completion.
 (add-extensions-to-mode 'web-mode "html" "php" "ascx" "aspx")
 (add-extensions-to-mode 'js2-mode "js")
+(add-extensions-to-mode 'typescript-mode "tsx")
 (add-extensions-to-mode 'csharp-tree-sitter-mode "cs")
 
 ;; hook js2-mode in for shell scripts running via node.js
