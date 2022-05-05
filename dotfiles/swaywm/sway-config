@@ -10,6 +10,9 @@ input * {
 # systemd does mysterious things. do we want to know?
 exec systemctl --user import-environment
 
+# notification-daemon which is less annoying that dunst
+exec mako
+
 # gnome-settings-demon makes DPI scaling, fonts and GTK settings come active.
 # this makes quite a bit more pretty.
 exec /usr/lib/gnome-settings-daemon/gsd-xsettings
@@ -303,6 +306,9 @@ bindsym Print exec grim -g "$(slurp)" - | wl-copy
 bindsym ctrl+Print exec grim -g "$(slurp)" "$HOME/Pictures/Screenshots/Screenshot-$(date +%Y.%m.%d-%H.%M.%S).png"
 Bindsym ctrl+alt+Print exec grim - | wl-copy
 bindsym ctrl+alt+shift+Print exec grim "$HOME/Pictures/Screenshots/Screenshot-$(date +%Y.%m.%d-%H.%M.%S).png"
+
+# mako stuff
+bindsym $mod+Shift+D exec makoctl dismiss
 
 # For volume and stuff
 bindsym XF86AudioRaiseVolume exec pactl set-sink-volume 0 +2db
