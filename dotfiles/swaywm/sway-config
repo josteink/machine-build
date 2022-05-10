@@ -18,6 +18,9 @@ exec mako
 exec /usr/lib/gnome-settings-daemon/gsd-xsettings
 exec /usr/bin/gnome-keyring-daemon
 
+# kdeconnect depends on a daemon
+exec /usr/lib/x86_64-linux-gnu/libexec/kdeconnectd
+
 # ensure clipboard works as it should
 exec /usr/bin/parcellite
 
