@@ -183,8 +183,9 @@ https://emacs.stackexchange.com/questions/15020/eww-error-in-process-sentinel-ur
   ;;     (set-face-underline 'mode-line nil)
   ;;     ))
 
-  (require 'dracula-theme)
-  (load-theme 'dracula t))
+  (ignore-errors
+    (require 'dracula-theme)
+    (load-theme 'dracula t)))
 
 (defun my-gui-mode-hook ()
   ;; activate theme early!
@@ -200,10 +201,10 @@ https://emacs.stackexchange.com/questions/15020/eww-error-in-process-sentinel-ur
   ;; adapt other minor-modes to theme - lsp-mode
 
   (ignore-errors
-    (require 'lsp-mode))
-  (set-face-background 'lsp-face-highlight-read "#303040")
-  (set-face-bold 'lsp-face-highlight-read t)
-  (set-face-underline 'lsp-face-highlight-read nil)
+    (require 'lsp-mode)
+    (set-face-background 'lsp-face-highlight-read "#303040")
+    (set-face-bold 'lsp-face-highlight-read t)
+    (set-face-underline 'lsp-face-highlight-read nil))
 
   ;; only activate global-line mode when on X11/windows/non-terminal environment.
   ;; will deactivate syntax highlighting and more in SSH.
