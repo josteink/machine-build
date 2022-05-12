@@ -19,7 +19,8 @@ exec /usr/lib/gnome-settings-daemon/gsd-xsettings
 exec /usr/bin/gnome-keyring-daemon
 
 # kdeconnect depends on a daemon
-exec /usr/lib/x86_64-linux-gnu/libexec/kdeconnectd
+exec /usr/lib/x86_64-linux-gnu/libexec/kdeconnectd # ubuntu
+exec /usr/lib/kdeconnectd                          # arcg
 
 # ensure clipboard works as it should
 exec /usr/bin/parcellite
@@ -134,8 +135,8 @@ set $mod Mod4
 exec nextcloud
 
 # start kdeconnect
-#exec $HOME/build/indicator-kdeconnect/build/indicator-kdeconnect
-#exec kdeconnect-cli --refresh
+exec kdeconnect-cli --refresh
+exec kdeconnect-indicator
 
 exec nm-applet
 
