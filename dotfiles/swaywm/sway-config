@@ -313,6 +313,7 @@ bindsym ctrl+alt+shift+Print exec grim "$HOME/Pictures/Screenshots/Screenshot-$(
 
 # mako stuff
 bindsym $mod+Shift+D exec makoctl dismiss
+bindsym $mod+Ctrl+Shift+D exec makoctl dismiss -a
 
 # For volume and stuff
 bindsym XF86AudioRaiseVolume exec pactl set-sink-volume 0 +2db
