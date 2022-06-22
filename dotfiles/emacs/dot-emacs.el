@@ -108,6 +108,26 @@
         (ignore-errors
           (package-install p))))))
 
+;; some things are not packaged as packages
+(defun my-install-source-packages ()
+  (interactive)
+
+  ;; compile-eslint
+  (ignore-errors
+    (let* ((local-dir "~/.emacs.d/local/")
+           (compile-eslint-file (concat local-dir "compile-eslint.el")))
+      (when (not (file-exists-p local-dir))
+        (make-directory local-dir))
+      (when (not (file-exists-p compile-eslint-file))
+        (url-copy-file "https://raw.githubusercontent.com/Fuco1/compile-eslint/master/compile-eslint.el" compile-eslint-file))
+
+      (load compile-eslint-file))
+
+    (require 'compile-eslint)
+    (push 'eslint compilation-error-regexp-alist)))
+
+(my-install-source-packages)
+
 (defun my-windows-cookie-cleanup ()
   "Fix for issue which corrupts emacs' http client.
 
@@ -195,9 +215,9 @@ https://emacs.stackexchange.com/questions/15020/eww-error-in-process-sentinel-ur
 
 
   ;; adapt other minor-modes to theme - hl-line-mode
-  (when (boundp 'hl-line-face)
-    (set-face-background 'default "#202223")
-    (set-face-background hl-line-face "#003030"))
+  ;; (when (boundp 'hl-line-face)
+  ;;   (set-face-background 'default "#202223")
+  ;;   (set-face-background hl-line-face "#003030"))
   ;; adapt other minor-modes to theme - lsp-mode
 
   (ignore-errors
@@ -295,9 +315,10 @@ https://emacs.stackexchange.com/questions/15020/eww-error-in-process-sentinel-ur
 (add-extensions-to-mode 'powershell-mode "ps" "ps1")
 
 ;; we DONT want web-mode for CSS, because it breaks company-mode completion.
-(add-extensions-to-mode 'web-mode "html" "php" "ascx" "aspx")
+(add-extensions-to-mode 'html-mode "html" "php" "ascx" "aspx" "cshtml")
+
 (add-extensions-to-mode 'js2-mode "js")
-(add-extensions-to-mode 'typescript-mode "tsx")
+(add-extensions-to-mode 'typescript-mode "ts" "tsx")
 (add-extensions-to-mode 'csharp-tree-sitter-mode "cs")
 
 ;; hook js2-mode in for shell scripts running via node.js
@@ -1527,6 +1548,10 @@ Searches for last face, or new face if invoked with prefix-argument"
   (lsk 'nodejs-repl "C-c C-r")
   (lsk 'my-nodejs-send-region-to-repl "C-c C-e")
   (lsk 'my-nodejs-eval-buffer "C-c C-c"))
+
+(defhook json-mode-hook
+  (make-local-variable 'js-indent-level)
+  (setq js-indent-level 2))
 
 (defhook python-mode-hook
   ;; elpy improves python-coding considerably, when on a
