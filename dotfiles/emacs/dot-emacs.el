@@ -516,9 +516,10 @@ https://emacs.stackexchange.com/questions/15020/eww-error-in-process-sentinel-ur
     (untabify (point-min) (point-max))))
 
 (defun indent-whole-project (extension)
-  (interactive "sEnter extension: ")
+  "Indent all files in a project project, based on provided `EXTENSION'."
+  (interactive "sEnter file-extension: ")
 
-  (let* ((project-root (projectile-acquire-root))
+  (let* ((project-root  (projectile-acquire-root))
          (project-files (projectile-project-files project-root))
          (actual-files  (seq-filter (lambda (filename)
                                       (string-suffix-p extension filename 't)) project-files)))
