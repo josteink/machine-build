@@ -515,6 +515,19 @@ https://emacs.stackexchange.com/questions/15020/eww-error-in-process-sentinel-ur
       (tabify (point-min) (point-max))
     (untabify (point-min) (point-max))))
 
+(defun indent-whole-project (extension)
+  (interactive "sEnter extension: ")
+
+  (let* ((project-root (projectile-acquire-root))
+         (project-files (projectile-project-files project-root))
+         (actual-files  (seq-filter (lambda (filename)
+                                      (string-suffix-p extension filename 't)) project-files)))
+    (dolist (file actual-files)
+      (find-file (concat project-root file))
+      (delete-trailing-whitespace)
+      (indent-whole-buffer)
+      (save-buffer))))
+
 ;; utility-function for other functions
 (defun region-str-or-symbol ()
   "Return the contents of region or current symbol."
