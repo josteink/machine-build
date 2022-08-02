@@ -107,8 +107,8 @@ for_window [app_id="org.remmina.Remmina"] shortcuts_inhibitor disable
 
 # launch applications
 exec brave-browser
-exec thunderbird-net
-exec element-desktop
+exec thunderbird
+exec element-wayland
 exec emacs
 exec virt-manager
 exec remmina
