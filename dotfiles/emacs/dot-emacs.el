@@ -41,6 +41,7 @@
         projectile
         expand-region
         undo-tree
+        nlimum
         helm helm-projectile
         bmx-mode
         ido-yes-or-no
@@ -1730,7 +1731,7 @@ Searches for last face, or new face if invoked with prefix-argument"
   ;; settings
   ;; ensure we have line-numbers in all code-files
   ;;(global-linum-mode 1)
-  (linum-mode 1)
+  (nlinum-mode 1)
 
   ;; highlight current function?
   (which-function-mode 1)
