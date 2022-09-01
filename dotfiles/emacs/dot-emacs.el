@@ -85,6 +85,7 @@
         yaml-mode
         editorconfig
         doom-modeline
+        nlinum
         ))
 
 ;; only query package sources when package is missing! copied from:
@@ -365,6 +366,9 @@ https://emacs.stackexchange.com/questions/15020/eww-error-in-process-sentinel-ur
 
 ;; org-mode fontified properly for babel
 (setq org-src-fontify-natively t)
+
+;; treemacs child frame-reading bugs out on sway/wayland
+(setq treemacs-read-string-input 'from-minibuffer)
 
 ;; enable narrowing and widening of buffers via C-x n n and C-x n w
 (put 'narrow-to-region 'disabled nil)
