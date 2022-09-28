@@ -70,7 +70,7 @@
         nodejs-repl
         crontab-mode
         highlight-symbol
-        realgud
+        ;; realgud
         ;; lsp support!
         lsp-mode lsp-flycheck
         ;; DAP/debug support
@@ -1593,9 +1593,11 @@ Searches for last face, or new face if invoked with prefix-argument"
 
       ;; gud/realgud defaults to a seperate pdb executable which does not
       ;; exist on Fedora. Just use python and pdb module directly.
-      (setq gud-pdb-command-name pdb)
-      (setq realgud:pdb-command-name pdb))
-    (lsk 'realgud:pdb "C-<f5>")))
+      (ignore-errors
+        (require 'realgud)
+        (setq gud-pdb-command-name pdb)
+        (setq realgud:pdb-command-name pdb)
+        (lsk 'realgud:pdb "C-<f5>")))))
 
 (ignore-errors
   (elpy-enable))
@@ -1774,9 +1776,10 @@ Searches for last face, or new face if invoked with prefix-argument"
   (lsk 'company-complete "C-.")
 
   ;; realgud needs to be required
-  (require 'realgud)
-  ;; allow variable inspection on right-mouse click!
-  (define-key realgud:shortkey-mode-map [mouse-3] #'realgud:tooltip-eval)
+  (ignore-errors
+    (require 'realgud)
+    ;; allow variable inspection on right-mouse click!
+    (define-key realgud:shortkey-mode-map [mouse-3] #'realgud:tooltip-eval))
 
   ;; don't enable major-modes using "competing" LSP backends
   (when (not (or (and (derived-mode-p 'csharp-mode) (not (eq my-csharp-backend 'lsp)))
