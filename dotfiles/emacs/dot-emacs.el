@@ -269,7 +269,7 @@ https://emacs.stackexchange.com/questions/15020/eww-error-in-process-sentinel-ur
 
 ;; powershell-mode needs to be explicitly loaded, but only on supported platforms!
 (ignore-errors
-  (require 'powershell-mode))
+  (require 'powershell))
 
 ;;;; DAEMONIZE
 
