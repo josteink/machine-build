@@ -59,7 +59,6 @@
         elisp-slime-nav elisp-refs
         macrostep
         flycheck flycheck-package
-        csharp-mode
         tree-sitter tree-sitter-langs tree-sitter-indent
         js2-mode
         json-mode
@@ -70,16 +69,12 @@
         nodejs-repl
         crontab-mode
         highlight-symbol
-        ;; realgud
         ;; lsp support!
         lsp-mode lsp-flycheck
         ;; DAP/debug support
         dap-mode
         ;; for rust
         rust-mode cargo toml-mode
-        typescript-mode
-        ;;tide
-        ;;ts-comint
         ;; python elpy yasnippet ;; needed for elpy
         yasnippet
         yaml-mode
@@ -320,8 +315,11 @@ https://emacs.stackexchange.com/questions/15020/eww-error-in-process-sentinel-ur
 (add-extensions-to-mode 'html-mode "html" "php" "ascx" "aspx" "cshtml")
 
 (add-extensions-to-mode 'js2-mode "js")
-(add-extensions-to-mode 'typescript-mode "ts" "tsx")
-(add-extensions-to-mode 'csharp-tree-sitter-mode "cs")
+
+;; (require 'csharp-mode)
+;; (define-derived-mode csharp-mode csharp-ts-mode "C#")
+(add-extensions-to-mode 'csharp-ts-mode "cs")
+
 
 ;; hook js2-mode in for shell scripts running via node.js
 (add-to-list 'interpreter-mode-alist '("node" . js2-mode))
@@ -1526,6 +1524,9 @@ Searches for last face, or new face if invoked with prefix-argument"
 
 (defhook csharp-tree-sitter-mode-hook
   (my-csharp-mode-hook))
+
+(defhook csharp-ts-mode-hook
+         (my-csharp-mode-hook))
 
 (defhook omnisharp-mode-hook
   (eval-after-load 'company
