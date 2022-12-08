@@ -269,6 +269,7 @@ https://emacs.stackexchange.com/questions/15020/eww-error-in-process-sentinel-ur
 (add-extensions-to-mode 'json-ts-mode "json")
 (add-extensions-to-mode 'c-ts-mode "c" "h")
 (add-extensions-to-mode 'c++-ts-mode "cpp" "hpp")
+(add-extensions-to-mode 'css-ts-mode "css")
 
 (setq lsp-warn-no-matched-clients nil)
 
