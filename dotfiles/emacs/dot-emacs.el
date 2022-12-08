@@ -1437,28 +1437,6 @@ Searches for last face, or new face if invoked with prefix-argument"
   ;; we want proper indentation
   (haskell-indent-mode +1))
 
-;; ;; c/c++
-;; (defun my-c-mode-hook ()
-;;   ;; required for auto-completion
-;;   (semantic-mode 1))
-;; (add-hook 'c-mode-hook 'my-c-mode-hook)
-;; (add-hook 'c++-mode-hook 'my-c-mode-hook)
-
-;; C# is better with omnisharp, if available
-(defhook csharp-mode-hook
-  ;; cc-mode overrides some of our global bindings.
-  ;; search for all matches of a given regex, list results
-  (lsk 'helm-imenu "<f12>"))
-
-(defhook csharp-ts-mode-hook
-         (my-csharp-mode-hook))
-
-(defhook csharp-tree-sitter-mode-hook
-  (my-csharp-mode-hook))
-
-(defhook csharp-ts-mode-hook
-         (my-csharp-mode-hook))
-
 (defhook python-mode-hook
   ;; elpy improves python-coding considerably, when on a
   ;; well-supported platform, so package not installed by default.
@@ -1646,7 +1624,6 @@ Searches for last face, or new face if invoked with prefix-argument"
   (editorconfig-mode t))
 
 (add-hook 'powershell-mode-hook 'my-prog-mode-hook)
-(add-hook 'css-mode-hook 'my-prog-mode-hook)
 (add-hook 'cmake-mode-hook 'my-prog-mode-hook)
 
 ;; xml
@@ -1682,9 +1659,6 @@ Searches for last face, or new face if invoked with prefix-argument"
 
   (when (or (string-suffix-p (buffer-file-name) ".js")
             (string-suffix-p (buffer-file-name) ".json"))))
-
-;; css should be prog-mode but isn't
-(add-hook 'css-mode-hook 'my-prog-mode-hook)
 
 ;; things like markdown
 (defhook text-mode-hook
