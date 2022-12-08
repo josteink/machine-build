@@ -261,15 +261,17 @@ https://emacs.stackexchange.com/questions/15020/eww-error-in-process-sentinel-ur
 ;; we DONT want web-mode for CSS, because it breaks company-mode completion.
 (add-extensions-to-mode 'html-mode "html" "php" "ascx" "aspx" "cshtml")
 
-(add-extensions-to-mode 'js-ts-mode "js" "jsx")
-(add-extensions-to-mode 'typescript-ts-mode "ts")
-(add-extensions-to-mode 'tsx-ts-mode "tsx")
-(add-extensions-to-mode 'json-ts-mode "json")
-(add-extensions-to-mode 'csharp-ts-mode "cs")
-(add-extensions-to-mode 'json-ts-mode "json")
-(add-extensions-to-mode 'c-ts-mode "c" "h")
-(add-extensions-to-mode 'c++-ts-mode "cpp" "hpp")
-(add-extensions-to-mode 'css-ts-mode "css")
+(use-package js-ts-mode :mode "\\.jsx?\\'")
+(use-package typescript-ts-mode
+  :mode ("\\.ts\\'"  . typescript-ts-mode)
+  :mode ("\\.tsx\\'" . tsx-ts-mode))
+(use-package csharp-mode :mode ("\\.cs\\'" . csharp-ts-mode))
+(use-package json-ts-mode :mode "\\.json\\'")
+(use-package c-ts-mode
+  :mode "\\.[ch]\\'"
+  :mode ("\\.[ch]pp\\." . c++-ts-mode))
+(use-package css-mode :mode ("\\.css\\'" . css-ts-mode))
+
 
 (setq lsp-warn-no-matched-clients nil)
 
