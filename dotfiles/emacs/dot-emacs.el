@@ -59,7 +59,6 @@
         elisp-slime-nav elisp-refs
         macrostep
         flycheck flycheck-package
-        csharp-mode
         tree-sitter tree-sitter-langs tree-sitter-indent
         js2-mode
         json-mode
@@ -77,9 +76,6 @@
         dap-mode
         ;; for rust
         rust-mode cargo toml-mode
-        typescript-mode
-        ;;tide
-        ;;ts-comint
         ;; python elpy yasnippet ;; needed for elpy
         yasnippet
         yaml-mode
@@ -269,7 +265,7 @@ https://emacs.stackexchange.com/questions/15020/eww-error-in-process-sentinel-ur
 
 ;; powershell-mode needs to be explicitly loaded, but only on supported platforms!
 (ignore-errors
-  (require 'powershell-mode))
+  (require 'powershell))
 
 ;;;; DAEMONIZE
 
@@ -320,8 +316,15 @@ https://emacs.stackexchange.com/questions/15020/eww-error-in-process-sentinel-ur
 (add-extensions-to-mode 'html-mode "html" "php" "ascx" "aspx" "cshtml")
 
 (add-extensions-to-mode 'js2-mode "js")
-(add-extensions-to-mode 'typescript-mode "ts" "tsx")
-(add-extensions-to-mode 'csharp-tree-sitter-mode "cs")
+(add-extensions-to-mode 'typescript-ts-mode "ts")
+(add-extensions-to-mode 'tsx-ts-mode "tsx")
+(add-extensions-to-mode 'csharp-ts-mode "cs")
+(add-extensions-to-mode 'json-ts-mode "json")
+(add-extensions-to-mode 'c-ts-mode "c" "h")
+(add-extensions-to-mode 'c++-ts-mode "cpp" "hpp")
+
+
+(setq lsp-warn-no-matched-clients nil)
 
 ;; hook js2-mode in for shell scripts running via node.js
 (add-to-list 'interpreter-mode-alist '("node" . js2-mode))
@@ -1524,6 +1527,9 @@ Searches for last face, or new face if invoked with prefix-argument"
              (fboundp 'omnisharp-mode))
     (omnisharp-mode t)))
 
+(defhook csharp-ts-mode-hook
+         (my-csharp-mode-hook))
+
 (defhook csharp-tree-sitter-mode-hook
   (my-csharp-mode-hook))
 
@@ -1642,6 +1648,9 @@ Searches for last face, or new face if invoked with prefix-argument"
 (defhook typescript-mode-hook
   (when (eq my-typescript-backend 'tide)
     (tide-setup)))
+
+(defhook typescript-ts-mode-hook
+         (my-typescript-mode-hook))
 
 (defhook tide-mode-hook
   ;; TIDE
