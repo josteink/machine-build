@@ -322,12 +322,6 @@ https://emacs.stackexchange.com/questions/15020/eww-error-in-process-sentinel-ur
 ;; enable narrowing and widening of buffers via C-x n n and C-x n w
 (put 'narrow-to-region 'disabled nil)
 
-(defcustom my-typescript-backend 'lsp
-  "Which language-backend to use in TypeScript files"
-  :type 'symbol
-  :options '(lsp tide)
-  :group 'my)
-
 (defun my-enable-flyspell-mode (prog-mode)
   "Enable flyspell, but only on platforms where it works well."
 
@@ -1531,46 +1525,6 @@ Searches for last face, or new face if invoked with prefix-argument"
                                    :target nil
                                    :cwd nil))
 (dap-auto-configure-mode 1)
-
-;; typescript
-(defhook typescript-mode-hook
-  (when (eq my-typescript-backend 'tide)
-    (tide-setup)))
-
-(defhook typescript-ts-mode-hook
-         (my-typescript-mode-hook))
-
-(defhook tide-mode-hook
-  ;; TIDE
-  ;; explicitly null preference to enable auto-detection.
-  (setq tide-tsserver-executable nil)
-  (ignore-errors
-    (setq flycheck-check-syntax-automatically '(save mode-enabled))
-    (eldoc-mode +1)
-
-    ;; format options
-    (setq tide-format-options '(:insertSpaceAfterFunctionKeywordForAnonymousFunctions t :placeOpenBraceOnNewLineForFunctions nil))
-
-    (lsk #'tide-references "S-<f12>")
-    (lsk #'tide-rename-symbol "C-c C-r" "C-c r")
-    (lsk #'tide-documentation-at-point "C-c C-d" "C-c d")
-
-    ;; ts-comint
-    (local-set-key (kbd "C-x C-e") 'ts-send-last-sexp)
-    (local-set-key (kbd "C-M-x") 'ts-send-last-sexp-and-go)
-    (local-set-key (kbd "C-c b") 'ts-send-buffer)
-    (local-set-key (kbd "C-c C-b") 'ts-send-buffer-and-go)
-    (local-set-key (kbd "C-c l") 'ts-load-file-and-go)
-    (lsk #'ts-send-buffer "C-c C-c")
-    (lsk #'ts-send-last-sexp "C-x C-e" "C-x e" "C-M-x")
-    (lsk #'ts-load-file "C-c l")
-    (lsk #'hippie-expand "C-:")
-    (lsk #'tide-fix "C-<return>" "C-M-<return>" "M-<return>")
-    (lsk #'tide-nav "C-M-t")
-    (lsk #'tide-jump-to-implementation "C-M-.")
-
-    ;; have easy access to tsc, always.
-    (lsk #'my-ts-tsc "<C-S-f5>")))
 
 ;; formats the buffer before saving, if using tide
 (ignore-errors
