@@ -374,12 +374,6 @@ https://emacs.stackexchange.com/questions/15020/eww-error-in-process-sentinel-ur
 ;; enable narrowing and widening of buffers via C-x n n and C-x n w
 (put 'narrow-to-region 'disabled nil)
 
-(defcustom my-csharp-backend 'lsp
-  "Which language-backend to use in C# files"
-  :type 'symbol
-  :options '(lsp omnisharp)
-  :group 'my)
-
 (defcustom my-typescript-backend 'lsp
   "Which language-backend to use in TypeScript files"
   :type 'symbol
@@ -1511,19 +1505,9 @@ Searches for last face, or new face if invoked with prefix-argument"
 
 ;; C# is better with omnisharp, if available
 (defhook csharp-mode-hook
-  ;; hide-show is nice for modes which supports it.
-  ;; (hs-minor-mode)
-  (local-unset-key (kbd "M-m"))
-  (lsk 'hs-toggle-hiding "M-m M-m")
-
   ;; cc-mode overrides some of our global bindings.
   ;; search for all matches of a given regex, list results
-  (lsk 'occur-dwim "C-c C-o" "M-s o" "M-s M-o")
-  (lsk 'helm-imenu "<f12>")
-
-  (when (and (eq my-csharp-backend 'omnisharp)
-             (fboundp 'omnisharp-mode))
-    (omnisharp-mode t)))
+  (lsk 'helm-imenu "<f12>"))
 
 (defhook csharp-ts-mode-hook
          (my-csharp-mode-hook))
@@ -1533,34 +1517,6 @@ Searches for last face, or new face if invoked with prefix-argument"
 
 (defhook csharp-ts-mode-hook
          (my-csharp-mode-hook))
-
-(defhook omnisharp-mode-hook
-  (eval-after-load 'company
-    '(add-to-list 'company-backends 'company-omnisharp))
-
-  ;; prepare imenu-support
-  (setq omnisharp-imenu-support t)
-  (omnisharp-imenu-create-index)
-  ;; disable csharp-mode imenu when omnisharp is running!
-  (setq csharp-want-imenu nil)
-
-  ;; vs/resharper-like bindings
-  (lsk 'omnisharp-helm-find-usages "S-<f12>")
-  (lsk 'omnisharp-find-implementations-popup "M-<f11>")
-  ;; C-r is taken for reverse isearch, so we do C-o for omnisharp
-  (lsk 'omnisharp-rename "C-c C-r")
-  (lsk 'omnisharp-rename-interactively "C-u C-c C-r")
-
-  ;; type-info
-  (lsk 'omnisharp-current-type-information "C-c C-t")
-
-  ;; overrides
-  (lsk 'omnisharp-go-to-definition "<f12>" "M-.") ;; like cslisp smart-navn
-  (lsk 'pop-tag-mark "M-,")
-  (lsk 'omnisharp-auto-complete "C-.") ;; override company-mode, with better popup
-  (lsk 'hippie-expand "C-:") ;; still allow hippie-expand
-
-  (lsk #'omnisharp-run-code-action-refactoring "C-<return>" "C-M-<return>" "M-<return>"))
 
 (defhook js2-mode-hook
   (lsk 'run-js "<f6>")
@@ -1740,6 +1696,12 @@ Searches for last face, or new face if invoked with prefix-argument"
   ;; navigate back again.
   ;; (could also use set-mark with prefix argument C-u C-spc.)
   (lsk 'pop-local-or-global-mark "C--")
+
+  (lsk 'occur-dwim "C-c C-o")
+
+  (hs-minor-mode 1)
+  (local-unset-key (kbd "M-m"))
+  (lsk 'hs-toggle-hiding "M-m M-m")
 
   ;; auto-complete is a must
   (company-mode 1)
