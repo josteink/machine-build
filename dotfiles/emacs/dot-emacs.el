@@ -60,8 +60,6 @@
         macrostep
         flycheck flycheck-package
         tree-sitter tree-sitter-langs tree-sitter-indent
-        js2-mode
-        json-mode
         ssh-config-mode
         ;; elfeed
         org ;; we want a newer version than the one built in!
@@ -166,40 +164,6 @@ https://emacs.stackexchange.com/questions/15020/eww-error-in-process-sentinel-ur
   )
 
 (defun my-activate-theme ()
-  ;; make things look funky and match stump-wm
-  ;;(color-theme-initialize) ;;uncomment to load all themes
-  ;; (color-theme-jsc-dark) ;; also a candidate
-  ;; (require 'color-theme-gruber-darker)
-  ;; (color-theme-gruber-darker)
-
-  ;; (ignore-errors
-  ;;   (let* ((themes-dir "~/.emacs.d/themes/")
-  ;;          (seti-theme (concat themes-dir "seti-theme.el")))
-  ;;     (when (not (file-exists-p themes-dir))
-  ;;       (make-directory themes-dir))
-  ;;     (when (not (file-exists-p seti-theme))
-  ;;       (url-copy-file "https://raw.githubusercontent.com/caisah/seti-theme/master/seti-theme.el" seti-theme))
-
-  ;;     (add-to-list 'custom-theme-load-path themes-dir)
-  ;;     (load-theme 'seti)
-  ;;     (set-face-foreground font-lock-comment-delimiter-face "#c06000")
-  ;;     (set-face-foreground font-lock-comment-face "#707070")
-  ;;     (set-face-foreground font-lock-string-face "#55B5DB")
-  ;;     (set-face-foreground font-lock-variable-name-face "#55dbB5")
-  ;;     (set-face-foreground font-lock-function-name-face "#dbb555")
-  ;;     (set-face-bold font-lock-type-face t)
-
-  ;;     ;; make ediffs readable!
-  ;;     (set-face-background 'ediff-even-diff-A "#800000")
-  ;;     (set-face-background 'ediff-odd-diff-A "#400000")
-  ;;     (set-face-background 'ediff-even-diff-B "#008000")
-  ;;     (set-face-background 'ediff-odd-diff-B "#004000")
-
-  ;;     ;; improve display of doom modeline
-  ;;     (set-face-background 'mode-line "#404040")
-  ;;     (set-face-underline 'mode-line nil)
-  ;;     ))
-
   (ignore-errors
     (require 'dracula-theme)
     (load-theme 'dracula t)))
@@ -207,15 +171,6 @@ https://emacs.stackexchange.com/questions/15020/eww-error-in-process-sentinel-ur
 (defun my-gui-mode-hook ()
   ;; activate theme early!
   (my-activate-theme)
-
-
-
-
-  ;; adapt other minor-modes to theme - hl-line-mode
-  ;; (when (boundp 'hl-line-face)
-  ;;   (set-face-background 'default "#202223")
-  ;;   (set-face-background hl-line-face "#003030"))
-  ;; adapt other minor-modes to theme - lsp-mode
 
   (ignore-errors
     (require 'lsp-mode)
@@ -229,14 +184,6 @@ https://emacs.stackexchange.com/questions/15020/eww-error-in-process-sentinel-ur
 
   ;; same with column-numbers.
   (column-number-mode +1)
-
-  ;; substitute lambdas with fancy symbols
-  ;; (font-lock-add-keywords
-  ;;  nil `(("(\\(lambda\\>\\)"
-  ;;         (0 (progn (compose-region (match-beginning 1) (match-end 1)
-  ;;                                   ,(make-char 'greek-iso8859-7 107))
-  ;;                   nil)))))
-  ;; (setq font-lock t)
 
   ;; font thingie, downloaded from http://sourcefoundry.org/hack/
   (try-set-default-font "Hack" 11)
@@ -314,9 +261,10 @@ https://emacs.stackexchange.com/questions/15020/eww-error-in-process-sentinel-ur
 ;; we DONT want web-mode for CSS, because it breaks company-mode completion.
 (add-extensions-to-mode 'html-mode "html" "php" "ascx" "aspx" "cshtml")
 
-(add-extensions-to-mode 'js2-mode "js")
+(add-extensions-to-mode 'js-ts-mode "js" "jsx")
 (add-extensions-to-mode 'typescript-ts-mode "ts")
 (add-extensions-to-mode 'tsx-ts-mode "tsx")
+(add-extensions-to-mode 'json-ts-mode "json")
 (add-extensions-to-mode 'csharp-ts-mode "cs")
 (add-extensions-to-mode 'json-ts-mode "json")
 (add-extensions-to-mode 'c-ts-mode "c" "h")
@@ -459,12 +407,10 @@ https://emacs.stackexchange.com/questions/15020/eww-error-in-process-sentinel-ur
 (setq c-basic-indent 4)
 (setq tab-width 4)
 (setq web-mode-code-indent-offset 4)
-(setq js-indent-level 4)
+(setq js-indent-level 2)
 
 ;; use node for JS-execution
 (setq inferior-js-program-command "node --interactive")
-
-(setq js2-use-font-lock-faces t)
 
 ;; Handling packages which relies on binaries (like JARs)
 
@@ -1518,23 +1464,6 @@ Searches for last face, or new face if invoked with prefix-argument"
 (defhook csharp-ts-mode-hook
          (my-csharp-mode-hook))
 
-(defhook js2-mode-hook
-  (lsk 'run-js "<f6>")
-  (lsk 'js-send-region "C-x C-e")
-
-  (lsk 'my-join-line-with-next "M-j")
-
-  (lsk 'occur-dwim "C-c C-o")
-
-  ;; nodejs stuff
-  (lsk 'nodejs-repl "C-c C-r")
-  (lsk 'my-nodejs-send-region-to-repl "C-c C-e")
-  (lsk 'my-nodejs-eval-buffer "C-c C-c"))
-
-(defhook json-mode-hook
-  (make-local-variable 'js-indent-level)
-  (setq js-indent-level 2))
-
 (defhook python-mode-hook
   ;; elpy improves python-coding considerably, when on a
   ;; well-supported platform, so package not installed by default.
@@ -1797,8 +1726,7 @@ Searches for last face, or new face if invoked with prefix-argument"
   (lsk 'web-mode-uncomment            "C-c C-u")
 
   (when (or (string-suffix-p (buffer-file-name) ".js")
-            (string-suffix-p (buffer-file-name) ".json"))
-    (my-js-mode-hook)))
+            (string-suffix-p (buffer-file-name) ".json"))))
 
 ;; css should be prog-mode but isn't
 (add-hook 'css-mode-hook 'my-prog-mode-hook)
