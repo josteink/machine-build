@@ -38,7 +38,6 @@
 (setq my-packages
       '(
         projectile
-        expand-region
         helm helm-projectile
         imenu-anywhere
         helpful
@@ -216,6 +215,11 @@
          ("C->"         . mc/mark-next-like-this)
          ("C-<"         . mc/mark-previous-like-this)
          ("C-c C-<"     . mc/mark-all-like-this)))
+
+(use-package expand-region
+  :bind (("C-+" . er/expand-region)
+         ("C-?" . er/expand-region)
+         ("M-+" . er/expand-region)))
 
 ;;;; Setting up modes and file-mappings
 
@@ -1243,9 +1247,6 @@ Searches for last face, or new face if invoked with prefix-argument"
 ;; default bindings (in isearch mode)
 ;; M-s h r   => highlight isearch results
 ;; M-s o      => open occur buffer with results
-
-;; expand-region
-(gsk 'er/expand-region "C-+" "C-?" "M-+") ;; ? = S-? => C-S-+ = C-?
 
 ;; ace jump - remember C-u C-c SPC etc
 ;;(global-set-key (kbd "C-c SPC") 'ace-jump-mode)
