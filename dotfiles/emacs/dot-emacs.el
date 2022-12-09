@@ -55,7 +55,6 @@
         nodejs-repl
         ;; python elpy yasnippet ;; needed for elpy
         yaml-mode
-        editorconfig
         ))
 
 ;; only query package sources when package is missing! copied from:
@@ -266,13 +265,14 @@
 
 ;; MELPA modules
 (use-package bmx-mode      :defer t :hook bat-mode)
+(use-package cargo         :defer t :hook (rust-mode . cargo-minor-mode))
 (use-package cmake-mode    :defer t :mode "CMakeLists.txt")
 (use-package crontab-mode  :defer t :mode "crontab")
 (use-package markdown-mode :defer t :mode "\\.md\\'")
 (use-package powershell    :defer t :mode ("\\.psm?1\\'" . powershell-mode))
 (use-package rust-mode     :defer t :mode "\\.rs\\'")
 (use-package toml-mode     :defer t :mode "\\.toml\\'")
-(use-package cargo         :defer t :hook (rust-mode . cargo-minor-mode))
+(use-package yaml-mode     :defer t :mode "\\.yml\\'")
 
 ;; prog-mode customizations
 (use-package paredit
@@ -1791,16 +1791,7 @@ White space here is any of: space, tab, emacs newline (line feed, ASCII 10)."
                                        url)) "*")))
     (rename-buffer result t)))
 
-
-;; support emacs 24.5 and friends as far as possible
-(if (boundp 'eww-after-render-hook)
-    (add-hook 'eww-after-render-hook 'my-set-eww-buffer-title)
-
-  (defadvice eww-render (after kill-buffer activate)
-    (my-set-eww-buffer-title)))
-
-
-
+(add-hook 'eww-after-render-hook 'my-set-eww-buffer-title)
 
 (defun my-eww-reflow ()
   "Causes the current buffer to reflow if it's a eww-buffer."
@@ -1808,36 +1799,9 @@ White space here is any of: space, tab, emacs newline (line feed, ASCII 10)."
   (when (string= "eww-mode" major-mode)
     (eww-reload t nil)))
 
-
-;; how to remap a key for function X to function Y.
-;; (define-key irony-mode-map [remap completion-at-point]
-;;   'irony-completion-at-point-async)
-
-
-;; patch yaml-mode syntax table to ignore single-quotes:
-;; fix formatting error.
-(setq yaml-mode-syntax-table
-      (let ((syntax-table (make-syntax-table)))
-        ;; (modify-syntax-entry ?\' "\"" syntax-table)
-        (modify-syntax-entry ?\" "\"" syntax-table)
-        (modify-syntax-entry ?# "<" syntax-table)
-        (modify-syntax-entry ?\n ">" syntax-table)
-        (modify-syntax-entry ?\\ "\\" syntax-table)
-        (modify-syntax-entry ?- "_" syntax-table)
-        (modify-syntax-entry ?_ "_" syntax-table)
-        (modify-syntax-entry ?& "." syntax-table)
-        (modify-syntax-entry ?* "." syntax-table)
-        (modify-syntax-entry ?\( "." syntax-table)
-        (modify-syntax-entry ?\) "." syntax-table)
-        (modify-syntax-entry ?\{ "(}" syntax-table)
-        (modify-syntax-entry ?\} "){" syntax-table)
-        (modify-syntax-entry ?\[ "(]" syntax-table)
-        (modify-syntax-entry ?\] ")[" syntax-table)
-        syntax-table))
-
 ;; dirty-patch to compile.el
 ;; remove any incorrectly added entries!
-(dolist (item compilation-error-regexp-alist)
-  (let* ((value (alist-get item compilation-error-regexp-alist-alist)))
-    (when (not value)
-      (setq compilation-error-regexp-alist (remove item compilation-error-regexp-alist)))))
+;; (dolist (item compilation-error-regexp-alist)
+;;   (let* ((value (alist-get item compilation-error-regexp-alist-alist)))
+;;     (when (not value)
+;;       (setq compilation-error-regexp-alist (remove item compilation-error-regexp-alist)))))
