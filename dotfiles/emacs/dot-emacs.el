@@ -25,7 +25,7 @@
 ;; off mouse interface early in startup to avoid momentary display
 ;; probe first to not crash on emacs-nox
 (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
-(when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
+;; (when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 
 ;; activate theme early!
 (use-package dracula-theme
@@ -42,8 +42,6 @@
         helm helm-projectile
         imenu-anywhere
         langtool
-        ;; cmake-mode
-        ;; ggtags
         helpful
         ;; slime-company ;; if loading fails with recursive load, check if distro-provided slime is installed.
         magit git-timemachine
@@ -53,7 +51,6 @@
         tree-sitter tree-sitter-langs tree-sitter-indent
         ssh-config-mode
         nodejs-repl
-        crontab-mode
         highlight-symbol
         ;; lsp support!
         lsp-mode lsp-flycheck
@@ -64,7 +61,6 @@
         yaml-mode
         editorconfig
         doom-modeline
-        nlinum
         ))
 
 ;; only query package sources when package is missing! copied from:
@@ -1556,9 +1552,6 @@ Searches for last face, or new face if invoked with prefix-argument"
   (company-mode 1)
 
   ;; settings
-  ;; ensure we have line-numbers in all code-files
-  ;;(global-linum-mode 1)
-  (nlinum-mode 1)
 
   ;; highlight current function?
   (which-function-mode 1)
