@@ -198,7 +198,8 @@
 
 (use-package undo-tree
   :ensure t
-  :config (global-undo-tree-mode t))
+  :config (global-undo-tree-mode t)
+  :bind ("C-M-z" . undo-tree-redo))
 
 (use-package ido-yes-or-no
   :ensure t
@@ -209,7 +210,6 @@
   :config (global-nlinum-mode t))
 
 (use-package multiple-cursors
-  :defer t
   :bind (;; puts a cursor on everyline of a selected region.
          ("C-S-c C-S-c" . mc/edit-lines)
          ("C->"         . mc/mark-next-like-this)
@@ -1247,16 +1247,6 @@ Searches for last face, or new face if invoked with prefix-argument"
 ;; default bindings (in isearch mode)
 ;; M-s h r   => highlight isearch results
 ;; M-s o      => open occur buffer with results
-
-;; ace jump - remember C-u C-c SPC etc
-;;(global-set-key (kbd "C-c SPC") 'ace-jump-mode)
-
-;; undo-tree - enable globally
-(ignore-errors
-  (global-undo-tree-mode 1)
-  (gsk 'undo-tree-redo "C-M-z") ;; quick access to redo.
-  )
-;; use default-binding C-x U for visualize.
 
 ;; special global keybindings for active regions minor-mode
 
