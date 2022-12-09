@@ -37,22 +37,13 @@
 ;; ensure all packages we need are installed.
 (setq my-packages
       '(
-        markdown-mode
-        paredit
-        multiple-cursors
         projectile
         expand-region
-        undo-tree
-        nlimum
         helm helm-projectile
         bmx-mode
-        ido-yes-or-no
         imenu-anywhere
         web-mode
         langtool
-        company
-        ;; company-c-headers
-        company-web
         ;; cmake-mode
         ;; ggtags
         helpful
@@ -68,8 +59,6 @@
         highlight-symbol
         ;; lsp support!
         lsp-mode lsp-flycheck
-        ;; DAP/debug support
-        dap-mode
         ;; for rust
         rust-mode cargo toml-mode
         ;; python elpy yasnippet ;; needed for elpy
@@ -122,18 +111,7 @@
 
 (my-install-source-packages)
 
-(defun my-windows-cookie-cleanup ()
-  "Fix for issue which corrupts emacs' http client.
 
-This will among other things caused emacs to break in a million ways
-and packages never to download (and thus ruining the self-bootstrapping
-process if the profile is 'correupted':
-
-https://emacs.stackexchange.com/questions/15020/eww-error-in-process-sentinel-url-cookie-generate-header-lines-wrong-type-arg/15153#15153"
-
-  (when (eq system-type 'windows-nt)
-    (delete-file
-     (expand-file-name "~/.emacs.d/url/cookie"))))
 
 ;; INSTALL THE PACKAGES!!!
 (when (not (file-exists-p (substitute-in-file-name "$HOME/.emacs.d/elpa")))
@@ -162,6 +140,7 @@ https://emacs.stackexchange.com/questions/15020/eww-error-in-process-sentinel-ur
   ;; (message "All tests good!")
   )
 
+;;;; GUI specific configuration
 
 (defun my-gui-mode-hook ()
   ;; smooth scrolling
@@ -196,17 +175,10 @@ https://emacs.stackexchange.com/questions/15020/eww-error-in-process-sentinel-ur
 (add-hook 'after-make-frame-functions #'my-after-create-frame-function)
 
 
-(defun my-light-guide-mode ()
-  "A bright UI-mode which better fits things like wsd-mode."
-
-  (interactive)
-  (color-theme-initialize)
-  (color-theme-emacs-nw)
-  (set-face-background hl-line-face "#c0c0c0"))
-
 ;; powershell-mode needs to be explicitly loaded, but only on supported platforms!
 (ignore-errors
   (require 'powershell))
+
 
 ;;;; DAEMONIZE
 
@@ -230,17 +202,35 @@ https://emacs.stackexchange.com/questions/15020/eww-error-in-process-sentinel-ur
 (require 'server)
 
 
-;;;; NON-DEFAULT FILE MAPPINGS
+;;;; Define global behaviours
+
+(use-package undo-tree
+  :ensure t
+  :config (global-undo-tree-mode t))
+
+(use-package ido-yes-or-no
+  :ensure t
+  :config (ido-yes-or-no-mode t))
+
+(use-package nlinum
+  :ensure t
+  :config (global-nlinum-mode t))
+
+(use-package multiple-cursors
+  :defer t
+  :bind (;; puts a cursor on everyline of a selected region.
+         ("C-S-c C-S-c" . mc/edit-lines)
+         ("C->"         . mc/mark-next-like-this)
+         ("C-<"         . mc/mark-previous-like-this)
+         ("C-c C-<"     . mc/mark-all-like-this)))
+
+;;;; Setting up modes and file-mappings
 
 (defun add-extensions-to-mode (mode &rest extensions)
   "Register the provided `extensions' to handle the provided `mode'."
   (dolist (item extensions)
     (let ((rx (concat "\\." item "$")))
       (add-to-list 'auto-mode-alist (cons rx mode)))))
-
-(add-extensions-to-mode 'markdown-mode "md")
-(add-extensions-to-mode 'web-mode "cshtml")
-
 
 ;; built-in to Emacs, no need to "ensure"
 (use-package js :mode ("\\.jsx?\\'" . js-ts-mode))
@@ -259,6 +249,19 @@ https://emacs.stackexchange.com/questions/15020/eww-error-in-process-sentinel-ur
 (add-extensions-to-mode 'message-mode "somail" "eml")
 
 ;; MELPA modules, needs to be "ensured"
+(use-package markdown-mode :defer t :mode "\\.md\\'")
+(use-package cmake-mode    :defer t :mode "CMakeLists.txt")
+(use-package crontab-mode  :defer t :mode "crontab")
+
+;; prog-mode customizations
+(use-package paredit :defer t :hook prog-mode)
+(use-package company :defer t :hook (prog-mode . company-mode))
+(use-package company-web
+  :defer t
+  :after (company)
+  :config
+  (add-to-list 'company-backends 'company-web-html))
+
 
 (setq lsp-warn-no-matched-clients nil)
 
@@ -1222,15 +1225,6 @@ Searches for last face, or new face if invoked with prefix-argument"
 ;; http://ianeslick.com/2013/05/17/clojure-debugging-13-emacs-nrepl-and-ritz/
 (gsk 'hippie-expand "C-." "C-:") ;;(gsk 'dabbrev-expand "C-.")
 
-;; multiple-cursors setup. doesn't come with any bindings by default
-;; puts a cursor on everyline of a selected region.
-(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
-
-;; Other MC-keybindings
-(global-set-key (kbd "C->") 'mc/mark-next-like-this)
-(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
-(global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
-
 ;; default bindings (in isearch mode)
 ;; M-s h r   => highlight isearch results
 ;; M-s o      => open occur buffer with results
@@ -1478,21 +1472,28 @@ Searches for last face, or new face if invoked with prefix-argument"
 
   (lsk #'lsp-execute-code-action "C-<return>" "C-M-<return>" "M-<return>"))
 
-;; dap/debug support
-(require 'dap-mode)
-(require 'dap-python)
-(require 'dap-pwsh)
-(require 'dap-node)
-(require 'dap-netcore)
-(require 'dap-gdb-lldb)
-(dap-register-debug-template "Rust::GDB Run Configuration"
-                             (list :type "gdb"
-                                   :request "launch"
-                                   :name "GDB::Run"
-                                   :gdbpath "rust-gdb"
-                                   :target nil
-                                   :cwd nil))
-(dap-auto-configure-mode 1)
+;; DAP/debug support
+(use-package dap-mode
+  :commands (dap-start-debugging)
+  :config
+  (progn
+    ;; dap/debug support
+    (require 'dap-mode)
+    (require 'dap-python)
+    (require 'dap-pwsh)
+    (require 'dap-node)
+    (require 'dap-netcore)
+    (require 'dap-gdb-lldb)
+    (dap-register-debug-template "Rust::GDB Run Configuration"
+                                 (list :type "gdb"
+                                       :request "launch"
+                                       :name "GDB::Run"
+                                       :gdbpath "rust-gdb"
+                                       :target nil
+                                       :cwd nil))
+    (dap-auto-configure-mode 1)))
+
+
 
 ;; formats the buffer before saving, if using tide
 (ignore-errors
@@ -1717,7 +1718,18 @@ Searches for last face, or new face if invoked with prefix-argument"
   (setq ediff-diff3-program "C:\\cygwin64\\bin\\diff3.exe")
 
   ;; requires aspell installed by cygwin
-  (setq-default ispell-program-name "C:/cygwin64/bin/aspell.exe"))
+  (setq-default ispell-program-name "C:/cygwin64/bin/aspell.exe")
+
+  ;; Fix for issue which corrupts emacs' http client.
+  ;; --
+  ;; This will among other things caused emacs to break in a million ways
+  ;; and packages never to download (and thus ruining the self-bootstrapping
+  ;; process if the profile is 'corrupted':
+  ;; --
+  ;; https://emacs.stackexchange.com/questions/15020/eww-error-in-process-sentinel-url-cookie-generate-header-lines-wrong-type-arg/15153#15153"
+  (delete-file
+   (expand-file-name "~/.emacs.d/url/cookie"))
+  )
 
 ;;;; UNIX ONLY CUSTOMIZATIONS
 
@@ -1763,15 +1775,13 @@ Searches for last face, or new face if invoked with prefix-argument"
 
 (defun my-freebsd-mode-hook ()
   ;; fix backsapce acting like delete, by making delete act like backspace.
-  (normal-erase-is-backspace-mode 0)
-  )
+  (normal-erase-is-backspace-mode 0))
+
 (if (eq system-type 'berkeley-unix)
     (my-freebsd-mode-hook))
 
 
 (defun my-x-mode-hook ()
-
-
   ;; make keys act immediately
   ;; http://unix.stackexchange.com/questions/28170/some-keys-are-invalid-on-emacs-when-using-german-keyboard
   (define-key key-translation-map [dead-grave] "`")
@@ -1793,12 +1803,6 @@ Searches for last face, or new face if invoked with prefix-argument"
 ;; un-disabled commands
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
-
-;; configure company-mode
-(eval-after-load 'company
-  '(progn
-     (add-to-list 'company-backends 'company-c-headers)
-     (add-to-list 'company-backends 'company-web-html)))
 
 (global-ede-mode 1)
 
