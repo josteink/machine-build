@@ -167,11 +167,6 @@
 (add-hook 'after-make-frame-functions #'my-after-create-frame-function)
 
 
-;; powershell-mode needs to be explicitly loaded, but only on supported platforms!
-(ignore-errors
-  (require 'powershell))
-
-
 ;;;; DAEMONIZE
 
 
@@ -250,6 +245,7 @@
 (use-package cmake-mode    :defer t :mode "CMakeLists.txt")
 (use-package crontab-mode  :defer t :mode "crontab")
 (use-package markdown-mode :defer t :mode "\\.md\\'")
+(use-package powershell    :defer t :mode "\\.psm?1\\'")
 
 ;; prog-mode customizations
 (use-package paredit
