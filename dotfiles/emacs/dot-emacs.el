@@ -1378,6 +1378,8 @@ Searches for last face, or new face if invoked with prefix-argument"
   ;; many macros start with def-something. We want those usages in imenu.
   (add-to-list 'imenu-generic-expression
                '(nil "^\\s-*(def\\sw+\\s-+\\(\\(\\sw\\|\\s_\\)+\\)" 1 ) t)
+  (add-to-list 'imenu-generic-expression
+               '(nil "^\\s-*(use-package \\(\\(\\sw\\|\\s_\\)+\\)" 1 ) t)
 
   ;; many macros start with def-something. We want those usages in imenu.
   (add-to-list 'imenu-generic-expression
