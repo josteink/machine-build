@@ -28,12 +28,16 @@
 (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 (when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 
+;; activate theme early!
+(use-package dracula-theme
+  :ensure t
+  :config
+  (load-theme 'dracula t))
 
 
 ;; ensure all packages we need are installed.
 (setq my-packages
       '(;;clojure-mode
-        dracula-theme
         markdown-mode
         paredit
         multiple-cursors
@@ -161,15 +165,9 @@ https://emacs.stackexchange.com/questions/15020/eww-error-in-process-sentinel-ur
   ;; (message "All tests good!")
   )
 
-(defun my-activate-theme ()
-  (ignore-errors
-    (require 'dracula-theme)
-    (load-theme 'dracula t)))
 
 (defun my-gui-mode-hook ()
-  ;; activate theme early!
-  (my-activate-theme)
-
+  ;; smooth scrolling
   (ignore-errors
     (require 'lsp-mode)
     (set-face-background 'lsp-face-highlight-read "#303040")
