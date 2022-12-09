@@ -51,8 +51,6 @@
         highlight-symbol
         ;; lsp support!
         lsp-mode lsp-flycheck
-        ;; for rust
-        rust-mode cargo toml-mode
         ;; python elpy yasnippet ;; needed for elpy
         yasnippet
         yaml-mode
@@ -246,6 +244,9 @@
 (use-package markdown-mode :defer t :mode "\\.md\\'")
 (use-package powershell    :defer t :mode ("\\.psm?1\\'" . powershell-mode))
 (use-package ssh-config-mode)
+(use-package rust-mode     :defer t :mode "\\.rs\\'")
+(use-package toml-mode     :defer t :mode "\\.toml\\'")
+(use-package cargo         :defer t :hook (rust-mode . cargo-minor-mode))
 
 ;; prog-mode customizations
 (use-package paredit
