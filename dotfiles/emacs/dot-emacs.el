@@ -54,7 +54,6 @@
         macrostep
         nodejs-repl
         ;; python elpy yasnippet ;; needed for elpy
-        yaml-mode
         ))
 
 ;; only query package sources when package is missing! copied from:
@@ -1448,7 +1447,6 @@ Searches for last face, or new face if invoked with prefix-argument"
   (lsk 'company-indent-or-complete-common "TAB"))
 
 ;; lsp
-(require 'lsp-mode)
 (defhook lsp-mode-hook
   ;; lsp-mode does proper symbol highlghting natively.
   ;; disable generalized/regexp based symbol highlighting
