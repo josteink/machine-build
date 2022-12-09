@@ -46,7 +46,6 @@
         elisp-slime-nav elisp-refs
         macrostep
         flycheck flycheck-package
-        tree-sitter tree-sitter-langs tree-sitter-indent
         nodejs-repl
         highlight-symbol
         ;; lsp support!
@@ -1560,9 +1559,6 @@ Searches for last face, or new face if invoked with prefix-argument"
   (lsp-deferred)
 
   (editorconfig-mode t))
-
-(add-hook 'powershell-mode-hook 'my-prog-mode-hook)
-(add-hook 'cmake-mode-hook 'my-prog-mode-hook)
 
 ;; xml
 (defhook nxml-mode-hook
