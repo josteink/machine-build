@@ -52,11 +52,9 @@
         helpful
         ;; slime-company ;; if loading fails with recursive load, check if distro-provided slime is installed.
         git-timemachine
-
         macrostep
         nodejs-repl
         ;; python elpy yasnippet ;; needed for elpy
-        yasnippet
         yaml-mode
         editorconfig
         ))
@@ -285,6 +283,8 @@
          (lisp-mode       . paredit-mode)
          (clojure-mode    . paredit-mode)))
 (use-package company :ensure t :hook (prog-mode . company-mode))
+;; required for company-mode to complete correctly, without outputting templates
+(use-package yasnippet :ensure t :config (yas-global-mode))
 
 
 ;; configure major-mode agnostic packages
@@ -343,9 +343,6 @@
 
 ;; always update files when changing git-branches, etc.
 (global-auto-revert-mode t)
-
-;; required to make company-mode suck less with lsp-mode
-(yas-global-mode t)
 
 ;; enable windows-y selection-behaviour
 ;; (delete-selection-mode 1)
