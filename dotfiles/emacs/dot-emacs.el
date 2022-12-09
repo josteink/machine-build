@@ -23,10 +23,10 @@
   (setq use-package-verbose nil
         use-package-expand-minimally t))
 
-;; off mouse interface early in startup to avoid momentary display
+;;;; early gui customization (cause less flicker)
+
 ;; probe first to not crash on emacs-nox
 (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
-;; (when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 
 ;; activate theme early!
 (use-package dracula-theme
@@ -34,6 +34,14 @@
   :config
   (load-theme 'dracula t))
 
+(use-package doom-modeline
+  :ensure t
+  :init (doom-modeline-mode 1))
+;; used by doom modeline!
+(use-package all-the-icons
+  :ensure t)
+
+;;;; OLD PACKAGE SETUP
 
 ;; ensure all packages we need are installed.
 (setq my-packages
@@ -43,19 +51,14 @@
         imenu-anywhere
         helpful
         ;; slime-company ;; if loading fails with recursive load, check if distro-provided slime is installed.
-        magit git-timemachine
-        elisp-slime-nav elisp-refs
+        git-timemachine
+
         macrostep
-        flycheck flycheck-package
         nodejs-repl
-        highlight-symbol
-        ;; lsp support!
-        lsp-mode lsp-flycheck
         ;; python elpy yasnippet ;; needed for elpy
         yasnippet
         yaml-mode
         editorconfig
-        doom-modeline
         ))
 
 ;; only query package sources when package is missing! copied from:
@@ -135,12 +138,6 @@
   ;; smooth scrolling
   (pixel-scroll-precision-mode t)
 
-  (ignore-errors
-    (require 'lsp-mode)
-    (set-face-background 'lsp-face-highlight-read "#303040")
-    (set-face-bold 'lsp-face-highlight-read t)
-    (set-face-underline 'lsp-face-highlight-read nil))
-
   ;; only activate global-line mode when on X11/windows/non-terminal environment.
   ;; will deactivate syntax highlighting and more in SSH.
   (global-hl-line-mode +1)
@@ -213,7 +210,41 @@
          ("C-?" . er/expand-region)
          ("M-+" . er/expand-region)))
 
+(use-package helm
+  :ensure t
+  :bind ("M-x" . helm-M-x))
+
+(use-package magit
+  :ensure t
+  :bind ("C-x v g" . magit-status))
+
+(use-package lsp-mode
+  :hook (prog-mode . lsp-deferred)
+  :config
+  (set-face-background 'lsp-face-highlight-read "#303040")
+  (set-face-bold 'lsp-face-highlight-read t)
+  (set-face-underline 'lsp-face-highlight-read nil))
+
+(use-package highlight-symbol
+  :ensure t
+  :hook (prog-mode . highlight-symbol-mode))
+
+(use-package flycheck
+  :ensure t
+  :hook (prog-mode . flycheck-mode))
+
+(use-package editorconfig
+  :ensure t
+  :hook (prog-mode . editorconfig-mode))
+
+;; elisp-slime-nav elisp-refs
+(use-package elisp-slime-nav
+  :ensure t
+  :hook (emacs-lisp-mode . elisp-slime-nav-mode))
+
+
 ;;;; Setting up modes and file-mappings
+
 
 (defun add-extensions-to-mode (mode &rest extensions)
   "Register the provided `extensions' to handle the provided `mode'."
@@ -243,23 +274,18 @@
 (use-package crontab-mode  :defer t :mode "crontab")
 (use-package markdown-mode :defer t :mode "\\.md\\'")
 (use-package powershell    :defer t :mode ("\\.psm?1\\'" . powershell-mode))
-(use-package ssh-config-mode)
 (use-package rust-mode     :defer t :mode "\\.rs\\'")
 (use-package toml-mode     :defer t :mode "\\.toml\\'")
 (use-package cargo         :defer t :hook (rust-mode . cargo-minor-mode))
 
 ;; prog-mode customizations
 (use-package paredit
-  :defer t
+  :ensure t
   :hook ((emacs-lisp-mode . paredit-mode)
          (lisp-mode       . paredit-mode)
          (clojure-mode    . paredit-mode)))
-(use-package company :defer t :hook (prog-mode . company-mode))
-(use-package company-web
-  :defer t
-  :after (company)
-  :config
-  (add-to-list 'company-backends 'company-web-html))
+(use-package company :ensure t :hook (prog-mode . company-mode))
+
 
 ;; configure major-mode agnostic packages
 
@@ -286,6 +312,10 @@
     (dap-auto-configure-mode 1)))
 
 
+
+;; make project.el behave like projectile:
+;; switch straight to file selector when switching project
+(setq project-switch-commands #'project-find-file)
 
 (setq lsp-warn-no-matched-clients nil)
 
@@ -1191,9 +1221,6 @@ Searches for last face, or new face if invoked with prefix-argument"
   (gsk 'projectile-find-file "C-c C-p C-f" "C-c C-p f" "C-c p f")
   (gsk 'projectile-switch-project "C-c C-p C-p" "C-c C-p p" "C-c p p"))
 
-;; doom modeline everywhere
-(doom-modeline-mode t)
-
 ;;;; GLOBAL KEYBOARD DEFINITIONS
 
 
@@ -1341,9 +1368,6 @@ Searches for last face, or new face if invoked with prefix-argument"
   (lsk 'eval-buffer "C-c C-c")
 
   (lsk #'my-ert-run-tests "<C-f5>")
-
-  ;; enable intelligent navigation with M-, and M-.
-  (elisp-slime-nav-mode)
 
   ;; we want documentation
   (eldoc-mode t))
@@ -1510,16 +1534,11 @@ Searches for last face, or new face if invoked with prefix-argument"
   (local-unset-key (kbd "M-m"))
   (lsk 'hs-toggle-hiding "M-m M-m")
 
-  ;; auto-complete is a must
-  (company-mode 1)
 
   ;; settings
 
   ;; highlight current function?
   (which-function-mode 1)
-
-  ;; flashy flashy
-  (highlight-symbol-mode 1)
 
   ;; enable imenu - only for true prog-mode major-modes
   (when (derived-mode-p 'prog-mode)
@@ -1542,9 +1561,6 @@ Searches for last face, or new face if invoked with prefix-argument"
           (electric-pair-local-mode 1)
         (electric-pair-mode 1))))
 
-  ;; flycheck is super-useful
-  (flycheck-mode t)
-
   ;; flyspell too!
   ;; (my-enable-flyspell-mode t)
 
@@ -1555,11 +1571,7 @@ Searches for last face, or new face if invoked with prefix-argument"
   (ignore-errors
     (require 'realgud)
     ;; allow variable inspection on right-mouse click!
-    (define-key realgud:shortkey-mode-map [mouse-3] #'realgud:tooltip-eval))
-
-  (lsp-deferred)
-
-  (editorconfig-mode t))
+    (define-key realgud:shortkey-mode-map [mouse-3] #'realgud:tooltip-eval)))
 
 ;; xml
 (defhook nxml-mode-hook
