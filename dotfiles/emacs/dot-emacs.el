@@ -36,7 +36,7 @@
 
 ;; ensure all packages we need are installed.
 (setq my-packages
-      '(;;clojure-mode
+      '(
         markdown-mode
         paredit
         multiple-cursors
@@ -239,18 +239,8 @@ https://emacs.stackexchange.com/questions/15020/eww-error-in-process-sentinel-ur
       (add-to-list 'auto-mode-alist (cons rx mode)))))
 
 (add-extensions-to-mode 'markdown-mode "md")
-(add-extensions-to-mode 'message-mode "somail" "eml")
 (add-extensions-to-mode 'web-mode "cshtml")
 
-(add-to-list 'auto-mode-alist '("www.websequencediagrams.com.*\\.txt$" . wsd-mode)) ;; obviously
-(add-to-list 'auto-mode-alist '("crontab" . crontab-mode))
-
-
-(add-extensions-to-mode 'nxml-mode "config" "merge" "*proj" "xaml" "props" "resx") ;; .NET, SuperOffice config-merge.
-(add-extensions-to-mode 'powershell-mode "ps" "ps1")
-
-;; we DONT want web-mode for CSS, because it breaks company-mode completion.
-(add-extensions-to-mode 'html-mode "html" "php" "ascx" "aspx" "cshtml")
 
 ;; built-in to Emacs, no need to "ensure"
 (use-package js :mode ("\\.jsx?\\'" . js-ts-mode))
@@ -263,7 +253,12 @@ https://emacs.stackexchange.com/questions/15020/eww-error-in-process-sentinel-ur
   :mode "\\.[ch]\\'"
   :mode ("\\.[ch]pp\\." . c++-ts-mode))
 (use-package css-mode :mode ("\\.css\\'" . css-ts-mode))
+;; can't be added with use-package, but is emacs-internal anyway!
+(add-extensions-to-mode 'nxml-mode "config" "merge" "*proj" "xaml" "props" "resx") ;; .NET, SuperOffice config-merge.
+(add-extensions-to-mode 'html-mode "html" "php" "ascx" "aspx" "cshtml")
+(add-extensions-to-mode 'message-mode "somail" "eml")
 
+;; MELPA modules, needs to be "ensured"
 
 (setq lsp-warn-no-matched-clients nil)
 
