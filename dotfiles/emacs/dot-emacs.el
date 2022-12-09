@@ -21,6 +21,7 @@
           use-package-compute-statistics t
           debug-on-error t)
   (setq use-package-verbose nil
+        use-package-always-ensure t
         use-package-expand-minimally t))
 
 ;;;; early gui customization (cause less flicker)
@@ -46,8 +47,6 @@
 ;; ensure all packages we need are installed.
 (setq my-packages
       '(
-        projectile
-        helm helm-projectile
         imenu-anywhere
         helpful
         ;; slime-company ;; if loading fails with recursive load, check if distro-provided slime is installed.
@@ -62,7 +61,6 @@
 ;; only query package sources when package is missing! copied from:
 ;; https://github.com/zirrostig/emacsd/blob/master/my-packages/my-packages.el
 
-(require 'cl)
 (defun my-packages-installed-p ()
   "Return nil if there are packages that are not installed."
   (loop for p in my-packages
@@ -251,16 +249,15 @@
       (add-to-list 'auto-mode-alist (cons rx mode)))))
 
 ;; built-in to Emacs, no need to "ensure"
-(use-package js :mode ("\\.jsx?\\'" . js-ts-mode))
-(use-package typescript-ts-mode
-  :mode ("\\.ts\\'"  . typescript-ts-mode)
-  :mode ("\\.tsx\\'" . tsx-ts-mode))
-(use-package csharp-mode :mode ("\\.cs\\'" . csharp-ts-mode))
-(use-package json-ts-mode :mode "\\.json\\'")
-(use-package c-ts-mode
-  :mode "\\.[ch]\\'"
-  :mode ("\\.[ch]pp\\." . c++-ts-mode))
-(use-package css-mode :mode ("\\.css\\'" . css-ts-mode))
+(add-extensions-to-mode 'js-ts-mode "js" "jsx")
+(add-extensions-to-mode 'typescript-ts-mode "ts")
+(add-extensions-to-mode 'tsx-ts-mode "tsx")
+(add-extensions-to-mode 'csharp-ts-mode "cs")
+(add-extensions-to-mode 'json-ts-mode "json")
+(add-extensions-to-mode 'c-ts-mode "c" "h")
+(add-extensions-to-mode 'c++-ts-mode "cpp" "hpp")
+(add-extensions-to-mode 'css-ts-mode "css")
+
 ;; can't be added with use-package, but is emacs-internal anyway!
 (add-extensions-to-mode 'nxml-mode "config" "merge" "*proj" "xaml" "props" "resx") ;; .NET, SuperOffice config-merge.
 (add-extensions-to-mode 'html-mode "html" "php" "ascx" "aspx" "cshtml")
@@ -1745,8 +1742,6 @@ Searches for last face, or new face if invoked with prefix-argument"
 ;; un-disabled commands
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
-
-(global-ede-mode 1)
 
 ;; enable eww as the main browser
 (ignore-errors
