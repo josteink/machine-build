@@ -47,7 +47,6 @@
         macrostep
         flycheck flycheck-package
         tree-sitter tree-sitter-langs tree-sitter-indent
-        ssh-config-mode
         nodejs-repl
         highlight-symbol
         ;; lsp support!
@@ -245,7 +244,8 @@
 (use-package cmake-mode    :defer t :mode "CMakeLists.txt")
 (use-package crontab-mode  :defer t :mode "crontab")
 (use-package markdown-mode :defer t :mode "\\.md\\'")
-(use-package powershell    :defer t :mode "\\.psm?1\\'")
+(use-package powershell    :defer t :mode ("\\.psm?1\\'" . powershell-mode))
+(use-package ssh-config-mode)
 
 ;; prog-mode customizations
 (use-package paredit
@@ -1388,7 +1388,6 @@ Searches for last face, or new face if invoked with prefix-argument"
   (lsk 'nrepl-jack-in "<f5>") ; because we know this from VS!
 
   ;; settings
-  (paredit-mode)
   ;; for clojure comments - override annoying elisp mode single-; comment-indentation.
   (setq comment-column 0))
 
