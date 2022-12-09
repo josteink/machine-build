@@ -40,7 +40,6 @@
         projectile
         expand-region
         helm helm-projectile
-        bmx-mode
         imenu-anywhere
         web-mode
         langtool
@@ -248,19 +247,49 @@
 (add-extensions-to-mode 'html-mode "html" "php" "ascx" "aspx" "cshtml")
 (add-extensions-to-mode 'message-mode "somail" "eml")
 
-;; MELPA modules, needs to be "ensured"
-(use-package markdown-mode :defer t :mode "\\.md\\'")
+;; MELPA modules
+(use-package bmx-mode      :defer t :hook bat-mode)
 (use-package cmake-mode    :defer t :mode "CMakeLists.txt")
 (use-package crontab-mode  :defer t :mode "crontab")
+(use-package markdown-mode :defer t :mode "\\.md\\'")
 
 ;; prog-mode customizations
-(use-package paredit :defer t :hook prog-mode)
+(use-package paredit
+  :defer t
+  :hook ((emacs-lisp-mode . paredit-mode)
+         (lisp-mode       . paredit-mode)
+         (clojure-mode    . paredit-mode)))
 (use-package company :defer t :hook (prog-mode . company-mode))
 (use-package company-web
   :defer t
   :after (company)
   :config
   (add-to-list 'company-backends 'company-web-html))
+
+;; configure major-mode agnostic packages
+
+;; DAP/debug support
+(use-package dap-mode
+  :defer t
+  :commands (dap-start-debugging)
+  :config
+  (progn
+    ;; dap/debug support
+    (require 'dap-mode)
+    (require 'dap-python)
+    (require 'dap-pwsh)
+    (require 'dap-node)
+    (require 'dap-netcore)
+    (require 'dap-gdb-lldb)
+    (dap-register-debug-template "Rust::GDB Run Configuration"
+                                 (list :type "gdb"
+                                       :request "launch"
+                                       :name "GDB::Run"
+                                       :gdbpath "rust-gdb"
+                                       :target nil
+                                       :cwd nil))
+    (dap-auto-configure-mode 1)))
+
 
 
 (setq lsp-warn-no-matched-clients nil)
@@ -391,10 +420,8 @@
 (setq-default indent-tabs-mode nil)
 
 ;; try to set indentation consistently.
-(setq c-basic-indent 4)
 (setq tab-width 4)
 (setq web-mode-code-indent-offset 4)
-(setq js-indent-level 2)
 
 ;; use node for JS-execution
 (setq inferior-js-program-command "node --interactive")
@@ -1344,8 +1371,6 @@ Searches for last face, or new face if invoked with prefix-argument"
 
 ;; elisp
 (defun my-emacs-lisp-mode-hook ()
-  (paredit-mode)
-
   ;; enable imenu sections by ;;;;
   (setq imenu-prev-index-position-function nil)
   (add-to-list 'imenu-generic-expression '("Sections" "^;;;; \\(.+\\)$" 1) t)
@@ -1376,8 +1401,7 @@ Searches for last face, or new face if invoked with prefix-argument"
 (defhook lisp-mode-hook
   ;; we know this one from VS :)
   ;; we can also check symbols in slime with M-.
-  (lsk 'slime "<f5>")
-  (paredit-mode))
+  (lsk 'slime "<f5>"))
 
 ;; bat-mode!
 (defhook bat-mode-hook
@@ -1471,28 +1495,6 @@ Searches for last face, or new face if invoked with prefix-argument"
   (lsk #'lsp-find-references "S-<f12>")
 
   (lsk #'lsp-execute-code-action "C-<return>" "C-M-<return>" "M-<return>"))
-
-;; DAP/debug support
-(use-package dap-mode
-  :commands (dap-start-debugging)
-  :config
-  (progn
-    ;; dap/debug support
-    (require 'dap-mode)
-    (require 'dap-python)
-    (require 'dap-pwsh)
-    (require 'dap-node)
-    (require 'dap-netcore)
-    (require 'dap-gdb-lldb)
-    (dap-register-debug-template "Rust::GDB Run Configuration"
-                                 (list :type "gdb"
-                                       :request "launch"
-                                       :name "GDB::Run"
-                                       :gdbpath "rust-gdb"
-                                       :target nil
-                                       :cwd nil))
-    (dap-auto-configure-mode 1)))
-
 
 
 ;; formats the buffer before saving, if using tide
