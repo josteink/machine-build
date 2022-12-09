@@ -257,6 +257,7 @@
 (add-extensions-to-mode 'c-ts-mode "c" "h")
 (add-extensions-to-mode 'c++-ts-mode "cpp" "hpp")
 (add-extensions-to-mode 'css-ts-mode "css")
+(add-extensions-to-mode 'python-ts-mode "py")
 
 ;; can't be added with use-package, but is emacs-internal anyway!
 (add-extensions-to-mode 'nxml-mode "config" "merge" "*proj" "xaml" "props" "resx") ;; .NET, SuperOffice config-merge.
@@ -1185,7 +1186,7 @@ Searches for last face, or new face if invoked with prefix-argument"
   (let ((before-save-hook))
     (save-buffer)))
 
-;; keyboard configuration
+;;;; GLOBAL KEYBOARD DEFINITIONS
 
 (defun lsk (target &rest keys)
   "Sets up a keymap local keybinding for target with all keys provided."
@@ -1207,15 +1208,8 @@ Searches for last face, or new face if invoked with prefix-argument"
 
 (gsk 'my-switch-to-window-by-buffer-name "C-x C-b")
 
-;; we want projectile everywhere.
-(ignore-errors
-  (projectile-global-mode t)
-  ;; ensure local overrides are used for project-locations
-  (setq projectile-project-root-functions '(projectile-root-bottom-up projectile-root-local))
-  (gsk 'projectile-find-file "C-c C-p C-f" "C-c C-p f" "C-c p f")
-  (gsk 'projectile-switch-project "C-c C-p C-p" "C-c C-p p" "C-c p p"))
-
-;;;; GLOBAL KEYBOARD DEFINITIONS
+(gsk #'project-find-file "C-c C-p C-f" "C-c C-p f" "C-c p f")
+(gsk #'project-switch-project "C-c C-p C-p" "C-c C-p p" "C-c p p")
 
 
 ;; dont freeze emacs on ctrl-z
