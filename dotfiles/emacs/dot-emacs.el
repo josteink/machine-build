@@ -15,11 +15,12 @@
 (add-to-list 'package-archives '("melpa"    . "https://melpa.org/packages/"))
 (package-initialize)
 
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
-(eval-and-compile
-  (setq use-package-always-ensure t
+(if init-file-debug
+    (setq use-package-verbose t
+          use-package-expand-minimally nil
+          use-package-compute-statistics t
+          debug-on-error t)
+  (setq use-package-verbose nil
         use-package-expand-minimally t))
 
 ;; off mouse interface early in startup to avoid momentary display
