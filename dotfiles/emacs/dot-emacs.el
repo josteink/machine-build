@@ -41,7 +41,6 @@
         expand-region
         helm helm-projectile
         imenu-anywhere
-        web-mode
         langtool
         ;; cmake-mode
         ;; ggtags
@@ -404,11 +403,6 @@
   ;; (global-set-key (kbd "C-c p h") 'helm-projectile)
   )
 
-;; still useful, even with helm.
-(ignore-errors
-  (ido-yes-or-no-mode))
-
-
 ;; always follow symlinks to files under source-control. dont ask.
 (setq vc-follow-symlinks t)
 
@@ -421,7 +415,6 @@
 
 ;; try to set indentation consistently.
 (setq tab-width 4)
-(setq web-mode-code-indent-offset 4)
 
 ;; use node for JS-execution
 (setq inferior-js-program-command "node --interactive")
@@ -1641,14 +1634,6 @@ Searches for last face, or new face if invoked with prefix-argument"
   (auto-fill-mode 0))
 
 
-
-;; html/web
-(defhook web-mode-hook
-  (lsk 'web-mode-comment-or-uncomment "C-c C-c")
-  (lsk 'web-mode-uncomment            "C-c C-u")
-
-  (when (or (string-suffix-p (buffer-file-name) ".js")
-            (string-suffix-p (buffer-file-name) ".json"))))
 
 ;; things like markdown
 (defhook text-mode-hook
