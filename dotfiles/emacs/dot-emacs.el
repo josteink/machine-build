@@ -7,29 +7,28 @@
 
 ;;;; PACKAGES AND REPOSITORIES
 
+;;
+;; header supposedly required for use-package
+;;
+(require 'package)
+(add-to-list 'package-archives '("gnu"      . "https://elpa.gnu.org/packages/"))
+(add-to-list 'package-archives '("melpa"    . "https://melpa.org/packages/"))
+(add-to-list 'package-archives '("org-mode" . "http://orgmode.org/elpa/"))
+(package-initialize)
+
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+(eval-and-compile
+  (setq use-package-always-ensure t
+        use-package-expand-minimally t))
 
 ;; off mouse interface early in startup to avoid momentary display
 ;; probe first to not crash on emacs-nox
-;;(when (fboundp 'menu-bar-mode) (menu-bar-mode -1))
 (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 (when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 
-;; setup repositories
-(add-to-list 'load-path "~/.emacs.d/local/") ;; emacs23 + package.el on Debian
-(require 'package)
 
-(defun make-repo-url (path)
-  (let ((prefix (if (gnutls-available-p) "https" "http")))
-    (concat prefix "://" path)))
-
-(ignore-errors
-  (package-initialize))
-
-(add-to-list 'package-archives `("melpa"        . ,(make-repo-url "melpa.org/packages/")))
-(add-to-list 'package-archives `("melpa stable" . ,(make-repo-url "stable.melpa.org/packages/")))
-
-
-(add-to-list 'package-archives '("org-mode"     . "http://orgmode.org/elpa/"))
 
 ;; ensure all packages we need are installed.
 (setq my-packages
@@ -260,7 +259,8 @@ https://emacs.stackexchange.com/questions/15020/eww-error-in-process-sentinel-ur
 ;; we DONT want web-mode for CSS, because it breaks company-mode completion.
 (add-extensions-to-mode 'html-mode "html" "php" "ascx" "aspx" "cshtml")
 
-(use-package js-ts-mode :mode "\\.jsx?\\'")
+;; built-in to Emacs, no need to "ensure"
+(use-package js :mode ("\\.jsx?\\'" . js-ts-mode))
 (use-package typescript-ts-mode
   :mode ("\\.ts\\'"  . typescript-ts-mode)
   :mode ("\\.tsx\\'" . tsx-ts-mode))
@@ -1729,14 +1729,7 @@ Searches for last face, or new face if invoked with prefix-argument"
   (setq ediff-diff3-program "C:\\cygwin64\\bin\\diff3.exe")
 
   ;; requires aspell installed by cygwin
-  (setq-default ispell-program-name "C:/cygwin64/bin/aspell.exe")
-
-  ;; load tfs-support if tfs.el is installed.
-  (ignore-errors
-    (require 'tfs)
-    (setq tfs/tf-exe  "C:\\Program Files (x86)\\Microsoft Visual Studio 12.0\\Common7\\IDE\\tf.exe")
-    (setq tfs/tfpt-exe "C:\\Program Files (x86)\\Microsoft Team Foundation Server 2013 Power Tools\\TFPT.EXE")
-    (setq tfs/login "")))
+  (setq-default ispell-program-name "C:/cygwin64/bin/aspell.exe"))
 
 ;;;; UNIX ONLY CUSTOMIZATIONS
 
