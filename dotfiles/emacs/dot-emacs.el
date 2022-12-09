@@ -41,7 +41,6 @@
         expand-region
         helm helm-projectile
         imenu-anywhere
-        langtool
         helpful
         ;; slime-company ;; if loading fails with recursive load, check if distro-provided slime is installed.
         magit git-timemachine
@@ -1302,30 +1301,6 @@ Searches for last face, or new face if invoked with prefix-argument"
 (remove-hook 'kill-emacs-query-functions #'server-kill-emacs-query-function)
 
 
-;; spell-checking via languagetool
-(let* ((jar (expand-file-name "~/build/LanguageTool-3.0/languagetool-commandline.jar")))
-  ;; TODO: auto-download ZIP from https://languagetool.org/download/LanguageTool-3.0.zip
-  ;; and uncompress to get jar without manually having to download this.
-  (when (file-exists-p jar)
-    (ignore-errors
-      (require 'langtool)
-      (setq langtool-language-tool-jar jar
-            langtool-mother-tongue "en"
-            langtool-disabled-rules '("WHITESPACE_RULE"
-                                      "EN_UNPAIRED_BRACKETS"
-                                      "COMMA_PARENTHESIS_WHITESPACE"
-                                      "EN_QUOTES")))))
-
-(defun langtool-check-buffer-dwim (arg)
-  "Check and correct buffer with langtool."
-  (interactive "p")
-
-  (if (= 1 arg)
-      ;; default, no prefix argument.
-      (langtool-check-buffer)
-    ;; non-default. prefix-argument. C-u or something.
-    (langtool-correct-buffer)))
-
 ;; prevent accidentally enabling overwrite-mode
 (defun overwrite-mode-prompt ()
   "A wrapper to ensure overwrite-mode is never enabled blindly."
@@ -1636,11 +1611,7 @@ Searches for last face, or new face if invoked with prefix-argument"
   ;; ancient conventions.
   (auto-fill-mode t)
 
-  (lsk 'langtool-check-buffer-dwim "C-c C-l")
-  (lsk 'langtool-show-message-at-point "C-c C-p")
-  (lsk 'flyspell-correct-word-before-point "C-c C-k")
-  (lsk 'langtool-goto-previous-error "<f7>")
-  (lsk 'langtool-goto-next-error "<f8>"))
+  (lsk 'flyspell-correct-word-before-point "C-c C-k"))
 
 (defhook markdown-mode-hook
   (lsk 'helm-imenu-dwim "M-g m" "M-g M-m" "M-g f" "M-g M-f")
