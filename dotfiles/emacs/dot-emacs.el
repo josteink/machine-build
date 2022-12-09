@@ -13,7 +13,6 @@
 (require 'package)
 (add-to-list 'package-archives '("gnu"      . "https://elpa.gnu.org/packages/"))
 (add-to-list 'package-archives '("melpa"    . "https://melpa.org/packages/"))
-(add-to-list 'package-archives '("org-mode" . "http://orgmode.org/elpa/"))
 (package-initialize)
 
 (unless (package-installed-p 'use-package)
@@ -64,8 +63,6 @@
         flycheck flycheck-package
         tree-sitter tree-sitter-langs tree-sitter-indent
         ssh-config-mode
-        ;; elfeed
-        org ;; we want a newer version than the one built in!
         nodejs-repl
         crontab-mode
         highlight-symbol
