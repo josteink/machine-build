@@ -241,14 +241,10 @@ https://emacs.stackexchange.com/questions/15020/eww-error-in-process-sentinel-ur
     (let ((rx (concat "\\." item "$")))
       (add-to-list 'auto-mode-alist (cons rx mode)))))
 
-(add-extensions-to-mode 'clojure-mode "cljs") ;; clojure-script too!
 (add-extensions-to-mode 'markdown-mode "md")
 (add-extensions-to-mode 'message-mode "somail" "eml")
 (add-extensions-to-mode 'web-mode "cshtml")
 
-(add-to-list 'auto-mode-alist '("www\\..*\\.txt$" . markdown-mode)) ;; it's all text, firefox extension!
-(add-to-list 'auto-mode-alist '("github\\.com.*\\.txt$" . markdown-mode)) ;; it's all text, firefox extension!
-(add-to-list 'auto-mode-alist '("news\\.ycombinator\\.com.*\\.txt$" . markdown-mode)) ;; hacker news is all markdown.
 (add-to-list 'auto-mode-alist '("www.websequencediagrams.com.*\\.txt$" . wsd-mode)) ;; obviously
 (add-to-list 'auto-mode-alist '("crontab" . crontab-mode))
 
