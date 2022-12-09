@@ -168,6 +168,8 @@ https://emacs.stackexchange.com/questions/15020/eww-error-in-process-sentinel-ur
 
 (defun my-gui-mode-hook ()
   ;; smooth scrolling
+  (pixel-scroll-precision-mode t)
+
   (ignore-errors
     (require 'lsp-mode)
     (set-face-background 'lsp-face-highlight-read "#303040")
