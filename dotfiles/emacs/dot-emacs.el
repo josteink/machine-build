@@ -1609,11 +1609,7 @@ Searches for last face, or new face if invoked with prefix-argument"
     ;; allow variable inspection on right-mouse click!
     (define-key realgud:shortkey-mode-map [mouse-3] #'realgud:tooltip-eval))
 
-  ;; don't enable major-modes using "competing" LSP backends
-  (when (not (or (and (derived-mode-p 'csharp-mode) (not (eq my-csharp-backend 'lsp)))
-                 (and (derived-mode-p 'typescript-mode) (not (eq my-typescript-backend 'lsp)))
-              ))
-    (lsp-deferred))
+  (lsp-deferred)
 
   (editorconfig-mode t))
 
