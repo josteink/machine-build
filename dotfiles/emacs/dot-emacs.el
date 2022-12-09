@@ -63,7 +63,6 @@
         ssh-config-mode
         ;; elfeed
         org ;; we want a newer version than the one built in!
-        marmalade-client
         nodejs-repl
         crontab-mode
         highlight-symbol
