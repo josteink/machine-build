@@ -256,6 +256,7 @@
 (add-extensions-to-mode 'c++-ts-mode "cpp" "hpp")
 (add-extensions-to-mode 'css-ts-mode "css")
 (add-extensions-to-mode 'python-ts-mode "py")
+(add-extensions-to-mode 'bash-ts-mode "sh")
 
 ;; can't be added with use-package, but is emacs-internal anyway!
 (add-extensions-to-mode 'nxml-mode "config" "merge" "*proj" "xaml" "props" "resx") ;; .NET, SuperOffice config-merge.
