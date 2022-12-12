@@ -1369,10 +1369,6 @@ Searches for last face, or new face if invoked with prefix-argument"
   ;; we can also check symbols in slime with M-.
   (lsk 'slime "<f5>"))
 
-;; bat-mode!
-(defhook bat-mode-hook
-  (bmx-mode 1))
-
 ;; paredit
 (defhook paredit-mode-hook
   ;; editing. keybindings which makes sense AND whic works in SSH
@@ -1436,22 +1432,12 @@ Searches for last face, or new face if invoked with prefix-argument"
         (setq realgud:pdb-command-name pdb)
         (lsk 'realgud:pdb "C-<f5>")))))
 
-(ignore-errors
-  (elpy-enable))
-
-;; rust
-(defhook rust-mode-hook
-  (cargo-minor-mode)
-  (eldoc-mode)
-  (company-mode)
-
-  (lsk 'company-indent-or-complete-common "TAB"))
-
 ;; lsp
 (defhook lsp-mode-hook
   ;; lsp-mode does proper symbol highlghting natively.
   ;; disable generalized/regexp based symbol highlighting
   (highlight-symbol-mode 0)
+  (eldoc-mode t)
 
   (lsk #'lsp-rename "C-c C-r")
   (lsk #'lsp-find-implementation "<f12>")
@@ -1459,14 +1445,6 @@ Searches for last face, or new face if invoked with prefix-argument"
   (lsk #'lsp-find-references "S-<f12>")
 
   (lsk #'lsp-execute-code-action "C-<return>" "C-M-<return>" "M-<return>"))
-
-
-;; formats the buffer before saving, if using tide
-(ignore-errors
-  (when (eq my-typescript-backend 'tide)
-    (require 'tide)
-    (add-hook 'before-save-hook 'tide-format-before-save)))
-
 
 ;; org-mode
 (defhook org-mode-hook
