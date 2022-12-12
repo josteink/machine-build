@@ -539,7 +539,7 @@
   ;; use projectile root, to get root folder automatically
   (push (region-str-or-symbol) regexp-history)
   (let* ((rx (read-string "Regexp: " "" 'regexp-history)))
-    (vc-git-grep rx "\\*" (projectile-project-root))))
+    (vc-git-grep rx "\\*" (project-root (project-current)))))
 
 (defun my-move-to-start-of-word ()
   "Function to move us to the beginning of the currently selected word."
