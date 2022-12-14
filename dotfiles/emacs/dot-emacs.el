@@ -258,6 +258,9 @@
 (add-extensions-to-mode 'python-ts-mode "py")
 (add-extensions-to-mode 'bash-ts-mode "sh")
 
+;; default is level 3, which is not as advanced/nice.
+(setq-default treesit-font-lock-level 4)
+
 ;; can't be added with use-package, but is emacs-internal anyway!
 (add-extensions-to-mode 'nxml-mode "config" "merge" "*proj" "xaml" "props" "resx") ;; .NET, SuperOffice config-merge.
 (add-extensions-to-mode 'html-mode "html" "php" "ascx" "aspx" "cshtml")
@@ -271,7 +274,6 @@
 (use-package markdown-mode :defer t :mode "\\.md\\'")
 (use-package powershell    :defer t :mode ("\\.psm?1\\'" . powershell-mode))
 (use-package rust-mode     :defer t :mode "\\.rs\\'")
-(use-package toml-mode     :defer t :mode "\\.toml\\'")
 (use-package yaml-mode     :defer t :mode "\\.yml\\'")
 
 ;; prog-mode customizations
@@ -1537,6 +1539,7 @@ Searches for last face, or new face if invoked with prefix-argument"
     (require 'realgud)
     ;; allow variable inspection on right-mouse click!
     (define-key realgud:shortkey-mode-map [mouse-3] #'realgud:tooltip-eval)))
+(add-hook 'toml-ts-mode-hook #'my-prog-mode-hook) ; TOML is programming-related!
 
 ;; xml
 (defhook nxml-mode-hook
