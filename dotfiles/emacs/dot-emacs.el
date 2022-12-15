@@ -495,10 +495,10 @@
   "Indent all files in a project project, based on provided `EXTENSION'."
   (interactive "sEnter file-extension: ")
 
-  (let* ((project-root  (projectile-acquire-root))
-         (project-files (projectile-project-files project-root))
+  (let* ((project--root  (project-root (project-current)))
+         (project--files (project-files project--root))
          (actual-files  (seq-filter (lambda (filename)
-                                      (string-suffix-p extension filename 't)) project-files)))
+                                      (string-suffix-p extension filename 't)) project--files)))
     (dolist (file actual-files)
       (find-file (concat project-root file))
       (delete-trailing-whitespace)
@@ -1574,7 +1574,7 @@ Searches for last face, or new face if invoked with prefix-argument"
   (local-set-key (kbd "C-c C-o") #'occur-dwim)
 
   ;; xml-files are more often than not part of a project.
-  (projectile-mode t)
+  ;; (projectile-mode t)
 
   ;; autofill mode should NEVER be on for xml!
   (auto-fill-mode 0))
