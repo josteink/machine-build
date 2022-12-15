@@ -212,12 +212,12 @@
   :ensure t
   :bind ("C-x v g" . magit-status))
 
-(use-package lsp-mode
-  :hook (prog-mode . lsp-deferred)
-  :config
-  (set-face-background 'lsp-face-highlight-read "#303040")
-  (set-face-bold 'lsp-face-highlight-read t)
-  (set-face-underline 'lsp-face-highlight-read nil))
+;; (use-package lsp-mode
+;;   :hook (prog-mode . lsp-deferred)
+;;   :config
+;;   (set-face-background 'lsp-face-highlight-read "#303040")
+;;   (set-face-bold 'lsp-face-highlight-read t)
+;;   (set-face-underline 'lsp-face-highlight-read nil))
 
 (use-package highlight-symbol
   :ensure t
@@ -1448,6 +1448,17 @@ Searches for last face, or new face if invoked with prefix-argument"
 
   (lsk #'lsp-execute-code-action "C-<return>" "C-M-<return>" "M-<return>"))
 
+(defhook eglot-managed-mode-hook
+         (require 'eglot)
+         (when (eglot-managed-p)
+           (lsk #'eglot-rename "C-c C-r")
+           (lsk #'eglot-find-implementation "<f12>")
+           (lsk #'eglot-find-declaration "C-M-.")
+           (lsk #'xref-find-references "S-<f12>")
+           (lsk #'eglot-code-actions "C-<return>" "C-M-<return>" "M-<return>")
+
+           (add-hook 'before-save-hook #'eglot-format-buffer)))
+
 ;; org-mode
 (defhook org-mode-hook
   ;; keybindings
@@ -1533,6 +1544,9 @@ Searches for last face, or new face if invoked with prefix-argument"
 
   ;; must be set AFTER flyspell!
   (lsk 'company-complete "C-.")
+
+  ;; try out eglot for a while
+  (eglot-ensure)
 
   ;; realgud needs to be required
   (ignore-errors
