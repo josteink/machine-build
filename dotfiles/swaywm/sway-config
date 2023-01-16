@@ -18,6 +18,9 @@ exec mako
 exec /usr/lib/gnome-settings-daemon/gsd-xsettings
 exec /usr/bin/gnome-keyring-daemon
 
+# allow "unlock" to work in gnome-control-center
+exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+
 # kdeconnect depends on a daemon
 exec /usr/lib/x86_64-linux-gnu/libexec/kdeconnectd # ubuntu
 exec /usr/lib/kdeconnectd                          # arcg
@@ -74,6 +77,8 @@ $w9
 $w9 output $mright
 
 set $w10 workspace "10"
+$w10
+$w10 output $mright
 
 # default layouts
 $w8
@@ -109,7 +114,7 @@ for_window [app_id="org.remmina.Remmina"] shortcuts_inhibitor disable
 
 # launch applications
 exec brave-browser
-exec thunderbird
+exec thunderbird-local
 exec element-wayland
 exec emacs
 exec virt-manager
