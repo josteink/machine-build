@@ -23,9 +23,9 @@ exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 
 # kdeconnect depends on a daemon
 exec /usr/lib/x86_64-linux-gnu/libexec/kdeconnectd # ubuntu
-exec /usr/lib/kdeconnectd                          # arcg
+exec /usr/lib/kdeconnectd                          # arch
 
-# ensure clipboard works as it should
+# ensure clipboard works as it should, across VM/RDP
 exec /usr/bin/parcellite
 
 # natural scrolling settings
@@ -95,6 +95,7 @@ assign [class="Brave-browser"] $w1
 assign [title="Brave"] $w1
 assign [app_id="firefox"] $w1
 assign [class="Element"] $w2
+assign [title="Element \|.*"] $w2
 assign [class="Emacs"] $w3
 assign [class="Thunderbird"] $w5
 assign [app_id="thunderbird"] $w5
@@ -112,10 +113,10 @@ assign [app_id="org.remmina.Remmina"] $w8
 for_window [app_id="virt-manager"] shortcuts_inhibitor disable
 for_window [app_id="org.remmina.Remmina"] shortcuts_inhibitor disable
 
-# launch applications
-exec brave-browser
+# launch default browser
+exec xdg-open about://blank
 exec thunderbird-local
-exec element-wayland
+exec element-desktop
 exec emacs
 exec virt-manager
 exec remmina
