@@ -98,6 +98,7 @@ assign [class="Element"] $w2
 assign [title="Element \|.*"] $w2
 assign [class="Emacs"] $w3
 assign [class="Thunderbird"] $w5
+assign [class="thunderbird"] $w5
 assign [app_id="thunderbird"] $w5
 assign [app_id="thunderbird" title="[0-9]+ Reminder"] floating on
 assign [class="webex"] $w6
