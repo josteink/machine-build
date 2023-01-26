@@ -1548,6 +1548,11 @@ Searches for last face, or new face if invoked with prefix-argument"
   ;; try out eglot for a while
   (eglot-ensure)
 
+  ;; highlight TODO-like comments, always
+  (font-lock-add-keywords
+   nil
+   '(("\\<\\(FIXME\\|TODO\\|BUG\\):" 1 font-lock-warning-face t)))
+
   ;; realgud needs to be required
   (ignore-errors
     (require 'realgud)
