@@ -7,14 +7,11 @@ input * {
     xkb_options ctrl:nocaps
 }
 
-# systemd does mysterious things. do we want to know?
-exec systemctl --user import-environment
-# required for actual screen sharing under wayland
-# also requires edge://flags/#enable-webrtc-pipewire-capturer to
-# be enabled in chromium based browsers.
-# See:
-# https://old.reddit.com/r/swaywm/comments/l4e55v/guide_how_to_screenshare_from_chromiumfirefox/
-exec systemctl --user start xdg-desktop-portal-wlr.service
+
+# handles systemd and dbus activation and lots of terible stuff!
+# might require patching!
+# https://github.com/emersion/xdg-desktop-portal-wlr/issues/193
+include /etc/sway/config.d/*
 
 # notification-daemon which is less annoying that dunst
 exec mako
