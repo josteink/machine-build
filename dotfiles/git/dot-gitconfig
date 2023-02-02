@@ -27,3 +27,5 @@
 	conflictStyle = diff3
 [core]
 	excludesFile = /home/jostein/build/machine-build/dotfiles/git/dot-gitignore
+[advice]
+	skippedCherryPicks = false
