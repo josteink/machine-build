@@ -290,6 +290,22 @@
   :hook ((emacs-lisp-mode . paredit-mode)
          (lisp-mode       . paredit-mode)
          (clojure-mode    . paredit-mode)))
+
+(use-package combobulate
+  ;; Optional, but recommended.
+  ;;
+  ;; You can manually enable Combobulate with `M-x
+  ;; combobulate-mode'.
+  :hook ((python-ts-mode . combobulate-mode)
+         (js-ts-mode . combobulate-mode)
+         (css-ts-mode . combobulate-mode)
+         (yaml-ts-mode . combobulate-mode)
+         (typescript-ts-mode . combobulate-mode)
+         (tsx-ts-mode . combobulate-mode))
+  ;; Amend this to the directory where you keep Combobulate's source
+  ;; code.
+  :load-path ("/home/jostein/build/combobulate"))
+
 (use-package company :ensure t :hook (prog-mode . company-mode))
 ;; required for company-mode to complete correctly, without outputting templates
 (use-package yasnippet :ensure t :config (yas-global-mode))
