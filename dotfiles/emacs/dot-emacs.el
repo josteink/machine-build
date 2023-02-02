@@ -206,7 +206,15 @@
 
 (use-package helm
   :ensure t
-  :bind ("M-x" . helm-M-x))
+  :bind (("M-x" . helm-M-x)
+         ("C-x r l" . helm-bookmarks)
+         ("C-x C-f" . helm-find-files)
+         ("C-x b" . helm-buffers-list)
+         ("C-x c o" . helm-occur)
+         ("M-y" . helm-show-kill-ring) ;SC
+         ("C-x r b" . helm-filtered-bookmarks) ;SC
+         )
+  :config (helm-mode 1))
 
 (use-package magit
   :ensure t
