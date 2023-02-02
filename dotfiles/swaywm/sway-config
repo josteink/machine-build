@@ -148,6 +148,7 @@ set $mod Mod4
 
 # ensure we have cloud-sync running
 exec nextcloud
+exec syncthing-gtk
 
 # start kdeconnect
 exec kdeconnect-cli --refresh
