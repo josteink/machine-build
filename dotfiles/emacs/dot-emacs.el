@@ -265,6 +265,7 @@
 (add-extensions-to-mode 'css-ts-mode "css")
 (add-extensions-to-mode 'python-ts-mode "py")
 (add-extensions-to-mode 'bash-ts-mode "sh")
+(add-extensions-to-mode 'rust-ts-mode "rs")
 
 ;; default is level 3, which is not as advanced/nice.
 (setq-default treesit-font-lock-level 4)
@@ -276,12 +277,11 @@
 
 ;; MELPA modules
 (use-package bmx-mode      :defer t :hook bat-mode)
-(use-package cargo         :defer t :hook (rust-mode . cargo-minor-mode))
+(use-package cargo         :defer t :hook (rust-ts-mode . cargo-minor-mode))
 (use-package cmake-mode    :defer t :mode "CMakeLists.txt")
 (use-package crontab-mode  :defer t :mode "crontab")
 (use-package markdown-mode :defer t :mode "\\.md\\'")
 (use-package powershell    :defer t :mode ("\\.psm?1\\'" . powershell-mode))
-(use-package rust-mode     :defer t :mode "\\.rs\\'")
 (use-package yaml-mode     :defer t :mode "\\.yml\\'")
 
 ;; prog-mode customizations
