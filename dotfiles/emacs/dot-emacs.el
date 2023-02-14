@@ -1616,7 +1616,9 @@ Searches for last face, or new face if invoked with prefix-argument"
 
   ;; make line-wraps where they should be according to
   ;; ancient conventions.
-  (auto-fill-mode t)
+  (unless (is-mode-active-p 'yaml-ts-mode)
+    (auto-fill-mode t))
+
 
   (lsk 'flyspell-correct-word-before-point "C-c C-k"))
 
