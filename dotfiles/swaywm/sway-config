@@ -121,7 +121,7 @@ for_window [app_id="org.remmina.Remmina"] shortcuts_inhibitor disable
 
 # launch default browser
 exec xdg-open about://blank
-exec thunderbird-local
+exec thunderbird
 exec element-desktop
 exec emacs
 exec virt-manager
