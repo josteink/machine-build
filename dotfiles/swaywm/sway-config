@@ -120,7 +120,7 @@ for_window [app_id="virt-manager"] shortcuts_inhibitor disable
 for_window [app_id="org.remmina.Remmina"] shortcuts_inhibitor disable
 
 # launch default browser
-exec xdg-open about://blank
+exec microsoft-edge-wayland
 exec thunderbird-wayland
 exec element-desktop
 exec emacs
