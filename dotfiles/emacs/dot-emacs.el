@@ -289,7 +289,8 @@
   :ensure t
   :hook ((emacs-lisp-mode . paredit-mode)
          (lisp-mode       . paredit-mode)
-         (clojure-mode    . paredit-mode)))
+         (clojure-mode    . paredit-mode)
+         (lisp-data-mode  . paredit-mode)))
 
 (use-package combobulate
   ;; Optional, but recommended.
