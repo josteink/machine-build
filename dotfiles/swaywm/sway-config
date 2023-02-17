@@ -102,6 +102,7 @@ assign [app_id="microsoft-edge"] $w1
 assign [class="Element"] $w2
 assign [title="Element \|.*"] $w2
 assign [class="Emacs"] $w3
+assign [app_id="emacs"] $w3
 assign [class="Thunderbird"] $w5
 assign [class="thunderbird"] $w5
 assign [app_id="thunderbird"] $w5
