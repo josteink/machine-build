@@ -158,6 +158,9 @@ exec kdeconnect-indicator
 
 exec nm-applet
 
+# bluetooth (blueman package)
+exec blueman-applet
+
 bindsym $mod+Control+1 focus output $mleft
 bindsym $mod+Control+2 focus output $mmiddle
 bindsym $mod+Control+3 focus output $mright
