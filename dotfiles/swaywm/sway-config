@@ -342,10 +342,10 @@ bindsym XF86AudioRaiseVolume exec pactl set-sink-volume 0 +2db
 bindsym XF86AudioLowerVolume exec pactl set-sink-volume 0 -2db
 bindsym XF86AudioMute exec pactl set-sink-mute 0 toggle
 
-# cider (appler music) remote control
-bindsym XF86AudioPlay exec curl http://localhost:9000/api/playback/playpause
-bindsym XF86AudioNext exec curl http://localhost:9000/api/playback/next
-bindsym XF86AudioPrev exec curl http://localhost:9000/api/playback/previous
+# music playing remote control
+bindsym XF86AudioPlay exec playerctl play-pause
+bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioPrev exec playerctl previous
 
 # for display brightness
 # requires sudo apt-get install xbacklight
