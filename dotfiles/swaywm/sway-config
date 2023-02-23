@@ -338,9 +338,9 @@ bindsym $mod+Shift+D exec makoctl dismiss
 bindsym $mod+Ctrl+Shift+D exec makoctl dismiss -a
 
 # For volume and stuff
-bindsym XF86AudioRaiseVolume exec pactl set-sink-volume 0 +2db
-bindsym XF86AudioLowerVolume exec pactl set-sink-volume 0 -2db
-bindsym XF86AudioMute exec pactl set-sink-mute 0 toggle
+bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +2db
+bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -2db
+bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
 
 # music playing remote control
 bindsym XF86AudioPlay exec playerctl play-pause
