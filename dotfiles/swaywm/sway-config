@@ -38,12 +38,9 @@ exec gsettings set org.gnome.desktop.peripherals.touchpad natural-scroll false
 # fix issues with running certain apps (like gparted) as root
 exec xhost +SI:localuser:root
 
-# start as early as possible to ensure its up and ready by the time firefox comes..
-
-# Should you change your keyboard layout somewhen, delete
-# this file and re-run i3-config-wizard(1).
-#
-# Please see http://i3wm.org/docs/userguide.html for a complete reference!
+# gets applied to workspaces when created.
+gaps outer 2
+gaps inner 8
 
 set $w1 workspace "1: www"
 $w1
@@ -115,6 +112,8 @@ assign [title="PopupWidgetTitle"] $w10
 assign [class="Google-chome"] $w6
 assign [app_id="virt-manager"] $w8
 assign [app_id="org.remmina.Remmina"] $w8
+assign [class="rdesktop"] $w8
+assign [class="Cider"] $w9
 
 # prevent rdp/virt-manager from hijacking our sway-keys!!!
 for_window [app_id="virt-manager"] shortcuts_inhibitor disable
@@ -126,8 +125,9 @@ exec thunderbird-wayland
 exec element-desktop
 exec emacs
 exec virt-manager
-exec remmina
+#exec remmina
 exec webex-x11
+exec cider
 
 # enforce consistent windows-title height by always including some "tall" unicode-characters in titlebar
 #for_window [title=".*"] title_format ゜%title゜
@@ -173,19 +173,10 @@ bindsym $mod+Shift+f3 move workspace to output $mleft
 bindsym $mod+Control+Left move workspace to output left
 bindsym $mod+Control+Right move workspace to output right
 
-
-# setup default workspace
-$msg '$w1; exec /home/jostein/bin/nightly'
-$msg '$w2; exec $term'
-$msg '$w3; exec emacs'
-$msg '$w4; exec nautilus'
-# $msg '$w5: exec google-play-music-desktop-player'
-
-$msg '$w2'
-
 # font for window titles. ISO 10646 = Unicode
 #font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
-font pango:Hack Bold 12
+# font pango:Hack Bold 12
+font pango:FontAwesome Bold 12
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
