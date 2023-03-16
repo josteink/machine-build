@@ -128,6 +128,11 @@
 
 ;;;; GUI specific configuration
 
+(defun at-home-network-p ()
+  (require 'f)
+  (let ((arp (f-read-text "/proc/net/arp")))
+    (string-match-p "24:f5:a2:23:f0:33" arp)))
+
 (defun my-gui-mode-hook ()
   ;; smooth scrolling
   (pixel-scroll-precision-mode t)
@@ -139,11 +144,9 @@
   ;; same with column-numbers.
   (column-number-mode +1)
 
-  ;; font thingie, downloaded from http://sourcefoundry.org/hack/
-  (try-set-default-font "Hack" 11)
-  ;; KDE, Hidpi laptop
-  ;; (try-set-default-font "Droid Sans Mono" 10)
-  )
+  (let ((size (if (at-home-network-p) 11 13)))
+    ;; font thingie, downloaded from http://sourcefoundry.org/hack/
+    (try-set-default-font "Hack" size)))
 
 (when (display-graphic-p)
   (my-gui-mode-hook))
