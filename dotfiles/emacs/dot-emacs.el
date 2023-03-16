@@ -29,11 +29,20 @@
 ;; probe first to not crash on emacs-nox
 (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 
+(defun at-home-network-p ()
+  (require 'f)
+  (let ((arp (f-read-text "/proc/net/arp")))
+    (string-match-p "24:f5:a2:23:f0:33" arp)))
+
 ;; activate theme early!
 (use-package dracula-theme
   :ensure t
   :config
-  (load-theme 'dracula t))
+  (progn
+    (load-theme 'dracula t)
+    (when (not (at-home-network-p))
+      ;; increase comment contrast when at the office, because of sunlight
+      (set-face-foreground 'font-lock-comment-face "#9988bb"))))
 
 (use-package doom-modeline
   :ensure t
@@ -127,11 +136,6 @@
   )
 
 ;;;; GUI specific configuration
-
-(defun at-home-network-p ()
-  (require 'f)
-  (let ((arp (f-read-text "/proc/net/arp")))
-    (string-match-p "24:f5:a2:23:f0:33" arp)))
 
 (defun my-gui-mode-hook ()
   ;; smooth scrolling
