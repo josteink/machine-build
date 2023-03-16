@@ -1,0 +1,19 @@
+# Hey Emacs, this is a -*- conf -*-
+
+# per host-specific config-settings
+
+set $laptop eDP-1
+set $mleft $laptop
+
+#output $laptop scale 1.0
+output $mleft pos 0 0 res 3840x2160 scale 2
+
+# laptop HDMI output when not docked
+output HDMI-A-2 scale 1
+
+# enable laptop sleep on displaylid close
+#unbindswitch lid on
+#unbindswitch lid off
+
+# base config
+include /home/jostein/build/machine-build/dotfiles/swaywm/sway-config

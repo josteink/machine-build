@@ -8,13 +8,9 @@ set $mmiddle "Samsung Electric Company S24C450 H4MDB05128"
 set $mright "Samsung Electric Company S24E650 H4ZH804547"
 
 #output $laptop scale 1.0
-output $mleft pos 0 0 res 1920x1080
-output $mmiddle pos 1920 0 res 1920x1200
-output $mright pos 3840 0 res 1920x1200
-
-# laptop HDMI output when not docked
-output HDMI-A-2 scale 1
-output $laptop scale 2
+output $mleft pos 0 0 res 3840x2160 scale 2
+output $mmiddle pos 1920 0 res 1920x1200@50Hz
+output $mright pos 3840 0 res 1920x1200@50Hz
 
 # disable laptop display on lid close
 bindswitch lid:on output $laptop disable

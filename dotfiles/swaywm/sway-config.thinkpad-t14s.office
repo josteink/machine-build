@@ -1,0 +1,36 @@
+# Hey Emacs, this is a -*- conf -*-
+
+# per host-specific config-settings
+
+set $laptop eDP-1
+set $mleft DP-3
+set $mright1 DP-5
+set $mright2 DP-7
+
+# at the office we have
+# - 1 laptop display
+# - 2 physical monitors
+#   - 1 exposed as 2
+#   - 1 flipped vertically
+#
+# M1
+# M1 M2a M2b
+# M1         laptop
+#
+# M2a and M2b configure properly and in order, but
+# M1 needs flipping, and laptop is assumed to be all leftmost.
+#
+# so we need to reset configuration somehow.
+
+output $mleft   pos 0 0      res 2560x1440 scale 1 transform 270
+output $mright1 pos 1440 0   res 2560x2160 scale 1
+output $mright2 pos 4000 0   res 2560x2160 scale 1
+output $laptop  pos 6560 360 res 3840x2160 scale 2
+
+
+# disable laptop sleep on display lid close
+bindswitch lid:on  output $laptop disable
+bindswitch lid:off output $laptop enable
+
+# base config
+include /home/jostein/build/machine-build/dotfiles/swaywm/sway-config
