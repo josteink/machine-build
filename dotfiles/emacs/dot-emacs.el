@@ -1148,6 +1148,75 @@ With a prefix argument N, (un)comment that many sexps."
   (set-mark-command nil)
   (org-table-end-of-field 0))
 
+;; copy&paste from https://emacs.stackexchange.com/a/27011
+(defun my/org-get-folded-state ()
+  (cond
+   ((not (or (org-at-item-p) (org-at-heading-p)))
+    'not-at-node)
+   ((org-before-first-heading-p)
+    'not-at-node)
+   (t
+    (let (eoh eol eos has-children children-skipped struct)
+      ;; First, determine end of headline (EOH), end of subtree or item
+      ;; (EOS), and if item or heading has children (HAS-CHILDREN).
+      (save-excursion
+        (if (org-at-item-p)
+            (progn
+              (beginning-of-line)
+              (setq struct (org-list-struct))
+              (setq eoh (point-at-eol))
+              (setq eos (org-list-get-item-end-before-blank (point) struct))
+              (setq has-children (org-list-has-child-p (point) struct)))
+          (org-back-to-heading)
+          (setq eoh (save-excursion (outline-end-of-heading) (point)))
+          (setq eos (save-excursion (org-end-of-subtree t t)
+                                    (when (bolp) (backward-char)) (point)))
+          (setq has-children
+                (or (save-excursion
+                      (let ((level (funcall outline-level)))
+                        (outline-next-heading)
+                        (and (org-at-heading-p t)
+                             (> (funcall outline-level) level))))
+                    (save-excursion
+                      (org-list-search-forward (org-item-beginning-re) eos t)))))
+        ;; Determine end invisible part of buffer (EOL)
+        (beginning-of-line 2)
+        (while (and (not (eobp)) ;; this is like `next-line'
+                    (get-char-property (1- (point)) 'invisible))
+          (goto-char (next-single-char-property-change (point) 'invisible))
+          (and (eolp) (beginning-of-line 2)))
+        (setq eol (point)))
+      (cond
+       ((= eos eoh)
+        'empty-node)
+       ((or (>= eol eos)
+            (not (string-match "\\S-" (buffer-substring eol eos))))
+        'folded)
+       (t
+        'not-folded))))))
+
+(defun my/org-tree-can-fold-p ()
+  (not (member (my/org-get-folded-state) (list 'folded 'empty-node))))
+
+(defun my/org-cycle-until-folded ()
+  (while (my/org-tree-can-fold-p)
+    (org-cycle)))
+
+(defun my/org-hide-done-entries-in-range (start end)
+  (save-excursion
+    (goto-char end)
+    (while (and (outline-previous-heading) (> (point) start))
+      (when (org-entry-is-done-p)
+        (my/org-cycle-until-folded)))))
+
+(defun my/org-hide-done-entries-in-region (start end)
+  (interactive "r")
+  (my/org-hide-done-entries-in-range start end))
+
+(defun my/org-hide-done-entries-in-buffer ()
+  (interactive)
+  (my/org-hide-done-entries-in-range (point-min) (point-max)))
+
 (defmacro with-timer (title &rest forms)
   "Run the given FORMS, counting the elapsed time.
 A message including the given TITLE and the corresponding elapsed
@@ -1515,7 +1584,9 @@ Searches for last face, or new face if invoked with prefix-argument"
 
   ;; enable imenu, and add standard navigation.
   (imenu-add-menubar-index)
-  (lsk 'helm-imenu-dwim "M-g m" "M-g M-m" "M-g f" "M-g M-f"))
+  (lsk 'helm-imenu-dwim "M-g m" "M-g M-m" "M-g f" "M-g M-f")
+
+  (my/org-hide-done-entries-in-buffer))
 
 (defhook org-src-mode-hook
   ;; create easy exit from org-edit-special.
