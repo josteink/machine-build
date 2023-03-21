@@ -105,6 +105,7 @@ assign [class="thunderbird"] $w5
 assign [app_id="thunderbird"] $w5
 assign [app_id="thunderbird" title="[0-9]+ Reminder"] floating on
 assign [class="webex"] $w6
+assign [class="Webex"] $w6
 assign [app_id="CiscoCollabHost"] $w6
 # name popup during webex video-calls.
 assign [title="Form"] $w10
