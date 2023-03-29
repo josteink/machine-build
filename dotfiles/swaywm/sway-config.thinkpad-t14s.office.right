@@ -2,30 +2,21 @@
 
 # per host-specific config-settings
 
+set $P27 DP-4
+set $P40 DP-3
+
 set $laptop eDP-1
-set $mleft  DP-5
-set $mmidle DP-7
-set $mright DP-4
+set $mleft  $P27
+set $mright $P40
 
-# at the office we have
-# - 1 laptop display
-# - 2 physical monitors
-#   - 1 exposed as 2
-#   - 1 flipped vertically
+#           M2
+#        M1 M2
+# laptop    M2
 #
-#                M2
-#        M1a M1b M2
-# laptop         M2
-#
-# M1a and M1b configure properly and in order, but
-# M2 needs flipping, and laptop is assumed to be all leftmost.
-#
-# so we need to reset configuration somehow.
 
-output $laptop pos 0 360  res 3840x2160 scale 2
-output $mleft  pos 1920 0 res 2560x2160 scale 1
-output $mmidle pos 4480 0 res 2560x2160 scale 1
-output $mright pos 7040 0 res 2560x1440 scale 1 transform 270
+output $laptop pos 0    360 res 3840x2160 scale 2
+output $mleft  pos 1920 0   res 5120x2160 scale 1
+output $mright pos 7040 0   res 2560x1440 scale 1 transform 270
 
 # disable laptop sleep on display lid close
 bindswitch lid:on  output $laptop disable

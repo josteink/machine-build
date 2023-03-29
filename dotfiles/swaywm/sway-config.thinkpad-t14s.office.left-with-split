@@ -3,19 +3,23 @@
 # per host-specific config-settings
 
 set $P27 DP-4
-set $P40 DP-3
+set $P401 DP-3
+set $P402 DP-5
 
 set $mleft  $P27
-set $mright $P40
+set $mmidle $P401
+set $mright $P402
 set $laptop eDP-1
 
 # M2
-# M2 M1
-# M2    Laptop
+# M2 M1a M1b
+# M2         Laptop
 
-output $mleft  pos 0 0      res 2560x1440 scale 1 transform 90
-output $mright pos 1440 0   res 5120x2160 scale 1
-output $laptop pos 6560 360 res 3840x2160 scale 2
+output $mleft   pos 0    0   res 2560x1440 scale 1 transform 90
+output $mmiddle pos 1440 0   res 2560x2160 scale 1
+output $mright  pos 4000 0   res 2560x2160 scale 1
+output $laptop  pos 6560 360 res 3840x2160 scale 2
+
 
 # disable laptop sleep on display lid close
 bindswitch lid:on  output $laptop disable
