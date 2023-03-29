@@ -43,51 +43,19 @@ gaps outer 2
 gaps inner 8
 
 set $w1 workspace "1: www"
-$w1
-$w1 output $mmiddle
-
 set $w2 workspace "2: shell"
-$w2
-$w2 output $mleft
-
 set $w3 workspace "3: emacs"
-$w3
-$w3 output $mmidle
-
 set $w4 workspace "4: files"
-
 set $w5 workspace "5: email"
-$w5
-$w5 output $mright
-
 set $w6 workspace "6: chat"
-$w6
-$w6 output $mmiddle
-
 set $w7 workspace "7: chrome"
-$w7
-$w7 output $mmiddle
-
 set $w8 workspace "8: virt/rdp"
-$w8
-$w8 output $mright
-
 set $w9 workspace "9: music"
-$w9
-$w9 output $mright
-
 set $w10 workspace "10"
-$w10
-$w10 output $mright
 
 # default layouts
 $w8
 workspace_layout tabbed
-
-# default workspaces: shell/chat - firefox - email
-$w2
-$w1
-$w5
 
 # pin applications
 assign [class="Firefox"] $w1
