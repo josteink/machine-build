@@ -375,6 +375,8 @@
 (setq magit-push-always-verify nil)
 
 (setq org-support-shift-select t)
+(setq org-todo-keywords
+      '((sequence "TODO" "ACTIVE" "|" "DONE" "DELEGATED")))
 
 ;; always update files when changing git-branches, etc.
 (global-auto-revert-mode t)
