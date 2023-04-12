@@ -363,6 +363,8 @@
 (setq require-final-newline nil)
 ;; dont let other sysadmins override our config ;)
 (setq inhibit-default-init t)
+(require 'org)
+(setq initial-buffer-choice 'org-agenda-list)
 
 ;; supress splash-screen.
 (setq inhibit-startup-screen t)
