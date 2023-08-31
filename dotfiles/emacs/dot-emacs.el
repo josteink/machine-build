@@ -1814,6 +1814,13 @@ Searches for last face, or new face if invoked with prefix-argument"
   (my-unix-mode-hook))
 
 
+(defun my-macos-mode-hook ()
+  (setq mac-option-key-is-meta t)
+  (setq mac-right-option-modifier nil))
+
+(if (eq system-type 'darwin)
+    (my-macos-mode-hook))
+
 ;;;; FREEBSD ONLY CUSTOMIZATIONS
 
 
