@@ -380,6 +380,9 @@
 (setq org-todo-keywords
       '((sequence "TODO" "ACTIVE" "|" "DONE" "DELEGATED")))
 
+;; ensure weeks starts on mondays
+(setq calendar-week-start-day 1)
+
 ;; always update files when changing git-branches, etc.
 (global-auto-revert-mode t)
 
