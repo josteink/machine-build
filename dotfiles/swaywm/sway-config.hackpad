@@ -5,7 +5,7 @@
 set $laptop eDP-1
 
 # laptop HDMI output when not docked
-output $laptop scale 1.5
+output $laptop scale 1
 
 # disable laptop display on lid close
 # bindswitch lid:on output $laptop disable

@@ -1,10 +1,18 @@
 # Hey Emacs, this is a -*- conf -*-
 
 # all keyboards!
-input * {
+input type:keyboard {
     xkb_layout no
     xkb_variant nodeadkeys
     xkb_options ctrl:nocaps
+}
+
+input type:touchpad {
+    natural_scroll disabled
+    scroll_factor 0.3
+    accel_profile adaptive
+    drag enabled
+    dwt enabled
 }
 
 
@@ -165,6 +173,9 @@ exec swayidle \
 
 bindsym $mod+Shift+L exec swaylock -c 000000
 bindsym $mod+L exec swaylock -c 000000
+
+# auto lock on lid-close
+bindswitch --reload --locked lid:on exec 'swaylock -c 000000'
 
 #exec --no-startup-id gnome-screensaver
 #bindsym $mod+Shift+L exec gnome-screensaver-command --lock
