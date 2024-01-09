@@ -97,13 +97,10 @@ for_window [app_id="virt-manager"] shortcuts_inhibitor disable
 for_window [app_id="org.remmina.Remmina"] shortcuts_inhibitor disable
 
 # launch default browser
-exec microsoft-edge-wayland
-exec thunderbird-wayland
+exec firefox
 exec element-desktop
-exec emacs
-exec virt-manager
-#exec remmina
-exec webex-x11
+exec $HOME/bin/emacs
+exec $HOME/bin/thunderbird-wayland
 exec cider
 
 # enforce consistent windows-title height by always including some "tall" unicode-characters in titlebar
