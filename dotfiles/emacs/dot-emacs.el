@@ -277,9 +277,6 @@
 ;; default is level 3, which is not as advanced/nice.
 (setq-default treesit-font-lock-level 4)
 
-;; ensure all calendar stuff starts weeks on mondays!
-(setq calendar-week-start-day 1)
-
 ;; can't be added with use-package, but is emacs-internal anyway!
 (add-extensions-to-mode 'nxml-mode "config" "merge" "*proj" "xaml" "props" "resx") ;; .NET, SuperOffice config-merge.
 (add-extensions-to-mode 'html-mode "html" "php" "ascx" "aspx" "cshtml")
