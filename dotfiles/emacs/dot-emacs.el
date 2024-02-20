@@ -273,6 +273,7 @@
 (add-extensions-to-mode 'python-ts-mode "py")
 (add-extensions-to-mode 'bash-ts-mode "sh")
 (add-extensions-to-mode 'rust-ts-mode "rs")
+(add-to-list 'auto-mode-alist '("[dD]ockerfile$" dockerfile-ts-mode))
 
 ;; default is level 3, which is not as advanced/nice.
 (setq-default treesit-font-lock-level 4)
@@ -1677,6 +1678,8 @@ Searches for last face, or new face if invoked with prefix-argument"
 
   (lsk 'nxml-where                  "C-c C-w")
   (lsk 'nxml-pretty-print-buffer    "C-c C-e")
+
+  (lsk #'completion-at-point          "C-.")
 
   ;; causes entire elements (with children) to be treated as sexps.
   (setq nxml-sexp-element-flag t)
