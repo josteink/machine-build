@@ -148,7 +148,7 @@
   ;; same with column-numbers.
   (column-number-mode +1)
 
-  (let ((size (if (at-home-network-p) 11 13)))
+  (let ((size (if (at-home-network-p) 12 14)))
     ;; font thingie, downloaded from http://sourcefoundry.org/hack/
     (try-set-default-font "Hack" size)))
 
@@ -257,9 +257,19 @@
 
 (defun add-extensions-to-mode (mode &rest extensions)
   "Register the provided `extensions' to handle the provided `mode'."
-  (dolist (item extensions)
-    (let ((rx (concat "\\." item "$")))
-      (add-to-list 'auto-mode-alist (cons rx mode)))))
+  (dolist (extension extensions)
+    (add-regexp-to-mode (concat "\\." extension "$"))))
+
+(defun add-regexp-to-mode (mode &rest patterns)
+  "Register the provided `patterns' to handle the provided `mode'."
+  (dolist (rx patterns)
+    ;; dont add at the end, add at tyhe beginning!
+    ;; (ie override defaults, if present!)
+    (setq auto-mode-alist
+          (cons
+           (cons rx mode)
+           auto-mode-alist))))
+
 
 ;; built-in to Emacs, no need to "ensure"
 (add-extensions-to-mode 'js-ts-mode "js" "jsx")
@@ -273,7 +283,8 @@
 (add-extensions-to-mode 'python-ts-mode "py")
 (add-extensions-to-mode 'bash-ts-mode "sh")
 (add-extensions-to-mode 'rust-ts-mode "rs")
-(add-to-list 'auto-mode-alist '("[dD]ockerfile$" dockerfile-ts-mode))
+(require 'dockerfile-mode)
+(add-regexp-to-mode 'dockerfile-mode "[dD]ockerfile$")
 
 ;; default is level 3, which is not as advanced/nice.
 (setq-default treesit-font-lock-level 4)
@@ -313,7 +324,7 @@
          (tsx-ts-mode . combobulate-mode))
   ;; Amend this to the directory where you keep Combobulate's source
   ;; code.
-  :load-path ("/home/jostein/build/combobulate"))
+  :load-path ("/Users/josteink/build/combobulate"))
 
 (use-package company :ensure t :hook (prog-mode . company-mode))
 ;; required for company-mode to complete correctly, without outputting templates
@@ -1697,19 +1708,19 @@ Searches for last face, or new face if invoked with prefix-argument"
   ;; autofill mode should NEVER be on for xml!
   (auto-fill-mode 0))
 
-
-
 ;; things like markdown
 (defhook text-mode-hook
-  (my-enable-flyspell-mode nil)
+         ;; we do NOT want spell-checking in XML mode!
+         (unless (is-mode-active-p 'nxml-mode)
+           (my-enable-flyspell-mode nil))
 
-  ;; make line-wraps where they should be according to
-  ;; ancient conventions.
-  (unless (is-mode-active-p 'yaml-ts-mode)
-    (auto-fill-mode t))
+         ;; make line-wraps where they should be according to
+         ;; ancient conventions.
+         (unless (is-mode-active-p 'yaml-ts-mode)
+           (auto-fill-mode t))
 
 
-  (lsk 'flyspell-correct-word-before-point "C-c C-k"))
+         (lsk 'flyspell-correct-word-before-point "C-c C-k"))
 
 (defhook markdown-mode-hook
   (lsk 'helm-imenu-dwim "M-g m" "M-g M-m" "M-g f" "M-g M-f")
@@ -1926,3 +1937,17 @@ White space here is any of: space, tab, emacs newline (line feed, ASCII 10)."
 ;;   (let* ((value (alist-get item compilation-error-regexp-alist-alist)))
 ;;     (when (not value)
 ;;       (setq compilation-error-regexp-alist (remove item compilation-error-regexp-alist)))))
+
+
+;; GitHub Copilot
+
+(add-to-list 'load-path "/Users/josteink/build/copilot.el")
+(require 'copilot)
+(add-hook 'prog-mode-hook #'copilot-mode)
+
+(add-to-list 'copilot-major-mode-alist '("csharp-ts" . "csharp"))
+(add-to-list 'copilot-major-mode-alist '("typescript-ts" . "typescript"))
+(add-to-list 'copilot-major-mode-alist '("tsx-ts" . "typescriptreact"))
+
+(define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
+(define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion)
