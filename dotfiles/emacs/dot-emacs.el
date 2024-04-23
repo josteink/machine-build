@@ -258,7 +258,7 @@
 (defun add-extensions-to-mode (mode &rest extensions)
   "Register the provided `extensions' to handle the provided `mode'."
   (dolist (extension extensions)
-    (add-regexp-to-mode (concat "\\." extension "$"))))
+    (add-regexp-to-mode mode (concat "\\." extension "$"))))
 
 (defun add-regexp-to-mode (mode &rest patterns)
   "Register the provided `patterns' to handle the provided `mode'."
@@ -290,7 +290,7 @@
 (setq-default treesit-font-lock-level 4)
 
 ;; can't be added with use-package, but is emacs-internal anyway!
-(add-extensions-to-mode 'nxml-mode "config" "merge" "*proj" "xaml" "props" "resx") ;; .NET, SuperOffice config-merge.
+(add-extensions-to-mode 'nxml-mode "config" "merge" ".*proj" "xaml" "props" "resx") ;; .NET, SuperOffice config-merge.
 (add-extensions-to-mode 'html-mode "html" "php" "ascx" "aspx" "cshtml")
 (add-extensions-to-mode 'message-mode "somail" "eml")
 
@@ -1951,3 +1951,35 @@ White space here is any of: space, tab, emacs newline (line feed, ASCII 10)."
 
 (define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
 (define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion)
+
+
+
+(defun my-org-screenshot ()
+  "Take a screenshot into a time stamped unique-named file in the
+same directory as the org-buffer and insert a link to this file."
+  (interactive)
+  (setq filename
+        (concat
+         (make-temp-name
+          (concat (file-name-nondirectory (buffer-file-name))
+                  "_"
+                  (format-time-string "%Y%m%d_%H%M%S_")) ) ".png"))
+  (call-process "screencapture" nil nil nil "-i" filename)
+  (insert (concat "[[./" filename "]]"))
+  (org-display-inline-images))
+
+(defun my-org-paste-image ()
+  "Paste an image into a time stamped unique-named file in the
+  same directory as the org-buffer and insert a link to this file."
+  (interactive)
+  (setq filename
+        (concat
+         (make-temp-name
+          (concat (file-name-nondirectory (buffer-file-name))
+                  "_"
+                  (format-time-string "%Y%m%d_%H%M%S_")) ) ".png"))
+  (call-process "pngpaste" nil nil nil filename)
+  (insert (concat "[[./" filename "]]"))
+  (org-display-inline-images))
+
+
