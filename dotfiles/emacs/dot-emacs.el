@@ -1587,9 +1587,14 @@ Searches for last face, or new face if invoked with prefix-argument"
            (lsk #'eglot-find-implementation "<f12>")
            (lsk #'eglot-find-declaration "C-M-.")
            (lsk #'xref-find-references "S-<f12>")
-           (lsk #'eglot-code-actions "C-<return>" "C-M-<return>" "M-<return>")
+           (lsk #'eglot-code-actions "C-<return>" "C-M-<return>" "M-<return>")))
+(defhook before-save-hook
+         (when (eglot-managed-p)
+           (eglot-format-buffer)))
+(defhook magit-post-refresh-hook
+         (when (eglot-managed-p)
+           (eglot-reconnect)))
 
-           (add-hook 'before-save-hook #'eglot-format-buffer)))
 
 ;; org-mode
 (defhook org-mode-hook
