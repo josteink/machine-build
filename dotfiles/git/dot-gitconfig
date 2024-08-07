@@ -3,6 +3,7 @@
 	email = jostein@kjonigsen.net
 [push]
 	default = simple
+	autoSetupRemote = true
 [branch]
 	autosetuprebase = always
 [alias]
