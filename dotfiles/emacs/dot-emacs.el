@@ -29,9 +29,21 @@
 ;; probe first to not crash on emacs-nox
 (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 
+(defun my-get-arp-table ()
+  "Gets the ARP table for the current system."
+  (cond ((eq system-type 'windows-nt)
+         (let ((arp (shell-command-to-string "arp -a")))
+           arp))
+        ((eq system-type 'gnu/linux)
+         (require 'f)
+         (let ((arp (f-read-text "/proc/net/arp")))
+           arp))
+        ((eq system-type 'darwin)
+         (let ((arp (shell-command-to-string "arp -an")))
+           arp))))
+
 (defun at-home-network-p ()
-  (require 'f)
-  (let ((arp (f-read-text "/proc/net/arp")))
+  (let ((arp (my-get-arp-table)))
     (string-match-p "24:f5:a2:23:f0:33" arp)))
 
 ;; activate theme early!
