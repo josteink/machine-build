@@ -336,7 +336,12 @@
          (tsx-ts-mode . combobulate-mode))
   ;; Amend this to the directory where you keep Combobulate's source
   ;; code.
-  :load-path ("/Users/josteink/build/combobulate"))
+  :load-path ("/Users/josteink/build/combobulate")
+  :config
+  (progn
+    (define-key combobulate-key-map (kbd "M-p") #'combobulate-drag-up)
+    (define-key combobulate-key-map (kbd "M-n") #'combobulate-drag-down))
+  )
 
 (use-package company :ensure t :hook (prog-mode . company-mode))
 ;; required for company-mode to complete correctly, without outputting templates
@@ -367,6 +372,31 @@
                                        :cwd nil))
     (dap-auto-configure-mode 1)))
 
+
+;; indent-bars cloned from github!
+;; https://github.com/jdtsmith/indent-bars
+(use-package indent-bars
+  :load-path "~/build/indent-bars"
+  :config
+  (require 'indent-bars-ts)             ; not needed with straight
+  :custom
+  (indent-bars-treesit-support t)
+  (indent-bars-treesit-ignore-blank-lines-types '("module"))
+  ;; Add other languages as needed
+  (indent-bars-treesit-scope
+   '(
+     (python function_definition class_definition for_statement
+             if_statement with_statement while_statement)
+     (typescript function_declaration class_declaration method_definition
+                 try_statement if_statement for_statement for_in_statement while_statement
+                 statement_block)
+     (tsx function_declaration class_declaration method_definition
+                 try_statement if_statement for_statement for_in_statement while_statement
+                 statement_block
+                 jsx_opening_element)
+     (bicep resource_declaration object))
+   )
+  :hook ((prog-mode) . indent-bars-mode))
 
 
 ;; make project.el behave like projectile:
@@ -1499,86 +1529,86 @@ Searches for last face, or new face if invoked with prefix-argument"
 
 ;; common lisp
 (defhook lisp-mode-hook
-  ;; we know this one from VS :)
-  ;; we can also check symbols in slime with M-.
-  (lsk 'slime "<f5>"))
+         ;; we know this one from VS :)
+         ;; we can also check symbols in slime with M-.
+         (lsk 'slime "<f5>"))
 
 ;; paredit
 (defhook paredit-mode-hook
-  ;; editing. keybindings which makes sense AND whic works in SSH
-  (lsk 'paredit-forward-slurp-sexp  "<C-left>"   "M-[ c")
-  (lsk 'paredit-forward-barf-sexp   "<C-right>"   "M-[ d")
-  (lsk 'paredit-backward-slurp-sexp "<C-M-left>"  "ESC M-[ c")
-  (lsk 'paredit-backward-barf-sexp  "<C-M-right>" "ESC M-[ d")
+         ;; editing. keybindings which makes sense AND whic works in SSH
+         (lsk 'paredit-forward-slurp-sexp  "<C-left>"   "M-[ c")
+         (lsk 'paredit-forward-barf-sexp   "<C-right>"   "M-[ d")
+         (lsk 'paredit-backward-slurp-sexp "<C-M-left>"  "ESC M-[ c")
+         (lsk 'paredit-backward-barf-sexp  "<C-M-right>" "ESC M-[ d")
 
-  ;; navigation
-  (lsk 'paredit-backward            "<C-M-up>"    "ESC M-[ A")
-  (lsk 'paredit-forward             "<C-M-down>"  "ESC M-[ B")
+         ;; navigation
+         (lsk 'paredit-backward            "<C-M-up>"    "ESC M-[ A")
+         (lsk 'paredit-forward             "<C-M-down>"  "ESC M-[ B")
 
-  (lsk 'paredit-splice-sexp          "C-M-s")
-  (lsk 'paredit-split-sexp          "C-M-S")
-  ;; should be set by default, but gets overriden by over global-set-key
-  (lsk 'paredit-join-sexps          "M-J")
-  (lsk 'my-join-line-with-next      "M-j")
+         (lsk 'paredit-splice-sexp          "C-M-s")
+         (lsk 'paredit-split-sexp          "C-M-S")
+         ;; should be set by default, but gets overriden by over global-set-key
+         (lsk 'paredit-join-sexps          "M-J")
+         (lsk 'my-join-line-with-next      "M-j")
 
-  (show-paren-mode 1) ; turn on paren match highlighting
-  ;;(setq show-paren-style 'expression) ; highlight entire bracket expression
-  )
+         (show-paren-mode 1) ; turn on paren match highlighting
+         ;;(setq show-paren-style 'expression) ; highlight entire bracket expression
+         )
 
 ;; clojure
 (defhook clojure-mode-hook
-  ;; key-bindings
-  (lsk 'nrepl-jack-in "<f5>") ; because we know this from VS!
+         ;; key-bindings
+         (lsk 'nrepl-jack-in "<f5>") ; because we know this from VS!
 
-  ;; settings
-  ;; for clojure comments - override annoying elisp mode single-; comment-indentation.
-  (setq comment-column 0))
+         ;; settings
+         ;; for clojure comments - override annoying elisp mode single-; comment-indentation.
+         (setq comment-column 0))
 
 ;; haskell
 (defhook haskell-mode-hook
-  ;; we want proper indentation
-  (haskell-indent-mode +1))
+         ;; we want proper indentation
+         (haskell-indent-mode +1))
 
 (defhook python-mode-hook
-  ;; elpy improves python-coding considerably, when on a
-  ;; well-supported platform, so package not installed by default.
-  (ignore-errors
-    (require 'elpy))
-  (when (fboundp 'elpy-mode)
-    (let* ((python-exe (if (eq system-type 'windows-nt)
-                           "python.exe" ;; python3 is called python on windows!
-                         "python3"))
-           (pdb (concat python-exe " -m pdb")))
+         ;; elpy improves python-coding considerably, when on a
+         ;; well-supported platform, so package not installed by default.
+         (ignore-errors
+           (require 'elpy))
+         (when (fboundp 'elpy-mode)
+           (let* ((python-exe (if (eq system-type 'windows-nt)
+                                  "python.exe" ;; python3 is called python on windows!
+                                "python3"))
+                  (pdb (concat python-exe " -m pdb")))
 
-      (setq elpy-rpc-python-command python-exe)
-      (elpy-use-cpython python-exe)
-      (setq python-shell-interpreter python-exe)
+             (setq elpy-rpc-python-command python-exe)
+             (elpy-use-cpython python-exe)
+             (setq python-shell-interpreter python-exe)
 
-      (elpy-mode)
-      (define-key elpy-mode-map (kbd "C-c o") #'occur-dwim)
-      (define-key elpy-mode-map (kbd "C-c C-o") #'occur-dwim)
+             (elpy-mode)
+             (define-key elpy-mode-map (kbd "C-c o") #'occur-dwim)
+             (define-key elpy-mode-map (kbd "C-c C-o") #'occur-dwim)
 
-      ;; gud/realgud defaults to a seperate pdb executable which does not
-      ;; exist on Fedora. Just use python and pdb module directly.
-      (ignore-errors
-        (require 'realgud)
-        (setq gud-pdb-command-name pdb)
-        (setq realgud:pdb-command-name pdb)
-        (lsk 'realgud:pdb "C-<f5>")))))
+             ;; gud/realgud defaults to a seperate pdb executable which does not
+             ;; exist on Fedora. Just use python and pdb module directly.
+             (ignore-errors
+               (require 'realgud)
+               (setq gud-pdb-command-name pdb)
+               (setq realgud:pdb-command-name pdb)
+               (lsk 'realgud:pdb "C-<f5>")))))
 
 ;; lsp
 (defhook lsp-mode-hook
-  ;; lsp-mode does proper symbol highlghting natively.
-  ;; disable generalized/regexp based symbol highlighting
-  (highlight-symbol-mode 0)
-  (eldoc-mode t)
+         ;; lsp-mode does proper symbol highlghting natively.
+         ;; disable generalized/regexp based symbol highlighting
+         (highlight-symbol-mode 0)
+         (eldoc-mode t)
 
-  (lsk #'lsp-rename "C-c C-r")
-  (lsk #'lsp-find-implementation "<f12>")
-  (lsk #'lsp-find-definition "C-M-.")
-  (lsk #'lsp-find-references "S-<f12>")
+         (lsk #'lsp-rename "C-c C-r")
+         (lsk #'lsp-find-implementation "<f12>")
+         (lsk #'lsp-find-definition "C-M-.")
+         (lsk #'lsp-find-references "S-<f12>")
 
-  (lsk #'lsp-execute-code-action "C-<return>" "C-M-<return>" "M-<return>"))
+         (lsk #'lsp-execute-code-action "C-<return>" "C-M-<return>" "M-<return>"))
 
 (defhook eglot-managed-mode-hook
          (require 'eglot)
@@ -1598,132 +1628,132 @@ Searches for last face, or new face if invoked with prefix-argument"
 
 ;; org-mode
 (defhook org-mode-hook
-  ;; keybindings
-  (lsk 'org-store-link "C-c l")
-  (lsk 'org-agenda     "C-c a")
-  (lsk 'org-iswitchb   "C-c b")
-  ;; override C-c ¨ as that doesnt work on norwegian keyboards
-  (lsk 'org-table-sort-lines "C-c s")
+         ;; keybindings
+         (lsk 'org-store-link "C-c l")
+         (lsk 'org-agenda     "C-c a")
+         (lsk 'org-iswitchb   "C-c b")
+         ;; override C-c ¨ as that doesnt work on norwegian keyboards
+         (lsk 'org-table-sort-lines "C-c s")
 
-  ;; override some defaults
-  (lsk 'org-table-beginning-of-field-dwim "M-a")
-  ;; TODO: create similar  end-of-field-dwim and map to M-e for symmetry.
+         ;; override some defaults
+         (lsk 'org-table-beginning-of-field-dwim "M-a")
+         ;; TODO: create similar  end-of-field-dwim and map to M-e for symmetry.
 
-  ;; select the contents of a cell.
-  (lsk 'my-org-select-field "C-M-+")
+         ;; select the contents of a cell.
+         (lsk 'my-org-select-field "C-M-+")
 
-  ;; edit source in org-babel, org-tables etc. default mapped to only "C-c '"
-  (lsk 'org-edit-special "C-c C-'")
+         ;; edit source in org-babel, org-tables etc. default mapped to only "C-c '"
+         (lsk 'org-edit-special "C-c C-'")
 
-  ;; we want proper new-line indentation
-  ;;(lsk 'org-return-and-indent "RET")
+         ;; we want proper new-line indentation
+         ;;(lsk 'org-return-and-indent "RET")
 
-  ;; enable imenu, and add standard navigation.
-  (imenu-add-menubar-index)
-  (lsk 'helm-imenu-dwim "M-g m" "M-g M-m" "M-g f" "M-g M-f")
+         ;; enable imenu, and add standard navigation.
+         (imenu-add-menubar-index)
+         (lsk 'helm-imenu-dwim "M-g m" "M-g M-m" "M-g f" "M-g M-f")
 
   (my/org-hide-done-entries-in-buffer))
 
 (defhook org-src-mode-hook
-  ;; create easy exit from org-edit-special.
-  (lsk 'org-edit-src-exit "C-c C-'"))
+         ;; create easy exit from org-edit-special.
+         (lsk 'org-edit-src-exit "C-c C-'"))
 
 (defhook prog-mode-hook
-  ;; keybindings
+         ;; keybindings
 
-  ;; not C-k C-c & C-k C-t because C-k is kill-line in emacs
-  (lsk 'comment-or-uncomment-region  "C-;" "C-M-,")
-  (lsk 'uncomment-region             "C-:")
+         ;; not C-k C-c & C-k C-t because C-k is kill-line in emacs
+         (lsk 'comment-or-uncomment-region  "C-;" "C-M-,")
+         (lsk 'uncomment-region             "C-:")
 
-  ;; code - navigate to definition
-  (lsk 'imenu-nav-dwim "<f12>")
-  (lsk 'highlight-symbol-occur "S-<f12>")
+         ;; code - navigate to definition
+         (lsk 'imenu-nav-dwim "<f12>")
+         (lsk 'highlight-symbol-occur "S-<f12>")
 
-  (lsk 'helm-imenu-dwim "M-g m" "M-g M-m" "M-g f" "M-g M-f")
-  (lsk 'helm-imenu-anywhere "C-M-g C-M-m" "C-M-g C-M-f")
-  ;; navigate back again.
-  ;; (could also use set-mark with prefix argument C-u C-spc.)
-  (lsk 'pop-local-or-global-mark "C--")
+         (lsk 'helm-imenu-dwim "M-g m" "M-g M-m" "M-g f" "M-g M-f")
+         (lsk 'helm-imenu-anywhere "C-M-g C-M-m" "C-M-g C-M-f")
+         ;; navigate back again.
+         ;; (could also use set-mark with prefix argument C-u C-spc.)
+         (lsk 'pop-local-or-global-mark "C--")
 
-  (lsk 'occur-dwim "C-c C-o")
+         (lsk 'occur-dwim "C-c C-o")
 
-  (hs-minor-mode 1)
-  (local-unset-key (kbd "M-m"))
-  (lsk 'hs-toggle-hiding "M-m M-m")
+         (hs-minor-mode 1)
+         (local-unset-key (kbd "M-m"))
+         (lsk 'hs-toggle-hiding "M-m M-m")
 
 
-  ;; settings
+         ;; settings
 
-  ;; highlight current function?
-  (which-function-mode 1)
+         ;; highlight current function?
+         (which-function-mode 1)
 
-  ;; enable imenu - only for true prog-mode major-modes
-  (when (derived-mode-p 'prog-mode)
-    (ignore-errors
-      (imenu-add-menubar-index)))
+         ;; enable imenu - only for true prog-mode major-modes
+         (when (derived-mode-p 'prog-mode)
+           (ignore-errors
+             (imenu-add-menubar-index)))
 
-  (setq-local fill-column 80)
-  (setq-local comment-auto-fill-only-comments t)
-  (auto-fill-mode t)
+         (setq-local fill-column 80)
+         (setq-local comment-auto-fill-only-comments t)
+         (auto-fill-mode t)
 
-  ;; formatting matters in programming files, but python is a silly
-  ;; language which cares about white-space.
-  ;; also: for any non-lisp (paredit) language, enable electric-pair-mode.
-  (if (is-lisp-p)
-      (progn
-        (lsk 'indent-whole-buffer "C-i")
-        (lsk 'comment-or-uncomment-sexp "M-;" "C-M-;"))
-    (progn
-      (if (fboundp #'electric-pair-local-mode)
-          (electric-pair-local-mode 1)
-        (electric-pair-mode 1))))
+         ;; formatting matters in programming files, but python is a silly
+         ;; language which cares about white-space.
+         ;; also: for any non-lisp (paredit) language, enable electric-pair-mode.
+         (if (is-lisp-p)
+             (progn
+               (lsk 'indent-whole-buffer "C-i")
+               (lsk 'comment-or-uncomment-sexp "M-;" "C-M-;"))
+           (progn
+             (if (fboundp #'electric-pair-local-mode)
+                 (electric-pair-local-mode 1)
+               (electric-pair-mode 1))))
 
-  ;; flyspell too!
-  ;; (my-enable-flyspell-mode t)
+         ;; flyspell too!
+         ;; (my-enable-flyspell-mode t)
 
-  ;; must be set AFTER flyspell!
-  (lsk 'company-complete "C-.")
+         ;; must be set AFTER flyspell!
+         (lsk 'company-complete "C-.")
 
-  ;; try out eglot for a while
-  (eglot-ensure)
+         ;; try out eglot for a while
+         (eglot-ensure)
 
-  ;; highlight TODO-like comments, always
-  (font-lock-add-keywords
-   nil
-   '(("\\<\\(FIXME\\|TODO\\|BUG\\):" 1 font-lock-warning-face t)))
+         ;; highlight TODO-like comments, always
+         (font-lock-add-keywords
+          nil
+          '(("\\<\\(FIXME\\|TODO\\|BUG\\):" 1 font-lock-warning-face t)))
 
-  ;; realgud needs to be required
-  (ignore-errors
-    (require 'realgud)
-    ;; allow variable inspection on right-mouse click!
-    (define-key realgud:shortkey-mode-map [mouse-3] #'realgud:tooltip-eval)))
+         ;; realgud needs to be required
+         (ignore-errors
+           (require 'realgud)
+           ;; allow variable inspection on right-mouse click!
+           (define-key realgud:shortkey-mode-map [mouse-3] #'realgud:tooltip-eval)))
 (add-hook 'toml-ts-mode-hook #'my-prog-mode-hook) ; TOML is programming-related!
 
 ;; xml
 (defhook nxml-mode-hook
-  (lsk 'comment-or-uncomment-region "C-c C-c")
-  (lsk 'uncomment-region            "C-c C-u")
+         (lsk 'comment-or-uncomment-region "C-c C-c")
+         (lsk 'uncomment-region            "C-c C-u")
 
-  (lsk 'nxml-where                  "C-c C-w")
-  (lsk 'nxml-pretty-print-buffer    "C-c C-e")
+         (lsk 'nxml-where                  "C-c C-w")
+         (lsk 'nxml-pretty-print-buffer    "C-c C-e")
 
-  (lsk #'completion-at-point          "C-.")
+         (lsk #'completion-at-point          "C-.")
 
-  ;; causes entire elements (with children) to be treated as sexps.
-  (setq nxml-sexp-element-flag t)
+         ;; causes entire elements (with children) to be treated as sexps.
+         (setq nxml-sexp-element-flag t)
 
-  ;; C-c C-o is bound to some useless heading/section things
-  ;; we're not using. Restablish occur-dwim as a "global" binding.
-  (local-unset-key (kbd "C-c C-o"))
-  (local-unset-key (kbd "C-c"))
-  (local-unset-key (kbd "C"))
-  (local-set-key (kbd "C-c C-o") #'occur-dwim)
+         ;; C-c C-o is bound to some useless heading/section things
+         ;; we're not using. Restablish occur-dwim as a "global" binding.
+         (local-unset-key (kbd "C-c C-o"))
+         (local-unset-key (kbd "C-c"))
+         (local-unset-key (kbd "C"))
+         (local-set-key (kbd "C-c C-o") #'occur-dwim)
 
-  ;; xml-files are more often than not part of a project.
-  ;; (projectile-mode t)
+         ;; xml-files are more often than not part of a project.
+         ;; (projectile-mode t)
 
-  ;; autofill mode should NEVER be on for xml!
-  (auto-fill-mode 0))
+         ;; autofill mode should NEVER be on for xml!
+         (auto-fill-mode 0))
 
 ;; things like markdown
 (defhook text-mode-hook
@@ -1740,16 +1770,16 @@ Searches for last face, or new face if invoked with prefix-argument"
          (lsk 'flyspell-correct-word-before-point "C-c C-k"))
 
 (defhook markdown-mode-hook
-  (lsk 'helm-imenu-dwim "M-g m" "M-g M-m" "M-g f" "M-g M-f")
-  (lsk 'helm-imenu-anywhere "C-M-g C-M-m" "C-M-g C-M-f"))
+         (lsk 'helm-imenu-dwim "M-g m" "M-g M-m" "M-g f" "M-g M-f")
+         (lsk 'helm-imenu-anywhere "C-M-g C-M-m" "C-M-g C-M-f"))
 
 ;; git commits are text too.
 (add-hook 'git-commit-mode-hook 'my-text-mode-hook)
 
 ;; eww thingies
 (defhook eww-mode-hook
-  (lsk 'eww-readable "C-c C-r" "C-c r")
-  (lsk 'my-eww-reflow "M-g" "M-g"))
+         (lsk 'eww-readable "C-c C-r" "C-c r")
+         (lsk 'my-eww-reflow "M-g" "M-g"))
 
 (defun eww-dgg ()
   "Search the internets using DDG with `eww'."
@@ -1758,21 +1788,21 @@ Searches for last face, or new face if invoked with prefix-argument"
 
 ;; dired
 (defhook dired-mode-hook
-  ;; move cursor to beginning of filename when that makes sense
-  (setq wdired-use-dired-vertical-movement 'sometimes)
+         ;; move cursor to beginning of filename when that makes sense
+         (setq wdired-use-dired-vertical-movement 'sometimes)
 
-  ;; improves defaults when moving or copying across dired-buffers.
-  ;; this of it as norton commander for Emacs.
-  (setq dired-dwim-target t)
+         ;; improves defaults when moving or copying across dired-buffers.
+         ;; this of it as norton commander for Emacs.
+         (setq dired-dwim-target t)
 
-  (lsk 'dired-isearch-filenames "C-s")
-  (lsk 'isearch-forward "C-S"))
+         (lsk 'dired-isearch-filenames "C-s")
+         (lsk 'isearch-forward "C-S"))
 
 ;; shellstuff
 (defhook shell-mode-hook
-  (compilation-shell-minor-mode)
-  (company-mode)
-  (lsk #'company-manual-begin "\t"))
+         (compilation-shell-minor-mode)
+         (company-mode)
+         (lsk #'company-manual-begin "\t"))
 
 ;;;; WINDOWS ONLY CUSTOMIZATIONS
 
