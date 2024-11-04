@@ -35,6 +35,7 @@
          (let ((arp (shell-command-to-string "arp -a")))
            arp))
         ((eq system-type 'gnu/linux)
+	 (use-package f :ensure t)
          (require 'f)
          (let ((arp (f-read-text "/proc/net/arp")))
            arp))
@@ -295,8 +296,6 @@
 (add-extensions-to-mode 'python-ts-mode "py")
 (add-extensions-to-mode 'bash-ts-mode "sh")
 (add-extensions-to-mode 'rust-ts-mode "rs")
-(require 'dockerfile-mode)
-(add-regexp-to-mode 'dockerfile-mode "[dD]ockerfile$")
 
 ;; default is level 3, which is not as advanced/nice.
 (setq-default treesit-font-lock-level 4)
@@ -314,6 +313,7 @@
 (use-package markdown-mode :defer t :mode "\\.md\\'")
 (use-package powershell    :defer t :mode ("\\.psm?1\\'" . powershell-mode))
 (use-package yaml-mode     :defer t :mode "\\.yml\\'")
+(use-package dockerfile-mdoe :defer t :mode "[dD]ockerfile$")
 
 ;; prog-mode customizations
 (use-package paredit
@@ -324,19 +324,14 @@
          (lisp-data-mode  . paredit-mode)))
 
 (use-package combobulate
-  ;; Optional, but recommended.
-  ;;
-  ;; You can manually enable Combobulate with `M-x
-  ;; combobulate-mode'.
   :hook ((python-ts-mode . combobulate-mode)
          (js-ts-mode . combobulate-mode)
          (css-ts-mode . combobulate-mode)
          (yaml-ts-mode . combobulate-mode)
          (typescript-ts-mode . combobulate-mode)
          (tsx-ts-mode . combobulate-mode))
-  ;; Amend this to the directory where you keep Combobulate's source
-  ;; code.
-  :load-path ("/Users/josteink/build/combobulate")
+  :vc ( :url "https://github.com/mickeynp/combobulate"
+        :rev :newest)
   :config
   (progn
     (define-key combobulate-key-map (kbd "M-p") #'combobulate-drag-up)
@@ -372,11 +367,9 @@
                                        :cwd nil))
     (dap-auto-configure-mode 1)))
 
-
-;; indent-bars cloned from github!
-;; https://github.com/jdtsmith/indent-bars
 (use-package indent-bars
-  :load-path "~/build/indent-bars"
+  :vc ( :url "https://github.com/jdtsmith/indent-bars"
+        :rev :newest)
   :config
   (require 'indent-bars-ts)             ; not needed with straight
   :custom
@@ -1988,16 +1981,18 @@ White space here is any of: space, tab, emacs newline (line feed, ASCII 10)."
 
 ;; GitHub Copilot
 
-(add-to-list 'load-path "/Users/josteink/build/copilot.el")
-(require 'copilot)
-(add-hook 'prog-mode-hook #'copilot-mode)
+(when (file-exists-p "/Users/josteink/build/copilot.el")
+  (add-to-list 'load-path "/Users/josteink/build/copilot.el")
+  (require 'copilot)
+  (add-hook 'prog-mode-hook #'copilot-mode)
 
-(add-to-list 'copilot-major-mode-alist '("csharp-ts" . "csharp"))
-(add-to-list 'copilot-major-mode-alist '("typescript-ts" . "typescript"))
-(add-to-list 'copilot-major-mode-alist '("tsx-ts" . "typescriptreact"))
+  (add-to-list 'copilot-major-mode-alist '("csharp-ts" . "csharp"))
+  (add-to-list 'copilot-major-mode-alist '("typescript-ts" . "typescript"))
+  (add-to-list 'copilot-major-mode-alist '("tsx-ts" . "typescriptreact"))
 
-(define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
-(define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion)
+  (define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
+  (define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion))
+
 
 
 
