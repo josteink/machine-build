@@ -338,6 +338,27 @@
     (define-key combobulate-key-map (kbd "M-n") #'combobulate-drag-down))
   )
 
+;; copilot
+(use-package copilot-mode
+  :defer t
+  :vc ( :url "https://github.com/copilot-emacs/copilot.el"
+        :rev :newest)
+  :config
+  (progn
+    (require 'copilot)
+    (add-to-list 'copilot-major-mode-alist '("csharp-ts" . "csharp"))
+    (add-to-list 'copilot-major-mode-alist '("typescript-ts" . "typescript"))
+    (add-to-list 'copilot-major-mode-alist '("tsx-ts" . "typescriptreact"))
+
+    (define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
+    (define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion)
+
+    (add-hook 'prog-mode-hook (lambda ()
+				(ignore-errors
+				  (copilot-mode))
+				))))
+
+
 (use-package company :ensure t :hook (prog-mode . company-mode))
 ;; required for company-mode to complete correctly, without outputting templates
 (use-package yasnippet :ensure t :config (yas-global-mode))
@@ -1612,10 +1633,10 @@ Searches for last face, or new face if invoked with prefix-argument"
            (lsk #'xref-find-references "S-<f12>")
            (lsk #'eglot-code-actions "C-<return>" "C-M-<return>" "M-<return>")))
 (defhook before-save-hook
-         (when (eglot-managed-p)
+         (when (and (fboundp 'eglot-managed-p) (eglot-managed-p))
            (eglot-format-buffer)))
 (defhook magit-post-refresh-hook
-         (when (eglot-managed-p)
+         (when (and (fboundp 'eglot-managed-p) (eglot-managed-p))
            (eglot-reconnect)))
 
 
@@ -1977,23 +1998,6 @@ White space here is any of: space, tab, emacs newline (line feed, ASCII 10)."
 ;;   (let* ((value (alist-get item compilation-error-regexp-alist-alist)))
 ;;     (when (not value)
 ;;       (setq compilation-error-regexp-alist (remove item compilation-error-regexp-alist)))))
-
-
-;; GitHub Copilot
-
-(when (file-exists-p "/Users/josteink/build/copilot.el")
-  (add-to-list 'load-path "/Users/josteink/build/copilot.el")
-  (require 'copilot)
-  (add-hook 'prog-mode-hook #'copilot-mode)
-
-  (add-to-list 'copilot-major-mode-alist '("csharp-ts" . "csharp"))
-  (add-to-list 'copilot-major-mode-alist '("typescript-ts" . "typescript"))
-  (add-to-list 'copilot-major-mode-alist '("tsx-ts" . "typescriptreact"))
-
-  (define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
-  (define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion))
-
-
 
 
 (defun my-org-screenshot ()
