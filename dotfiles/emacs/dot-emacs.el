@@ -296,6 +296,7 @@
 (add-extensions-to-mode 'python-ts-mode "py")
 (add-extensions-to-mode 'bash-ts-mode "sh")
 (add-extensions-to-mode 'rust-ts-mode "rs")
+(add-extensions-to-mode 'yaml-ts-mode "yml")
 
 ;; default is level 3, which is not as advanced/nice.
 (setq-default treesit-font-lock-level 4)
@@ -312,8 +313,8 @@
 (use-package crontab-mode  :defer t :mode "crontab")
 (use-package markdown-mode :defer t :mode "\\.md\\'")
 (use-package powershell    :defer t :mode ("\\.psm?1\\'" . powershell-mode))
-(use-package yaml-mode     :defer t :mode "\\.yml\\'")
 (use-package dockerfile-mdoe :defer t :mode "[dD]ockerfile$")
+(use-package wsd-mode      :defer t :mode "\\.wsd\\'")
 
 ;; prog-mode customizations
 (use-package paredit
