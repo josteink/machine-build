@@ -411,7 +411,8 @@
                  jsx_opening_element)
      (bicep resource_declaration object))
    )
-  :hook ((prog-mode) . indent-bars-mode))
+  :hook ((prog-mode . indent-bars-mode)
+         (yaml-ts-mode . indent-bars-mode)))
 
 
 ;; make project.el behave like projectile:
