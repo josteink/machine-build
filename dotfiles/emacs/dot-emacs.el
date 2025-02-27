@@ -35,7 +35,7 @@
          (let ((arp (shell-command-to-string "arp -a")))
            arp))
         ((eq system-type 'gnu/linux)
-	 (use-package f :ensure t)
+         (use-package f :ensure t)
          (require 'f)
          (let ((arp (f-read-text "/proc/net/arp")))
            arp))
@@ -53,6 +53,7 @@
   :config
   (progn
     (load-theme 'dracula t)
+    (set-face-foreground 'font-lock-comment-delimiter-face "#ff8040")
     (when (not (at-home-network-p))
       ;; increase comment contrast when at the office, because of sunlight
       (set-face-foreground 'font-lock-comment-face "#9988bb"))))
@@ -161,9 +162,9 @@
   ;; same with column-numbers.
   (column-number-mode +1)
 
-  (let ((size (if (at-home-network-p) 12 14)))
+  (let ((size (if (at-home-network-p) 13 13)))
     ;; font thingie, downloaded from http://sourcefoundry.org/hack/
-    (try-set-default-font "Hack" size)))
+    (try-set-default-font "Monaspace Neon Var" size)))
 
 (when (display-graphic-p)
   (my-gui-mode-hook))
@@ -264,6 +265,11 @@
   :ensure t
   :hook (emacs-lisp-mode . elisp-slime-nav-mode))
 
+;; ensure we activate virtualenvs in python projects managed
+;; by poetry
+(use-package poetry
+  :ensure t
+  :config (poetry-tracking-mode t))
 
 ;;;; Setting up modes and file-mappings
 
@@ -313,7 +319,7 @@
 (use-package crontab-mode  :defer t :mode "crontab")
 (use-package markdown-mode :defer t :mode "\\.md\\'")
 (use-package powershell    :defer t :mode ("\\.psm?1\\'" . powershell-mode))
-(use-package dockerfile-mdoe :defer t :mode "[dD]ockerfile$")
+(use-package dockerfile-ts-mode :defer t :mode "[dD]ockerfile$")
 (use-package wsd-mode      :defer t :mode "\\.wsd\\'")
 
 ;; prog-mode customizations
@@ -355,9 +361,9 @@
     (define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion)
 
     (add-hook 'prog-mode-hook (lambda ()
-				(ignore-errors
-				  (copilot-mode))
-				))))
+                                (ignore-errors
+                                  (copilot-mode))
+                                ))))
 
 
 (use-package company :ensure t :hook (prog-mode . company-mode))
@@ -406,9 +412,9 @@
                  try_statement if_statement for_statement for_in_statement while_statement
                  statement_block)
      (tsx function_declaration class_declaration method_definition
-                 try_statement if_statement for_statement for_in_statement while_statement
-                 statement_block
-                 jsx_opening_element)
+          try_statement if_statement for_statement for_in_statement while_statement
+          statement_block
+          jsx_opening_element)
      (bicep resource_declaration object))
    )
   :hook ((prog-mode . indent-bars-mode)
@@ -1730,6 +1736,9 @@ Searches for last face, or new face if invoked with prefix-argument"
          ;; must be set AFTER flyspell!
          (lsk 'company-complete "C-.")
 
+         ;; inline code-completion
+         (completion-preview-mode t)
+
          ;; try out eglot for a while
          (eglot-ensure)
 
@@ -2029,5 +2038,3 @@ same directory as the org-buffer and insert a link to this file."
   (call-process "pngpaste" nil nil nil filename)
   (insert (concat "[[./" filename "]]"))
   (org-display-inline-images))
-
-
