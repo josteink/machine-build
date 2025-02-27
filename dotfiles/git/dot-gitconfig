@@ -4,8 +4,10 @@
 [push]
 	default = simple
 	autoSetupRemote = true
+
 [branch]
 	autosetuprebase = always
+	sort = -committerdate
 [alias]
 	unadd = reset HEAD
 	restore = "!f() { git checkout $(git rev-list -n 1 HEAD -- $1)~1 -- $(git diff --name-status $(git rev-list -n 1 HEAD -- $1)~1 | grep ^D | cut -f 2); }; f"
@@ -14,20 +16,48 @@
 	templatedir = ~/.gittemplate
 	defaultBranch = master
 
+[diff]
+        algorithm = histogram
+        colorMoved = plain
+        mnemonicPrefix = true
+        renames = true
+
 [pull]
 	ff = only
 	autostash = true
 	autorebase = true
+
 [rebase]
 	autostash = true
-[url "https://"]
-	insteadOf = git://
+
 [fetch]
 	prune = true
+        pruneTags = true
+        all = true
+
 [merge]
 	conflictStyle = diff3
+
 [core]
 	excludesFile = /home/jostein/build/machine-build/dotfiles/git/dot-gitignore
 	autocrlf = input
+
 [advice]
 	skippedCherryPicks = false
+
+[tag]
+	sort = version:refname
+
+[help]
+        autocorrect = prompt
+
+[commit]
+        verbose = true
+
+[rebase]
+        autoSquash = true
+        autoStash = true
+        updateRefs = true
+
+#[url "https://"]
+#	insteadOf = git://
