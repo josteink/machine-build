@@ -170,6 +170,7 @@
          ("C-?" . er/expand-region)
          ("M-+" . er/expand-region)))
 
+;; main completion framework, like helm.
 (use-package vertico
   :ensure t
   :config
@@ -177,11 +178,13 @@
   (setq vertico-resize nil)
   (vertico-mode 't))
 
+;; provides more information about matches in completion
 (use-package marginalia
   :ensure t
   :config
   (marginalia-mode 't))
 
+;; provides nice general navigation
 (use-package consult
   :ensure t
   :after vertico
@@ -191,11 +194,20 @@
          ("<f7>"  . vertico-previous)
          ("<f8>"  . vertico-next)))
 
+;; provides nice icons in completion
 (use-package all-the-icons-completion
   :after (marginalia all-the-icons)
   :hook (marginalia-mode . all-the-icons-completion-marginalia-setup)
   :init
   (all-the-icons-completion-mode))
+
+;; enables fuzzy matching in completion
+(use-package orderless
+  :ensure t
+  :custom
+  (completion-styles '(orderless basic))
+  (completion-category-overrides '((file (styles basic partial-completion)))))
+
 
 (use-package magit
   :ensure t
