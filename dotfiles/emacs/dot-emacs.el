@@ -61,70 +61,15 @@
 (use-package doom-modeline
   :ensure t
   :init (doom-modeline-mode 1))
+
 ;; used by doom modeline!
 (use-package all-the-icons
-  :ensure t)
-
-;;;; OLD PACKAGE SETUP
-
-;; ensure all packages we need are installed.
-(setq my-packages
-      '(
-        imenu-anywhere
-        helpful
-        ;; slime-company ;; if loading fails with recursive load, check if distro-provided slime is installed.
-        git-timemachine
-        macrostep
-        nodejs-repl
-        ;; python elpy yasnippet ;; needed for elpy
-        ))
-
-;; only query package sources when package is missing! copied from:
-;; https://github.com/zirrostig/emacsd/blob/master/my-packages/my-packages.el
-
-(defun my-packages-installed-p ()
-  "Return nil if there are packages that are not installed."
-  (loop for p in my-packages
-        when (not (package-installed-p p)) do (return nil)
-        finally (return t)))
-
-(defun my-packages-install-packages ()
-  "Install missing packages."
-  (interactive)
-  (unless (my-packages-installed-p)
-    ;; Referesh package lists
-    (package-refresh-contents)
-    ;; Install missing
-    (dolist (p my-packages)
-      (when (not (package-installed-p p))
-        (ignore-errors
-          (package-install p))))))
-
-;; some things are not packaged as packages
-(defun my-install-source-packages ()
-  (interactive)
-
-  ;; compile-eslint
-  (ignore-errors
-    (let* ((local-dir "~/.emacs.d/local/")
-           (compile-eslint-file (concat local-dir "compile-eslint.el")))
-      (when (not (file-exists-p local-dir))
-        (make-directory local-dir))
-      (when (not (file-exists-p compile-eslint-file))
-        (url-copy-file "https://raw.githubusercontent.com/Fuco1/compile-eslint/master/compile-eslint.el" compile-eslint-file))
-
-      (load compile-eslint-file))
-
-    (require 'compile-eslint)
-    (push 'eslint compilation-error-regexp-alist)))
-
-(my-install-source-packages)
-
-
-
-;; INSTALL THE PACKAGES!!!
-(when (not (file-exists-p (substitute-in-file-name "$HOME/.emacs.d/elpa")))
-  (my-packages-install-packages))
+  :ensure t
+  :init
+  (when (not (or
+              (file-exists-p (expand-file-name "~/.local/fonts"))
+              (file-exists-p (expand-file-name "~/Library/Fonts"))))
+    (all-the-icons-install-fonts)))
 
 ;; Configure GUI as early as possible. It makes loading look nicer :)
 
@@ -205,9 +150,9 @@
   :config (global-undo-tree-mode t)
   :bind ("C-M-z" . undo-tree-redo))
 
-(use-package ido-yes-or-no
-  :ensure t
-  :config (ido-yes-or-no-mode t))
+;; no need to rely on IDO for this!
+(fset 'yes-or-no-p 'y-or-n-p)
+(setq confirm-nonexistent-file-or-buffer nil)
 
 (use-package nlinum
   :ensure t
@@ -225,28 +170,36 @@
          ("C-?" . er/expand-region)
          ("M-+" . er/expand-region)))
 
-(use-package helm
+(use-package vertico
   :ensure t
-  :bind (("M-x" . helm-M-x)
-         ("C-x r l" . helm-bookmarks)
-         ("C-x C-f" . helm-find-files)
-         ("C-x b" . helm-buffers-list)
-         ("C-x c o" . helm-occur)
-         ("M-y" . helm-show-kill-ring) ;SC
-         ("C-x r b" . helm-filtered-bookmarks) ;SC
-         )
-  :config (helm-mode 1))
+  :config
+  (setq vertico-cycle t)
+  (setq vertico-resize nil)
+  (vertico-mode 't))
+
+(use-package marginalia
+  :ensure t
+  :config
+  (marginalia-mode 't))
+
+(use-package consult
+  :ensure t
+  :after vertico
+  :bind (
+         ("C-x b" . consult-buffer)
+         ("C-c g" . git-grep-dwim)
+         ("<f7>"  . vertico-previous)
+         ("<f8>"  . vertico-next)))
+
+(use-package all-the-icons-completion
+  :after (marginalia all-the-icons)
+  :hook (marginalia-mode . all-the-icons-completion-marginalia-setup)
+  :init
+  (all-the-icons-completion-mode))
 
 (use-package magit
   :ensure t
   :bind ("C-x v g" . magit-status))
-
-;; (use-package lsp-mode
-;;   :hook (prog-mode . lsp-deferred)
-;;   :config
-;;   (set-face-background 'lsp-face-highlight-read "#303040")
-;;   (set-face-bold 'lsp-face-highlight-read t)
-;;   (set-face-underline 'lsp-face-highlight-read nil))
 
 (use-package highlight-symbol
   :ensure t
@@ -290,19 +243,27 @@
            auto-mode-alist))))
 
 
-;; built-in to Emacs, no need to "ensure"
-(add-extensions-to-mode 'js-ts-mode "js" "jsx")
-(add-extensions-to-mode 'typescript-ts-mode "ts")
+;; built-in to Emacs, no need to "ensure", but we want to use the tree-sitter versions!
+(setq major-mode-remap-alist
+      '((c-mode          . c-ts-mode)
+        (c++-mode        . c++-ts-mode)
+        (c-or-c++-mode   . c-or-c++-ts-mode)
+        (cmake-mode      . cmake-ts-mode)
+        (css-mode        . css-ts-mode)
+        (csharp-mode     . csharp-ts-mode)
+        (dockerfile-mode . dockerfile-ts-mode)
+        (javascript-mode . js-ts-mode)
+        (js-json-mode    . json-ts-mode)
+        (python-mode     . python-ts-mode)
+        (sh-mode         . bash-ts-mode)
+        (typescript-mode . typescript-ts-mode)
+        (java-mode       . java-ts-mode)
+        (go-mode         . go-ts-mode)
+        (rust-mode       . rust-ts-mode)
+        (yaml-mode       . yaml-ts-mode)))
+
 (add-extensions-to-mode 'tsx-ts-mode "tsx")
-(add-extensions-to-mode 'csharp-ts-mode "cs")
-(add-extensions-to-mode 'json-ts-mode "json")
-(add-extensions-to-mode 'c-ts-mode "c" "h")
-(add-extensions-to-mode 'c++-ts-mode "cpp" "hpp")
-(add-extensions-to-mode 'css-ts-mode "css")
-(add-extensions-to-mode 'python-ts-mode "py")
-(add-extensions-to-mode 'bash-ts-mode "sh")
-(add-extensions-to-mode 'rust-ts-mode "rs")
-(add-extensions-to-mode 'yaml-ts-mode "yml")
+
 
 ;; default is level 3, which is not as advanced/nice.
 (setq-default treesit-font-lock-level 4)
@@ -364,12 +325,6 @@
                                 (ignore-errors
                                   (copilot-mode))
                                 ))))
-
-
-(use-package company :ensure t :hook (prog-mode . company-mode))
-;; required for company-mode to complete correctly, without outputting templates
-(use-package yasnippet :ensure t :config (yas-global-mode))
-
 
 ;; configure major-mode agnostic packages
 
@@ -441,6 +396,9 @@
 
 ;; supress splash-screen.
 (setq inhibit-startup-screen t)
+(setq inhibit-startup-echo-area-message t)
+;; its annoying always having to say "yes" to close client-opened files
+(remove-hook 'kill-buffer-query-functions 'server-kill-buffer-query-function)
 
 ;; "big files" are a thing of the past
 (setq large-file-warning-threshold nil)
@@ -527,19 +485,6 @@
   (let ((inhibit-read-only t))
     (ansi-color-apply-on-region (point-min) (point-max))))
 (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
-
-
-;; helm everywhere
-(ignore-errors
-  (require 'helm-config)
-  (helm-mode)
-  (global-set-key (kbd "M-x") 'helm-M-x)
-  (global-set-key (kbd "C-x C-b") 'helm-buffers-list)
-  (global-set-key (kbd "C-x b") 'helm-buffers-list)
-  (global-set-key (kbd "C-x r l") 'helm-bookmarks)
-  (setq projectile-completion-system 'helm)
-  ;; (global-set-key (kbd "C-c p h") 'helm-projectile)
-  )
 
 ;; always follow symlinks to files under source-control. dont ask.
 (setq vc-follow-symlinks t)
@@ -654,9 +599,8 @@
   ;; same os occur-dwm... get good defaults!
   ;; all files, always
   ;; use projectile root, to get root folder automatically
-  (push (region-str-or-symbol) regexp-history)
-  (let* ((rx (read-string "Regexp: " "" 'regexp-history)))
-    (vc-git-grep rx "\\*" (project-root (project-current)))))
+  (let ((current-symbol (region-str-or-symbol)))
+    (consult-grep (project-root (project-current)) current-symbol)))
 
 (defun my-move-to-start-of-word ()
   "Function to move us to the beginning of the currently selected word."
@@ -1608,15 +1552,7 @@ Searches for last face, or new face if invoked with prefix-argument"
 
              (elpy-mode)
              (define-key elpy-mode-map (kbd "C-c o") #'occur-dwim)
-             (define-key elpy-mode-map (kbd "C-c C-o") #'occur-dwim)
-
-             ;; gud/realgud defaults to a seperate pdb executable which does not
-             ;; exist on Fedora. Just use python and pdb module directly.
-             (ignore-errors
-               (require 'realgud)
-               (setq gud-pdb-command-name pdb)
-               (setq realgud:pdb-command-name pdb)
-               (lsk 'realgud:pdb "C-<f5>")))))
+             (define-key elpy-mode-map (kbd "C-c C-o") #'occur-dwim))))
 
 ;; lsp
 (defhook lsp-mode-hook
@@ -1733,9 +1669,6 @@ Searches for last face, or new face if invoked with prefix-argument"
          ;; flyspell too!
          ;; (my-enable-flyspell-mode t)
 
-         ;; must be set AFTER flyspell!
-         (lsk 'company-complete "C-.")
-
          ;; inline code-completion
          (completion-preview-mode t)
 
@@ -1747,11 +1680,15 @@ Searches for last face, or new face if invoked with prefix-argument"
           nil
           '(("\\<\\(FIXME\\|TODO\\|BUG\\):" 1 font-lock-warning-face t)))
 
-         ;; realgud needs to be required
-         (ignore-errors
-           (require 'realgud)
-           ;; allow variable inspection on right-mouse click!
-           (define-key realgud:shortkey-mode-map [mouse-3] #'realgud:tooltip-eval)))
+         ;; built in Emacs completion
+         (setf completion-styles '(basic flex)
+               completion-auto-select t ;; Show completion on first call
+               completion-auto-help 'visible ;; Display *Completions* upon first request
+               completions-format 'one-column ;; Use only one column
+               completions-sort 'historical ;; Order based on minibuffer history
+               completions-max-height 20 ;; Limit completions to 15 (completions start at line 5)
+               completion-ignore-case t))
+
 (add-hook 'toml-ts-mode-hook #'my-prog-mode-hook) ; TOML is programming-related!
 
 ;; xml
