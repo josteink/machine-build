@@ -207,6 +207,7 @@
   :custom
   (completion-styles '(orderless basic))
   (completion-category-overrides '((file (styles basic partial-completion)))))
+(setq orderless-matching-styles '(orderless-flex))
 
 
 (use-package magit
@@ -1270,20 +1271,6 @@ time is displayed."
            (when (> elapsed 0.001)
              (message "%s... done (%.5fs)" ,title elapsed)))))))
 
-;; we must load original helm-imenu to get access to its state-variables and matchers.
-(ignore-errors
-  (require 'helm-imenu))
-(defun helm-imenu-dwim ()
-  "Preconfigured `helm' for `imenu'. Unlike regular `helm-imenu' does always cause a helm popup."
-  (interactive)
-  (unless helm-source-imenu
-    (setq helm-source-imenu
-          (helm-make-source "Imenu" 'helm-imenu-source
-            :fuzzy-match helm-imenu-fuzzy-match)))
-  (helm :sources 'helm-source-imenu
-        ;;:default (list (concat "\\_<" str "\\_>") str)
-        :candidate-number-limit 9999
-        :buffer "*helm imenu*"))
 
 ;; utility functions for key-definitions
 (defun fkt (func target keys)
@@ -1349,6 +1336,8 @@ Searches for last face, or new face if invoked with prefix-argument"
 (gsk 'end-of-buffer       "<C-next>")
 
 (gsk 'my-switch-to-window-by-buffer-name "C-x C-b")
+
+(gsk #'consult-imenu "M-g m" "M-g M-m" "M-g f" "M-g M-f")
 
 (gsk #'project-find-file "C-c C-p C-f" "C-c C-p f" "C-c p f")
 (gsk #'project-switch-project "C-c C-p C-p" "C-c C-p p" "C-c p p")
@@ -1620,9 +1609,9 @@ Searches for last face, or new face if invoked with prefix-argument"
 
          ;; enable imenu, and add standard navigation.
          (imenu-add-menubar-index)
-         (lsk 'helm-imenu-dwim "M-g m" "M-g M-m" "M-g f" "M-g M-f")
 
-  (my/org-hide-done-entries-in-buffer))
+         ;; (my/org-hide-done-entries-in-buffer)
+         )
 
 (defhook org-src-mode-hook
          ;; create easy exit from org-edit-special.
@@ -1639,8 +1628,6 @@ Searches for last face, or new face if invoked with prefix-argument"
          (lsk 'imenu-nav-dwim "<f12>")
          (lsk 'highlight-symbol-occur "S-<f12>")
 
-         (lsk 'helm-imenu-dwim "M-g m" "M-g M-m" "M-g f" "M-g M-f")
-         (lsk 'helm-imenu-anywhere "C-M-g C-M-m" "C-M-g C-M-f")
          ;; navigate back again.
          ;; (could also use set-mark with prefix argument C-u C-spc.)
          (lsk 'pop-local-or-global-mark "C--")
@@ -1681,6 +1668,11 @@ Searches for last face, or new face if invoked with prefix-argument"
          ;; flyspell too!
          ;; (my-enable-flyspell-mode t)
 
+         ;; we want teh completion
+         (lsk #'completion-at-point "C-.")
+         ;; use vertico/consult for completion
+         (setq completion-in-region-function #'consult-completion-in-region)
+
          ;; inline code-completion
          (completion-preview-mode t)
 
@@ -1693,8 +1685,7 @@ Searches for last face, or new face if invoked with prefix-argument"
           '(("\\<\\(FIXME\\|TODO\\|BUG\\):" 1 font-lock-warning-face t)))
 
          ;; built in Emacs completion
-         (setf completion-styles '(basic flex)
-               completion-auto-select t ;; Show completion on first call
+         (setf completion-auto-select t ;; Show completion on first call
                completion-auto-help 'visible ;; Display *Completions* upon first request
                completions-format 'one-column ;; Use only one column
                completions-sort 'historical ;; Order based on minibuffer history
@@ -1742,10 +1733,6 @@ Searches for last face, or new face if invoked with prefix-argument"
 
 
          (lsk 'flyspell-correct-word-before-point "C-c C-k"))
-
-(defhook markdown-mode-hook
-         (lsk 'helm-imenu-dwim "M-g m" "M-g M-m" "M-g f" "M-g M-f")
-         (lsk 'helm-imenu-anywhere "C-M-g C-M-m" "C-M-g C-M-f"))
 
 ;; git commits are text too.
 (add-hook 'git-commit-mode-hook 'my-text-mode-hook)
