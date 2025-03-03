@@ -205,9 +205,11 @@
 (use-package orderless
   :ensure t
   :custom
-  (completion-styles '(orderless basic))
+  (completion-styles '(basic substring initials flex orderless))
   (completion-category-overrides '((file (styles basic partial-completion)))))
-(setq orderless-matching-styles '(orderless-flex))
+;; flex is too flex?
+;; (setq orderless-matching-styles '(orderless-flex))
+(setq orderless-matching-styles '(orderless-literal))
 
 
 (use-package magit
