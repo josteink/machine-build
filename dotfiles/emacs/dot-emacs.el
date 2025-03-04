@@ -56,7 +56,10 @@
     (set-face-foreground 'font-lock-comment-delimiter-face "#ff8040")
     (when (not (at-home-network-p))
       ;; increase comment contrast when at the office, because of sunlight
-      (set-face-foreground 'font-lock-comment-face "#9988bb"))))
+      (set-face-foreground 'font-lock-comment-face "#9988bb")
+      ;; make selected text more obviously selected
+      (set-face-background 'region "#44677a")
+      )))
 
 (use-package doom-modeline
   :ensure t
