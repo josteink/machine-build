@@ -328,10 +328,13 @@
 (use-package combobulate
   :hook ((python-ts-mode . combobulate-mode)
          (js-ts-mode . combobulate-mode)
+         (json-ts-mode . combobulate-mode)
          (css-ts-mode . combobulate-mode)
+         (html-ts-mode . combobulate-mode)
          (yaml-ts-mode . combobulate-mode)
          (typescript-ts-mode . combobulate-mode)
-         (tsx-ts-mode . combobulate-mode))
+         (tsx-ts-mode . combobulate-mode)
+         (toml-ts-mode . combobulate-mode))
   :vc ( :url "https://github.com/mickeynp/combobulate"
         :rev :newest)
   :config
