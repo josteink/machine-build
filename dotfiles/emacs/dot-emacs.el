@@ -70,7 +70,7 @@
   :ensure t
   :init
   (when (not (or
-              (file-exists-p (expand-file-name "~/.local/fonts"))
+              (file-exists-p (expand-file-name "~/.local/share/fonts"))
               (file-exists-p (expand-file-name "~/Library/Fonts"))))
     (all-the-icons-install-fonts)))
 
