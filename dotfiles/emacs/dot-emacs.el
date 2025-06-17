@@ -245,18 +245,17 @@
 
 (use-package editorconfig
   :ensure t
-  :hook (prog-mode . editorconfig-mode))
+  :config (editorconfig-mode 1))
 
 ;; elisp-slime-nav elisp-refs
 (use-package elisp-slime-nav
   :ensure t
   :hook (emacs-lisp-mode . elisp-slime-nav-mode))
 
-;; ensure we activate virtualenvs in python projects managed
-;; by poetry
-(use-package poetry
+;; ensure we track and activate virtualenvs in python projects correctly
+(use-package pet
   :ensure t
-  :config (poetry-tracking-mode t))
+  :hook (python-ts-mode-hook . pet-mode))
 
 ;;;; Setting up modes and file-mappings
 
@@ -303,9 +302,11 @@
 (setq-default treesit-font-lock-level 4)
 
 ;; can't be added with use-package, but is emacs-internal anyway!
-(add-extensions-to-mode 'nxml-mode "config" "merge" ".*proj" "xaml" "props" "resx") ;; .NET, SuperOffice config-merge.
+(add-extensions-to-mode 'nxml-mode "config" "merge" ".*proj" "xaml" "props" "resx" "runsettings") ;; .NET, SuperOffice config-merge.
 (add-extensions-to-mode 'html-mode "html" "php" "ascx" "aspx" "cshtml")
 (add-extensions-to-mode 'message-mode "somail" "eml")
+(add-extensions-to-mode 'toml-ts-mode "toml")
+(add-extensions-to-mode 'conf-mode "env")
 
 ;; MELPA modules
 (use-package bmx-mode      :defer t :hook bat-mode)
@@ -314,8 +315,8 @@
 (use-package crontab-mode  :defer t :mode "crontab")
 (use-package markdown-mode :defer t :mode "\\.md\\'")
 (use-package powershell    :defer t :mode ("\\.psm?1\\'" . powershell-mode))
-(use-package dockerfile-ts-mode :defer t :mode "[dD]ockerfile$")
 (use-package wsd-mode      :defer t :mode "\\.wsd\\'")
+(use-package dockerfile-ts-mode :ensure t :mode "[dD]ockerfile$")
 
 ;; prog-mode customizations
 (use-package paredit
@@ -362,6 +363,12 @@
                                 (ignore-errors
                                   (copilot-mode))
                                 ))))
+
+(use-package bicep-ts-mode
+  :ensure t
+  :vc ( :url "/Users/josteink/build/bicep-ts-mode/"
+        :rev :newest))
+
 
 ;; configure major-mode agnostic packages
 
@@ -443,6 +450,7 @@
 ;; supress magit-nagging
 (setq magit-last-seen-setup-instructions "1.4.0")
 (setq magit-push-always-verify nil)
+(setq magit-push-current-set-remote-if-missing t)
 
 (setq org-support-shift-select t)
 (setq org-todo-keywords
@@ -510,18 +518,37 @@
   (interactive)
 
   (global-hl-line-mode -1)
+  (highlight-symbol-mode -1)
+  (when (eglot-current-server)
+    (eglot-shutdown (eglot-current-server)))
 
   (let ((face (face-at-point)))
     (global-hl-line-mode t)
-    (highlight-symbol-mode -1)
+    (highlight-symbol-mode t)
+    (eglot-ensure)
     (describe-face face)))
 
-;; make compilation-mode not die when tools provide ansi-output
-(require 'ansi-color)
-(defun colorize-compilation-buffer ()
-  (let ((inhibit-read-only t))
-    (ansi-color-apply-on-region (point-min) (point-max))))
-(add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
+;; ;; make compilation-mode not die when tools provide ansi-output
+;; (require 'ansi-color)
+;; (defun colorize-compilation-buffer ()
+;;   (let ((inhibit-read-only t))
+;;     (ansi-color-apply-on-region (point-min) (point-max))))
+;; (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
+
+;; remove ANSI noise in compilation mode
+(defun remove-ansi-color-codes ()
+  "Remove all ANSI color escape codes like \\e\\[[0-9]*m from the current buffer."
+  (interactive)
+  (save-excursion
+    (goto-char (point-min))
+    (while (re-search-forward "\e(B" nil t)
+      (replace-match "")))
+  (save-excursion
+    (goto-char (point-min))
+    (while (re-search-forward "\e\\[[?0-9;\\[]*[mGhDlFJK=;\\\\]" nil t)
+      (replace-match ""))))
+(add-hook 'compilation-filter-hook #'remove-ansi-color-codes)
+
 
 ;; always follow symlinks to files under source-control. dont ask.
 (setq vc-follow-symlinks t)
@@ -723,6 +750,14 @@ by using nxml's indentation rules."
           (remove-dos-eol)))))
 (add-hook 'find-file-hook 'my-find-file-hook)
 
+;; json encoder helper
+(defun json-encode-region-as-string (start end)
+  "Encode the selected region as a JSON string."
+  (interactive "r")
+  (let ((json-string (json-encode-string (buffer-substring-no-properties start end))))
+    (delete-region start end)
+    (insert json-string)))
+
 
 ;; automatically indents yanked (inserted/pasted) content
 (dolist (command '(yank yank-pop))
@@ -737,6 +772,10 @@ by using nxml's indentation rules."
                           ruby-mode
                           rspec-mode
                           python-mode
+                          python-ts-mode
+                          typescrip-ts-mode
+                          tsx-ts-mode
+                          csharp-ts-mode
                           c-mode
                           c++-mode
                           objc-mode
@@ -1561,23 +1600,7 @@ Searches for last face, or new face if invoked with prefix-argument"
          (haskell-indent-mode +1))
 
 (defhook python-mode-hook
-         ;; elpy improves python-coding considerably, when on a
-         ;; well-supported platform, so package not installed by default.
-         (ignore-errors
-           (require 'elpy))
-         (when (fboundp 'elpy-mode)
-           (let* ((python-exe (if (eq system-type 'windows-nt)
-                                  "python.exe" ;; python3 is called python on windows!
-                                "python3"))
-                  (pdb (concat python-exe " -m pdb")))
-
-             (setq elpy-rpc-python-command python-exe)
-             (elpy-use-cpython python-exe)
-             (setq python-shell-interpreter python-exe)
-
-             (elpy-mode)
-             (define-key elpy-mode-map (kbd "C-c o") #'occur-dwim)
-             (define-key elpy-mode-map (kbd "C-c C-o") #'occur-dwim))))
+         (pyvenv-mode t))
 
 ;; lsp
 (defhook lsp-mode-hook
