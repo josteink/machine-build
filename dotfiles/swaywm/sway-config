@@ -318,9 +318,9 @@ bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
 
 # for display brightness
-# requires sudo apt-get install xbacklight
-bindsym XF86MonBrightnessDown exec xbacklight -dec 10
-bindsym XF86MonBrightnessUp exec xbacklight -inc 10
+# requires sudo apt install brightnessctl
+bindsym XF86MonBrightnessDown exec brightnessctl s 10%-
+bindsym XF86MonBrightnessUp exec brightnessctl s +10%
 
 # touchpad fun - 3 finger horizontal swipe
 bindgesture swipe:right workspace next
