@@ -1563,6 +1563,20 @@ Searches for last face, or new face if invoked with prefix-argument"
          ;; we can also check symbols in slime with M-.
          (lsk 'slime "<f5>"))
 
+(defun my-makefile-compile-dwim ()
+  "Builds the makefile based on the currently focused make-target"
+  (interactive)
+  (require 'which-func)
+  (let* ((current-defun (which-function))
+         (default-cmd (if current-defun
+                          (format "make %s" current-defun)
+                        compile-command))
+         (command (read-from-minibuffer "Compile command: " default-cmd)))
+    (compile command)))
+
+(defhook makefile-mode-hook
+         (lsk #'my-makefile-compile-dwim "<f5>"))
+
 ;; paredit
 (defhook paredit-mode-hook
          ;; editing. keybindings which makes sense AND whic works in SSH
