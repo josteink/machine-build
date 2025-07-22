@@ -285,13 +285,13 @@
         (css-mode        . css-ts-mode)
         (csharp-mode     . csharp-ts-mode)
         (dockerfile-mode . dockerfile-ts-mode)
+        (go-mode         . go-ts-mode)
+        (java-mode       . java-ts-mode)
         (javascript-mode . js-ts-mode)
         (js-json-mode    . json-ts-mode)
         (python-mode     . python-ts-mode)
         (sh-mode         . bash-ts-mode)
         (typescript-mode . typescript-ts-mode)
-        (java-mode       . java-ts-mode)
-        (go-mode         . go-ts-mode)
         (rust-mode       . rust-ts-mode)
         (yaml-mode       . yaml-ts-mode)))
 
@@ -315,6 +315,7 @@
 (use-package crontab-mode  :defer t :mode "crontab")
 (use-package markdown-mode :defer t :mode "\\.md\\'")
 (use-package powershell    :defer t :mode ("\\.psm?1\\'" . powershell-mode))
+(use-package swift-mode    :ensure t)
 (use-package wsd-mode      :defer t :mode "\\.wsd\\'")
 (use-package dockerfile-ts-mode :ensure t :mode "[dD]ockerfile$")
 
@@ -364,11 +365,12 @@
                                   (copilot-mode))
                                 ))))
 
-(use-package bicep-ts-mode
-  :ensure t
-  :vc ( :url "/Users/josteink/build/bicep-ts-mode/"
-        :rev :newest))
-
+(let ((bicep-path (expand-file-name "build/bicep-ts-mode" "~")))
+  (when (file-exists-p bicep-path)
+    (use-package bicep-ts-mode
+      :ensure t
+      :vc ( :url bicep-path
+            :rev :newest))))
 
 ;; configure major-mode agnostic packages
 
@@ -1678,6 +1680,16 @@ Searches for last face, or new face if invoked with prefix-argument"
          ;; create easy exit from org-edit-special.
          (lsk 'org-edit-src-exit "C-c C-'"))
 
+(defun my/python-eglot-setup ()
+  ;; Python-specific setup
+  (when (derived-mode-p 'python-mode)
+    (let ((venv (locate-dominating-file default-directory ".venv")))
+      (when venv
+        (setq-local python-shell-interpreter
+                    (expand-file-name ".venv/bin/python" venv))
+        (setq-local eglot-workspace-configuration
+                    `((:python . ((pythonPath . ,(expand-file-name ".venv/bin/python" venv))))))))))
+
 (defhook prog-mode-hook
          ;; keybindings
 
@@ -1736,6 +1748,9 @@ Searches for last face, or new face if invoked with prefix-argument"
 
          ;; inline code-completion
          (completion-preview-mode t)
+
+         ;; preconfigure python for eglot
+         (my/python-eglot-setup)
 
          ;; try out eglot for a while
          (eglot-ensure)
