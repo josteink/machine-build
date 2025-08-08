@@ -482,6 +482,12 @@
 
 ;; treemacs child frame-reading bugs out on sway/wayland
 (setq treemacs-read-string-input 'from-minibuffer)
+;; make treemacs NOT spaz out over huge node_modules folders.
+(with-eval-after-load 'treemacs
+  (add-to-list 'treemacs-ignored-file-predicates
+               (lambda (file _)
+                 (string-equal file "node_modules"))))
+
 
 ;; enable narrowing and widening of buffers via C-x n n and C-x n w
 (put 'narrow-to-region 'disabled nil)
@@ -1748,6 +1754,9 @@ Searches for last face, or new face if invoked with prefix-argument"
 
          ;; inline code-completion
          (completion-preview-mode t)
+
+         ;; trailing whitespace is yucky!
+         (delete-trailing-whitespace-mode t)
 
          ;; preconfigure python for eglot
          (my/python-eglot-setup)
