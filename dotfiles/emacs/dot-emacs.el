@@ -307,6 +307,8 @@
 (add-extensions-to-mode 'message-mode "somail" "eml")
 (add-extensions-to-mode 'toml-ts-mode "toml")
 (add-extensions-to-mode 'conf-mode "env")
+(add-extensions-to-mode 'typescript-ts-mode "js" "mjs" "cjs")
+(add-extensions-to-mode 'yaml-ts-mode "yml")
 
 ;; MELPA modules
 (use-package bmx-mode      :defer t :hook bat-mode)
