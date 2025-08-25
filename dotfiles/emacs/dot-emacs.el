@@ -293,7 +293,8 @@
         (sh-mode         . bash-ts-mode)
         (typescript-mode . typescript-ts-mode)
         (rust-mode       . rust-ts-mode)
-        (yaml-mode       . yaml-ts-mode)))
+        (yaml-mode       . yaml-ts-mode)
+        (js2-mode        . typescript-ts-mode)))
 
 (add-extensions-to-mode 'tsx-ts-mode "tsx")
 
@@ -1329,6 +1330,25 @@ With a prefix argument N, (un)comment that many sexps."
 (defun my/org-hide-done-entries-in-buffer ()
   (interactive)
   (my/org-hide-done-entries-in-range (point-min) (point-max)))
+
+(defun org-project-insert-link ()
+  "Prompt for a file in the current project and insert an Org file link.
+Uses project.el for candidates, does NOT visit the file, and inserts a
+path relative to the project root for portability."
+  (interactive)
+  (require 'project)
+  (require 'org)
+  (let* ((proj  (project-current t))
+         (root  (project-root proj))
+         ;; Show relative paths in the minibuffer even if project-files
+         ;; returns absolute ones. Works either way.
+         (cands (mapcar (lambda (f) (file-relative-name f root))
+                        (project-files proj)))
+         (rel   (completing-read "Project file: " cands nil t)))
+    (insert (org-link-make-string
+             (concat "file:" rel)                  ; keep link relative
+             (file-name-nondirectory rel)))))      ; short description
+
 
 (defmacro with-timer (title &rest forms)
   "Run the given FORMS, counting the elapsed time.
