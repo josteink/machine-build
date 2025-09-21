@@ -399,6 +399,11 @@
                                        :cwd nil))
     (dap-auto-configure-mode 1)))
 
+(use-package semel
+  :vc ( :url "https://git.sr.ht/~eshel/semel"
+        :rev :newest)
+  :hook ( emacs-lisp-mode . semel-mode))
+
 (use-package indent-bars
   :vc ( :url "https://github.com/jdtsmith/indent-bars"
         :rev :newest)
