@@ -1,3 +1,5 @@
+;;; ...  -*- lexical-binding: nil -*-
+
 
 ;;;; Custom
 
@@ -154,6 +156,10 @@
 ;; so we can use emacsclient from other terminals
 ;; but dont start server if it already exists
 (require 'server)
+
+;; NOW we can do the other global requires!
+(require 'simple)
+(require 'recentf)
 
 
 ;;;; Define global behaviours
@@ -313,7 +319,8 @@
 (setq-default treesit-font-lock-level 4)
 
 ;; can't be added with use-package, but is emacs-internal anyway!
-(add-extensions-to-mode 'nxml-mode "config" "merge" ".*proj" "xaml" "props" "resx" "runsettings") ;; .NET, SuperOffice config-merge.
+(add-extensions-to-mode 'nxml-mode "config" "csproj" "xaml" "props" "resx" "runsettings") ;; .NET things
+(add-extensions-to-mode 'conf-mode "pbxproj")
 (add-extensions-to-mode 'html-mode "html" "php" "ascx" "aspx" "cshtml")
 (add-extensions-to-mode 'message-mode "somail" "eml")
 (add-extensions-to-mode 'toml-ts-mode "toml")
@@ -369,6 +376,7 @@
     (add-to-list 'copilot-major-mode-alist '("csharp-ts" . "csharp"))
     (add-to-list 'copilot-major-mode-alist '("typescript-ts" . "typescript"))
     (add-to-list 'copilot-major-mode-alist '("tsx-ts" . "typescriptreact"))
+    (add-to-list 'copilot-major-mode-alist '("python-ts" . "python"))
 
     (define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
     (define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion)
@@ -483,7 +491,7 @@
 (global-auto-revert-mode t)
 
 ;; enable windows-y selection-behaviour
-;; (delete-selection-mode 1)
+(delete-selection-mode 1)
 
 ;; pending-delete-mode means that when a region is selected and you
 ;; type, the contents of that region will be overwritten.
@@ -499,7 +507,9 @@
 (setq org-src-fontify-natively t)
 
 ;; treemacs child frame-reading bugs out on sway/wayland
-(setq treemacs-read-string-input 'from-minibuffer)
+(when (eq system-type 'gnu/linux)
+  (setq treemacs-read-string-input 'from-minibuffer))
+
 ;; make treemacs NOT spaz out over huge node_modules folders.
 (with-eval-after-load 'treemacs
   (add-to-list 'treemacs-ignored-file-predicates
@@ -648,7 +658,8 @@
   (let* ((project--root  (project-root (project-current)))
          (project--files (project-files project--root))
          (actual-files  (seq-filter (lambda (filename)
-                                      (string-suffix-p extension filename 't)) project--files)))
+                                      (string-suffix-p extension filename 't))
+                                    project--files)))
     (dolist (file actual-files)
       (find-file (concat project-root file))
       (delete-trailing-whitespace)
@@ -1640,7 +1651,7 @@ Searches for last face, or new face if invoked with prefix-argument"
          (lsk 'paredit-join-sexps          "M-J")
          (lsk 'my-join-line-with-next      "M-j")
 
-         (show-paren-mode 1) ; turn on paren match highlighting
+         (show-paren-mode 1)            ; turn on paren match highlighting
          ;;(setq show-paren-style 'expression) ; highlight entire bracket expression
          )
 
@@ -1734,6 +1745,7 @@ Searches for last face, or new face if invoked with prefix-argument"
                     `((:python . ((pythonPath . ,(expand-file-name ".venv/bin/python" venv))))))))))
 
 (defhook prog-mode-hook
+         (require 'simple)
          ;; keybindings
 
          ;; not C-k C-c & C-k C-t because C-k is kill-line in emacs
