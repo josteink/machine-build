@@ -123,7 +123,7 @@
   (column-number-mode +1)
 
   (let ((size (if (at-home-network-p) 13 13)))
-    ;; font thingie, downloaded from http://sourcefoundry.org/hack/
+    ;; https://monaspace.githubnext.com
     (try-set-default-font "Monaspace Neon Var" size)))
 
 (when (display-graphic-p)
@@ -386,12 +386,12 @@
                                   (copilot-mode))
                                 ))))
 
-(let ((bicep-path (expand-file-name "build/bicep-ts-mode" "~")))
-  (when (file-exists-p bicep-path)
-    (use-package bicep-ts-mode
-      :ensure t
-      :vc ( :url bicep-path
-            :rev :newest))))
+;; (let ((bicep-path (expand-file-name "build/bicep-ts-mode" "~")))
+;;   (when (file-exists-p bicep-path)
+;;     (use-package bicep-ts-mode
+;;       :ensure t
+;;       :vc ( :url bicep-path
+;;             :rev :newest))))
 
 ;; configure major-mode agnostic packages
 
