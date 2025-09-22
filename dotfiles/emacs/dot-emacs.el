@@ -15,6 +15,16 @@
 (add-to-list 'package-archives '("melpa"    . "https://melpa.org/packages/"))
 (package-initialize)
 
+;; early override for native compilation on MacOS, with GUI
+(when (memq window-system '(mac ns))
+  (use-package exec-path-from-shell
+    :ensure t
+    :config
+    (progn
+      (require 'exec-path-from-shell)
+      (exec-path-from-shell-initialize)
+      (exec-path-from-shell-copy-envs '("PATH" "LIBRARY_PATH" "CPATH" "PKG_CONFIG_PATH")))))
+
 (if init-file-debug
     (setq use-package-verbose t
           use-package-expand-minimally nil
