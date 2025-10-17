@@ -57,7 +57,7 @@
 
 (defun at-home-network-p ()
   (let ((arp (my-get-arp-table)))
-    (string-match-p "24:f5:a2:23:f0:33" arp)))
+    (string-match-p "4e:19:1f:08:28:e4" arp)))
 
 ;; activate theme early!
 (use-package dracula-theme
