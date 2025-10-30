@@ -1894,6 +1894,10 @@ Searches for last face, or new face if invoked with prefix-argument"
          ;; this of it as norton commander for Emacs.
          (setq dired-dwim-target t)
 
+         ;; nicer directory listing format
+         (setq dired-listing-switches
+               "-a -h -g --group-directories-first --time-style=iso")
+
          (lsk 'dired-isearch-filenames "C-s")
          (lsk 'isearch-forward "C-S"))
 
