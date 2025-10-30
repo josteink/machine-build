@@ -86,6 +86,10 @@
               (file-exists-p (expand-file-name "~/Library/Fonts"))))
     (all-the-icons-install-fonts)))
 
+(use-package all-the-icons-dired
+  :ensure t
+  :hook '(dired-mode . all-the-icons-dired-mode))
+
 ;; Configure GUI as early as possible. It makes loading look nicer :)
 
 (defun font-exists-p (font)
