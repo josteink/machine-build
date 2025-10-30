@@ -71,6 +71,8 @@
       (set-face-foreground 'font-lock-comment-face "#9988bb")
       ;; make selected text more obviously selected
       (set-face-background 'region "#44677a")
+      ;; make function-calls less distinct than function-declarations
+      (set-face-bold 'font-lock-function-call-face nil)
       )))
 
 (use-package doom-modeline
