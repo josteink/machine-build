@@ -75,6 +75,9 @@
       (set-face-bold 'font-lock-function-call-face nil)
       (set-face-bold 'font-lock-variable-use-face t)
       (set-face-foreground 'font-lock-variable-use-face "#cccccc")
+      (set-face-attribute 'semel-bound-variable nil
+                       :italic nil
+                       :inherit 'font-lock-lock-variable-use)
       )))
 
 (use-package doom-modeline
