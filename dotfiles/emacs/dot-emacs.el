@@ -73,6 +73,8 @@
       (set-face-background 'region "#44677a")
       ;; make function-calls less distinct than function-declarations
       (set-face-bold 'font-lock-function-call-face nil)
+      (set-face-bold 'font-lock-variable-use-face t)
+      (set-face-foreground 'font-lock-variable-use-face "#cccccc")
       )))
 
 (use-package doom-modeline
