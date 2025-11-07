@@ -332,7 +332,7 @@
 ;; can't be added with use-package, but is emacs-internal anyway!
 (add-extensions-to-mode 'nxml-mode "config" "csproj" "xaml" "props" "resx" "runsettings") ;; .NET things
 (add-extensions-to-mode 'conf-mode "pbxproj")
-(add-extensions-to-mode 'html-mode "html" "php" "ascx" "aspx" "cshtml")
+(add-extensions-to-mode 'mhtml-ts-mode "html" "php" "ascx" "aspx" "cshtml")
 (add-extensions-to-mode 'message-mode "somail" "eml")
 (add-extensions-to-mode 'toml-ts-mode "toml")
 (add-extensions-to-mode 'conf-mode "env")
@@ -542,7 +542,7 @@
       (flyspell-mode))))
 
 ;; ensure all occur-buffers have unique names (to enable multple ones)
-;; (add-hook 'occur-hook 'occur-rename-buffer)
+(add-hook 'occur-hook 'occur-rename-buffer)
 
 (defun make-scripts-executable ()
   "Makes scripts selectively executable"
