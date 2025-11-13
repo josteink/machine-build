@@ -349,6 +349,7 @@
 (use-package swift-mode    :ensure t)
 (use-package wsd-mode      :defer t :mode "\\.wsd\\'")
 (use-package dockerfile-ts-mode :ensure t :mode "[dD]ockerfile$")
+(use-package graphviz-dot-mode :ensure t :mode "\\.dot\\'")
 
 ;; prog-mode customizations
 (use-package paredit
