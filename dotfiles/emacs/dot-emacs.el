@@ -362,6 +362,7 @@
          (clojure-mode    . paredit-mode)
          (lisp-data-mode  . paredit-mode)))
 
+;; paredit for tree-sitter
 (use-package combobulate
   :hook ((python-ts-mode . combobulate-mode)
          (js-ts-mode . combobulate-mode)
@@ -1703,11 +1704,6 @@ Searches for last face, or new face if invoked with prefix-argument"
 
 (defhook eglot-managed-mode-hook
          (require 'eglot)
-
-         ;; eglot semantic tokens collides with all other fontification and is
-         ;; super inconsistent. remove it!
-         (eglot-semantic-tokens-mode -1)
-         (eglot-inlay-hints-mode -1)
 
          (when (eglot-managed-p)
            (lsk #'eglot-rename "C-c C-r")
