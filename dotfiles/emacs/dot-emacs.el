@@ -172,6 +172,9 @@
 (require 'simple)
 (require 'recentf)
 
+(require 'eglot)
+(add-to-list 'eglot-ignored-server-capabilities
+             :semanticTokensProvider)
 
 ;;;; Define global behaviours
 
