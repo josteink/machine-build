@@ -74,11 +74,7 @@
       ;; make function-calls less distinct than function-declarations
       (set-face-bold 'font-lock-function-call-face nil)
       (set-face-bold 'font-lock-variable-use-face t)
-      (set-face-foreground 'font-lock-variable-use-face "#cccccc")
-      (set-face-attribute 'semel-bound-variable nil
-                       :italic nil
-                       :inherit 'font-lock-lock-variable-use)
-      )))
+      (set-face-foreground 'font-lock-variable-use-face "#cccccc"))))
 
 (use-package doom-modeline
   :ensure t
@@ -436,7 +432,11 @@
 (use-package semel
   :vc ( :url "https://git.sr.ht/~eshel/semel"
         :rev :newest)
-  :hook ( emacs-lisp-mode . semel-mode))
+  :hook ( emacs-lisp-mode . semel-mode)
+  :config (progn
+			(set-face-attribute 'semel-bound-variable nil
+								:italic nil
+								:inherit 'font-lock-lock-variable-use)))
 
 (use-package indent-bars
   :vc ( :url "https://github.com/jdtsmith/indent-bars"
