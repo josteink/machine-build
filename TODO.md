@@ -1,10 +1,4 @@
-Things to do:
+# Things to do
 
-* implement profiles in a structured way 
-
-* server: fail2ban
-* workstation: dropbox, etc
-
-
-
-
+- simplify things majorly
+- create a simple "installer" script which just copies or symlinks dotfiles.

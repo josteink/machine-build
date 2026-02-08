@@ -129,9 +129,9 @@
   ;; same with column-numbers.
   (column-number-mode +1)
 
-  (let ((size (if (at-home-network-p) 13 13)))
+  (let ((size (if (at-home-network-p) 12 13)))
     ;; https://monaspace.githubnext.com
-    (try-set-default-font "Monaspace Neon Var" size)))
+    (try-set-default-font "Fira Code" size)))
 
 (when (display-graphic-p)
   (my-gui-mode-hook))
@@ -279,9 +279,9 @@
   :hook (emacs-lisp-mode . elisp-slime-nav-mode))
 
 ;; ensure we track and activate virtualenvs in python projects correctly
-(use-package pet
-  :ensure t
-  :hook (python-ts-mode-hook . pet-mode))
+;; (use-package pet
+;;   :ensure t
+;;   :hook (python-ts-mode-hook . pet-mode))
 
 ;;;; Setting up modes and file-mappings
 
@@ -2129,3 +2129,15 @@ same directory as the org-buffer and insert a link to this file."
   (call-process "pngpaste" nil nil nil filename)
   (insert (concat "[[./" filename "]]"))
   (org-display-inline-images))
+
+
+(defun my-tabify-leading-indentation ()
+  "Tabify leading indentation when `indent-tabs-mode' is non-nil."
+  (interactive)
+  (when indent-tabs-mode
+    (save-excursion
+      (goto-char (point-min))
+      (while (re-search-forward "^[ ]+" nil t)
+        (tabify (match-beginning 0) (match-end 0))))))
+
+;;(add-hook 'before-save-hook #'my-tabify-leading-indentation)

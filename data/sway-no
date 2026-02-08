@@ -1,5 +1,0 @@
-#!/bin/sh
-
-export XKB_DEFAULT_LAYOUT=no
-export XKB_DEFAULT_MODEL=pc101
-/usr/local/bin/sway #-d 2> ~/sway.log
