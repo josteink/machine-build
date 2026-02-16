@@ -468,6 +468,23 @@
 ;; switch straight to file selector when switching project
 (setq project-switch-commands #'project-find-file)
 
+
+;; make project.el never create subprojects inside git repos
+;; (like package.json in a subfolder, being its own project)
+
+(defun my-project-prefer-vc-no-nested-extra (dir)
+  "Prefer VC root if inside one; otherwise fall back to normal detection.
+This suppresses extra markers (package.json etc.) when nested inside git."
+  (if (vc-backend dir)         ; ← We're already inside a git repo (or other VC)
+      ;; Return the VC project root immediately (skips later extra-marker checks)
+      (project-try-vc dir)
+    ;; Not inside VC → let the rest of project-find-functions run normally
+    ;; (which will include extra markers like package.json)
+    nil))
+
+;; Install it at the front of the list (so it runs before project-try-vc)
+(add-to-list 'project-find-functions #'my-project-prefer-vc-no-nested-extra)
+
 (setq lsp-warn-no-matched-clients nil)
 
 ;; hook js2-mode in for shell scripts running via node.js
