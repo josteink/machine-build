@@ -283,6 +283,10 @@
 ;;   :ensure t
 ;;   :hook (python-ts-mode-hook . pet-mode))
 
+;; github copilot is nice to have
+(use-package agent-shell
+  :ensure t)
+
 ;;;; Setting up modes and file-mappings
 
 
@@ -515,7 +519,7 @@ This suppresses extra markers (package.json etc.) when nested inside git."
 
 (setq org-support-shift-select t)
 (setq org-todo-keywords
-      '((sequence "TODO" "ACTIVE" "|" "DONE" "DELEGATED")))
+      '((sequence "TODO" "ACTIVE" "IMPEDED" "|" "DONE" "DELEGATED")))
 
 ;; ensure weeks starts on mondays
 (setq calendar-week-start-day 1)
@@ -1802,9 +1806,6 @@ Searches for last face, or new face if invoked with prefix-argument"
 
 
          ;; settings
-
-         ;; highlight current function?
-         (which-function-mode 1)
 
          ;; enable imenu - only for true prog-mode major-modes
          (when (derived-mode-p 'prog-mode)
