@@ -3,7 +3,7 @@
 config-version = 2
 
 # In i3, all workspaces are phantom
-persistent-workspaces = []
+persistent-workspaces = [ "1", "2", "3", "4", "5", "6", "7", "8", "9" ]
 
 # i3 doesn't have "normalizations" feature that why we disable them here.
 # But the feature is very helpful.
@@ -14,6 +14,8 @@ enable-normalization-opposite-orientation-for-nested-containers = false
 
 # Mouse follows focus when focused monitor changes
 on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
+
+start-at-login = true
 
 [mode.main.binding]
     # See: https://nikitabobko.github.io/AeroSpace/goodies#open-a-new-window-with-applescript
@@ -35,10 +37,17 @@ on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
     cmd-shift-up =    'move up'
     cmd-shift-right = 'move right'
 
+    cmd-shift-f1 = 'move-workspace-to-monitor 1'
+    cmd-shift-f2 = 'move-workspace-to-monitor 2'
+    cmd-shift-f3 = 'move-workspace-to-monitor 3'
+
+    # move workspaces to monitors
+
+
     # Consider using 'join-with' command as a 'split' replacement if you want to enable
     # normalizations
-    cmd-h = 'split horizontal'
-    cmd-v = 'split vertical'
+    cmd-shift-h = 'split horizontal'
+    cmd-shift-v = 'split vertical'
 
     cmd-f = 'fullscreen'
 
@@ -78,9 +87,9 @@ on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
     cmd-shift-9 = 'move-node-to-workspace 9'
     cmd-shift-0 = 'move-node-to-workspace 10'
 
-    alt-shift-c = 'reload-config'
+    cmd-shift-c = 'reload-config'
 
-    alt-r = 'mode resize'
+    cmd-r = 'mode resize'
 
 [mode.resize.binding]
     h = 'resize width -50'
@@ -89,3 +98,13 @@ on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
     l = 'resize width +50'
     enter = 'mode main'
     esc = 'mode main'
+
+
+[workspace-to-monitor-force-assignment]
+   1 = 'main'        # safari on main screen (which is laptop when not docked)
+   2 = 'built-in'    # chat always on laptop screen
+   3 = 'main'        # safari on main screen (which is laptop when not docked)
+   #4 = [ 3, 2 ]      # terminals on right external or main external
+   #5 = [ 3, 2 ]      # mail -same-
+   #6 = [ 3, 2 ]      # same music
+   #7 = [ 3, 2 ]      # same chrome
