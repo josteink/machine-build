@@ -19,9 +19,9 @@ start-at-login = true
 
 [mode.main.binding]
     # See: https://nikitabobko.github.io/AeroSpace/goodies#open-a-new-window-with-applescript
-    alt-enter = '''exec-and-forget osascript -e '
-    tell application "Terminal"
-        do script
+    cmd-enter = '''exec-and-forget osascript -e '
+    tell application "iTerm"
+        create window with default profile
         activate
     end tell'
     '''
