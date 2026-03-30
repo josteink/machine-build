@@ -131,7 +131,7 @@
 
   (let ((size (if (at-home-network-p) 12 13)))
     ;; https://monaspace.githubnext.com
-    (try-set-default-font "Fira Code" size)))
+    (try-set-default-font "Hack" size)))
 
 (when (display-graphic-p)
   (my-gui-mode-hook))
