@@ -5,9 +5,9 @@
     "position": "bottom", // Waybar position (top|bottom|left|right)
     "height": 30, // Waybar height (to be removed for auto height)
     // "modules-left": ["sway/workspaces", "sway/mode", "custom/media"],
-    "modules-left": ["hyprland/workspaces", "hyprland/submap", "custom/media"],
+  "modules-left": ["hyprland/workspaces", "hyprland/submap", "custom/media", "cpu", "memory", "temperature"],
     "modules-center": ["hyprland/window"],
-    "modules-right": ["idle_inhibitor", "pulseaudio", "network", "cpu", "memory", "temperature", "backlight", "battery", "clock", "tray"],
+  "modules-right": ["idle_inhibitor", "pulseaudio", "network", "battery", "clock", "tray"],
     "idle_inhibitor": {
         "format": "{icon}",
         "format-icons": {
