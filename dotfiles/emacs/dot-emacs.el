@@ -354,6 +354,12 @@
 (use-package dockerfile-ts-mode :ensure t :mode "[dD]ockerfile$")
 (use-package graphviz-dot-mode :ensure t :mode "\\.dot\\'")
 
+;; fix dotnet on MacOS where resolving SDK may fail
+(let ((dotnet-path (expand-file-name (substitute-in-file-name "$HOME/.dotnet"))))
+  (when (f-exists-p dotnet-path)
+    (setenv "DOTNET_ROOT" dotnet-path)))
+
+
 ;; prog-mode customizations
 (use-package paredit
   :ensure t
