@@ -444,9 +444,9 @@
         :rev :newest)
   :hook ( emacs-lisp-mode . semel-mode)
   :config (progn
-			(set-face-attribute 'semel-bound-variable nil
-								:italic nil
-								:inherit 'font-lock-lock-variable-use)))
+            (set-face-attribute 'semel-bound-variable nil
+                                :italic nil
+                                :inherit 'font-lock-lock-variable-use)))
 
 (use-package indent-bars
   :vc ( :url "https://github.com/jdtsmith/indent-bars"
@@ -525,7 +525,7 @@ This suppresses extra markers (package.json etc.) when nested inside git."
 
 (setq org-support-shift-select t)
 (setq org-todo-keywords
-      '((sequence "TODO" "ACTIVE" "IMPEDED" "|" "DONE" "DELEGATED")))
+      '((sequence "TODO" "NEXT"  "ACTIVE" "WAIT" "IMPEDED" "|" "DONE" "DELEGATED")))
 
 ;; ensure weeks starts on mondays
 (setq calendar-week-start-day 1)
@@ -1740,7 +1740,8 @@ Searches for last face, or new face if invoked with prefix-argument"
            (lsk #'eglot-code-actions "C-<return>" "C-M-<return>" "M-<return>")))
 (defhook before-save-hook
          (when (and (fboundp 'eglot-managed-p) (eglot-managed-p))
-           (eglot-format-buffer)))
+           (unless (is-mode-active-p 'powershell-mode)
+             (eglot-format-buffer))))
 (defhook magit-post-refresh-hook
          (when (and (fboundp 'eglot-managed-p) (eglot-managed-p))
            (eglot-reconnect)))
