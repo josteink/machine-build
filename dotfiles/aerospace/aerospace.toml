@@ -27,15 +27,20 @@ start-at-login = true
     '''
 
     # i3 wraps focus by default
-    cmd-left =  'focus --boundaries-action wrap-around-the-workspace left'
-    cmd-right = 'focus --boundaries-action wrap-around-the-workspace right'
-    cmd-up =    'focus --boundaries-action wrap-around-the-workspace up'
-    cmd-down =  'focus --boundaries-action wrap-around-the-workspace down'
 
-    cmd-shift-left =  'move left'
-    cmd-shift-down =  'move down'
-    cmd-shift-up =    'move up'
-    cmd-shift-right = 'move right'
+    # cmd-left = same key as "home" - remapped via karabiner
+    # cmd-right = same key as "end" - remapped via karabiner
+    # reusing here would make home and end act very unexpectedly!
+    # so we use alt- instead.
+    ctrl-left =  'focus --boundaries-action wrap-around-the-workspace left'
+    ctrl-right = 'focus --boundaries-action wrap-around-the-workspace right'
+    ctrl-up =    'focus --boundaries-action wrap-around-the-workspace up'
+    ctrl-down =  'focus --boundaries-action wrap-around-the-workspace down'
+
+    ctrl-shift-left =  'move left'
+    ctrl-shift-down =  'move down'
+    ctrl-shift-up =    'move up'
+    ctrl-shift-right = 'move right'
 
     cmd-shift-f1 = 'move-workspace-to-monitor 1'
     cmd-shift-f2 = 'move-workspace-to-monitor 2'
@@ -74,7 +79,8 @@ start-at-login = true
     cmd-7 = 'workspace 7'
     cmd-8 = 'workspace 8'
     cmd-9 = 'workspace 9'
-    cmd-0 = 'workspace 10'
+    # cmd-0 = reset zoom - we don't want to override that!
+    # cmd-0 = 'workspace 10'
 
     cmd-shift-1 = 'move-node-to-workspace 1'
     cmd-shift-2 = 'move-node-to-workspace 2'
@@ -85,11 +91,11 @@ start-at-login = true
     cmd-shift-7 = 'move-node-to-workspace 7'
     cmd-shift-8 = 'move-node-to-workspace 8'
     cmd-shift-9 = 'move-node-to-workspace 9'
-    cmd-shift-0 = 'move-node-to-workspace 10'
+    # cmd-shift-0 = 'move-node-to-workspace 10'
 
     cmd-shift-c = 'reload-config'
 
-    cmd-r = 'mode resize'
+    alt-r = 'mode resize'
 
 [mode.resize.binding]
     h = 'resize width -50'
@@ -103,7 +109,7 @@ start-at-login = true
 [workspace-to-monitor-force-assignment]
    1 = 'main'        # safari on main screen (which is laptop when not docked)
    2 = 'built-in'    # chat always on laptop screen
-   3 = 'main'        # safari on main screen (which is laptop when not docked)
+   #3 = 'main'        # emacs on main screen (which is laptop when not docked)
    #4 = [ 3, 2 ]      # terminals on right external or main external
    #5 = [ 3, 2 ]      # mail -same-
    #6 = [ 3, 2 ]      # same music
