@@ -257,9 +257,14 @@
           ("C-x C-q" . wgrep-change-to-wgrep-mode)
           ("C-c C-c" . wgrep-finish-edit)))
 
+(defun my-project-to-magit-status ()
+  (interactive)
+  (magit-status (project-prompt-project-dir)))
+
 (use-package magit
   :ensure t
-  :bind ("C-x v g" . magit-status))
+  :bind (("C-x v g" . magit-status)
+         ("C-x p g" . my-project-to-magit-status)))
 
 (use-package highlight-symbol
   :ensure t
