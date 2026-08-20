@@ -42,20 +42,22 @@ local menu        = 'rofi --font "Hack 13" -show drun'
 ---- AUTOSTART ----
 -------------------
 
--- See https://wiki.hypr.land/Configuring/Basics/Autostart/
-hl.exec_cmd("nm-applet")
-hl.exec_cmd("~/bin/launch-waybar.sh || waybar")
-hl.exec_cmd("/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1")
-hl.exec_cmd("wl-clip-persist --clipboard regular")
-hl.exec_cmd("hypridle")
-hl.exec_cmd("dunst")
+hl.on("hyprland.start", function()
+    -- See https://wiki.hypr.land/Configuring/Basics/Autostart/
+    hl.exec_cmd("nm-applet")
+    hl.exec_cmd("~/bin/launch-waybar.sh || waybar")
+    hl.exec_cmd("/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1")
+    hl.exec_cmd("wl-clip-persist --clipboard regular")
+    hl.exec_cmd("hypridle")
+    hl.exec_cmd("dunst")
 
--- Populate workspaces
-hl.exec_cmd("chromium")
-hl.exec_cmd("element-desktop")
-hl.exec_cmd("~/bin/emacs")
-hl.exec_cmd(terminal)
-hl.exec_cmd("thunderbird")
+    -- Populate workspaces
+    hl.exec_cmd("chromium")
+    hl.exec_cmd("element-desktop")
+    hl.exec_cmd("~/bin/emacs")
+    hl.exec_cmd(terminal)
+    hl.exec_cmd("thunderbird")
+end)
 
 -------------------------------
 ---- ENVIRONMENT VARIABLES ----
@@ -162,6 +164,7 @@ hl.config({
 
         follow_mouse = 1,
         sensitivity  = 0,
+        natural_scroll = false,
 
         touchpad = {
             natural_scroll = false,
@@ -243,6 +246,7 @@ hl.bind("XF86AudioPrev",  hl.dsp.exec_cmd("playerctl previous"),   { locked = tr
 -- Screenshots
 hl.bind("Print",      hl.dsp.exec_cmd("hyprshot -m window --clipboard"))
 hl.bind("CTRL + Print", hl.dsp.exec_cmd("hyprshot -m region --clipboard"))
+hl.bind("CTRL + ALT + Print", hl.dsp.exec_cmd("hyprshot -m window -m active --clipboard"))
 
 --------------------------------
 ---- WINDOWS AND WORKSPACES ----
