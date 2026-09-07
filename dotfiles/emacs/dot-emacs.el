@@ -264,7 +264,7 @@
 (use-package magit
   :ensure t
   :bind (("C-x v g" . magit-status)
-         ("C-x p g" . my-project-to-magit-status)))
+         ("C-x p v" . my-project-to-magit-status)))
 
 (use-package highlight-symbol
   :ensure t
@@ -277,6 +277,11 @@
 (use-package editorconfig
   :ensure t
   :config (editorconfig-mode 1))
+
+(use-package pyvenv
+  :ensure t
+  :hook ((python--mode . pyvenv-mode)
+         (python-ts-mode . pyvenv-mode)))
 
 ;; elisp-slime-nav elisp-refs
 (use-package elisp-slime-nav
@@ -1717,9 +1722,6 @@ Searches for last face, or new face if invoked with prefix-argument"
          ;; we want proper indentation
          (haskell-indent-mode +1))
 
-(defhook python-mode-hook
-         (pyvenv-mode t))
-
 ;; lsp
 (defhook lsp-mode-hook
          ;; lsp-mode does proper symbol highlghting natively.
@@ -1937,9 +1939,11 @@ Searches for last face, or new face if invoked with prefix-argument"
          ;; this of it as norton commander for Emacs.
          (setq dired-dwim-target t)
 
-         ;; nicer directory listing format
-         (setq dired-listing-switches
-               "-a -h -g --group-directories-first --time-style=iso")
+         ;; use a nicer directory listing format, on Linux.
+         ;; GNU Coreutils required!
+         (when (eq system-type 'gnu/linux)
+           (setq dired-listing-switches
+                 "-a -h -g --group-directories-first --time-style=iso"))
 
          (lsk 'dired-isearch-filenames "C-s")
          (lsk 'isearch-forward "C-S"))
