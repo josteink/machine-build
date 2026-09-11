@@ -17,6 +17,82 @@ on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 
 start-at-login = true
 
+[[on-window-detected]]
+if.app-id = 'com.apple.systempreferences'
+check-further-callbacks = false
+run = ['layout floating']
+
+[[on-window-detected]]
+if.app-id = 'com.superoffice.SuperOffice-Web-tools'
+check-further-callbacks = false
+run = ['layout floating']
+
+[[on-window-detected]]
+if.app-id = 'com.apple.Safari'
+check-further-callbacks = false
+run = ['move-node-to-workspace 1']
+
+[[on-window-detected]]
+if.app-id = 'com.apple.dt.Xcode'
+check-further-callbacks = false
+run = ['move-node-to-workspace 3']
+
+[[on-window-detected]]
+if.app-id = 'org.gnu.Emacs'
+check-further-callbacks = false
+run = ['move-node-to-workspace 3']
+
+[[on-window-detected]]
+if.app-id = 'com.microsoft.teams2'
+check-further-callbacks = false
+run = ['move-node-to-workspace 2']
+
+[[on-window-detected]]
+if.app-id = 'com.anthropic.claudefordesktop'
+check-further-callbacks = false
+run = ['move-node-to-workspace 5']
+
+[[on-window-detected]]
+if.app-id = 'com.googlecode.iterm2'
+check-further-callbacks = false
+run = ['move-node-to-workspace 4']
+
+[[on-window-detected]]
+if.app-id = 'com.apple.MobileSMS'
+check-further-callbacks = false
+run = ['move-node-to-workspace 2']
+
+[[on-window-detected]]
+if.app-id = 'com.apple.mail'
+check-further-callbacks = false
+run = ['move-node-to-workspace 5']
+
+[[on-window-detected]]
+if.app-id = 'im.riot.app'
+check-further-callbacks = false
+run = ['move-node-to-workspace 2']
+
+[[on-window-detected]]
+if.app-id = 'com.asiafu.Bloom'
+check-further-callbacks = false
+run = ['move-node-to-workspace 4']
+
+[[on-window-detected]]
+if.app-id = 'com.monk-studio.jellyfin-music'
+check-further-callbacks = false
+run = ['move-node-to-workspace 6']
+
+[[on-window-detected]]
+if.app-id = 'com.apple.Music'
+check-further-callbacks = false
+run = ['move-node-to-workspace 6']
+
+[[on-window-detected]]
+if.app-id = 'com.microsoft.Outlook'
+check-further-callbacks = false
+run = ['move-node-to-workspace 5']
+
+
 [mode.main.binding]
     # See: https://nikitabobko.github.io/AeroSpace/goodies#open-a-new-window-with-applescript
     cmd-shift-enter = '''exec-and-forget osascript -e '
@@ -114,82 +190,3 @@ start-at-login = true
    #5 = [ 3, 2 ]      # mail -same-
    #6 = [ 3, 2 ]      # same music
    #7 = [ 3, 2 ]      # same chrome
-
-
-on-window-detected = [
-  {
-    if = 'test %{app-bundle-id} = com.apple.systempreferences',
-      check-further-callbacks = false,
-      run = ['layout floating']
-  },
-  {
-    if = 'test %{app-bundle-id} = com.superoffice.SuperOffice-Web-tools',
-      check-further-callbacks = false,
-      run = ['layout floating']
-  },
-  {
-    if = 'test %{app-bundle-id} = com.apple.Safari',
-      check-further-callbacks = false,
-      run = ['move-node-to-workspace 1']
-  },
-  {
-    if = 'test %{app-bundle-id} = com.apple.dt.Xcode',
-      check-further-callbacks = false,
-      run = ['move-node-to-workspace 3']
-  },
-  {
-    if = 'test %{app-bundle-id} = org.gnu.Emacs',
-      check-further-callbacks = false,
-      run = ['move-node-to-workspace 3']
-  },
-  {
-    if = 'test %{app-bundle-id} = com.microsoft.teams2',
-      check-further-callbacks = false,
-      run = ['move-node-to-workspace 2']
-  },
-  {
-    if = 'test %{app-bundle-id} = com.anthropic.claudefordesktop',
-      check-further-callbacks = false,
-      run = ['move-node-to-workspace 5']
-  },
-  {
-    if = 'test %{app-bundle-id} = com.googlecode.iterm2',
-      check-further-callbacks = false,
-      run = ['move-node-to-workspace 4']
-  },
-  {
-    if = 'test %{app-bundle-id} = com.apple.MobileSMS',
-      check-further-callbacks = false,
-      run = ['move-node-to-workspace 2']
-  },
-  {
-    if = 'test %{app-bundle-id} = com.apple.mail',
-      check-further-callbacks = false,
-      run = ['move-node-to-workspace 5']
-  },
-  {
-    if = 'test %{app-bundle-id} = im.riot.app',
-      check-further-callbacks = false,
-      run = ['move-node-to-workspace 2']
-  },
-  {
-    if = 'test %{app-bundle-id} = com.asiafu.Bloom',
-      check-further-callbacks = false,
-      run = ['move-node-to-workspace 4']
-  },
-  {
-    if = 'test %{app-bundle-id} = com.monk-studio.jellyfin-music',
-      check-further-callbacks = false,
-      run = ['move-node-to-workspace 6']
-  },
-  {
-    if = 'test %{app-bundle-id} = com.apple.Music',
-      check-further-callbacks = false,
-      run = ['move-node-to-workspace 6']
-  },
-  {
-    if = 'test %{app-bundle-id} = com.microsoft.Outlook',
-      check-further-callbacks = false,
-      run = ['move-node-to-workspace 5']
-  },
-]
