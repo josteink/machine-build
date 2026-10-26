@@ -15,6 +15,12 @@ enable-normalization-opposite-orientation-for-nested-containers = false
 # Mouse follows focus when focused monitor changes
 on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 
+# Xcode sometimes reappears on the current workspace (minimize/restore, build or debugger
+# bringing it forward) while AeroSpace still thinks it lives on 3. Re-sync when it gets focus.
+on-focus-changed = [
+    '''exec-and-forget [ "$(/opt/homebrew/bin/aerospace list-windows --focused --format '%{app-bundle-id}')" = com.apple.dt.Xcode ] && /opt/homebrew/bin/aerospace workspace 3'''
+]
+
 start-at-login = true
 
 [[on-window-detected]]
@@ -30,22 +36,22 @@ run = ['layout floating']
 [[on-window-detected]]
 if.app-id = 'com.apple.Safari'
 check-further-callbacks = false
-run = ['move-node-to-workspace 1']
+run = ['move-node-to-workspace 1', 'layout accordion']
 
 [[on-window-detected]]
 if.app-id = 'com.apple.dt.Xcode'
 check-further-callbacks = false
-run = ['move-node-to-workspace 3']
+run = ['move-node-to-workspace 3', 'layout accordion']
 
 [[on-window-detected]]
 if.app-id = 'org.gnu.Emacs'
 check-further-callbacks = false
-run = ['move-node-to-workspace 3']
+run = ['move-node-to-workspace 3', 'layout accordion']
 
 [[on-window-detected]]
 if.app-id = 'com.microsoft.teams2'
 check-further-callbacks = false
-run = ['move-node-to-workspace 2']
+run = ['move-node-to-workspace 2', 'layout accordion']
 
 [[on-window-detected]]
 if.app-id = 'com.anthropic.claudefordesktop'
@@ -55,12 +61,12 @@ run = ['move-node-to-workspace 5']
 [[on-window-detected]]
 if.app-id = 'com.googlecode.iterm2'
 check-further-callbacks = false
-run = ['move-node-to-workspace 4']
+run = ['move-node-to-workspace 4', 'layout tiles']
 
 [[on-window-detected]]
 if.app-id = 'com.apple.MobileSMS'
 check-further-callbacks = false
-run = ['move-node-to-workspace 2']
+run = ['move-node-to-workspace 2', 'layout accordion']
 
 [[on-window-detected]]
 if.app-id = 'com.apple.mail'
@@ -70,22 +76,22 @@ run = ['move-node-to-workspace 5']
 [[on-window-detected]]
 if.app-id = 'im.riot.app'
 check-further-callbacks = false
-run = ['move-node-to-workspace 2']
+run = ['move-node-to-workspace 2', 'layout accordion']
 
 [[on-window-detected]]
 if.app-id = 'com.asiafu.Bloom'
 check-further-callbacks = false
-run = ['move-node-to-workspace 4']
+run = ['move-node-to-workspace 4', 'layout tiles']
 
 [[on-window-detected]]
 if.app-id = 'com.monk-studio.jellyfin-music'
 check-further-callbacks = false
-run = ['move-node-to-workspace 6']
+run = ['move-node-to-workspace 6', 'layout tiles']
 
 [[on-window-detected]]
 if.app-id = 'com.apple.Music'
 check-further-callbacks = false
-run = ['move-node-to-workspace 6']
+run = ['move-node-to-workspace 6', 'layout tiles']
 
 [[on-window-detected]]
 if.app-id = 'com.microsoft.Outlook'
