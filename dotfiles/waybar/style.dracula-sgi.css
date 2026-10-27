@@ -3,8 +3,11 @@
  * Face #44475a, light bevel #aaacb4, dark bevel #282a36.
  * Wells #282a36, light #44475a, dark #21222c.
  * Accents: purple #bd93f9, red #ff5555.
- * Raised border-color is top right bottom left: light dark dark light.
- * Sunken swaps those two.
+ *
+ * The bar is a raised panel (light top/left, dark bottom/right). Buttons
+ * are embossed: the outer 2px border sinks in (dark top/left, light
+ * bottom/right) and the inner 1px shadow rises back out (light top/left,
+ * dark bottom/right). Active buttons are pressed in again.
  */
 
 * {
@@ -19,7 +22,7 @@ window#waybar {
     color: #f8f8f2;
     border-style: solid;
     border-width: 2px;
-    border-color: #aaacb4 #282a36 #282a36 #aaacb4;
+    border-color: #aaacb4 #282a36 #282a36 #aaacb4; /* raised outer panel */
 }
 
 button,
@@ -36,11 +39,11 @@ button,
     color: #f8f8f2;
     border-style: solid;
     border-width: 2px;
-    border-color: #aaacb4 #282a36 #282a36 #aaacb4;
+    border-color: #282a36 #aaacb4 #aaacb4 #282a36; /* outer: sink in */
+    box-shadow: inset 1px 1px 0 #aaacb4, inset -1px -1px 0 #282a36; /* inner: rise out */
     border-radius: 0;
     padding: 0 8px;
     margin: 4px 2px;
-    box-shadow: none;
 }
 
 #workspaces button {
@@ -48,6 +51,7 @@ button,
     padding: 0 4px;
 }
 
+/* Hover is the pressed state: reverse the inner rise. */
 #workspaces button:hover,
 #custom-toolchest:hover,
 #custom-term:hover,
@@ -58,12 +62,20 @@ button,
 #custom-lock:hover,
 #custom-exit:hover,
 button:hover {
-    background: #44475a;
-    box-shadow: none;
+    background: #3b3e4f;
+    box-shadow: inset 1px 1px 0 #282a36, inset -1px -1px 0 #aaacb4;
 }
 
+/* The current workspace is a pressed purple plate. */
 #workspaces button.active,
-#workspaces button.focused,
+#workspaces button.focused {
+    background-color: #bd93f9;
+    color: #282a36;
+    border-color: #282a36 #aaacb4 #aaacb4 #282a36;
+    box-shadow: inset 1px 1px 0 #282a36, inset -1px -1px 0 #e1cefc;
+}
+
+/* Click feedback on the app buttons and workspaces. */
 #workspaces button:active,
 #custom-toolchest:active,
 #custom-term:active,
@@ -73,15 +85,15 @@ button:hover {
 #custom-web:active,
 #custom-lock:active,
 #custom-exit:active {
-    background-color: #bd93f9;
-    color: #282a36;
-    border-color: #715895 #e1cefc #e1cefc #715895;
+    background-color: #3b3e4f;
+    box-shadow: inset 1px 1px 0 #282a36, inset -1px -1px 0 #aaacb4;
 }
 
 #workspaces button.urgent {
     background-color: #ff5555;
     color: #282a36;
     border-color: #992222 #ff8888 #ff8888 #992222;
+    box-shadow: inset 1px 1px 0 #ff8888, inset -1px -1px 0 #992222;
 }
 
 #clock,
@@ -96,7 +108,7 @@ button:hover {
     color: #f8f8f2;
     border-style: solid;
     border-width: 2px;
-    border-color: #21222c #44475a #44475a #21222c;
+    border-color: #21222c #44475a #44475a #21222c; /* sunken well */
     border-radius: 0;
     padding: 0 8px;
     margin: 4px 2px;
