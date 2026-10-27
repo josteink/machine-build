@@ -6,10 +6,11 @@
 -- "dracula" is the daily desktop. "cde" is the Common Desktop Environment skin
 -- in cde.lua, waybar/config.cde, and the sibling dunst/rofi/hyprlock files.
 -- "indigo" is the SGI Indigo Magic skin in indigo.lua, waybar/config.indigo,
--- and the sibling dunst/rofi/hyprlock/kitty files.
+-- and the sibling dunst/rofi/hyprlock/kitty files. "dracula-sgi" is the same
+-- SGI geometry with the Dracula palette.
 -- Kitty picks its colours from kitty/$HYPR_THEME.conf.
 -- A new Hyprland session picks the skin up. A reload updates frames only.
-local theme = "indigo"
+local theme = "dracula-sgi"
 
 local function shell_quote(s)
     return "'" .. s:gsub("'", "'\\''") .. "'"
@@ -80,6 +81,10 @@ elseif theme == "indigo" then
     menu = "rofi -no-config -theme " .. shell_quote(dotfiles .. "/rofi/indigo.rasi") .. " -show drun"
     lockCmd = "hyprlock -c " .. shell_quote(hyprDir .. "/hyprlock.indigo.conf")
     dunstCmd = "dunst -conf " .. shell_quote(dotfiles .. "/dunst/dunstrc.indigo")
+elseif theme == "dracula-sgi" then
+    menu = "rofi -no-config -theme " .. shell_quote(dotfiles .. "/rofi/dracula-sgi.rasi") .. " -show drun"
+    lockCmd = "hyprlock -c " .. shell_quote(hyprDir .. "/hyprlock.dracula-sgi.conf")
+    dunstCmd = "dunst -conf " .. shell_quote(dotfiles .. "/dunst/dunstrc.dracula-sgi")
 else
     menu = 'rofi --font "Hack 13" -show drun'
     lockCmd = "hyprlock"
@@ -102,6 +107,8 @@ hl.on("hyprland.start", function()
         hl.exec_cmd("swaybg -c '#718ba5'")
     elseif theme == "indigo" then
         hl.exec_cmd("swaybg -c '#202452'")
+    elseif theme == "dracula-sgi" then
+        hl.exec_cmd("swaybg -c '#282a36'")
     end
 
     -- Populate workspaces
@@ -130,6 +137,8 @@ if theme == "cde" then
     dofile(hyprDir .. "/cde.lua")
 elseif theme == "indigo" then
     dofile(hyprDir .. "/indigo.lua")
+elseif theme == "dracula-sgi" then
+    dofile(hyprDir .. "/dracula-sgi.lua")
 else
 
 hl.config({

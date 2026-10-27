@@ -1,0 +1,79 @@
+/* Dracula-SGI menu.
+ * Slate CDE panel, Dracula text, purple selection.
+ * Rofi border-color is a single color, so the outer frame is the panel's
+ * dark bevel (#282a36).
+ */
+
+* {
+    font: "Nimbus Sans 12";
+    background-color: #44475a;
+    text-color: #f8f8f2;
+    border-radius: 0px;
+    spacing: 0px;
+}
+
+window {
+    location: center;
+    anchor: center;
+    width: 480px;
+    border: 2px solid;
+    border-color: #282a36;
+    background-color: #44475a;
+    padding: 6px;
+}
+
+mainbox {
+    border: 0px;
+    padding: 0px;
+    spacing: 4px;
+    background-color: transparent;
+    children: [ "inputbar", "listview" ];
+}
+
+inputbar {
+    border: 2px solid;
+    border-color: #21222c;
+    background-color: #282a36;
+    padding: 4px;
+    spacing: 6px;
+    children: [ "prompt", "entry" ];
+}
+
+prompt {
+    background-color: transparent;
+    text-color: #f8f8f2;
+}
+
+entry {
+    background-color: transparent;
+    text-color: #f8f8f2;
+    placeholder: "Run";
+    placeholder-color: #6272a4;
+}
+
+listview {
+    border: 0px;
+    padding: 0px;
+    background-color: #44475a;
+    lines: 8;
+    fixed-height: false;
+    scrollbar: false;
+}
+
+element {
+    border: 0px;
+    padding: 2px 6px;
+    background-color: transparent;
+    text-color: #f8f8f2;
+}
+
+element selected {
+    background-color: #bd93f9;
+    text-color: #282a36;
+}
+
+element-text {
+    background-color: transparent;
+    text-color: inherit;
+    vertical-align: 0.5;
+}

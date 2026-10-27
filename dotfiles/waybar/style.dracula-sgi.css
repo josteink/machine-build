@@ -1,0 +1,128 @@
+/*
+ * Dracula-SGI front panel.
+ * Face #44475a, light bevel #aaacb4, dark bevel #282a36.
+ * Wells #282a36, light #44475a, dark #21222c.
+ * Accents: purple #bd93f9, red #ff5555.
+ * Raised border-color is top right bottom left: light dark dark light.
+ * Sunken swaps those two.
+ */
+
+* {
+    font-family: "Nimbus Sans";
+    font-size: 11pt;
+    border-radius: 0;
+    min-height: 0;
+}
+
+window#waybar {
+    background-color: #44475a;
+    color: #f8f8f2;
+    border-style: solid;
+    border-width: 2px;
+    border-color: #aaacb4 #282a36 #282a36 #aaacb4;
+}
+
+button,
+#custom-toolchest,
+#custom-term,
+#custom-files,
+#custom-edit,
+#custom-mail,
+#custom-web,
+#custom-lock,
+#custom-exit,
+#workspaces button {
+    background-color: #44475a;
+    color: #f8f8f2;
+    border-style: solid;
+    border-width: 2px;
+    border-color: #aaacb4 #282a36 #282a36 #aaacb4;
+    border-radius: 0;
+    padding: 0 8px;
+    margin: 4px 2px;
+    box-shadow: none;
+}
+
+#workspaces button {
+    min-width: 22px;
+    padding: 0 4px;
+}
+
+#workspaces button:hover,
+#custom-toolchest:hover,
+#custom-term:hover,
+#custom-files:hover,
+#custom-edit:hover,
+#custom-mail:hover,
+#custom-web:hover,
+#custom-lock:hover,
+#custom-exit:hover,
+button:hover {
+    background: #44475a;
+    box-shadow: none;
+}
+
+#workspaces button.active,
+#workspaces button.focused,
+#workspaces button:active,
+#custom-toolchest:active,
+#custom-term:active,
+#custom-files:active,
+#custom-edit:active,
+#custom-mail:active,
+#custom-web:active,
+#custom-lock:active,
+#custom-exit:active {
+    background-color: #bd93f9;
+    color: #282a36;
+    border-color: #715895 #e1cefc #e1cefc #715895;
+}
+
+#workspaces button.urgent {
+    background-color: #ff5555;
+    color: #282a36;
+    border-color: #992222 #ff8888 #ff8888 #992222;
+}
+
+#clock,
+#cpu,
+#memory,
+#temperature,
+#network,
+#pulseaudio,
+#battery,
+#tray {
+    background-color: #282a36;
+    color: #f8f8f2;
+    border-style: solid;
+    border-width: 2px;
+    border-color: #21222c #44475a #44475a #21222c;
+    border-radius: 0;
+    padding: 0 8px;
+    margin: 4px 2px;
+}
+
+#battery.charging,
+#battery.plugged,
+#pulseaudio.muted {
+    background-color: #282a36;
+    color: #f8f8f2;
+}
+
+#battery.critical:not(.charging),
+#network.disconnected,
+#temperature.critical {
+    background-color: #ff5555;
+    color: #282a36;
+    border-color: #ff8888 #992222 #992222 #ff8888;
+}
+
+tooltip,
+tooltip label {
+    background-color: #44475a;
+    color: #f8f8f2;
+    border-style: solid;
+    border-width: 2px;
+    border-color: #aaacb4 #282a36 #282a36 #aaacb4;
+    border-radius: 0;
+}

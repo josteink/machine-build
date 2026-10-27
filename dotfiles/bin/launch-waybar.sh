@@ -1,9 +1,10 @@
 #!/bin/bash
 
 # Waybar lives next to this script in the dotfiles tree. HYPR_THEME=cde
-# selects the Common Desktop Environment front panel, and HYPR_THEME=indigo
-# selects the SGI Indigo Magic panel. Anything else, including an unset
-# variable, keeps the Dracula bar.
+# selects the Common Desktop Environment front panel, HYPR_THEME=indigo
+# selects the SGI Indigo Magic panel, and HYPR_THEME=dracula-sgi selects the
+# Dracula-coloured SGI panel. Anything else, including an unset variable,
+# keeps the Dracula bar.
 
 DOTFILES="$(cd "$(dirname "$(readlink -f "$0")")/.." && pwd)"
 
@@ -15,6 +16,10 @@ case "${HYPR_THEME:-dracula}" in
     indigo)
         CONFIG="$DOTFILES/waybar/config.indigo"
         STYLE="$DOTFILES/waybar/style.indigo.css"
+        ;;
+    dracula-sgi)
+        CONFIG="$DOTFILES/waybar/config.dracula-sgi"
+        STYLE="$DOTFILES/waybar/style.dracula-sgi.css"
         ;;
     *)
         CONFIG="$DOTFILES/waybar/config"
