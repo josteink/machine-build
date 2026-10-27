@@ -3,11 +3,9 @@
 
 -- You can split this into multiple files and require() them (recommended for larger configs)
 
--- "dracula" is the daily desktop. "cde" is the Common Desktop Environment skin
--- in cde.lua, waybar/config.cde, and the sibling dunst/rofi/hyprlock files.
--- "indigo" is the SGI Indigo Magic skin in indigo.lua, waybar/config.indigo,
--- and the sibling dunst/rofi/hyprlock/kitty files. "dracula-sgi" is the same
--- SGI geometry with the Dracula palette.
+-- "dracula" is the daily desktop. "indigo" is the SGI Indigo Magic skin
+-- in indigo.lua, waybar/config.indigo, and the sibling dunst/rofi/hyprlock
+-- files. "dracula-sgi" is the same SGI geometry with the Dracula palette.
 -- Kitty picks its colours from kitty/$HYPR_THEME.conf.
 -- A new Hyprland session picks the skin up. A reload updates frames only.
 local theme = "dracula-sgi"
@@ -73,11 +71,7 @@ local menu
 local lockCmd
 local dunstCmd
 
-if theme == "cde" then
-    menu = "rofi -no-config -theme " .. shell_quote(dotfiles .. "/rofi/cde.rasi") .. " -show drun"
-    lockCmd = "hyprlock -c " .. shell_quote(hyprDir .. "/hyprlock.cde.conf")
-    dunstCmd = "dunst -conf " .. shell_quote(dotfiles .. "/dunst/dunstrc.cde")
-elseif theme == "indigo" then
+if theme == "indigo" then
     menu = "rofi -no-config -theme " .. shell_quote(dotfiles .. "/rofi/indigo.rasi") .. " -show drun"
     lockCmd = "hyprlock -c " .. shell_quote(hyprDir .. "/hyprlock.indigo.conf")
     dunstCmd = "dunst -conf " .. shell_quote(dotfiles .. "/dunst/dunstrc.indigo")
@@ -103,9 +97,7 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("wl-clip-persist --clipboard regular")
     hl.exec_cmd("hypridle")
     hl.exec_cmd(dunstCmd)
-    if theme == "cde" then
-        hl.exec_cmd("swaybg -c '#718ba5'")
-    elseif theme == "indigo" then
+    if theme == "indigo" then
         hl.exec_cmd("swaybg -c '#202452'")
     elseif theme == "dracula-sgi" then
         hl.exec_cmd("swaybg -c '#282a36'")
@@ -133,9 +125,7 @@ hl.env("HYPR_DOTFILES", dotfiles)
 ---- LOOK AND FEEL ----
 -----------------------
 
-if theme == "cde" then
-    dofile(hyprDir .. "/cde.lua")
-elseif theme == "indigo" then
+if theme == "indigo" then
     dofile(hyprDir .. "/indigo.lua")
 elseif theme == "dracula-sgi" then
     dofile(hyprDir .. "/dracula-sgi.lua")

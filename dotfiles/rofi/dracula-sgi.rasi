@@ -1,7 +1,14 @@
-/* Dracula-SGI menu.
- * Slate CDE panel, Dracula text, purple selection.
- * Rofi border-color is a single color, so the outer frame is the panel's
- * dark bevel (#282a36).
+/* Dracula-SGI menu, Motif bevel.
+ * Slate SGI panel, Dracula text, purple selection.
+ *
+ * Rofi allows only one border-color per widget, so the four-sided Motif
+ * bevel is built from nested boxes: outer boxes draw the light top/left
+ * edge, inner boxes draw the dark bottom/right edge. The input field uses
+ * the same stack inverted, giving a sunken content well.
+ *
+ * This is the five-step Indigo Magic ramp used by the compositor
+ * (Motif.cpp): step 0 is halfway to white, step 5 is 60% of the face.
+ * The frame is two 1px rings per side, matching decoration border_bevel.
  */
 
 * {
@@ -16,23 +23,104 @@ window {
     location: center;
     anchor: center;
     width: 480px;
-    border: 2px solid;
-    border-color: #282a36;
-    background-color: #44475a;
-    padding: 6px;
-}
-
-mainbox {
     border: 0px;
     padding: 0px;
-    spacing: 4px;
+    background-color: #44475a;
+    children: [ "frame-light-outer" ];
+}
+
+/* Raised frame: outer light ring, then the intermediate light ring. */
+frame-light-outer {
+    orientation: vertical;
+    border: 1px 0px 0px 1px;
+    border-color: #aaacb4;
     background-color: transparent;
+    padding: 0px;
+    spacing: 0px;
+    children: [ "frame-light-inner" ];
+}
+
+frame-light-inner {
+    orientation: vertical;
+    border: 1px 0px 0px 1px;
+    border-color: #787a88;
+    background-color: transparent;
+    padding: 0px;
+    spacing: 0px;
+    children: [ "frame-dark-inner" ];
+}
+
+/* Raised frame: intermediate dark ring, then the outer dark ring. */
+frame-dark-inner {
+    orientation: vertical;
+    border: 0px 1px 1px 0px;
+    border-color: #363848;
+    background-color: transparent;
+    padding: 0px;
+    spacing: 0px;
+    children: [ "frame-dark-outer" ];
+}
+
+frame-dark-outer {
+    orientation: vertical;
+    border: 0px 1px 1px 0px;
+    border-color: #282a36;
+    background-color: transparent;
+    padding: 6px;
+    spacing: 4px;
     children: [ "inputbar", "listview" ];
 }
 
+/* Input field shell; the well itself is the four well-* boxes below. */
 inputbar {
-    border: 2px solid;
-    border-color: #21222c;
+    orientation: horizontal;
+    border: 0px;
+    background-color: transparent;
+    padding: 0px;
+    spacing: 0px;
+    children: [ "well-dark-outer" ];
+}
+
+/* Sunken well: outer dark ring, then the intermediate dark ring. */
+well-dark-outer {
+    orientation: horizontal;
+    expand: true;
+    border: 1px 0px 0px 1px;
+    border-color: #282a36;
+    background-color: transparent;
+    padding: 0px;
+    spacing: 0px;
+    children: [ "well-dark-inner" ];
+}
+
+well-dark-inner {
+    orientation: horizontal;
+    expand: true;
+    border: 1px 0px 0px 1px;
+    border-color: #363848;
+    background-color: transparent;
+    padding: 0px;
+    spacing: 0px;
+    children: [ "well-light-inner" ];
+}
+
+/* Sunken well: intermediate light ring, then the outer light ring. */
+well-light-inner {
+    orientation: horizontal;
+    expand: true;
+    border: 0px 1px 1px 0px;
+    border-color: #787a88;
+    background-color: transparent;
+    padding: 0px;
+    spacing: 0px;
+    children: [ "well-light-outer" ];
+}
+
+well-light-outer {
+    orientation: horizontal;
+    expand: true;
+    border: 0px 1px 1px 0px;
+    border-color: #aaacb4;
     background-color: #282a36;
     padding: 4px;
     spacing: 6px;
