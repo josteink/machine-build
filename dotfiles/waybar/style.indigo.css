@@ -1,0 +1,125 @@
+/*
+ * Indigo Magic front panel.
+ * Face #a49d83, light bevel #d5d6c5, dark bevel #625d52.
+ * Wells #bdc2bd, light #e6e6e6, dark #737173.
+ * Raised border-color is top right bottom left: light dark dark light.
+ * Sunken swaps those two.
+ */
+
+* {
+    font-family: "Nimbus Sans";
+    font-size: 11pt;
+    border-radius: 0;
+    min-height: 0;
+}
+
+window#waybar {
+    background-color: #a49d83;
+    color: #000000;
+    border-style: solid;
+    border-width: 2px;
+    border-color: #d5d6c5 #625d52 #625d52 #d5d6c5;
+}
+
+button,
+#custom-toolchest,
+#custom-term,
+#custom-files,
+#custom-edit,
+#custom-mail,
+#custom-web,
+#custom-lock,
+#custom-exit,
+#workspaces button {
+    background-color: #a49d83;
+    color: #000000;
+    border-style: solid;
+    border-width: 2px;
+    border-color: #d5d6c5 #625d52 #625d52 #d5d6c5;
+    border-radius: 0;
+    padding: 0 8px;
+    margin: 4px 2px;
+    box-shadow: none;
+}
+
+#workspaces button {
+    min-width: 22px;
+    padding: 0 4px;
+}
+
+#workspaces button:hover,
+#custom-toolchest:hover,
+#custom-term:hover,
+#custom-files:hover,
+#custom-edit:hover,
+#custom-mail:hover,
+#custom-web:hover,
+#custom-lock:hover,
+#custom-exit:hover,
+button:hover {
+    background: #a49d83;
+    box-shadow: none;
+}
+
+#workspaces button.active,
+#workspaces button.focused,
+#workspaces button:active,
+#custom-toolchest:active,
+#custom-term:active,
+#custom-files:active,
+#custom-edit:active,
+#custom-mail:active,
+#custom-web:active,
+#custom-lock:active,
+#custom-exit:active {
+    border-color: #625d52 #d5d6c5 #d5d6c5 #625d52;
+}
+
+#workspaces button.urgent {
+    background-color: #8b2e2e;
+    color: #ffffff;
+    border-color: #b06060 #4a1a1a #4a1a1a #b06060;
+}
+
+#clock,
+#cpu,
+#memory,
+#temperature,
+#network,
+#pulseaudio,
+#battery,
+#tray {
+    background-color: #bdc2bd;
+    color: #000000;
+    border-style: solid;
+    border-width: 2px;
+    border-color: #737173 #e6e6e6 #e6e6e6 #737173;
+    border-radius: 0;
+    padding: 0 8px;
+    margin: 4px 2px;
+}
+
+#battery.charging,
+#battery.plugged,
+#pulseaudio.muted {
+    background-color: #bdc2bd;
+    color: #000000;
+}
+
+#battery.critical:not(.charging),
+#network.disconnected,
+#temperature.critical {
+    background-color: #8b2e2e;
+    color: #ffffff;
+    border-color: #4a1a1a #b06060 #b06060 #4a1a1a;
+}
+
+tooltip,
+tooltip label {
+    background-color: #a49d83;
+    color: #000000;
+    border-style: solid;
+    border-width: 2px;
+    border-color: #d5d6c5 #625d52 #625d52 #d5d6c5;
+    border-radius: 0;
+}

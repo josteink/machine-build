@@ -3,7 +3,39 @@
 
 -- You can split this into multiple files and require() them (recommended for larger configs)
 
--- source = "~/build/machine-build/dotfiles/hypr/dracula.conf"  -- Note: sources may need manual handling or removal in Lua
+-- "dracula" is the daily desktop. "cde" is the Common Desktop Environment skin
+-- in cde.lua, waybar/config.cde, and the sibling dunst/rofi/hyprlock files.
+-- "indigo" is the SGI Indigo Magic skin in indigo.lua, waybar/config.indigo,
+-- and the sibling dunst/rofi/hyprlock/kitty files.
+-- Kitty picks its colours from kitty/$HYPR_THEME.conf.
+-- A new Hyprland session picks the skin up. A reload updates frames only.
+local theme = "indigo"
+
+local function shell_quote(s)
+    return "'" .. s:gsub("'", "'\\''") .. "'"
+end
+
+local function realpath(path)
+    local pipe = io.popen("readlink -f -- " .. shell_quote(path))
+    if not pipe then
+        return path
+    end
+    local real = pipe:read("*l")
+    pipe:close()
+    if real and real ~= "" then
+        return real
+    end
+    return path
+end
+
+local home = os.getenv("HOME") or ""
+local hyprLua = realpath(home .. "/.config/hypr/hyprland.lua")
+local hyprDir = hyprLua:match("^(.*)/[^/]+$") or (home .. "/.config/hypr")
+local dotfiles = hyprDir:match("^(.*)/hypr$")
+if not dotfiles then
+    dotfiles = home .. "/build/machine-build/dotfiles"
+    hyprDir = dotfiles .. "/hypr"
+end
 
 ------------------
 ---- MONITORS ----
@@ -34,9 +66,25 @@ hl.config({
 ---- MY PROGRAMS ----
 ---------------------
 
-local terminal    = "kitty"
+local terminal = "kitty"
 local fileManager = "nautilus"
-local menu        = 'rofi --font "Hack 13" -show drun'
+local menu
+local lockCmd
+local dunstCmd
+
+if theme == "cde" then
+    menu = "rofi -no-config -theme " .. shell_quote(dotfiles .. "/rofi/cde.rasi") .. " -show drun"
+    lockCmd = "hyprlock -c " .. shell_quote(hyprDir .. "/hyprlock.cde.conf")
+    dunstCmd = "dunst -conf " .. shell_quote(dotfiles .. "/dunst/dunstrc.cde")
+elseif theme == "indigo" then
+    menu = "rofi -no-config -theme " .. shell_quote(dotfiles .. "/rofi/indigo.rasi") .. " -show drun"
+    lockCmd = "hyprlock -c " .. shell_quote(hyprDir .. "/hyprlock.indigo.conf")
+    dunstCmd = "dunst -conf " .. shell_quote(dotfiles .. "/dunst/dunstrc.indigo")
+else
+    menu = 'rofi --font "Hack 13" -show drun'
+    lockCmd = "hyprlock"
+    dunstCmd = "dunst"
+end
 
 -------------------
 ---- AUTOSTART ----
@@ -49,7 +97,12 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1")
     hl.exec_cmd("wl-clip-persist --clipboard regular")
     hl.exec_cmd("hypridle")
-    hl.exec_cmd("dunst")
+    hl.exec_cmd(dunstCmd)
+    if theme == "cde" then
+        hl.exec_cmd("swaybg -c '#718ba5'")
+    elseif theme == "indigo" then
+        hl.exec_cmd("swaybg -c '#202452'")
+    end
 
     -- Populate workspaces
     hl.exec_cmd("chromium")
@@ -66,10 +119,18 @@ end)
 hl.env("XCURSOR_SIZE", "24")
 hl.env("HYPRCURSOR_SIZE", "24")
 hl.env("SSH_AUTH_SOCK", "$XDG_RUNTIME_DIR/ssh-agent.socket")
+hl.env("HYPR_THEME", theme)
+hl.env("HYPR_DOTFILES", dotfiles)
 
 -----------------------
 ---- LOOK AND FEEL ----
 -----------------------
+
+if theme == "cde" then
+    dofile(hyprDir .. "/cde.lua")
+elseif theme == "indigo" then
+    dofile(hyprDir .. "/indigo.lua")
+else
 
 hl.config({
     general = {
@@ -117,7 +178,7 @@ hl.curve("linear",         { type = "bezier", points = { {0, 0},       {1, 1}   
 hl.curve("almostLinear",   { type = "bezier", points = { {0.5, 0.5},   {0.75, 1}    } })
 hl.curve("quick",          { type = "bezier", points = { {0.15, 0},    {0.1, 1}     } })
 
-hl.animation({ leaf = "global",        enabled = true, speed = 10,   bezier = "default" })
+hl.animation({ leaf = "global",        enabled = true, speed = 2,   bezier = "default" })
 hl.animation({ leaf = "border",        enabled = true, speed = 5.39, bezier = "easeOutQuint" })
 hl.animation({ leaf = "windows",       enabled = true, speed = 4.79, bezier = "easeOutQuint" })
 hl.animation({ leaf = "windowsIn",     enabled = true, speed = 4.1,  bezier = "easeOutQuint", style = "popin 87%" })
@@ -126,7 +187,7 @@ hl.animation({ leaf = "fadeIn",        enabled = true, speed = 1.73, bezier = "a
 hl.animation({ leaf = "fadeOut",       enabled = true, speed = 1.46, bezier = "almostLinear" })
 hl.animation({ leaf = "fade",          enabled = true, speed = 3.03, bezier = "quick" })
 hl.animation({ leaf = "layers",        enabled = true, speed = 3.81, bezier = "easeOutQuint" })
-hl.animation({ leaf = "layersIn",      enabled = true, speed = 4,    bezier = "easeOutQuint", style = "fade" })
+hl.animation({ leaf = "layersIn",      enabled = true, speed = 2,    bezier = "easeOutQuint", style = "fade" })
 hl.animation({ leaf = "layersOut",     enabled = true, speed = 1.5,  bezier = "linear",       style = "fade" })
 hl.animation({ leaf = "fadeLayersIn",  enabled = true, speed = 1.79, bezier = "almostLinear" })
 hl.animation({ leaf = "fadeLayersOut", enabled = true, speed = 1.39, bezier = "almostLinear" })
@@ -135,18 +196,20 @@ hl.animation({ leaf = "workspacesIn",  enabled = true, speed = 1.21, bezier = "a
 hl.animation({ leaf = "workspacesOut", enabled = true, speed = 1.94, bezier = "almostLinear", style = "fade" })
 hl.animation({ leaf = "zoomFactor",    enabled = true, speed = 7,    bezier = "quick" })
 
--- Master layout
-hl.config({
-    master = {
-        new_status = "master",
-    },
-})
-
 -- Misc
 hl.config({
     misc = {
         force_default_wallpaper = -1,
         disable_hyprland_logo   = false,
+    },
+})
+
+end
+
+-- Master layout
+hl.config({
+    master = {
+        new_status = "master",
     },
 })
 
@@ -187,11 +250,11 @@ local mainMod = "SUPER"
 -- Example binds
 hl.bind(mainMod .. " + Return", hl.dsp.exec_cmd(terminal))
 hl.bind(mainMod .. " + C",      hl.dsp.window.close())
-hl.bind(mainMod .. " + M",      hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch exit"))
+hl.bind(mainMod .. " + M",      hl.dsp.exec_cmd("hyprctl dispatch 'hl.dsp.exit()'"))
 hl.bind(mainMod .. " + N",      hl.dsp.exec_cmd(fileManager))
 hl.bind(mainMod .. " + V",      hl.dsp.window.float({ action = "toggle" }))
 hl.bind(mainMod .. " + D",      hl.dsp.exec_cmd(menu))
-hl.bind(mainMod .. " + L",      hl.dsp.exec_cmd("hyprlock"))
+hl.bind(mainMod .. " + L",      hl.dsp.exec_cmd(lockCmd))
 hl.bind(mainMod .. " + SHIFT + C", hl.dsp.exec_cmd("command -v hyprctl reload"))  -- Note: may not be needed in Lua
 hl.bind(mainMod .. " + F",      hl.dsp.window.fullscreen())
 

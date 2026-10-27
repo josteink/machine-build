@@ -1,0 +1,120 @@
+{ // CDE Crimson front panel. Launched only when HYPR_THEME=cde.
+    "layer": "top",
+    "position": "bottom",
+    "height": 56,
+    "spacing": 0,
+    "modules-left": [
+        "custom/cde",
+        "custom/term",
+        "custom/files",
+        "custom/edit",
+        "custom/mail",
+        "custom/web",
+        "hyprland/workspaces"
+    ],
+    "modules-center": ["hyprland/window"],
+    "modules-right": [
+        "cpu",
+        "memory",
+        "temperature",
+        "pulseaudio",
+        "network",
+        "battery",
+        "clock",
+        "tray",
+        "custom/lock",
+        "custom/exit"
+    ],
+    "hyprland/workspaces": {
+        "format": "{id}",
+        "all-outputs": false,
+        "persistent-workspaces": {
+            "*": 10
+        }
+    },
+    "hyprland/window": {
+        "format": "{}",
+        "max-length": 48
+    },
+    "custom/cde": {
+        "format": "CDE",
+        "tooltip": false,
+        "on-click": "sh -c 'rofi -no-config -theme \"$HYPR_DOTFILES/rofi/cde.rasi\" -show drun'"
+    },
+    "custom/term": {
+        "format": "Term",
+        "tooltip": false,
+        "on-click": "kitty"
+    },
+    "custom/files": {
+        "format": "Files",
+        "tooltip": false,
+        "on-click": "nautilus"
+    },
+    "custom/edit": {
+        "format": "Edit",
+        "tooltip": false,
+        "on-click": "sh -c 'exec \"$HOME/bin/emacs\"'"
+    },
+    "custom/mail": {
+        "format": "Mail",
+        "tooltip": false,
+        "on-click": "thunderbird"
+    },
+    "custom/web": {
+        "format": "Web",
+        "tooltip": false,
+        "on-click": "chromium"
+    },
+    "custom/lock": {
+        "format": "Lock",
+        "tooltip": false,
+        "on-click": "sh -c 'hyprlock -c \"$HYPR_DOTFILES/hypr/hyprlock.cde.conf\"'"
+    },
+    "custom/exit": {
+        "format": "Exit",
+        "tooltip": false,
+        "on-click": "sh -c 'command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch exit'"
+    },
+    "cpu": {
+        "format": "cpu {usage}%",
+        "tooltip": true
+    },
+    "memory": {
+        "format": "mem {}%"
+    },
+    "temperature": {
+        "critical-threshold": 80,
+        "format": "{temperatureC}°C"
+    },
+    "pulseaudio": {
+        "format": "vol {volume}%",
+        "format-muted": "vol mute",
+        "on-click": "pavucontrol"
+    },
+    "network": {
+        "format-wifi": "{essid}",
+        "format-ethernet": "{ifname}",
+        "format-linked": "{ifname}",
+        "format-disconnected": "offline",
+        "tooltip-format": "{ifname}: {ipaddr}/{cidr}"
+    },
+    "battery": {
+        "states": {
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "bat {capacity}%",
+        "format-charging": "bat {capacity}% +",
+        "format-plugged": "bat {capacity}%",
+        "bat": "BAT0"
+    },
+    "clock": {
+        "format": "{:%H:%M}",
+        "tooltip-format": "{:%Y-%m-%d}"
+    },
+    "tray": {
+        "icon-size": 18,
+        "spacing": 8
+    }
+}
