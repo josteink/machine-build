@@ -1,5 +1,5 @@
 -- Dracula-SGI skin: SGI 4Dwm frame geometry with the Dracula palette.
--- Active frame #bd93f9, inactive #6272a4, desktop #282a36.
+-- Active frame #6272a4, inactive #838183, desktop #282a36.
 -- The frame bevel is generated from the border colour, so the six-step
 -- ramp and the 1px black edges need no special shader work.
 --
@@ -14,8 +14,8 @@ hl.config({
         border_size = 8,
 
         col = {
-            active_border   = "rgb(bd93f9)",
-            inactive_border = "rgb(6272a4)",
+            active_border   = "rgb(6272a4)",
+            inactive_border = "rgb(939193)",
         },
 
         resize_on_border = true,
@@ -44,15 +44,15 @@ hl.config({
         border_bevel = true,
         titlebar = {
             enabled = true,
-            height = 24,
+            height = 27,
             font_family = "Nimbus Sans",
-            font_size = 12,
+            font_size = 15,
             col = {
                 active = -1,        -- follow the active border colour
                 inactive = -1,      -- follow the inactive border colour
             },
             text_color          = 0xff282a36,
-            text_color_inactive = 0xfff8f8f2,
+            text_color_inactive = 0xff383a36,
             text_shadow         = false,
             close_button        = true,
         },
