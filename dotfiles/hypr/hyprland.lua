@@ -205,6 +205,15 @@ hl.config({
 
 end
 
+-- The d-menu (rofi, Super+D) should appear and disappear instantly.
+-- This targets only rofi's layer surface; other layers (dunst, waybar)
+-- keep the skin's normal animations.
+hl.layer_rule({
+    name    = "dmenu-no-animation",
+    match   = { namespace = "rofi" },
+    no_anim = true,
+})
+
 -- Master layout
 hl.config({
     master = {

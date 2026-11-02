@@ -1,5 +1,5 @@
 -- Dracula-SGI skin: SGI 4Dwm frame geometry with the Dracula palette.
--- Active frame #6272a4, inactive #838183, desktop #282a36.
+-- Active frame #6272a4, inactive #939193, desktop #282a36.
 -- The frame bevel is generated from the border colour, so the six-step
 -- ramp and the 1px black edges need no special shader work.
 --

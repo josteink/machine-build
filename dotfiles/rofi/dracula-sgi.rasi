@@ -1,5 +1,5 @@
 /* Dracula-SGI menu, Motif bevel.
- * Slate SGI panel, Dracula text, purple selection.
+ * Slate SGI panel, Dracula text, blue selection, grey placeholder.
  *
  * Rofi allows only one border-color per widget, so the four-sided Motif
  * bevel is built from nested boxes: outer boxes draw the light top/left
@@ -136,7 +136,7 @@ entry {
     background-color: transparent;
     text-color: #f8f8f2;
     placeholder: "Run";
-    placeholder-color: #6272a4;
+    placeholder-color: #939193;
 }
 
 listview {
@@ -156,7 +156,7 @@ element {
 }
 
 element selected {
-    background-color: #bd93f9;
+    background-color: #6272a4;
     text-color: #282a36;
 }
 

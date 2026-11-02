@@ -89,8 +89,8 @@
     frame_width = 3
 
     # Defines color of the frame around the notification window.
-    # Dark bevel of color set 6.
-    frame_color = "#6272a4"
+    # Inactive window-frame grey from the Dracula-SGI palette.
+    frame_color = "#939193"
 
     # Define a color for the separator.
     # possible values are:
